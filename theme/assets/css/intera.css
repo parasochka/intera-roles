@@ -1,19 +1,54 @@
 /*
- * Supplemental theme CSS — never a second copy of a token.
+ * INTERA — supplemental theme CSS.
  *
- * Belongs here: page canvas, prose, real :hover/:focus states, responsive
- * stacking, reduced-motion. Always reference the design system via var(--…).
+ * The design system in theme/_ds/intera/ is the source of truth for every
+ * colour, size, radius, shadow and duration. Nothing here re-declares a token
+ * value: everything goes through var(--…).
+ *
+ * inc/enqueue.php inlines the DS sheets first, then this file, then style.css,
+ * so this file sits after tokens/base.css and never needs !important to win
+ * against the design system.
+ *
+ * The handoff keeps layout and colour in inline style="…" attributes, and an
+ * inline declaration beats any selector. So the one rule this file turns on is:
+ *
+ *   Any property that a hover state or a breakpoint changes moves OUT of the
+ *   inline style and into the class here. Every other inline declaration stays
+ *   byte-identical to the handoff.
+ *
+ * Where the same hook carries different per-page values, the value is passed in
+ * the inline style as a custom property and consumed here:
+ *
+ *   --itr-bg       resting background        (.itr-row .itr-tile .itr-panel .itr-hl-panel)
+ *   --itr-edge     resting border colour     (.itr-card .itr-lift .itr-hl .itr-row .itr-tile
+ *                                             .itr-panel .itr-frame .itr-hl-panel)
+ *   --itr-shadow   resting box-shadow        (.itr-card .itr-lift .itr-hl .itr-row .itr-frame)
+ *   --itr-cols     desktop grid tracks       (.itr-1col)
+ *   --itr-indent   desktop left indent       (.itr-stagger)
+ *   --itr-shot-h   desktop crop height       (.itr-shot)
+ *   --itr-prose-max prose measure            (.intera-prose)
+ *
+ * Naming: .itr-*    class names carried over from the design handoff.
+ *         .intera-* anything the theme adds that the handoff does not have.
+ *
+ * File order
+ *   1  Reset deltas the design system does not cover
+ *   2  Design-system control sheets lifted out of _ds_bundle.js
+ *   3  Link vocabulary
+ *   4  Motion keyframes
+ *   5  Hover vocabulary (cards, rows, tiles, panels, frames)
+ *   6  Named hover classes that replace the export's style-hover="…" attribute
+ *   7  Layout hooks at their desktop values
+ *   8  Site chrome: masthead, navigation, footer
+ *   9  Editor prose
+ *  10  WordPress core classes, comments, pagination
+ *  11  Skip link, focus, anchor offset
+ *  12  Media queries: 1040px, 900px, 760px, (hover: none), reduced motion
  */
 
-*,
-*::before,
-*::after {
-	box-sizing: border-box;
-}
-
-body {
-	margin: 0;
-}
+/* ==========================================================================
+   1. Reset deltas the design system does not cover
+   ========================================================================== */
 
 img,
 svg,
@@ -22,13 +57,1356 @@ video {
 	height: auto;
 }
 
+/* tokens/base.css already zeroes h1–h6 and p; only lists are left over. */
+.intera-prose ul,
+.intera-prose ol {
+	padding-left: 20px;
+}
+
+/* ==========================================================================
+   2. Design-system control sheets
+   The export injects these three at runtime from _ds/intera/_ds_bundle.js
+   (<style id="itr-btn-css">, #itr-iconbtn-css, #itr-field-css). The bundle is
+   not shipped, so they live here, verbatim.
+   ========================================================================== */
+
+/* itr-btn-css */
+.itr-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font-sans);font-weight:var(--weight-medium);border-radius:var(--radius-control);border:1px solid transparent;cursor:pointer;text-decoration:none;white-space:nowrap;transition:var(--transition-control);user-select:none}
+.itr-btn:disabled,.itr-btn[aria-disabled="true"]{opacity:.45;cursor:not-allowed}
+.itr-btn:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
+.itr-btn--sm{height:var(--control-height-sm);padding:0 10px;font-size:var(--text-sm)}
+.itr-btn--md{height:var(--control-height-md);padding:0 14px;font-size:var(--text-md)}
+.itr-btn--lg{height:var(--control-height-lg);padding:0 20px;font-size:var(--text-base)}
+.itr-btn--block{width:100%}
+.itr-btn--primary{background:var(--action-primary);color:var(--text-on-accent);box-shadow:var(--shadow-xs)}
+.itr-btn--primary:hover:not(:disabled){background:var(--action-primary-hover)}
+.itr-btn--primary:active:not(:disabled){background:var(--action-primary-active)}
+.itr-btn--secondary{background:var(--surface-card);color:var(--ink-800);border-color:var(--action-secondary-border);box-shadow:var(--shadow-xs)}
+.itr-btn--secondary:hover:not(:disabled){background:var(--surface-hover);border-color:var(--border-strong)}
+.itr-btn--secondary:active:not(:disabled){background:var(--surface-active)}
+.itr-btn--ghost{background:transparent;color:var(--ink-700)}
+.itr-btn--ghost:hover:not(:disabled){background:var(--surface-hover);color:var(--ink-900)}
+.itr-btn--danger{background:var(--status-critical);color:var(--text-on-accent)}
+.itr-btn--danger:hover:not(:disabled){background:var(--red-700)}
+.itr-btn--link{background:transparent;color:var(--text-link);padding:0;height:auto;border:0}
+.itr-btn--link:hover:not(:disabled){color:var(--text-link-hover);text-decoration:underline;text-underline-offset:3px}
+.itr-btn--inverse{background:var(--white);color:var(--ink-900)}
+.itr-btn--inverse:hover:not(:disabled){background:var(--ink-100)}
+.itr-btn--outlineInverse{background:transparent;color:var(--white);border-color:rgba(255,255,255,.34)}
+.itr-btn--outlineInverse:hover:not(:disabled){background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.6)}
+.itr-btn--outlineInverse:active:not(:disabled){background:rgba(255,255,255,.15)}
+
+/* itr-iconbtn-css */
+.itr-iconbtn{display:inline-flex;align-items:center;justify-content:center;border-radius:var(--radius-control);border:1px solid transparent;background:transparent;color:var(--ink-600);cursor:pointer;transition:var(--transition-control)}
+.itr-iconbtn:hover:not(:disabled){background:var(--surface-hover);color:var(--ink-900)}
+.itr-iconbtn:active:not(:disabled){background:var(--surface-active)}
+.itr-iconbtn:disabled{opacity:.4;cursor:not-allowed}
+.itr-iconbtn:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
+.itr-iconbtn--outline{border-color:var(--border-default);background:var(--surface-card)}
+.itr-iconbtn--outline:hover:not(:disabled){border-color:var(--border-strong)}
+.itr-iconbtn--sm{width:28px;height:28px}
+.itr-iconbtn--md{width:36px;height:36px}
+.itr-iconbtn--lg{width:44px;height:44px}
+
+/* itr-field-css — Input, Select and Textarea share one body */
+.itr-input{width:100%;font-family:var(--font-sans);font-size:var(--text-md);color:var(--text-primary);background:var(--surface-card);border:1px solid var(--border-default);border-radius:var(--radius-control);padding:0 12px;height:var(--control-height-md);transition:var(--transition-control)}
+.itr-input::placeholder{color:var(--text-muted)}
+.itr-input:hover:not(:disabled){border-color:var(--border-strong)}
+.itr-input:focus{outline:none;border-color:var(--focus-ring);box-shadow:var(--ring-focus)}
+.itr-input:disabled{background:var(--surface-muted);color:var(--text-muted);cursor:not-allowed}
+.itr-input--invalid{border-color:var(--status-critical)}
+.itr-input--invalid:focus{box-shadow:var(--ring-danger);border-color:var(--status-critical)}
+.itr-input--sm{height:var(--control-height-sm);font-size:var(--text-sm);padding:0 9px}
+.itr-input--lg{height:var(--control-height-lg);font-size:var(--text-base);padding:0 14px}
+.itr-input--area{height:auto;padding:9px 12px;line-height:var(--leading-normal);resize:vertical;min-height:88px}
+.itr-input--mono{font-family:var(--font-mono);font-size:var(--text-sm)}
+
+/* ==========================================================================
+   3. Link vocabulary — the seven rules every mockup helmet carries
+   a:not(.itr-btn) { border-bottom: 0 } cancels tokens/base.css, which gives
+   every anchor a --blue-200 underline. The prose block (§9) puts it back
+   where an article actually wants it.
+   ========================================================================== */
+
+a:not(.itr-btn) {
+	color: var(--text-link);
+	text-decoration: none;
+	border-bottom: 0;
+	transition: color 140ms cubic-bezier(.2, .6, .25, 1);
+}
+
+a:not(.itr-btn):hover {
+	color: var(--text-link-hover);
+}
+
+a.itr-btn:hover {
+	border-bottom-color: transparent;
+}
+
+a.itr-btn--primary:hover,
+a.itr-btn--danger:hover {
+	color: var(--text-on-accent);
+}
+
+a.itr-btn--secondary:hover {
+	color: var(--ink-800);
+	border-bottom-color: var(--border-strong);
+}
+
+a.itr-btn--ghost:hover,
+a.itr-btn--inverse:hover {
+	color: var(--ink-900);
+}
+
+a.itr-btn--outlineInverse:hover {
+	color: var(--white);
+	border-bottom-color: rgba(255,255,255,.6);
+}
+
+/* ==========================================================================
+   4. Motion — the "in beta / live" indicator
+   ========================================================================== */
+
+@keyframes itr-live {
+	0%, 100% { opacity: 1; }
+	50% { opacity: .28; }
+}
+
+@keyframes itr-halo {
+	0% { transform: scale(1); opacity: .5; }
+	70%, 100% { transform: scale(2.6); opacity: 0; }
+}
+
+.itr-live-dot {
+	animation: itr-live 1.9s cubic-bezier(.2, .6, .25, 1) infinite;
+}
+
+.itr-live-halo {
+	animation: itr-halo 1.9s cubic-bezier(.2, .6, .25, 1) infinite;
+}
+
+/* ==========================================================================
+   5. Hover vocabulary
+   Every card, tile, row and product frame reacts to hover. The resting
+   background / border colour / shadow live here (not inline) because the hover
+   state changes them; per-instance values arrive as --itr-bg / --itr-edge /
+   --itr-shadow. border-top is never touched, so a 3px signal accent stays an
+   inline declaration and survives.
+   ========================================================================== */
+
+/* The Card component's own surface. */
+.itr-card {
+	background: var(--surface-card);
+	border: 1px solid var(--itr-edge, var(--border-card));
+	border-radius: var(--radius-card);
+	box-shadow: var(--itr-shadow, var(--shadow-xs));
+	transition: var(--transition-surface), border-color var(--duration-fast) var(--ease-standard);
+}
+
+.itr-card--interactive {
+	cursor: pointer;
+}
+
+/* Cards: 5px rise, stronger border and shadow. */
+.itr-lift {
+	border: 1px solid var(--itr-edge, var(--border-card));
+	box-shadow: var(--itr-shadow, var(--shadow-xs));
+	transition:
+		transform 200ms cubic-bezier(.2, .6, .25, 1),
+		box-shadow 200ms cubic-bezier(.2, .6, .25, 1),
+		border-color 160ms cubic-bezier(.2, .6, .25, 1),
+		background-color 160ms cubic-bezier(.2, .6, .25, 1);
+}
+
+.itr-lift:hover {
+	box-shadow:
+		0 18px 34px -18px rgba(14,26,43,.26),
+		0 2px 6px -2px rgba(14,26,43,.10);
+	border-right-color: var(--border-strong);
+	border-bottom-color: var(--border-strong);
+	border-left-color: var(--border-strong);
+}
+
+/* List rows: 8px slide right, white fill, --blue-200 border. */
+.itr-row {
+	background: var(--itr-bg, var(--white));
+	border: 1px solid var(--itr-edge, var(--border-subtle));
+	box-shadow: var(--itr-shadow, none);
+	transition:
+		transform 180ms cubic-bezier(.2, .6, .25, 1),
+		background-color 160ms,
+		border-color 160ms,
+		box-shadow 180ms;
+}
+
+.itr-row:hover {
+	background: var(--white);
+	border-color: var(--blue-200);
+	box-shadow: 0 10px 22px -14px rgba(14,26,43,.28);
+}
+
+/* Compact label tiles: 4px rise, --blue-50 fill. */
+.itr-tile {
+	background: var(--itr-bg, var(--white));
+	border: 1px solid var(--itr-edge, var(--border-card));
+	transition:
+		transform 170ms cubic-bezier(.2, .6, .25, 1),
+		background-color 150ms,
+		border-color 150ms,
+		box-shadow 170ms;
+}
+
+.itr-tile:hover {
+	background: var(--blue-50);
+	border-color: var(--blue-200);
+	box-shadow: 0 12px 24px -16px rgba(26,79,214,.35);
+}
+
+/* Panels on the dark bands: 4px rise, lighter background and border. */
+.itr-panel {
+	background: var(--itr-bg, rgba(255,255,255,.05));
+	border: 1px solid var(--itr-edge, var(--border-inverse));
+	transition:
+		transform 200ms cubic-bezier(.2, .6, .25, 1),
+		background-color 180ms,
+		border-color 180ms;
+}
+
+.itr-panel:hover {
+	background: rgba(255,255,255,.085);
+	border-color: rgba(255,255,255,.28);
+}
+
+/* Product screenshot frames: 6px rise, deeper shadow. */
+.itr-frame {
+	border: 1px solid var(--itr-edge, var(--border-subtle));
+	box-shadow: var(--itr-shadow, var(--shadow-lg));
+	transition:
+		transform 260ms cubic-bezier(.2, .6, .25, 1),
+		box-shadow 260ms cubic-bezier(.2, .6, .25, 1);
+}
+
+.itr-frame:hover {
+	box-shadow:
+		0 34px 64px -30px rgba(14,26,43,.42),
+		0 4px 10px -4px rgba(14,26,43,.14);
+}
+
+/* The no-transform sibling of .itr-lift: same border and shadow response, no
+   rise. Used where a lift would collide with neighbouring content. */
+.itr-hl {
+	border: 1px solid var(--itr-edge, var(--border-card));
+	box-shadow: var(--itr-shadow, var(--shadow-xs));
+	transition:
+		border-color 160ms cubic-bezier(.2, .6, .25, 1),
+		box-shadow 160ms cubic-bezier(.2, .6, .25, 1),
+		background-color 160ms cubic-bezier(.2, .6, .25, 1);
+}
+
+.itr-hl:hover {
+	box-shadow: 0 10px 24px -18px rgba(14,26,43,.30);
+	border-right-color: var(--border-strong);
+	border-bottom-color: var(--border-strong);
+	border-left-color: var(--border-strong);
+}
+
+/* The dark-band variant of .itr-hl. */
+.itr-hl-panel {
+	background: var(--itr-bg, rgba(255,255,255,.05));
+	border: 1px solid var(--itr-edge, var(--border-inverse));
+	transition:
+		border-color 180ms cubic-bezier(.2, .6, .25, 1),
+		background-color 180ms cubic-bezier(.2, .6, .25, 1);
+}
+
+.itr-hl-panel:hover {
+	background: rgba(255,255,255,.085);
+	border-color: rgba(255,255,255,.28);
+}
+
+/* ==========================================================================
+   6. Named hover classes — the export's style-hover="…" attribute is a preview
+   artefact, not CSS. Each of its ten distinct declarations becomes a class
+   here. Where the hovered property was also an inline declaration, the resting
+   value moves into the class so the hover can win without !important.
+   ========================================================================== */
+
+/* Breadcrumb trail. */
+a.itr-crumb {
+	color: var(--ink-400);
+}
+
+a.itr-crumb:hover {
+	color: var(--ink-600);
+}
+
+/* Header navigation — desktop bar and burger drawer. */
+a.itr-nav-link {
+	font-size: var(--text-md);
+	color: var(--ink-600);
+	white-space: nowrap;
+}
+
+a.itr-nav-link--drawer {
+	font-size: var(--text-lg);
+	color: var(--ink-800);
+	padding: 14px 0;
+	border-bottom: 1px solid var(--border-hairline);
+	white-space: normal;
+}
+
+a.itr-nav-link:hover {
+	color: var(--ink-900);
+}
+
+/* Footer links on the --ink-900 band. */
+a.itr-foot-link {
+	font-size: var(--text-md);
+	color: rgba(255,255,255,.72);
+}
+
+a.itr-foot-link--dim {
+	color: rgba(255,255,255,.45);
+}
+
+a.itr-foot-link:hover {
+	color: var(--white);
+}
+
+/* Padded pill / jump links (FAQ rail, policy index, article TOC, docs sidebar),
+   full-bleed hairline list rows (blog list, docs category list), and cards that
+   already lift and additionally tint. */
+.itr-jump:hover,
+.itr-list-row:hover,
+.itr-lift-tint:hover {
+	background: var(--surface-hover);
+}
+
+/* Featured post card and archive post cards. */
+.itr-feature-card {
+	box-shadow: var(--itr-shadow, var(--shadow-xs));
+}
+
+.itr-feature-card:hover {
+	box-shadow: var(--shadow-sm);
+}
+
+.itr-post-card {
+	border: 1px solid var(--itr-edge, var(--border-card));
+	box-shadow: var(--itr-shadow, var(--shadow-xs));
+}
+
+.itr-post-card:hover {
+	border-color: var(--border-strong);
+	box-shadow: var(--shadow-sm);
+}
+
+/* In the export both of these cards also carry .itr-lift, whose bespoke hover
+   shadow was !important and therefore the one that actually rendered. Stated
+   explicitly here so the card lift still reads as a lift; the rules above stand
+   on their own wherever either class is used without .itr-lift. */
+.itr-lift.itr-feature-card:hover,
+.itr-lift.itr-post-card:hover {
+	box-shadow:
+		0 18px 34px -18px rgba(14,26,43,.26),
+		0 2px 6px -2px rgba(14,26,43,.10);
+}
+
+/* Links that turn blue on hover. One hover rule, five semantic bases. */
+a.itr-link-blue,
+a.itr-term-link {
+	color: var(--ink-600);
+}
+
+a.itr-rail-row {
+	color: var(--ink-800);
+}
+
+a.itr-doc-title {
+	color: var(--ink-900);
+}
+
+a.itr-doc-row {
+	color: var(--ink-700);
+}
+
+a.itr-link-blue:hover,
+a.itr-rail-row:hover,
+a.itr-doc-title:hover,
+a.itr-doc-row:hover,
+a.itr-term-link:hover {
+	color: var(--blue-600);
+}
+
+/* Links that are already blue and darken one step. Written through the link
+   tokens: --text-link is --blue-600, --text-link-hover is --blue-700. */
+a.itr-link-strong {
+	color: var(--text-link);
+}
+
+a.itr-link-strong:hover {
+	color: var(--text-link-hover);
+}
+
+/* The FAQ accordion. summary:hover in the export lost to an inline colour; the
+   resting colour moves here so it does not. */
+summary {
+	list-style: none;
+	cursor: pointer;
+	transition: color 140ms cubic-bezier(.2, .6, .25, 1);
+}
+
+summary::-webkit-details-marker {
+	display: none;
+}
+
+.itr-faq-summary {
+	color: var(--ink-900);
+}
+
+.itr-faq-summary:hover {
+	color: var(--blue-600);
+}
+
+summary svg {
+	transition: transform 160ms cubic-bezier(.2, .6, .25, 1);
+}
+
+details[open] summary svg {
+	transform: rotate(180deg);
+}
+
+/* ==========================================================================
+   7. Layout hooks at their desktop values
+   These six properties are the ones mobile.css overrides, so they live here
+   instead of inline and the breakpoints in §12 need no !important.
+   ========================================================================== */
+
+/* Footer column grid. */
+.itr-cols-4 {
+	display: grid;
+	grid-template-columns: 1.4fr 1fr 1fr 1fr;
+	gap: 40px;
+}
+
+/* Two-column splits. Tracks differ per instance, so they arrive as --itr-cols;
+   gap stays inline. */
+.itr-1col {
+	display: grid;
+	grid-template-columns: var(--itr-cols, minmax(0, 1fr));
+}
+
+/* The card that floats over the hero frame. Its containing block — the frame
+   wrapper — must keep position: relative. */
+.itr-float {
+	position: absolute;
+	right: -14px;
+	bottom: -44px;
+	width: 258px;
+	box-shadow: var(--shadow-overlay);
+}
+
+/* Stepped source rows. Indents differ per instance. */
+.itr-stagger {
+	margin-left: var(--itr-indent, 0);
+}
+
+/* Product screenshot crops. Wrapper heights differ per instance. */
+.itr-shot {
+	height: var(--itr-shot-h, 420px);
+	overflow: hidden;
+}
+
+.itr-shot > img {
+	display: block;
+	width: 100%;
+	object-fit: cover;
+	object-position: top left;
+}
+
+/* Wide tables: clipped to the card radius at desktop, scrollable on mobile. */
+.itr-scroll-x {
+	overflow: hidden;
+}
+
+/* ==========================================================================
+   8. Site chrome — masthead, navigation, footer
+   The export switches between the desktop bar and the burger drawer in
+   JavaScript at window.innerWidth >= 1040. The theme does it in CSS (§12) so
+   the site works without JS; assets/js/intera.js only opens and closes the
+   drawer. display: none can only beat an inline display: flex if the display
+   value itself lives here, so it does.
+   ========================================================================== */
+
+.intera-masthead {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 60;
+	background: rgba(255,255,255,.92);
+	backdrop-filter: blur(8px);
+	border-bottom: 1px solid var(--border-subtle);
+}
+
+.intera-masthead-bar {
+	max-width: 1160px;
+	margin: 0 auto;
+	padding: 0 clamp(20px, 5vw, 24px);
+	height: 76px;
+	display: flex;
+	align-items: center;
+	gap: 24px;
+}
+
+/* Every page compensates for the fixed masthead with this spacer. */
+.intera-masthead-spacer {
+	height: 76px;
+}
+
+.intera-brand {
+	display: flex;
+	align-items: center;
+	flex: none;
+}
+
+/* Desktop cluster: the six-link nav and the badge + call to action. */
+.intera-nav-wide {
+	display: none;
+	flex: 1;
+	min-width: 0;
+	align-items: center;
+}
+
+/* margin-left: auto rather than relying on `.intera-nav-wide { flex: 1 }`:
+   with no menu assigned to `primary` that element is never rendered, and the
+   badge + call to action would otherwise hug the logo on a fresh install. */
+.intera-nav-actions {
+	display: none;
+	align-items: center;
+	gap: 12px;
+	flex: none;
+	margin-left: auto;
+}
+
+/* Compact cluster: the small call to action and the burger. */
+.intera-nav-narrow {
+	flex: 1;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	gap: 10px;
+}
+
+.intera-nav-list {
+	display: flex;
+	gap: 20px;
+	align-items: center;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.intera-nav-list a {
+	font-size: var(--text-md);
+	color: var(--ink-600);
+	white-space: nowrap;
+}
+
+.intera-nav-list a:hover,
+.intera-nav-list .current-menu-item > a {
+	color: var(--ink-900);
+}
+
+/* The burger. `.intera-nav-toggle` is a visually hidden checkbox that sits
+   before the bar, so `:checked ~` reaches both the drawer and this label's
+   icons — the drawer opens with CSS alone and the site keeps working with
+   JavaScript off. The label is the visible control, so it is also where the
+   focus ring has to be drawn: the input itself cannot show one. */
+.intera-nav-burger-icon {
+	display: inline-flex;
+}
+
+.intera-nav-burger-icon--close,
+.intera-nav-toggle:checked ~ .intera-masthead-bar .intera-nav-burger-icon--open {
+	display: none;
+}
+
+.intera-nav-toggle:checked ~ .intera-masthead-bar .intera-nav-burger-icon--close {
+	display: inline-flex;
+}
+
+.intera-nav-toggle:focus-visible ~ .intera-masthead-bar .intera-nav-burger {
+	outline: 2px solid var(--focus-ring);
+	outline-offset: 2px;
+}
+
+/* The drawer. Closed by default; the checkbox opens it, and intera.js mirrors
+   that into aria-expanded and .is-nav-open for assistive technology. All three
+   forms are honoured, each in its own rule so a browser without :has() still
+   gets the checkbox and class forms. */
+.intera-nav-drawer {
+	display: none;
+	flex-direction: column;
+	border-top: 1px solid var(--border-hairline);
+	background: var(--surface-page);
+	box-shadow: var(--shadow-lg);
+	padding: 8px clamp(20px, 5vw, 24px) 20px;
+}
+
+.intera-nav-drawer-list {
+	display: flex;
+	flex-direction: column;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.intera-nav-drawer-list a {
+	display: block;
+	font-size: var(--text-lg);
+	color: var(--ink-800);
+	padding: 14px 0;
+	border-bottom: 1px solid var(--border-hairline);
+}
+
+.intera-nav-drawer-list > li:last-child > a {
+	border-bottom: 0;
+}
+
+.intera-nav-drawer-list a:hover,
+.intera-nav-drawer-list .current-menu-item > a {
+	color: var(--ink-900);
+}
+
+/* Footer. */
+.intera-foot-heading {
+	font-size: var(--text-xs);
+	font-weight: var(--weight-semibold);
+	letter-spacing: 0.09em;
+	text-transform: uppercase;
+	color: rgba(255,255,255,.45);
+	margin-bottom: 14px;
+}
+
+.intera-foot-links {
+	display: flex;
+	flex-direction: column;
+	gap: 9px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.intera-foot-links a {
+	font-size: var(--text-md);
+	color: rgba(255,255,255,.72);
+}
+
+.intera-foot-links a:hover {
+	color: var(--white);
+}
+
+/* A menu item carrying the CSS class group-break opens a new group. */
+.intera-foot-links .group-break {
+	margin-top: 14px;
+	padding-top: 14px;
+	border-top: 1px solid rgba(255,255,255,.12);
+}
+
+/* ==========================================================================
+   9. Editor prose
+   the_content() cannot carry the inline styling the mockups hand to every
+   paragraph, so the article typography is collected here. Values are quoted
+   from 09-blog-post and 12-docs-article.
+   ========================================================================== */
+
+.intera-prose {
+	min-width: 0;
+	max-width: var(--itr-prose-max, 680px);
+}
+
+/* The handoff stacks an article with display: flex; flex-direction: column;
+   gap: 24px. Editor content needs normal flow so floats, alignments and
+   embeds behave, so the same 24px rhythm is written as a lobotomised owl. */
+.intera-prose > * + * {
+	margin-top: 24px;
+}
+
+/* 24px of rhythm plus the 12px the handoff adds above an h2. */
+.intera-prose > * + h2 {
+	margin-top: calc(24px + 12px);
+}
+
+.intera-prose p {
+	font-size: var(--text-base);
+	line-height: 1.75;
+	color: var(--ink-700);
+}
+
+/* The lede paragraph. Opt-in, never imposed on the first paragraph of every
+   post: the editor picks it, either with this class or with the block editor's
+   Large font size. */
+.intera-prose .intera-lede,
+.intera-prose .has-large-font-size {
+	font-size: var(--text-lg);
+	line-height: 1.6;
+	color: var(--ink-600);
+}
+
+.intera-prose h1 {
+	font-size: clamp(26px, 2.8vw, 34px);
+	font-weight: var(--weight-semibold);
+	letter-spacing: -0.02em;
+	line-height: 1.18;
+	color: var(--ink-900);
+}
+
+.intera-prose h2 {
+	font-size: var(--text-2xl);
+	font-weight: var(--weight-semibold);
+	letter-spacing: -0.01em;
+	color: var(--ink-900);
+}
+
+.intera-prose h3 {
+	font-size: var(--text-xl);
+	font-weight: var(--weight-semibold);
+	letter-spacing: -0.01em;
+	color: var(--ink-900);
+}
+
+.intera-prose h4 {
+	font-size: var(--text-lg);
+	font-weight: var(--weight-semibold);
+	letter-spacing: -0.01em;
+	color: var(--ink-900);
+}
+
+.intera-prose h5,
+.intera-prose h6 {
+	font-size: var(--text-md);
+	font-weight: var(--weight-semibold);
+	letter-spacing: var(--tracking-normal);
+	color: var(--ink-900);
+}
+
+.intera-prose h6 {
+	color: var(--ink-700);
+}
+
+.intera-prose ul,
+.intera-prose ol {
+	font-size: var(--text-base);
+	line-height: 1.75;
+	color: var(--ink-700);
+	margin: 0;
+}
+
+.intera-prose li + li,
+.intera-prose li > ul,
+.intera-prose li > ol {
+	margin-top: 6px;
+}
+
+.intera-prose blockquote {
+	border-left: 3px solid var(--blue-600);
+	padding: 4px 0 4px 24px;
+	margin: 0;
+	font-size: var(--text-xl);
+	line-height: 1.5;
+	letter-spacing: -0.01em;
+	color: var(--ink-900);
+}
+
+.intera-prose blockquote cite,
+.intera-prose blockquote footer,
+.intera-prose blockquote .wp-block-quote__citation {
+	display: block;
+	font-size: var(--text-sm);
+	font-style: normal;
+	line-height: var(--leading-normal);
+	letter-spacing: var(--tracking-normal);
+	color: var(--ink-500);
+	margin-top: 10px;
+}
+
+.intera-prose code {
+	font-family: var(--font-mono);
+	font-size: var(--text-sm);
+	background: var(--surface-muted);
+	border: 1px solid var(--border-hairline);
+	border-radius: var(--radius-sm);
+	padding: 1px 5px;
+}
+
+.intera-prose pre {
+	background: var(--surface-sunken);
+	border: 1px solid var(--border-hairline);
+	border-radius: var(--radius-md);
+	padding: 14px 16px;
+	font-family: var(--font-mono);
+	font-size: var(--text-sm);
+	color: var(--ink-700);
+	margin: 0;
+	overflow-x: auto;
+}
+
+.intera-prose pre code {
+	background: none;
+	border: 0;
+	border-radius: 0;
+	padding: 0;
+	font-size: inherit;
+}
+
+/* Links inside an article keep the design system's underline, which
+   a:not(.itr-btn) strips everywhere else. */
+.intera-prose a:not(.itr-btn) {
+	border-bottom: 1px solid var(--blue-200);
+}
+
+.intera-prose a:not(.itr-btn):hover {
+	border-bottom-color: var(--blue-600);
+}
+
+.intera-prose img {
+	border-radius: var(--radius-media);
+}
+
+.intera-prose figure {
+	margin: 0;
+}
+
+.intera-prose table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.intera-prose th {
+	text-align: left;
+	padding: 12px 20px;
+	font-size: var(--text-xs);
+	font-weight: var(--weight-semibold);
+	letter-spacing: 0.09em;
+	text-transform: uppercase;
+	color: var(--ink-500);
+	background: var(--surface-sunken);
+	border-bottom: 1px solid var(--border-hairline);
+}
+
+.intera-prose td {
+	padding: 13px 20px;
+	border-bottom: 1px solid var(--border-hairline);
+	font-family: var(--font-mono);
+	font-size: var(--text-sm);
+	color: var(--ink-800);
+}
+
+.intera-prose td.intera-num,
+.intera-prose th.intera-num {
+	text-align: right;
+}
+
+/* The same table treatment when a table is inside the pricing scroller. */
+.itr-scroll-x table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+/* The mono metadata rule above a docs article. */
+.intera-meta-rule {
+	display: flex;
+	gap: 20px;
+	padding: 12px 0;
+	border-top: 1px solid var(--border-hairline);
+	border-bottom: 1px solid var(--border-hairline);
+	font-family: var(--font-mono);
+	font-size: var(--text-xs);
+	color: var(--ink-500);
+}
+
+/* ==========================================================================
+   10. WordPress core classes
+   None of this exists in the export; it is written in the design's vocabulary
+   — hairline rules, mono metadata, a 3px accent on the top edge only.
+   ========================================================================== */
+
+.screen-reader-text {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	clip-path: inset(50%);
+	white-space: nowrap;
+	border: 0;
+}
+
+.screen-reader-text:focus {
+	position: fixed;
+	top: 12px;
+	left: clamp(20px, 5vw, 24px);
+	z-index: 70;
+	width: auto;
+	height: auto;
+	margin: 0;
+	padding: 10px 16px;
+	overflow: visible;
+	clip: auto;
+	clip-path: none;
+	font-size: var(--text-md);
+	font-weight: var(--weight-medium);
+	color: var(--text-primary);
+	background: var(--surface-card);
+	border: 1px solid var(--border-card);
+	border-radius: var(--radius-control);
+	box-shadow: var(--shadow-lg);
+}
+
+/* Alignments. The site container is 1160px inside clamp(20px, 5vw, 24px)
+   gutters; alignwide breaks out to the container, alignfull to the viewport. */
+.alignwide {
+	width: min(1160px, calc(100vw - 2 * clamp(20px, 5vw, 24px)));
+	max-width: none;
+	margin-left: calc(50% - min(580px, calc(50vw - clamp(20px, 5vw, 24px))));
+}
+
+.alignfull {
+	width: 100vw;
+	max-width: none;
+	margin-left: calc(50% - 50vw);
+}
+
+.aligncenter {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.alignleft {
+	float: left;
+	margin: 0 var(--space-5) var(--space-4) 0;
+}
+
+.alignright {
+	float: right;
+	margin: 0 0 var(--space-4) var(--space-5);
+}
+
+.intera-prose::after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+/* Captions. */
+figcaption,
+.wp-caption-text,
+.gallery-caption,
+.wp-block-embed figcaption {
+	font-size: var(--text-xs);
+	color: var(--ink-500);
+	font-family: var(--font-mono);
+	margin-top: 8px;
+}
+
+.wp-caption {
+	max-width: 100%;
+}
+
+/* Sticky posts. The accent vocabulary is a 3px rule on the top edge, never the
+   left — a coloured left border on a card is off-brand. */
+.itr-card.sticky,
+.itr-lift.sticky,
+.itr-hl.sticky {
+	border-top: 3px solid var(--blue-600);
+}
+
+/* Embeds and media. */
+.wp-block-embed__wrapper iframe,
+.wp-block-embed iframe,
+.wp-block-video video {
+	max-width: 100%;
+	border-radius: var(--radius-media);
+}
+
+.wp-block-gallery,
+.blocks-gallery-grid {
+	list-style: none;
+	padding: 0;
+}
+
+/* Password-protected posts. */
+.post-password-form {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	gap: 10px;
+}
+
+.post-password-form label {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	font-size: var(--text-sm);
+	font-weight: var(--weight-medium);
+	color: var(--ink-800);
+}
+
+/* Pagination. The design shows one pager: a hairline-topped row with mono
+   metadata on the left and two secondary buttons on the right. Numbered pages
+   are written inside that language. */
+.intera-pagination {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	margin-top: 24px;
+	padding-top: 18px;
+	border-top: 1px solid var(--border-hairline);
+	font-family: var(--font-mono);
+	font-size: var(--text-xs);
+	color: var(--ink-400);
+}
+
+.intera-pagination .nav-links {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	margin-left: auto;
+}
+
+.intera-pagination .page-numbers {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: var(--control-height-sm);
+	height: var(--control-height-sm);
+	padding: 0 10px;
+	font-family: var(--font-mono);
+	font-size: var(--text-sm);
+	color: var(--ink-700);
+	background: var(--surface-card);
+	border: 1px solid var(--action-secondary-border);
+	border-radius: var(--radius-control);
+	box-shadow: var(--shadow-xs);
+	transition: var(--transition-control);
+}
+
+.intera-pagination a.page-numbers:hover {
+	background: var(--surface-hover);
+	border-color: var(--border-strong);
+	color: var(--ink-900);
+}
+
+.intera-pagination .page-numbers.current {
+	color: var(--text-on-accent);
+	background: var(--action-primary);
+	border-color: var(--action-primary);
+}
+
+.intera-pagination .page-numbers.dots {
+	background: none;
+	border-color: transparent;
+	box-shadow: none;
+	color: var(--ink-400);
+}
+
+/* Comments. Nothing in the export resembles a thread; the nearest precedent is
+   the hairline list row with mono metadata. */
+.intera-comments {
+	margin-top: 40px;
+	padding-top: 28px;
+	border-top: 1px solid var(--border-hairline);
+}
+
+.comment-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+}
+
+.comment-list .children {
+	list-style: none;
+	margin: 0 0 0 24px;
+	padding: 0;
+}
+
+.comment-body {
+	padding: 18px 4px;
+	border-bottom: 1px solid var(--border-hairline);
+	transition: background-color 160ms cubic-bezier(.2, .6, .25, 1);
+}
+
+.comment-body:hover {
+	background: var(--surface-hover);
+}
+
+.comment-meta,
+.comment-metadata,
+.comment-metadata a {
+	font-family: var(--font-mono);
+	font-size: var(--text-xs);
+	color: var(--ink-500);
+}
+
+.comment-author {
+	font-size: var(--text-md);
+	font-weight: var(--weight-semibold);
+	color: var(--ink-900);
+}
+
+.comment-author .says {
+	font-weight: var(--weight-regular);
+	color: var(--ink-500);
+}
+
+.comment-content {
+	font-size: var(--text-base);
+	line-height: 1.75;
+	color: var(--ink-700);
+	margin-top: 8px;
+}
+
+.comment-reply-link {
+	font-size: var(--text-sm);
+	color: var(--text-link);
+}
+
+.bypostauthor > .comment-body {
+	border-top: 3px solid var(--blue-600);
+}
+
+.comment-respond {
+	margin-top: 28px;
+}
+
+.comment-form {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+	max-width: 560px;
+}
+
+.comment-form label {
+	display: block;
+	font-size: var(--text-sm);
+	font-weight: var(--weight-medium);
+	color: var(--ink-800);
+	line-height: 1.3;
+	margin-bottom: 6px;
+}
+
+.comment-notes,
+.comment-form-cookies-consent label,
+.logged-in-as {
+	font-size: var(--text-xs);
+	color: var(--text-muted);
+	line-height: var(--leading-normal);
+}
+
+/* ==========================================================================
+   11. Skip link target, focus, anchor offset
+   tokens/base.css already gives a, button, input, select, textarea and
+   [tabindex] a 2px --focus-ring outline on :focus-visible. Only the elements
+   that selector misses are added here.
+   ========================================================================== */
+
+summary:focus-visible,
+details:focus-visible,
+[role="button"]:focus-visible,
+.itr-scroll-x:focus-visible {
+	outline: 2px solid var(--focus-ring);
+	outline-offset: 2px;
+	border-radius: var(--radius-xs);
+}
+
+/* On the --ink-900 and --ink-950 bands the blue ring has too little contrast;
+   --focus-ring-offset is the white the design system reserves for it. */
+.intera-foot-links a:focus-visible,
+a.itr-foot-link:focus-visible,
+.itr-panel a:focus-visible,
+.itr-hl-panel a:focus-visible {
+	outline-color: var(--focus-ring-offset);
+}
+
+/* The masthead is fixed at 76px, so every anchor target needs clearance. The
+   export sets this inline on some targets and forgets it on others; one global
+   rule fixes both. */
+[id] {
+	scroll-margin-top: 100px;
+}
+
+/* The skip-link target is focused programmatically, so it must not draw a ring
+   on click, only the announcement. */
+#intera-main:focus {
+	outline: none;
+}
+
+/* ==========================================================================
+   12. Media queries
+   1040px — the navigation switches between the desktop bar and the drawer
+   900px  — footer columns, two-column splits, the floating hero card
+   760px  — staggered rows, screenshot crops, the pricing table scroller
+   (hover: none) and (prefers-reduced-motion: reduce) close the file so their
+   transform overrides win on source order without !important.
+   ========================================================================== */
+
+@media (min-width: 1040px) {
+	.intera-nav-wide,
+	.intera-nav-actions {
+		display: flex;
+	}
+
+	.intera-nav-narrow {
+		display: none;
+	}
+}
+
+@media (max-width: 1039.98px) {
+	.intera-nav-toggle:checked ~ .intera-nav-drawer {
+		display: flex;
+	}
+}
+
+@media (max-width: 1039.98px) {
+	.intera-masthead.is-nav-open .intera-nav-drawer {
+		display: flex;
+	}
+}
+
+@media (max-width: 1039.98px) {
+	.intera-masthead:has(.intera-nav-toggle[aria-expanded="true"]) .intera-nav-drawer {
+		display: flex;
+	}
+}
+
+@media (max-width: 900px) {
+	.itr-cols-4 {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 34px 32px;
+	}
+
+	/* Two-column splits collapse as soon as the narrow column stops being
+	   readable. */
+	.itr-1col {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	/* The card that floats over a product frame on desktop becomes the next
+	   block. inset: auto is what clears right/bottom, and is kept so the rule
+	   still reads correctly if the card is ever made position: relative. */
+	.itr-float {
+		position: static;
+		inset: auto;
+		width: auto;
+		margin-top: 12px;
+		box-shadow: var(--shadow-sm);
+	}
+}
+
+@media (max-width: 760px) {
+	body {
+		overflow-wrap: break-word;
+	}
+
+	.itr-cols-4 {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 30px;
+	}
+
+	/* Stepped source rows sit flush. */
+	.itr-stagger {
+		margin-left: 0;
+	}
+
+	/* Product screenshots show a legible crop instead of an illegible
+	   miniature. */
+	.itr-shot {
+		height: 220px;
+	}
+
+	.itr-shot > img {
+		width: 680px;
+		max-width: none;
+	}
+
+	/* Wide tables scroll instead of being clipped. */
+	.itr-scroll-x {
+		overflow-x: auto;
+		overflow-y: hidden;
+	}
+
+	.itr-scroll-x > table {
+		min-width: 480px;
+	}
+
+	.intera-prose table {
+		display: block;
+		overflow-x: auto;
+	}
+
+	.comment-list .children {
+		margin-left: 12px;
+	}
+}
+
+/* Pointer devices only: the rise, the slide and the deeper frame shadow. On
+   touch a :hover sticks after the tap, so the transforms are never issued —
+   the colour, border and shadow half of each hover stays unconditional, which
+   is what the export's @media (hover: none) block does. */
+@media (hover: hover) and (pointer: fine) {
+	.itr-lift:hover {
+		transform: translateY(-5px);
+	}
+
+	.itr-row:hover {
+		transform: translateX(8px);
+	}
+
+	.itr-tile:hover,
+	.itr-panel:hover {
+		transform: translateY(-4px);
+	}
+
+	.itr-frame:hover {
+		transform: translateY(-6px);
+	}
+
+	/* A card does not rise while a row, tile or card inside it is hovered. */
+	.itr-lift:has(.itr-row:hover),
+	.itr-lift:has(.itr-tile:hover),
+	.itr-lift:has(.itr-lift:hover) {
+		transform: none;
+	}
+}
+
 @media (prefers-reduced-motion: reduce) {
-	*,
-	*::before,
-	*::after {
-		animation-duration: 0.01ms !important;
-		animation-iteration-count: 1 !important;
-		transition-duration: 0.01ms !important;
-		scroll-behavior: auto !important;
+	.itr-live-dot,
+	.itr-live-halo {
+		animation: none;
+	}
+
+	.itr-lift,
+	.itr-row,
+	.itr-tile,
+	.itr-panel,
+	.itr-frame {
+		transition: border-color 160ms, background-color 160ms;
+	}
+
+	.itr-lift:hover,
+	.itr-row:hover,
+	.itr-tile:hover,
+	.itr-panel:hover,
+	.itr-frame:hover {
+		transform: none;
 	}
 }
