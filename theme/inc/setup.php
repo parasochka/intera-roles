@@ -12,6 +12,15 @@
 
 defined( 'ABSPATH' ) || exit;
 
+/*
+ * The search form is a template part, but `get_search_form()` has to be able to
+ * reach it from anywhere — including core's own output, and pages that never
+ * render the partial themselves. Requiring the file here defines its functions
+ * and binds its `get_search_form` filter; the file prints nothing when it is
+ * required rather than reached as a template part.
+ */
+require_once INTERA_DIR . 'template-parts/partials/search-form.php';
+
 /**
  * Register theme supports and navigation locations.
  */

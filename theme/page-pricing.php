@@ -13,18 +13,33 @@
  * | breadcrumb              | `intera_breadcrumbs()` (auto: Home / <title>)    |
  * | header heading          | `the_title()`                                    |
  * | header lede             | `the_content()` — one paragraph, "Large" preset  |
- * | the three plan cards    | the `plan` post type, via `partials/plan-card`   |
+ * | the plan cards          | the `plan` post type, via `partials/plan-card`   |
  * | each card's price + CTA | `_intera_plan_*` meta and the plan's own content |
- * | the comparison headings | the same three plans' titles                     |
+ * | the comparison columns  | the same plans, in the same order                |
+ * | the comparison rows     | `_intera_plan_capabilities` on those plans       |
+ * | the Early Adopter tiles | the featured plan's own capability figures       |
  * | every internal link     | `intera_page_url()`                              |
  *
  * The Free card keeps its own `_intera_plan_cta_url` here — the plan's meta
  * target is the request form, which is why `front-page.php` overrides it with
  * the pricing page and this template does not override anything.
  *
+ * The comparison table is built from the plans, not from the export: the columns
+ * are the published plans in menu order and the rows are the union of their
+ * capability labels, in the order the first plan declares them. A plan that does
+ * not carry a capability gets the table's em dash in that cell, and a fourth
+ * plan adds a fourth column instead of running past a three-column table. With
+ * no plans, or no capabilities on any of them, the whole section is skipped —
+ * an empty table says less than nothing.
+ *
+ * The three tiles beside the Early Adopter offer read the featured plan's own
+ * figures for the capabilities they name, so the band cannot drift from the
+ * plan it describes. The tile captions stay template copy; a tile whose
+ * capability the featured plan does not declare is dropped.
+ *
  * The rest is the handoff's fixed copy, per recon §5 ("Dynamic slots: none"):
- * the section headings, the six comparison rows, the Early Adopter band and the
- * four pre-signing questions.
+ * the section headings, the Early Adopter band and the four pre-signing
+ * questions.
  *
  * PORT.md §1: nothing carrying `.itr-hl`, `.itr-panel` or another hover class
  * gets `background`, `border`, `border-color`, `box-shadow` or `transition`
@@ -63,55 +78,71 @@ $intera_plans = get_posts(
 $intera_table_title = __( 'What each plan includes', 'intera' );
 
 /*
- * The comparison columns are the export's three plan names, replaced by the
- * plans' own titles whenever the ladder still has exactly three cards — so
- * renaming a plan renames its column, and the accent stays on whichever plan
- * carries `_intera_plan_featured`.
+ * One pass over the plans builds both the columns and the rows: the column
+ * keeps the plan's title, its accent and its own figures keyed by capability;
+ * `$intera_rows` collects the labels in first-seen order, which is the order
+ * the first plan declares them in. The featured plan's figures are kept aside
+ * for the Early Adopter band.
  */
-$intera_columns = array(
-	array(
-		'label'    => __( 'Free', 'intera' ),
-		'featured' => false,
-	),
-	array(
-		'label'    => __( 'Early Adopter', 'intera' ),
-		'featured' => true,
-	),
-	array(
-		'label'    => __( 'Commercial', 'intera' ),
-		'featured' => false,
-	),
-);
+$intera_columns          = array();
+$intera_rows             = array();
+$intera_featured_figures = array();
 
-if ( 3 === count( $intera_plans ) ) {
-	$intera_columns = array();
+foreach ( $intera_plans as $intera_plan ) {
+	$intera_featured = (bool) get_post_meta( $intera_plan->ID, '_intera_plan_featured', true );
+	$intera_figures  = array();
 
-	foreach ( $intera_plans as $intera_plan ) {
-		$intera_columns[] = array(
-			'label'    => get_the_title( $intera_plan ),
-			'featured' => (bool) get_post_meta( $intera_plan->ID, '_intera_plan_featured', true ),
-		);
+	$intera_capabilities = function_exists( 'intera_plan_capabilities_get' )
+		? intera_plan_capabilities_get( $intera_plan->ID )
+		: array();
+
+	foreach ( $intera_capabilities as $intera_capability ) {
+		if ( ! isset( $intera_rows[ $intera_capability['key'] ] ) ) {
+			$intera_rows[ $intera_capability['key'] ] = $intera_capability['label'];
+		}
+
+		$intera_figures[ $intera_capability['key'] ] = $intera_capability['value'];
+	}
+
+	$intera_columns[] = array(
+		'label'    => get_the_title( $intera_plan ),
+		'featured' => $intera_featured,
+		'figures'  => $intera_figures,
+	);
+
+	if ( $intera_featured && ! $intera_featured_figures ) {
+		$intera_featured_figures = $intera_figures;
 	}
 }
 
-// Capability, then one figure per column, in the same order as the cards.
-$intera_rows = array(
-	array( __( 'Roles', 'intera' ), '3', __( 'unlimited', 'intera' ), __( 'unlimited', 'intera' ) ),
-	array( __( 'Users', 'intera' ), '10', '25', __( 'by agreement', 'intera' ) ),
-	array( __( 'Integrations', 'intera' ), '3', '5', __( 'by agreement', 'intera' ) ),
-	array( __( 'History', 'intera' ), __( '30 days', 'intera' ), __( 'unlimited', 'intera' ), __( 'unlimited', 'intera' ) ),
-	array( __( 'Onboarding', 'intera' ), __( 'self-serve', 'intera' ), __( 'custom', 'intera' ), __( 'from €4,500', 'intera' ) ),
-	array( __( 'Market package', 'intera' ), '—', __( '1 included', 'intera' ), __( 'quoted', 'intera' ) ),
-);
+$intera_row_keys = array_keys( $intera_rows );
+$intera_last_row = count( $intera_row_keys ) - 1;
 
-$intera_last_row = count( $intera_rows ) - 1;
+// A plan that does not carry a capability reads as a dash, not as a blank cell.
+$intera_no_figure = _x( '—', 'a capability the plan does not include', 'intera' );
 
-// The three figures beside the Early Adopter offer.
-$intera_stats = array(
-	array( '12', __( 'months free', 'intera' ) ),
-	array( '1', __( 'market package included', 'intera' ) ),
-	array( '25', __( 'users', 'intera' ) ),
-);
+/*
+ * The three tiles beside the Early Adopter offer: each names the capability it
+ * shows and carries its own caption. The figure is the featured plan's, so the
+ * band restates the plan instead of repeating it.
+ */
+$intera_tiles = array();
+
+foreach ( array(
+	__( 'Roles', 'intera' )          => __( 'roles', 'intera' ),
+	__( 'Users', 'intera' )          => __( 'users', 'intera' ),
+	__( 'Market package', 'intera' ) => __( 'market package', 'intera' ),
+) as $intera_tile_capability => $intera_tile_label ) {
+	$intera_tile_key = function_exists( 'intera_plan_capability_key' )
+		? intera_plan_capability_key( $intera_tile_capability )
+		: '';
+
+	if ( '' === $intera_tile_key || ! isset( $intera_featured_figures[ $intera_tile_key ] ) || '' === $intera_featured_figures[ $intera_tile_key ] ) {
+		continue;
+	}
+
+	$intera_tiles[] = array( $intera_featured_figures[ $intera_tile_key ], $intera_tile_label );
+}
 
 // The four questions that come up before signing.
 $intera_questions = array(
@@ -164,6 +195,7 @@ $intera_questions = array(
 </section>
 <?php endif; ?>
 
+<?php if ( $intera_columns && $intera_row_keys ) : ?>
 <section data-screen-label="Comparison" style="background: var(--surface-sunken); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle)">
 	<div style="max-width: 1160px; margin: 0 auto; padding: clamp(42px, 7vw, 72px) clamp(20px, 5vw, 24px)">
 		<h2 style="font-size: var(--text-2xl); font-weight: 600; letter-spacing: -0.01em; color: var(--ink-900)"><?php echo esc_html( $intera_table_title ); ?></h2>
@@ -179,15 +211,20 @@ $intera_questions = array(
 				</thead>
 				<tbody style="font-family: var(--font-mono); font-size: var(--text-sm); color: var(--ink-800)">
 					<?php
-					foreach ( $intera_rows as $intera_index => $intera_row ) :
+					foreach ( $intera_row_keys as $intera_index => $intera_key ) :
 						// The last row sits on the card's own edge, so it drops the rule.
 						$intera_rule = $intera_index === $intera_last_row ? '' : '; border-bottom: 1px solid var(--border-hairline)';
 						?>
 						<tr>
-							<td style="padding: 13px 20px; font-family: var(--font-sans); font-size: var(--text-md); color: var(--ink-800)<?php echo esc_attr( $intera_rule ); ?>"><?php echo esc_html( $intera_row[0] ); ?></td>
-							<?php for ( $intera_col = 1; $intera_col <= 3; $intera_col++ ) : ?>
-								<td style="padding: 13px 20px; text-align: right<?php echo esc_attr( $intera_rule ); ?>"><?php echo esc_html( isset( $intera_row[ $intera_col ] ) ? $intera_row[ $intera_col ] : '' ); ?></td>
-							<?php endfor; ?>
+							<td style="padding: 13px 20px; font-family: var(--font-sans); font-size: var(--text-md); color: var(--ink-800)<?php echo esc_attr( $intera_rule ); ?>"><?php echo esc_html( $intera_rows[ $intera_key ] ); ?></td>
+							<?php
+							foreach ( $intera_columns as $intera_column ) :
+								$intera_figure = isset( $intera_column['figures'][ $intera_key ] ) && '' !== $intera_column['figures'][ $intera_key ]
+									? $intera_column['figures'][ $intera_key ]
+									: $intera_no_figure;
+								?>
+								<td style="padding: 13px 20px; text-align: right<?php echo esc_attr( $intera_rule ); ?>"><?php echo esc_html( $intera_figure ); ?></td>
+							<?php endforeach; ?>
 						</tr>
 					<?php endforeach; ?>
 				</tbody>
@@ -196,6 +233,7 @@ $intera_questions = array(
 		<p style="font-size: var(--text-sm); color: var(--ink-500); margin-top: 14px"><?php esc_html_e( 'Prices exclude VAT. Custom integrations and additional market packages are quoted separately.', 'intera' ); ?></p>
 	</div>
 </section>
+<?php endif; ?>
 
 <section data-screen-label="Early Adopter" style="position: relative; overflow: hidden; background: var(--ink-900)">
 	<div aria-hidden="true" style="position: absolute; left: 22%; top: 40%; width: 900px; height: 900px; transform: translate(-50%,-50%); pointer-events: none; background: radial-gradient(circle, var(--wash-blue-dark) 0%, transparent 66%)"></div>
@@ -221,14 +259,16 @@ $intera_questions = array(
 				</div>
 			<?php endif; ?>
 		</div>
-		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(140px, 100%), 1fr)); gap: 12px">
-			<?php foreach ( $intera_stats as $intera_stat ) : ?>
-				<div class="itr-panel" style="border-radius: var(--radius-card); padding: 18px">
-					<div style="font-family: var(--font-mono); font-size: var(--text-2xl); color: var(--white)"><?php echo esc_html( $intera_stat[0] ); ?></div>
-					<div style="font-size: var(--text-xs); color: rgba(255,255,255,.6); margin-top: 6px"><?php echo esc_html( $intera_stat[1] ); ?></div>
-				</div>
-			<?php endforeach; ?>
-		</div>
+		<?php if ( $intera_tiles ) : ?>
+			<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(140px, 100%), 1fr)); gap: 12px">
+				<?php foreach ( $intera_tiles as $intera_tile ) : ?>
+					<div class="itr-panel" style="border-radius: var(--radius-card); padding: 18px">
+						<div style="font-family: var(--font-mono); font-size: var(--text-2xl); color: var(--white)"><?php echo esc_html( $intera_tile[0] ); ?></div>
+						<div style="font-size: var(--text-xs); color: rgba(255,255,255,.6); margin-top: 6px"><?php echo esc_html( $intera_tile[1] ); ?></div>
+					</div>
+				<?php endforeach; ?>
+			</div>
+		<?php endif; ?>
 	</div>
 </section>
 

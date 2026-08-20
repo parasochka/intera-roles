@@ -1026,3 +1026,98 @@ if ( ! function_exists( 'intera_flush_page_urls' ) ) :
 	add_action( 'deleted_post', 'intera_flush_page_urls' );
 	add_action( 'update_option_page_for_posts', 'intera_flush_page_urls' );
 endif;
+
+if ( ! function_exists( 'intera_destinations_get' ) ) :
+	/**
+	 * The site's main destinations, for pages that have to offer a way out.
+	 *
+	 * Used by `404.php` and by `search.php`'s empty state — the two places where
+	 * the reader arrived somewhere with nothing on it. The list is never a
+	 * hardcoded set of links: it is the top level of whatever menu the site has
+	 * assigned to `primary`, labels and descriptions included, so it follows the
+	 * navigation an editor actually built.
+	 *
+	 * When no menu is assigned yet, the theme resolves the same destinations on
+	 * its own through `intera_page_url()`, preferring the words the site uses —
+	 * the page's own title, the posts page's title, the `docs` post type's label
+	 * — over the theme's defaults. A destination whose page does not exist is
+	 * simply left out.
+	 *
+	 * @param int $limit Maximum destinations to return.
+	 * @return array<int,array{label:string,note:string,url:string}>
+	 */
+	function intera_destinations_get( $limit = 6 ) {
+		$destinations = array();
+
+		if ( has_nav_menu( 'primary' ) ) {
+			$locations = get_nav_menu_locations();
+			$menu      = isset( $locations['primary'] ) ? wp_get_nav_menu_object( $locations['primary'] ) : false;
+			$items     = $menu ? wp_get_nav_menu_items( $menu->term_id ) : array();
+
+			foreach ( (array) $items as $item ) {
+				if ( (int) $item->menu_item_parent > 0 ) {
+					continue;
+				}
+
+				$url = trim( (string) $item->url );
+
+				if ( '' === $url || '' === trim( (string) $item->title ) ) {
+					continue;
+				}
+
+				$destinations[ $url ] = array(
+					'label' => (string) $item->title,
+					'note'  => trim( (string) $item->description ),
+					'url'   => $url,
+				);
+			}
+		}
+
+		if ( ! $destinations ) {
+			$keys = array(
+				'product'  => __( 'Product', 'intera' ),
+				'pricing'  => __( 'Pricing', 'intera' ),
+				'docs'     => __( 'Documentation', 'intera' ),
+				'blog'     => __( 'Blog', 'intera' ),
+				'faq'      => __( 'FAQ', 'intera' ),
+				'contacts' => __( 'Contacts', 'intera' ),
+			);
+
+			foreach ( $keys as $key => $label ) {
+				$url = function_exists( 'intera_page_url' ) ? (string) intera_page_url( $key ) : '';
+
+				if ( '' === $url ) {
+					continue;
+				}
+
+				if ( 'docs' === $key ) {
+					$type = get_post_type_object( 'docs' );
+
+					if ( $type && isset( $type->labels->name ) && '' !== (string) $type->labels->name ) {
+						$label = (string) $type->labels->name;
+					}
+				} elseif ( 'blog' === $key ) {
+					$posts_page = (int) get_option( 'page_for_posts' );
+
+					if ( $posts_page > 0 ) {
+						$label = get_the_title( $posts_page );
+					}
+				} else {
+					$page_id = url_to_postid( $url );
+
+					if ( $page_id > 0 ) {
+						$label = get_the_title( $page_id );
+					}
+				}
+
+				$destinations[ $url ] = array(
+					'label' => $label,
+					'note'  => '',
+					'url'   => $url,
+				);
+			}
+		}
+
+		return array_slice( array_values( $destinations ), 0, max( 1, (int) $limit ) );
+	}
+endif;

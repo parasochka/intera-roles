@@ -287,6 +287,14 @@ a.itr-btn--outlineInverse:hover {
 		box-shadow 260ms cubic-bezier(.2, .6, .25, 1);
 }
 
+/* The crop fills the frame's lower corners, so it has to round with them —
+   a core block pattern cannot carry `overflow` on the frame itself. */
+.itr-frame .itr-shot {
+	border-bottom-left-radius: inherit;
+	border-bottom-right-radius: inherit;
+	overflow: hidden;
+}
+
 .itr-frame:hover {
 	box-shadow:
 		0 34px 64px -30px rgba(14,26,43,.42),
