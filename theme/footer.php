@@ -29,6 +29,16 @@ defined( 'ABSPATH' ) || exit;
 $intera_footer_blurb     = trim( (string) intera_option( 'footer_blurb' ) );
 $intera_footer_cta_label = trim( (string) intera_option( 'footer_cta_label' ) );
 $intera_footer_cta_url   = trim( (string) intera_option( 'footer_cta_url' ) );
+
+/*
+ * No option set yet: fall back to whichever page carries the
+ * `page-contact-request.php` template. Assigning that template in the editor
+ * is enough to light the call to action up — the Customizer field overrides
+ * the destination, it is not a prerequisite for having one.
+ */
+if ( '' === $intera_footer_cta_url && function_exists( 'intera_page_url' ) ) {
+	$intera_footer_cta_url = (string) intera_page_url( 'contact-request' );
+}
 $intera_copyright        = trim( (string) intera_option( 'copyright' ) );
 $intera_site_domain      = trim( (string) intera_option( 'site_domain' ) );
 $intera_contact_email    = trim( (string) intera_option( 'contact_email' ) );

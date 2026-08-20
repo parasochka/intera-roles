@@ -947,3 +947,82 @@ if ( ! function_exists( 'intera_term_tone_get' ) ) :
 		return in_array( $value, array( 'blue', 'teal', 'violet', 'amber' ), true ) ? $value : 'blue';
 	}
 endif;
+
+if ( ! function_exists( 'intera_page_url' ) ) :
+	/**
+	 * The URL of one of the site's fixed destinations.
+	 *
+	 * The mockups link to each other by filename (`03-pricing.dc.html`). In the
+	 * theme those become real WordPress URLs, and no template may hardcode a
+	 * slug: an editor renames or moves a page and every link has to follow.
+	 *
+	 * Resolution needs no configuration at all — a page is found by the template
+	 * assigned to it in the editor, which is the same act that gives the page its
+	 * design. Assign "Pricing" to a page and every "See pricing" link on the site
+	 * points at it.
+	 *
+	 * Keys: home, blog, docs, and any page template — product, pricing, faq,
+	 * contacts, contact-request, legal.
+	 *
+	 * @param string $key Destination key.
+	 * @return string URL, or '' when nothing is assigned yet.
+	 */
+	function intera_page_url( $key ) {
+		$key = sanitize_key( str_replace( '_', '-', (string) $key ) );
+
+		if ( '' === $key || 'home' === $key ) {
+			return home_url( '/' );
+		}
+
+		if ( 'blog' === $key ) {
+			$posts_page = (int) get_option( 'page_for_posts' );
+
+			return $posts_page ? (string) get_permalink( $posts_page ) : home_url( '/' );
+		}
+
+		if ( 'docs' === $key ) {
+			$archive = get_post_type_archive_link( 'docs' );
+
+			return $archive ? (string) $archive : '';
+		}
+
+		$cache = get_transient( 'intera_page_urls' );
+		$cache = is_array( $cache ) ? $cache : array();
+
+		if ( isset( $cache[ $key ] ) ) {
+			return (string) $cache[ $key ];
+		}
+
+		$pages = get_pages(
+			array(
+				'meta_key'    => '_wp_page_template', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+				'meta_value'  => 'page-' . $key . '.php', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
+				'number'      => 1,
+				'sort_column' => 'menu_order',
+			)
+		);
+
+		$url = $pages ? (string) get_permalink( $pages[0]->ID ) : '';
+
+		$cache[ $key ] = $url;
+		set_transient( 'intera_page_urls', $cache, HOUR_IN_SECONDS );
+
+		return $url;
+	}
+endif;
+
+if ( ! function_exists( 'intera_flush_page_urls' ) ) :
+	/**
+	 * Drop the destination cache whenever a page could have moved.
+	 *
+	 * @param int $post_id Saved post ID.
+	 * @return void
+	 */
+	function intera_flush_page_urls( $post_id = 0 ) {
+		unset( $post_id );
+		delete_transient( 'intera_page_urls' );
+	}
+	add_action( 'save_post_page', 'intera_flush_page_urls' );
+	add_action( 'deleted_post', 'intera_flush_page_urls' );
+	add_action( 'update_option_page_for_posts', 'intera_flush_page_urls' );
+endif;

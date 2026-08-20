@@ -37,6 +37,16 @@ $intera_badge_text  = trim( (string) intera_option( 'header_badge' ) );
 $intera_cta_label   = trim( (string) intera_option( 'header_cta_label' ) );
 $intera_cta_url     = trim( (string) intera_option( 'header_cta_url' ) );
 
+/*
+ * No option set yet: fall back to whichever page carries the
+ * `page-contact-request.php` template. Assigning that template in the editor
+ * is enough to light the call to action up — the Customizer field overrides
+ * the destination, it is not a prerequisite for having one.
+ */
+if ( '' === $intera_cta_url && function_exists( 'intera_page_url' ) ) {
+	$intera_cta_url = (string) intera_page_url( 'contact-request' );
+}
+
 // A call to action with no target would render as a dead <button>; leave it out instead.
 $intera_has_cta = ( '' !== $intera_cta_label && '' !== $intera_cta_url );
 
