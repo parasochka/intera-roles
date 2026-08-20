@@ -279,6 +279,7 @@ a.itr-btn--outlineInverse:hover {
 
 /* Product screenshot frames: 6px rise, deeper shadow. */
 .itr-frame {
+	background: var(--itr-bg, transparent);
 	border: 1px solid var(--itr-edge, var(--border-subtle));
 	box-shadow: var(--itr-shadow, var(--shadow-lg));
 	transition:
