@@ -1,0 +1,182 @@
+
+intera-roles.com
+1. Цель сайта
+Главная задача сайта — заинтересовать руководителя среднего/высшего уровня и привести его к первому контакту с INTERA.
+Посетитель должен быстро понять:
+INTERA помогает раньше видеть проблемы и отклонения;
+не требует замены ERP/CRM/биллинга и других существующих систем;
+помогает конкретному менеджеру лучше контролировать свой участок;
+начать можно с одной роли и одной реальной задачи;
+продукт сейчас находится в beta, поэтому есть выгодная программа Early Adopter.
+Вторичная задача — привлекать интеграторов, консультантов и потенциальных реселлеров.
+
+2. Целевая аудитория
+Основная:
+Operations Manager / COO;
+Finance;
+Billing;
+Revenue Assurance;
+Customer Operations;
+Commercial / Product;
+руководители подразделений;
+IT/System managers.
+Ключевой посетитель — middle-management champion: человек, который увидел практическую пользу INTERA для своей работы и может продвинуть идею внутри компании.
+Дополнительная аудитория:
+CEO / владельцы;
+системные интеграторы;
+отраслевые консультанты;
+потенциальные реселлеры и implementation partners.
+
+Hero
+Использовать текущий смысл:
+YOUR BUSINESS, CLEARLY
+See what needs attention. Before someone has to ask.
+INTERA connects the systems your teams already use and gives each role a clear view of what matters — changes, risks, inconsistencies and trends.
+Get Early Access  / See how INTERA works
+
+Problem
+This will feel familiar: Your business runs across several systems.
+Finance sees one part. Operations sees another. CRM, billing, ERP, spreadsheets and internal tools each contain pieces of the picture.
+Problems often become visible only when someone connects those pieces manually.
+Teams spend time checking, reconciling, explaining and preparing information that already exists somewhere in the business.
+INTERA makes that operating picture continuously visible.
+
+How it works
+Get full visibility without changing how your company operates
+1. Connect your existing systems
+INTERA connects to finance, operations, CRM, billing, ERP, Excel and internal systems without replacing them.
+2. INTERA understands what matters
+It applies business logic and watches changes, risks and inconsistencies.
+3. See what needs attention
+Managers immediately see what changed, what requires action and where to investigate.
+
+INTERA doesn’t replace your team — it removes unnecessary manual checking and reporting between systems and people.
+
+Personal benefit / Champion section
+
+Make your area easier to run
+INTERA doesn’t just give management more visibility. It helps you stay on top of the part of the business you’re responsible for.
+Know before you’re askedSee problems and unusual changes before they become questions or escalations.
+Spend less time proving what’s happeningReduce repetitive reporting, manual checks and status updates.
+Bring problems with answersSee the supporting data and understand what requires action.
+Show that your area is under controlGive management clear and consistent visibility without preparing another spreadsheet.
+Make improvements that last
+Turn the checks, knowledge and working practices your team already uses into something repeatable and visible across the organization.
+Less chasing. Fewer surprises. More confidence in the part of the business you own.
+
+
+INTERA in action
+Don’t just watch the business. Catch what matters.
+EventsSomething important changed.
+IncidentsSomething requires attention and action.
+ReconciliationsThings that should agree — don’t.
+Pattern StudioUnderstand what keeps happening and under which conditions.
+Желательно показать это одной визуальной цепочкой:
+Event → Reconciliation → Incident → Pattern
+Финальная фраза:
+From “something looks wrong” to “we know what is happening, why it matters, and what to watch next.”
+
+
+INTERA Roles
+Pre-built visibility for the parts of your business that matter most.Intera Roles are ready-made business modules designed around real responsibilities — finance, operations, revenue, and more.Each role comes with predefined metrics, logic, and automatic issue detection, so you can see what’s happening without building anything from scratch.
+Finance Control
+Operations Oversight
+Revenue Assurance
+Customer Health
+System Integrity
+Different responsibilities. One operating picture.
+
+Working with existing IT
+Your systems stay. INTERA makes them more useful.
+ERP, CRM, billing and others remain as your systems of record;
+INTERA connects to them, never replacing anything;
+IT is responsible for access to systems and data;
+Business decides which Metrics, Events, Incidents, Reconciliations and Patterns are important;
+No company-wide transformation project.
+Business teams know what they need to control. IT knows how the systems work. INTERA gives them a practical place to meet.
+
+Start small
+Start with one real problem.
+Do not start by implementation of Intera in your whole company.
+You can start with:
+One role.One operational problem.One working result.
+For example:
+billing and usage do not correspond;
+problem is detected too late;
+the same exceptions are constantly manually checked;
+manager is gathering data from several different systems.
+Bring us a real problem
+
+Pricing
+FREE
+For evaluation
+€0
+Up to 3 Roles
+Up to 10 users
+Up to 3 integrations
+30-day history
+Local installation
+Try INTERA
+
+EARLY ADOPTER (Этот блок визуально выделить как основной)
+For beta partners
+Free for the first 12 months
+Unlimited Roles
+Up to 25 users
+Up to 5 integrations
+Unlimited history
+Custom onboarding
+Priority support
+One market package included
+Become an Early Adopter
+
+COMMERCIAL
+Basic — €750/yearCorporate — from €4,500/yearEnterprise — from €15,000/year
+Enterprise implementation & onboarding:
+from €4,500
+Custom integrations — quoted separately.
+Talk to us about your deployment
+
+Early Adopter offer
+Это должен быть отдельный сильный блок, а не только тариф.
+Help shape INTERA around a real operation.
+We are looking for a small number of companies and managers who are ready to use INTERA to solve their real operational tasks during beta testing stage.
+Early Adopters receive:
+INTERA for free for the first 12 months;
+custom onboarding;
+direct contact with INTERA team;
+priority support;
+opportunity to influence product development;
+assistance with setting up your first real use case.
+We expect from Early Adopters:
+a real business case;
+feedback;
+readiness to work together and verify our solutions.
+I have a problem INTERA could solve
+
+Partners / Resellers
+Turn your industry knowledge into repeatable solutions.
+For systems integrators and consultants who already know their customer’s real problems. INTERA lets you turn your industry expertise into:
+Roles;
+Reconciliations;
+business logic;
+Patterns;
+integrations;
+reusable market packages.
+Solve once. Adapt. Deploy again.
+Become an INTERA partner
+
+Product screenshots
+На главной использовать не более 3 сильных продуктовых визуалов.
+Предпочтительно:
+один хороший Role/dashboard;
+один Incident/Reconciliation screen;
+один Pattern Studio screen.
+Не делать галерею dashboard'ов.
+Основная задача изображений — показать:
+INTERA — это работающий продукт, а не концепт, и он делает значительно больше, чем обычный dashboard.
+Я дам доступ к системе – скриншоты будем делать совместно
+
+
+10. Общие требования к дизайну
+Не показывать всё, что умеет INTERA. Показать несколько ситуаций, после которых посетитель понимает, зачем INTERA нужна именно ему.

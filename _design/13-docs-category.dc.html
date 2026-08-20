@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/intera/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/radius.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/elevation.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/motion.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/base.css">
+  <link rel="stylesheet" href="_ds/intera/styles.css">
+  <link rel="stylesheet" href="mobile.css">
+  <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.js"></script>
+  <script src="_ds/intera/_ds_bundle.js"></script>
+  <style>
+    body { margin: 0; font-family: var(--font-sans); color: var(--text-primary); background: var(--surface-page); -webkit-font-smoothing: antialiased; }
+    a:not(.itr-btn) { color: var(--text-link); text-decoration: none; border-bottom: 0; transition: color 140ms cubic-bezier(.2,.6,.25,1); }
+    a:not(.itr-btn):hover { color: var(--text-link-hover); }
+    a.itr-btn:hover { border-bottom-color: transparent; }
+    a.itr-btn--primary:hover, a.itr-btn--danger:hover { color: var(--text-on-accent); }
+    a.itr-btn--secondary:hover { color: var(--ink-800); border-bottom-color: var(--border-strong); }
+    a.itr-btn--ghost:hover, a.itr-btn--inverse:hover { color: var(--ink-900); }
+    a.itr-btn--outlineInverse:hover { color: var(--white); border-bottom-color: rgba(255,255,255,.6); }
+    h1, h2, h3, h4, p { margin: 0; }
+    @keyframes itr-live { 0%, 100% { opacity: 1; } 50% { opacity: .28; } }
+    @keyframes itr-halo { 0% { transform: scale(1); opacity: .5; } 70%, 100% { transform: scale(2.6); opacity: 0; } }
+    .itr-live-dot { animation: itr-live 1.9s cubic-bezier(.2,.6,.25,1) infinite; }
+    .itr-live-halo { animation: itr-halo 1.9s cubic-bezier(.2,.6,.25,1) infinite; }
+    .itr-lift { transition: transform 200ms cubic-bezier(.2,.6,.25,1), box-shadow 200ms cubic-bezier(.2,.6,.25,1), border-color 160ms cubic-bezier(.2,.6,.25,1), background-color 160ms cubic-bezier(.2,.6,.25,1) !important; }
+    .itr-lift:hover { transform: translateY(-5px); box-shadow: 0 18px 34px -18px rgba(14,26,43,.26), 0 2px 6px -2px rgba(14,26,43,.10) !important; border-right-color: var(--border-strong) !important; border-bottom-color: var(--border-strong) !important; border-left-color: var(--border-strong) !important; }
+    .itr-row { transition: transform 180ms cubic-bezier(.2,.6,.25,1), background-color 160ms, border-color 160ms, box-shadow 180ms; }
+    .itr-row:hover { transform: translateX(8px); background: var(--white); border-color: var(--blue-200); box-shadow: 0 10px 22px -14px rgba(14,26,43,.28); }
+    .itr-tile { transition: transform 170ms cubic-bezier(.2,.6,.25,1), background-color 150ms, border-color 150ms, box-shadow 170ms; }
+    .itr-tile:hover { transform: translateY(-4px); background: var(--blue-50); border-color: var(--blue-200); box-shadow: 0 12px 24px -16px rgba(26,79,214,.35); }
+    .itr-panel { transition: transform 200ms cubic-bezier(.2,.6,.25,1), background-color 180ms, border-color 180ms; }
+    .itr-panel:hover { transform: translateY(-4px); background: rgba(255,255,255,.085); border-color: rgba(255,255,255,.28); }
+    .itr-frame { transition: transform 260ms cubic-bezier(.2,.6,.25,1), box-shadow 260ms cubic-bezier(.2,.6,.25,1); }
+    .itr-frame:hover { transform: translateY(-6px); box-shadow: 0 34px 64px -30px rgba(14,26,43,.42), 0 4px 10px -4px rgba(14,26,43,.14) !important; }
+    .itr-hl { transition: border-color 160ms cubic-bezier(.2,.6,.25,1), box-shadow 160ms cubic-bezier(.2,.6,.25,1), background-color 160ms cubic-bezier(.2,.6,.25,1) !important; }
+    .itr-hl:hover { box-shadow: 0 10px 24px -18px rgba(14,26,43,.30) !important; border-right-color: var(--border-strong) !important; border-bottom-color: var(--border-strong) !important; border-left-color: var(--border-strong) !important; }
+    .itr-hl-panel { transition: border-color 180ms cubic-bezier(.2,.6,.25,1), background-color 180ms cubic-bezier(.2,.6,.25,1) !important; }
+    .itr-hl-panel:hover { background: rgba(255,255,255,.085); border-color: rgba(255,255,255,.28); }
+    .itr-lift:has(.itr-row:hover), .itr-lift:has(.itr-tile:hover), .itr-lift:has(.itr-lift:hover) { transform: none !important; }
+    @media (prefers-reduced-motion: reduce) {
+      .itr-live-dot, .itr-live-halo { animation: none; }
+      .itr-lift, .itr-row, .itr-tile, .itr-panel, .itr-frame { transition: border-color 160ms, background-color 160ms !important; }
+      .itr-lift:hover, .itr-row:hover, .itr-tile:hover, .itr-panel:hover, .itr-frame:hover { transform: none; }
+    }
+  </style>
+</helmet>
+<dc-import name="site-nav" hint-size="100%,76px"></dc-import>
+<div style="height: 76px"></div>
+
+<section data-screen-label="Docs category header" style="background: var(--surface-sunken); border-bottom: 1px solid var(--border-subtle)">
+  <div style="max-width: 1160px; margin: 0 auto; padding: clamp(28px, 7vw, 48px) clamp(20px, 5vw, 24px) clamp(23px, 7vw, 40px)">
+    <div style="display: flex; gap: 8px; align-items: center; font-size: var(--text-xs); color: var(--ink-400); font-family: var(--font-mono)">
+      <a href="01-main.dc.html" style="color: var(--ink-400)" style-hover="color: var(--ink-600)">Home</a><span>/</span><a href="11-docs.dc.html" style="color: var(--ink-400)" style-hover="color: var(--ink-600)">Docs</a><span>/</span><span style="color: var(--ink-600)">Getting started</span>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: center; margin-top: 20px">
+      <span style="width: 40px; height: 40px; border-radius: var(--radius-md); background: var(--white); border: 1px solid var(--blue-100); display: grid; place-items: center; color: var(--blue-600)">
+        <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="rocket" size="19" hint-size="19px,19px"></x-import>
+      </span>
+      <div>
+        <h1 style="font-size: clamp(26px, 2.8vw, 34px); font-weight: 600; letter-spacing: -0.02em; line-height: 1.18; color: var(--ink-900)">Getting started</h1>
+        <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-500)">10 articles</span>
+      </div>
+    </div>
+    <p style="font-size: var(--text-lg); line-height: 1.6; color: var(--ink-600); margin-top: 16px; max-width: 640px">From installation to the first working role: what to connect, what to define, and what to look at on day one.</p>
+  </div>
+</section>
+
+<section data-screen-label="Docs category list" style="background: var(--surface-page)">
+  <div style="max-width: 1160px; margin: 0 auto; padding: clamp(28px, 7vw, 48px) clamp(20px, 5vw, 24px) clamp(51px, 7vw, 88px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 44px; align-items: start">
+    <div style="min-width: 0">
+      <div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-500); margin-bottom: 8px">First steps</div>
+      <div style="display: flex; flex-direction: column; border-top: 1px solid var(--border-hairline)">
+        <a href="12-docs-article.dc.html" style="display: flex; gap: 16px; align-items: baseline; padding: 16px 4px; border-bottom: 1px solid var(--border-hairline)" style-hover="background: var(--surface-hover)">
+          <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)">01</span>
+          <span style="flex: 1">
+            <span style="display: block; font-size: var(--text-md); font-weight: 500; color: var(--ink-900)">Start here</span>
+            <span style="display: block; font-size: var(--text-sm); color: var(--ink-600); margin-top: 4px; line-height: 1.55">What INTERA is, what it is not, and the shortest path to a first result.</span>
+          </span>
+          <span style="font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--ink-400)">3 min</span>
+        </a>
+        <a href="12-docs-article.dc.html" style="display: flex; gap: 16px; align-items: baseline; padding: 16px 4px; border-bottom: 1px solid var(--border-hairline)" style-hover="background: var(--surface-hover)">
+          <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)">02</span>
+          <span style="flex: 1">
+            <span style="display: block; font-size: var(--text-md); font-weight: 500; color: var(--ink-900)">First setup journey</span>
+            <span style="display: block; font-size: var(--text-sm); color: var(--ink-600); margin-top: 4px; line-height: 1.55">The order of operations: one role, one source, one check, one dashboard.</span>
+          </span>
+          <span style="font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--ink-400)">7 min</span>
+        </a>
+        <a href="12-docs-article.dc.html" style="display: flex; gap: 16px; align-items: baseline; padding: 16px 4px; border-bottom: 1px solid var(--border-hairline)" style-hover="background: var(--surface-hover)">
+          <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)">03</span>
+          <span style="flex: 1">
+            <span style="display: block; font-size: var(--text-md); font-weight: 500; color: var(--ink-900)">Installation</span>
+            <span style="display: block; font-size: var(--text-sm); color: var(--ink-600); margin-top: 4px; line-height: 1.55">Local installation, requirements and the first administrator account.</span>
+          </span>
+          <span style="font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--ink-400)">6 min</span>
+        </a>
+        <a href="12-docs-article.dc.html" style="display: flex; gap: 16px; align-items: baseline; padding: 16px 4px; border-bottom: 1px solid var(--border-hairline)" style-hover="background: var(--surface-hover)">
+          <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)">04</span>
+          <span style="flex: 1">
+            <span style="display: block; font-size: var(--text-md); font-weight: 500; color: var(--ink-900)">Administration</span>
+            <span style="display: block; font-size: var(--text-sm); color: var(--ink-600); margin-top: 4px; line-height: 1.55">Users, access to roles, and who may change business logic.</span>
+          </span>
+          <span style="font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--ink-400)">5 min</span>
+        </a>
+      </div>
+
+      <div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-500); margin: 32px 0 8px">Data and modelling</div>
+      <div style="display: flex; flex-direction: column; border-top: 1px solid var(--border-hairline)">
+        <a href="12-docs-article.dc.html" style="display: flex; gap: 16px; align-items: baseline; padding: 16px 4px; border-bottom: 1px solid var(--border-hairline)" style-hover="background: var(--surface-hover)">
+          <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)">05</span>
+          <span style="flex: 1">
+            <span style="display: block; font-size: var(--text-md); font-weight: 500; color: var(--ink-900)">Integrations and data</span>
+            <span style="display: block; font-size: var(--text-sm); color: var(--ink-600); margin-top: 4px; line-height: 1.55">What a DataSource is, and exactly what to ask IT for.</span>
+          </span>
+          <span style="font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--ink-400)">8 min</span>
+        </a>
+        <a href="12-docs-article.dc.html" style="display: flex; gap: 16px; align-items: baseline; padding: 16px 4px; border-bottom: 1px solid var(--border-hairline)" style-hover="background: var(--surface-hover)">
+          <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)">06</span>
+          <span style="flex: 1">
+            <span style="display: block; font-size: var(--text-md); font-weight: 500; color: var(--ink-900)">Assets and data modelling</span>
+            <span style="display: block; font-size: var(--text-sm); color: var(--ink-600); margin-top: 4px; line-height: 1.55">Choosing the thing you watch: vessel, customer, contract, network element.</span>
+          </span>
+          <span style="font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--ink-400)">9 min</span>
+        </a>
+        <a href="12-docs-article.dc.html" style="display: flex; gap: 16px; align-items: baseline; padding: 16px 4px; border-bottom: 1px solid var(--border-hairline)" style-hover="background: var(--surface-hover)">
+          <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)">07</span>
+          <span style="flex: 1">
+            <span style="display: block; font-size: var(--text-md); font-weight: 500; color: var(--ink-900)">Metrics</span>
+            <span style="display: block; font-size: var(--text-sm); color: var(--ink-600); margin-top: 4px; line-height: 1.55">Trend, threshold and data status — and why a stale number must say so.</span>
+          </span>
+          <span style="font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--ink-400)">6 min</span>
+        </a>
+        <a href="12-docs-article.dc.html" style="display: flex; gap: 16px; align-items: baseline; padding: 16px 4px; border-bottom: 1px solid var(--border-hairline)" style-hover="background: var(--surface-hover)">
+          <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)">08</span>
+          <span style="flex: 1">
+            <span style="display: block; font-size: var(--text-md); font-weight: 500; color: var(--ink-900)">Dashboards</span>
+            <span style="display: block; font-size: var(--text-sm); color: var(--ink-600); margin-top: 4px; line-height: 1.55">Widgets, layout, and keeping a role view readable as it grows.</span>
+          </span>
+          <span style="font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--ink-400)">5 min</span>
+        </a>
+      </div>
+
+      <div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-500); margin: 32px 0 8px">Good to know</div>
+      <div style="display: flex; flex-direction: column; border-top: 1px solid var(--border-hairline)">
+        <a href="12-docs-article.dc.html" style="display: flex; gap: 16px; align-items: baseline; padding: 16px 4px; border-bottom: 1px solid var(--border-hairline)" style-hover="background: var(--surface-hover)">
+          <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)">09</span>
+          <span style="flex: 1">
+            <span style="display: block; font-size: var(--text-md); font-weight: 500; color: var(--ink-900)">Alpha-stage capabilities and limitations</span>
+            <span style="display: block; font-size: var(--text-sm); color: var(--ink-600); margin-top: 4px; line-height: 1.55">What INTERA does not do yet. Read before planning a wider rollout.</span>
+          </span>
+          <span style="font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--ink-400)">4 min</span>
+        </a>
+        <a href="12-docs-article.dc.html" style="display: flex; gap: 16px; align-items: baseline; padding: 16px 4px; border-bottom: 1px solid var(--border-hairline)" style-hover="background: var(--surface-hover)">
+          <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)">10</span>
+          <span style="flex: 1">
+            <span style="display: block; font-size: var(--text-md); font-weight: 500; color: var(--ink-900)">Uninstalling INTERA</span>
+            <span style="display: block; font-size: var(--text-sm); color: var(--ink-600); margin-top: 4px; line-height: 1.55">How to remove it cleanly. Nothing in your systems of record changes.</span>
+          </span>
+          <span style="font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--ink-400)">2 min</span>
+        </a>
+      </div>
+    </div>
+
+    <aside style="display: flex; flex-direction: column; gap: 20px; max-width: 340px">
+      <x-import component-from-global-scope="INTERADesignSystem_430dc5.Card" hint-size="100%,220px" class="itr-hl">
+        <div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-500)">Other categories</div>
+        <div style="display: flex; flex-direction: column; margin-top: 14px">
+          <a href="13-docs-category.dc.html" style="display: flex; justify-content: space-between; align-items: center; padding: 11px 0; border-bottom: 1px solid var(--border-hairline); font-size: var(--text-md); color: var(--ink-800)" style-hover="color: var(--blue-600)">Building with INTERA <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)">8</span></a>
+          <a href="13-docs-category.dc.html" style="display: flex; justify-content: space-between; align-items: center; padding: 11px 0; border-bottom: 1px solid var(--border-hairline); font-size: var(--text-md); color: var(--ink-800)" style-hover="color: var(--blue-600)">Solutions and reference <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)">6</span></a>
+          <a href="13-docs-category.dc.html" style="display: flex; justify-content: space-between; align-items: center; padding: 11px 0; font-size: var(--text-md); color: var(--ink-800)" style-hover="color: var(--blue-600)">Integrations <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)">2</span></a>
+        </div>
+      </x-import>
+      <x-import component-from-global-scope="INTERADesignSystem_430dc5.Card" accent="var(--signal-reconciliation)" accent-line="var(--signal-reconciliation-line)" hint-size="100%,200px" class="itr-hl">
+        <div style="font-size: var(--text-md); font-weight: 600; color: var(--ink-900)">Setting up the first role with us</div>
+        <p style="font-size: var(--text-sm); line-height: 1.6; color: var(--ink-600); margin-top: 8px">Early Adopters get custom onboarding: we connect the first source and build the first check together.</p>
+        <div style="margin-top: 14px"><x-import component-from-global-scope="INTERADesignSystem_430dc5.Button" size="sm" href="06-contact-request.dc.html" hint-size="100%,28px">Apply as Early Adopter</x-import></div>
+      </x-import>
+    </aside>
+  </div>
+</section>
+
+<dc-import name="site-footer" hint-size="100%,420px"></dc-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280}}"></script>
+</body>
+</html>

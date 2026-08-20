@@ -1,0 +1,41 @@
+/* Mobile layout corrections for the INTERA site mockups.
+   These override inline styles, so !important is required.
+   Motion budget and hover vocabulary stay as defined per page. */
+
+@media (max-width: 900px) {
+  .itr-cols-4 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 34px 32px !important; }
+
+  /* two-column splits collapse as soon as the narrow column stops being readable */
+  .itr-1col { grid-template-columns: minmax(0, 1fr) !important; }
+
+  /* cards that float over a product frame on desktop become the next block */
+  .itr-float {
+    position: static !important;
+    inset: auto !important;
+    width: auto !important;
+    margin-top: 12px !important;
+    box-shadow: var(--shadow-sm) !important;
+  }
+}
+
+@media (max-width: 760px) {
+  body { overflow-wrap: break-word; }
+
+  .itr-cols-4 { grid-template-columns: minmax(0, 1fr) !important; gap: 30px !important; }
+
+  /* stepped source rows sit flush */
+  .itr-stagger { margin-left: 0 !important; }
+
+  /* product screenshots show a legible crop instead of an illegible miniature */
+  .itr-shot { height: 220px !important; }
+  .itr-shot > img { width: 680px !important; max-width: none !important; }
+
+  /* wide tables scroll instead of being clipped */
+  .itr-scroll-x { overflow-x: auto !important; overflow-y: hidden !important; }
+  .itr-scroll-x > table { min-width: 480px; }
+}
+
+/* no sticky hover transforms on touch */
+@media (hover: none) {
+  .itr-lift:hover, .itr-row:hover, .itr-tile:hover, .itr-panel:hover, .itr-frame:hover { transform: none !important; }
+}

@@ -1,0 +1,53 @@
+
+=== xl/worksheets/sheet1.xml ===
+Текущие | Новая структура сайта | Type | Описание  | Цена | Шаблон 
+https://intera-roles.com/ | https://intera-roles.com/ | 01_Main | Главная страница | 200.0 | Уник шаблон
+new | https://intera-roles.com/contacts/ | 02_Page | Контакты | 100.0 | Уник шаблон
+new | https://intera-roles.com/contacts/order/ | 02_Page | Контакты - заявка | 100.0 | Уник шаблон
+new | https://intera-roles.com/cookie-policy/ | 02_Page | Полиси | 100.0 | Уник шаблон
+https://intera-roles.com/license/ | https://intera-roles.com/license/ | 02_Page | Полиси | 0.0 | 
+new | https://intera-roles.com/privacy-policy/ | 02_Page | Полиси | 0.0 | 
+new | https://intera-roles.com/product/ | 02_Page | Продуктовая страница | 150.0 | Уник шаблон
+https://intera-roles.com/faq/ | https://intera-roles.com/faq/ | 02_Page | ФАК | 100.0 | Уник шаблон
+new | https://intera-roles.com/pricing/ | 02_Page | Цены | 150.0 | Уник шаблон
+new | https://intera-roles.com/blog/ | 03_Blog | Блог | 100.0 | Уник шаблон
+https://intera-roles.com/cargo-overseas-uk-logistics/ | https://intera-roles.com/blog/life-stories/cargo-overseas-uk-logistics/ | 03_Blog | Блог - запись | 50.0 | Уник шаблон
+https://intera-roles.com/hadjipetro-family-halloumi-producers/ | https://intera-roles.com/blog/life-stories/hadjipetro-family-halloumi-producers/ | 03_Blog | Блог - запись | 0.0 | 
+https://intera-roles.com/marco-bellini-italy-logistics/ | https://intera-roles.com/blog/life-stories/marco-bellini-italy-logistics/ | 03_Blog | Блог - запись | 0.0 | 
+new | https://intera-roles.com/blog/release-information/v0003–20260813/ | 03_Blog | Блог - запись | 0.0 | 
+new | https://intera-roles.com/blog/release-information/v0002-20260707/ | 03_Blog | Блог - запись | 0.0 | 
+new | https://intera-roles.com/blog/release-information/v0001–20260315/ | 03_Blog | Блог - запись | 0.0 | 
+https://intera-roles.com/category/life-stories/ | https://intera-roles.com/blog/life-stories/ | 03_Blog | Блог - категория | 50.0 | Уник шаблон
+https://intera-roles.com/release-information/ | https://intera-roles.com/blog/release-information/ | 03_Blog | Блог - категория | 0.0 | 
+https://intera-roles.com/docs/ | https://intera-roles.com/docs/ | 04_Docs | Доки | 100.0 | Уник шаблон
+https://intera-roles.com/docs/asset-types/ | https://intera-roles.com/docs/asset-types/ | 04_Docs | Доки - запись | 50.0 | Уник шаблон
+https://intera-roles.com/docs/assets-and-data-modelling/ | https://intera-roles.com/docs/assets-and-data-modelling/ | 04_Docs | Доки - запись | 0.0 | 
+https://intera-roles.com/docs/build-your-first-integration/ | https://intera-roles.com/docs/build-your-first-integration/ | 04_Docs | Доки - запись | 0.0 | 
+https://intera-roles.com/docs/business-central/ | https://intera-roles.com/docs/business-central/ | 04_Docs | Доки - запись | 0.0 | 
+https://intera-roles.com/docs/concepts-and-terminology/ | https://intera-roles.com/docs/concepts-and-terminology/ | 04_Docs | Доки - запись | 0.0 | 
+https://intera-roles.com/docs/current-system-limitations/ | https://intera-roles.com/docs/current-system-limitations/ | 04_Docs | Доки - запись | 0.0 | 
+https://intera-roles.com/docs/dashboards/ | https://intera-roles.com/docs/dashboards/ | 04_Docs | Доки - запись | 0.0 | 
+https://intera-roles.com/docs/first-setup-journey/ | https://intera-roles.com/docs/first-setup-journey/ | 04_Docs | Доки - запись | 0.0 | 
+https://intera-roles.com/docs/installation-and-administration/ | https://intera-roles.com/docs/installation-and-administration/ | 04_Docs | Доки - запись | 0.0 | 
+https://intera-roles.com/docs/installation/ | https://intera-roles.com/docs/installation/ | 04_Docs | Доки - запись | 0.0 | 
+https://intera-roles.com/docs/integration-architecture/ | https://intera-roles.com/docs/integration-architecture/ | 04_Docs | Доки - запись | 0.0 | 
+https://intera-roles.com/docs/integration-contract/ | https://intera-roles.com/docs/integration-contract/ | 04_Docs | Доки - запись | 0.0 | 
+https://intera-roles.com/docs/integration-types/ | https://intera-roles.com/docs/integration-types/ | 04_Docs | Доки - запись | 0.0 | 
+https://intera-roles.com/docs/integrations-and-data/ | https://intera-roles.com/docs/integrations-and-data/ | 04_Docs | Доки - запись | 0.0 | 
+https://intera-roles.com/docs/metrics/ | https://intera-roles.com/docs/metrics/ | 04_Docs | Доки - запись | 0.0 | 
+https://intera-roles.com/docs/packaging-submission/ | https://intera-roles.com/docs/packaging-submission/ | 04_Docs | Доки - запись | 0.0 | 
+https://intera-roles.com/docs/reference/ | https://intera-roles.com/docs/reference/ | 04_Docs | Доки - запись | 0.0 | 
+https://intera-roles.com/docs/revolut-bank/ | https://intera-roles.com/docs/revolut-bank/ | 04_Docs | Доки - запись | 0.0 | 
+https://intera-roles.com/docs/role-packages/ | https://intera-roles.com/docs/role-packages/ | 04_Docs | Доки - запись | 0.0 | 
+https://intera-roles.com/docs/sample-integration-code/ | https://intera-roles.com/docs/sample-integration-code/ | 04_Docs | Доки - запись | 0.0 | 
+https://intera-roles.com/docs/start-here/ | https://intera-roles.com/docs/start-here/ | 04_Docs | Доки - запись | 0.0 | 
+https://intera-roles.com/docs/telecom-role-service-assurance-quality-manager/ | https://intera-roles.com/docs/telecom-role-service-assurance-quality-manager/ | 04_Docs | Доки - запись | 0.0 | 
+https://intera-roles.com/docs/telecommunications-package/ | https://intera-roles.com/docs/telecommunications-package/ | 04_Docs | Доки - запись | 0.0 | 
+https://intera-roles.com/docs/testing-validation/ | https://intera-roles.com/docs/testing-validation/ | 04_Docs | Доки - запись | 0.0 | 
+https://intera-roles.com/docs/uninstalling-intera/ | https://intera-roles.com/docs/uninstalling-intera/ | 04_Docs | Доки - запись | 0.0 | 
+https://intera-roles.com/docs/widgets/ | https://intera-roles.com/docs/widgets/ | 04_Docs | Доки - запись | 0.0 | 
+https://intera-roles.com/docs-category/building-with-intera/ | https://intera-roles.com/docs-category/building-with-intera/ | 04_Docs | Доки - категория | 50.0 | Уник шаблон
+https://intera-roles.com/docs-category/getting-started/ | https://intera-roles.com/docs-category/getting-started/ | 04_Docs | Доки - категория | 0.0 | 
+https://intera-roles.com/docs-category/integrations/ | https://intera-roles.com/docs-category/integrations/ | 04_Docs | Доки - категория | 0.0 | 
+https://intera-roles.com/docs-category/solutions-and-reference/ | https://intera-roles.com/docs-category/solutions-and-reference/ | 04_Docs | Доки - категория | 0.0 | 
+79 | 1300 | 

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/intera/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/radius.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/elevation.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/motion.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/base.css">
+  <link rel="stylesheet" href="_ds/intera/styles.css">
+  <link rel="stylesheet" href="mobile.css">
+  <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.js"></script>
+  <script src="_ds/intera/_ds_bundle.js"></script>
+  <style>
+    body { margin: 0; font-family: var(--font-sans); color: var(--text-primary); background: var(--surface-page); -webkit-font-smoothing: antialiased; }
+    a:not(.itr-btn) { color: var(--text-link); text-decoration: none; border-bottom: 0; transition: color 140ms cubic-bezier(.2,.6,.25,1); }
+    a:not(.itr-btn):hover { color: var(--text-link-hover); }
+    a.itr-btn:hover { border-bottom-color: transparent; }
+    a.itr-btn--primary:hover, a.itr-btn--danger:hover { color: var(--text-on-accent); }
+    a.itr-btn--secondary:hover { color: var(--ink-800); border-bottom-color: var(--border-strong); }
+    a.itr-btn--ghost:hover, a.itr-btn--inverse:hover { color: var(--ink-900); }
+    a.itr-btn--outlineInverse:hover { color: var(--white); border-bottom-color: rgba(255,255,255,.6); }
+    h1, h2, h3, h4, p { margin: 0; }
+    @keyframes itr-live { 0%, 100% { opacity: 1; } 50% { opacity: .28; } }
+    @keyframes itr-halo { 0% { transform: scale(1); opacity: .5; } 70%, 100% { transform: scale(2.6); opacity: 0; } }
+    .itr-live-dot { animation: itr-live 1.9s cubic-bezier(.2,.6,.25,1) infinite; }
+    .itr-live-halo { animation: itr-halo 1.9s cubic-bezier(.2,.6,.25,1) infinite; }
+    .itr-lift { transition: transform 200ms cubic-bezier(.2,.6,.25,1), box-shadow 200ms cubic-bezier(.2,.6,.25,1), border-color 160ms cubic-bezier(.2,.6,.25,1), background-color 160ms cubic-bezier(.2,.6,.25,1) !important; }
+    .itr-lift:hover { transform: translateY(-5px); box-shadow: 0 18px 34px -18px rgba(14,26,43,.26), 0 2px 6px -2px rgba(14,26,43,.10) !important; border-right-color: var(--border-strong) !important; border-bottom-color: var(--border-strong) !important; border-left-color: var(--border-strong) !important; }
+    .itr-row { transition: transform 180ms cubic-bezier(.2,.6,.25,1), background-color 160ms, border-color 160ms, box-shadow 180ms; }
+    .itr-row:hover { transform: translateX(8px); background: var(--white); border-color: var(--blue-200); box-shadow: 0 10px 22px -14px rgba(14,26,43,.28); }
+    .itr-tile { transition: transform 170ms cubic-bezier(.2,.6,.25,1), background-color 150ms, border-color 150ms, box-shadow 170ms; }
+    .itr-tile:hover { transform: translateY(-4px); background: var(--blue-50); border-color: var(--blue-200); box-shadow: 0 12px 24px -16px rgba(26,79,214,.35); }
+    .itr-panel { transition: transform 200ms cubic-bezier(.2,.6,.25,1), background-color 180ms, border-color 180ms; }
+    .itr-panel:hover { transform: translateY(-4px); background: rgba(255,255,255,.085); border-color: rgba(255,255,255,.28); }
+    .itr-frame { transition: transform 260ms cubic-bezier(.2,.6,.25,1), box-shadow 260ms cubic-bezier(.2,.6,.25,1); }
+    .itr-frame:hover { transform: translateY(-6px); box-shadow: 0 34px 64px -30px rgba(14,26,43,.42), 0 4px 10px -4px rgba(14,26,43,.14) !important; }
+    .itr-hl { transition: border-color 160ms cubic-bezier(.2,.6,.25,1), box-shadow 160ms cubic-bezier(.2,.6,.25,1), background-color 160ms cubic-bezier(.2,.6,.25,1) !important; }
+    .itr-hl:hover { box-shadow: 0 10px 24px -18px rgba(14,26,43,.30) !important; border-right-color: var(--border-strong) !important; border-bottom-color: var(--border-strong) !important; border-left-color: var(--border-strong) !important; }
+    .itr-hl-panel { transition: border-color 180ms cubic-bezier(.2,.6,.25,1), background-color 180ms cubic-bezier(.2,.6,.25,1) !important; }
+    .itr-hl-panel:hover { background: rgba(255,255,255,.085); border-color: rgba(255,255,255,.28); }
+    .itr-lift:has(.itr-row:hover), .itr-lift:has(.itr-tile:hover), .itr-lift:has(.itr-lift:hover) { transform: none !important; }
+    @media (prefers-reduced-motion: reduce) {
+      .itr-live-dot, .itr-live-halo { animation: none; }
+      .itr-lift, .itr-row, .itr-tile, .itr-panel, .itr-frame { transition: border-color 160ms, background-color 160ms !important; }
+      .itr-lift:hover, .itr-row:hover, .itr-tile:hover, .itr-panel:hover, .itr-frame:hover { transform: none; }
+    }
+  </style>
+</helmet>
+<dc-import name="site-nav" hint-size="100%,76px"></dc-import>
+<div style="height: 76px"></div>
+
+<section data-screen-label="Category header" style="background: var(--surface-sunken); border-bottom: 1px solid var(--border-subtle)">
+  <div style="max-width: 1160px; margin: 0 auto; padding: clamp(30px, 7vw, 52px) clamp(20px, 5vw, 24px) clamp(23px, 7vw, 40px)">
+    <div style="display: flex; gap: 8px; align-items: center; font-size: var(--text-xs); color: var(--ink-400); font-family: var(--font-mono)">
+      <a href="01-main.dc.html" style="color: var(--ink-400)" style-hover="color: var(--ink-600)">Home</a><span>/</span><a href="08-blog.dc.html" style="color: var(--ink-400)" style-hover="color: var(--ink-600)">Blog</a><span>/</span><span style="color: var(--ink-600)">Life stories</span>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-end; justify-content: space-between; margin-top: 20px">
+      <div style="max-width: 620px">
+        <div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 12px">Category</div>
+        <h1 style="font-size: clamp(28px, 3vw, 36px); font-weight: 600; letter-spacing: -0.02em; line-height: 1.16; color: var(--ink-900)">Life stories</h1>
+        <p style="font-size: var(--text-lg); line-height: 1.6; color: var(--ink-600); margin-top: 14px">How real companies noticed something too late, what the first role watched, and what changed in the weekly routine afterwards.</p>
+      </div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center">
+        <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-500)">3 posts</span>
+      </div>
+    </div>
+    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 28px">
+      <x-import component-from-global-scope="INTERADesignSystem_430dc5.Tag" selected="{{ true }}" hint-size="100px,24px">Life stories</x-import>
+      <x-import component-from-global-scope="INTERADesignSystem_430dc5.Tag" hint-size="140px,24px">Release information</x-import>
+      <a href="08-blog.dc.html" style="font-size: var(--text-sm); color: var(--ink-600); align-self: center; margin-left: 8px" style-hover="color: var(--blue-600)">All posts</a>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="Category posts" style="background: var(--surface-page)">
+  <div style="max-width: 1160px; margin: 0 auto; padding: clamp(28px, 7vw, 48px) clamp(20px, 5vw, 24px) clamp(51px, 7vw, 88px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 44px; align-items: start">
+    <div style="min-width: 0; display: flex; flex-direction: column; gap: 16px">
+      <a href="09-blog-post.dc.html" class="itr-lift" style="display: block; border: 1px solid var(--border-card); border-radius: var(--radius-card); padding: 26px; background: var(--white); box-shadow: var(--shadow-xs)" style-hover="box-shadow: var(--shadow-sm); border-color: var(--border-strong)">
+        <div style="display: flex; align-items: center; gap: 12px">
+          <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)">2026-08-04</span>
+          <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)">6 min</span>
+        </div>
+        <h2 style="font-size: var(--text-xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.32; color: var(--ink-900); margin-top: 12px">Cargo Overseas: the readiness number nobody could explain</h2>
+        <p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); margin-top: 10px; max-width: 620px">Four systems, one weekly spreadsheet, and a readiness figure that was always three weeks old. The first week of checks found two vessels blocked by the same vendor.</p>
+        <div style="display: flex; align-items: center; gap: 8px; margin-top: 18px; font-size: var(--text-md); color: var(--blue-600); font-weight: 500">Read the story
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="arrow-right" size="16" hint-size="16px,16px"></x-import>
+        </div>
+      </a>
+      <a href="09-blog-post.dc.html" class="itr-lift" style="display: block; border: 1px solid var(--border-card); border-radius: var(--radius-card); padding: 26px; background: var(--white); box-shadow: var(--shadow-xs)" style-hover="box-shadow: var(--shadow-sm); border-color: var(--border-strong)">
+        <div style="display: flex; align-items: center; gap: 12px">
+          <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)">2026-07-22</span>
+          <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)">5 min</span>
+        </div>
+        <h2 style="font-size: var(--text-xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.32; color: var(--ink-900); margin-top: 12px">Hadjipetrou family: three generations, one unreconciled ledger</h2>
+        <p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); margin-top: 10px; max-width: 620px">A halloumi producer near Larnaca knew production by heart and invoicing not at all. The first reconciliation ran on a spreadsheet export and a delivery log.</p>
+        <div style="display: flex; align-items: center; gap: 8px; margin-top: 18px; font-size: var(--text-md); color: var(--blue-600); font-weight: 500">Read the story
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="arrow-right" size="16" hint-size="16px,16px"></x-import>
+        </div>
+      </a>
+      <a href="09-blog-post.dc.html" class="itr-lift" style="display: block; border: 1px solid var(--border-card); border-radius: var(--radius-card); padding: 26px; background: var(--white); box-shadow: var(--shadow-xs)" style-hover="box-shadow: var(--shadow-sm); border-color: var(--border-strong)">
+        <div style="display: flex; align-items: center; gap: 12px">
+          <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)">2026-07-08</span>
+          <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)">4 min</span>
+        </div>
+        <h2 style="font-size: var(--text-xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.32; color: var(--ink-900); margin-top: 12px">Marco Bellini: the owner who stopped asking for reports</h2>
+        <p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); margin-top: 10px; max-width: 620px">He had left day-to-day operations years ago. What he wanted back was not control — it was seeing the same picture as his managers, at the same time.</p>
+        <div style="display: flex; align-items: center; gap: 8px; margin-top: 18px; font-size: var(--text-md); color: var(--blue-600); font-weight: 500">Read the story
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="arrow-right" size="16" hint-size="16px,16px"></x-import>
+        </div>
+      </a>
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 20px; border-top: 1px solid var(--border-hairline)">
+        <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)">Page 1 of 1</span>
+        <div style="display: flex; gap: 8px">
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Button" variant="secondary" size="sm" disabled="{{ true }}" icon-left="chevron-left" hint-size="110px,28px">Previous</x-import>
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Button" variant="secondary" size="sm" disabled="{{ true }}" icon-right="chevron-right" hint-size="90px,28px">Next</x-import>
+        </div>
+      </div>
+    </div>
+
+    <aside style="display: flex; flex-direction: column; gap: 20px; max-width: 340px">
+      <x-import component-from-global-scope="INTERADesignSystem_430dc5.Card" hint-size="100%,190px" class="itr-hl">
+        <div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-500)">Other categories</div>
+        <div style="display: flex; flex-direction: column; gap: 0; margin-top: 14px">
+          <a href="10-blog-category.dc.html" style="display: flex; justify-content: space-between; align-items: center; padding: 11px 0; border-bottom: 1px solid var(--border-hairline); font-size: var(--text-md); color: var(--ink-800)" style-hover="color: var(--blue-600)">Release information <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)">3</span></a>
+          <a href="08-blog.dc.html" style="display: flex; justify-content: space-between; align-items: center; padding: 11px 0; font-size: var(--text-md); color: var(--ink-800)" style-hover="color: var(--blue-600)">All posts <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)">6</span></a>
+        </div>
+      </x-import>
+      <x-import component-from-global-scope="INTERADesignSystem_430dc5.Card" accent="var(--signal-pattern)" accent-line="var(--signal-pattern-line)" hint-size="100%,190px" class="itr-hl">
+        <div style="font-size: var(--text-md); font-weight: 600; color: var(--ink-900)">Every story starts the same way</div>
+        <p style="font-size: var(--text-sm); line-height: 1.6; color: var(--ink-600); margin-top: 8px">Someone checks something by hand, every week, and finds out too late when it goes wrong. Tell us yours.</p>
+        <div style="margin-top: 14px"><x-import component-from-global-scope="INTERADesignSystem_430dc5.Button" size="sm" href="06-contact-request.dc.html" hint-size="100%,28px">Bring us a real problem</x-import></div>
+      </x-import>
+    </aside>
+  </div>
+</section>
+
+<dc-import name="site-footer" hint-size="100%,420px"></dc-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280}}"></script>
+</body>
+</html>

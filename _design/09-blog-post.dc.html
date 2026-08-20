@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/intera/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/radius.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/elevation.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/motion.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/base.css">
+  <link rel="stylesheet" href="_ds/intera/styles.css">
+  <link rel="stylesheet" href="mobile.css">
+  <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.js"></script>
+  <script src="_ds/intera/_ds_bundle.js"></script>
+  <style>
+    body { margin: 0; font-family: var(--font-sans); color: var(--text-primary); background: var(--surface-page); -webkit-font-smoothing: antialiased; }
+    a:not(.itr-btn) { color: var(--text-link); text-decoration: none; border-bottom: 0; transition: color 140ms cubic-bezier(.2,.6,.25,1); }
+    a:not(.itr-btn):hover { color: var(--text-link-hover); }
+    a.itr-btn:hover { border-bottom-color: transparent; }
+    a.itr-btn--primary:hover, a.itr-btn--danger:hover { color: var(--text-on-accent); }
+    a.itr-btn--secondary:hover { color: var(--ink-800); border-bottom-color: var(--border-strong); }
+    a.itr-btn--ghost:hover, a.itr-btn--inverse:hover { color: var(--ink-900); }
+    a.itr-btn--outlineInverse:hover { color: var(--white); border-bottom-color: rgba(255,255,255,.6); }
+    h1, h2, h3, h4, p, ul { margin: 0; }
+    ul { padding-left: 20px; }
+    img { max-width: 100%; }
+    @keyframes itr-live { 0%, 100% { opacity: 1; } 50% { opacity: .28; } }
+    @keyframes itr-halo { 0% { transform: scale(1); opacity: .5; } 70%, 100% { transform: scale(2.6); opacity: 0; } }
+    .itr-live-dot { animation: itr-live 1.9s cubic-bezier(.2,.6,.25,1) infinite; }
+    .itr-live-halo { animation: itr-halo 1.9s cubic-bezier(.2,.6,.25,1) infinite; }
+    .itr-lift { transition: transform 200ms cubic-bezier(.2,.6,.25,1), box-shadow 200ms cubic-bezier(.2,.6,.25,1), border-color 160ms cubic-bezier(.2,.6,.25,1), background-color 160ms cubic-bezier(.2,.6,.25,1) !important; }
+    .itr-lift:hover { transform: translateY(-5px); box-shadow: 0 18px 34px -18px rgba(14,26,43,.26), 0 2px 6px -2px rgba(14,26,43,.10) !important; border-right-color: var(--border-strong) !important; border-bottom-color: var(--border-strong) !important; border-left-color: var(--border-strong) !important; }
+    .itr-row { transition: transform 180ms cubic-bezier(.2,.6,.25,1), background-color 160ms, border-color 160ms, box-shadow 180ms; }
+    .itr-row:hover { transform: translateX(8px); background: var(--white); border-color: var(--blue-200); box-shadow: 0 10px 22px -14px rgba(14,26,43,.28); }
+    .itr-tile { transition: transform 170ms cubic-bezier(.2,.6,.25,1), background-color 150ms, border-color 150ms, box-shadow 170ms; }
+    .itr-tile:hover { transform: translateY(-4px); background: var(--blue-50); border-color: var(--blue-200); box-shadow: 0 12px 24px -16px rgba(26,79,214,.35); }
+    .itr-panel { transition: transform 200ms cubic-bezier(.2,.6,.25,1), background-color 180ms, border-color 180ms; }
+    .itr-panel:hover { transform: translateY(-4px); background: rgba(255,255,255,.085); border-color: rgba(255,255,255,.28); }
+    .itr-frame { transition: transform 260ms cubic-bezier(.2,.6,.25,1), box-shadow 260ms cubic-bezier(.2,.6,.25,1); }
+    .itr-frame:hover { transform: translateY(-6px); box-shadow: 0 34px 64px -30px rgba(14,26,43,.42), 0 4px 10px -4px rgba(14,26,43,.14) !important; }
+    .itr-hl { transition: border-color 160ms cubic-bezier(.2,.6,.25,1), box-shadow 160ms cubic-bezier(.2,.6,.25,1), background-color 160ms cubic-bezier(.2,.6,.25,1) !important; }
+    .itr-hl:hover { box-shadow: 0 10px 24px -18px rgba(14,26,43,.30) !important; border-right-color: var(--border-strong) !important; border-bottom-color: var(--border-strong) !important; border-left-color: var(--border-strong) !important; }
+    .itr-hl-panel { transition: border-color 180ms cubic-bezier(.2,.6,.25,1), background-color 180ms cubic-bezier(.2,.6,.25,1) !important; }
+    .itr-hl-panel:hover { background: rgba(255,255,255,.085); border-color: rgba(255,255,255,.28); }
+    .itr-lift:has(.itr-row:hover), .itr-lift:has(.itr-tile:hover), .itr-lift:has(.itr-lift:hover) { transform: none !important; }
+    @media (prefers-reduced-motion: reduce) {
+      .itr-live-dot, .itr-live-halo { animation: none; }
+      .itr-lift, .itr-row, .itr-tile, .itr-panel, .itr-frame { transition: border-color 160ms, background-color 160ms !important; }
+      .itr-lift:hover, .itr-row:hover, .itr-tile:hover, .itr-panel:hover, .itr-frame:hover { transform: none; }
+    }
+  </style>
+</helmet>
+<dc-import name="site-nav" hint-size="100%,76px"></dc-import>
+<div style="height: 76px"></div>
+
+<section data-screen-label="Post header" style="background: var(--surface-page); border-bottom: 1px solid var(--border-hairline)">
+  <div style="max-width: 1160px; margin: 0 auto; padding: clamp(30px, 7vw, 52px) clamp(20px, 5vw, 24px) 36px">
+    <div style="display: flex; gap: 8px; align-items: center; font-size: var(--text-xs); color: var(--ink-400); font-family: var(--font-mono)">
+      <a href="01-main.dc.html" style="color: var(--ink-400)" style-hover="color: var(--ink-600)">Home</a><span>/</span><a href="08-blog.dc.html" style="color: var(--ink-400)" style-hover="color: var(--ink-600)">Blog</a><span>/</span><a href="10-blog-category.dc.html" style="color: var(--ink-400)" style-hover="color: var(--ink-600)">Life stories</a>
+    </div>
+    <div style="max-width: 720px; margin-top: 22px">
+      <div style="display: flex; align-items: center; gap: 12px">
+        <x-import component-from-global-scope="INTERADesignSystem_430dc5.Badge" tone="accent" hint-size="90px,20px">Life stories</x-import>
+        <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)">2026-08-04 · 6 min read</span>
+      </div>
+      <h1 style="font-size: clamp(28px, 3.2vw, 38px); font-weight: 600; letter-spacing: -0.02em; line-height: 1.16; color: var(--ink-900); margin-top: 16px; text-wrap: pretty">Cargo Overseas: the readiness number nobody could explain</h1>
+      <p style="font-size: var(--text-lg); line-height: 1.6; color: var(--ink-600); margin-top: 18px">Four systems, one weekly spreadsheet, and a fleet readiness figure that was always three weeks old. The problem was never the number — it was when it arrived.</p>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="Post body" style="background: var(--surface-page)">
+  <div style="max-width: 1160px; margin: 0 auto; padding: clamp(26px, 7vw, 44px) clamp(20px, 5vw, 24px) clamp(46px, 7vw, 80px); display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-start">
+    <article style="flex: 1 1 520px; min-width: 0; max-width: 680px; display: flex; flex-direction: column; gap: 24px; order: 1">
+      <p style="font-size: var(--text-base); line-height: 1.75; color: var(--ink-700)">Every Monday, an operations coordinator exported four lists: maintenance backlog from the planning system, open defects from inspections, certificate dates from the compliance register, and delivery confirmations from procurement email. By Wednesday there was a readiness figure. By the following Monday it was wrong again.</p>
+      <p style="font-size: var(--text-base); line-height: 1.75; color: var(--ink-700)">Nobody was doing anything careless. Each system was correct about its own part of the picture. The gap was in between: a delayed spare part sat in procurement, the overdue task sat in planning, and the connection between them existed only in someone's head.</p>
+
+      <h2 style="font-size: var(--text-2xl); font-weight: 600; letter-spacing: -0.01em; color: var(--ink-900); margin-top: 12px">What the first role watched</h2>
+      <p style="font-size: var(--text-base); line-height: 1.75; color: var(--ink-700)">We started with one role and four checks. No migration, no new system of record — read-only access to what already existed.</p>
+      <ul style="font-size: var(--text-base); line-height: 1.75; color: var(--ink-700); display: flex; flex-direction: column; gap: 6px">
+        <li>Overdue critical maintenance per vessel, with the task and its owner.</li>
+        <li>Open defects older than 14 days.</li>
+        <li>Certificate and class dates falling inside 120 days.</li>
+        <li>Dependencies: parts, surveys and vendor attendance that had slipped.</li>
+      </ul>
+      <div class="itr-frame" style="border-radius: var(--radius-xl); overflow: hidden; border: 1px solid var(--border-subtle); box-shadow: var(--shadow-lg)">
+        <div style="display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--border-hairline); background: var(--surface-sunken)">
+          <span style="font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--ink-500)">Attention queue · ranked by priority and time to impact</span>
+        </div>
+        <div class="itr-shot" style="height: 360px; overflow: hidden">
+          <img src="assets/shots/ship-2.webp" alt="Attention queue with priorities and impact dates" style="display: block; width: 100%; object-fit: cover; object-position: top left">
+        </div>
+      </div>
+      <p style="font-size: var(--text-xs); color: var(--ink-500); font-family: var(--font-mono)">The same four sources, ranked once, with the reason attached.</p>
+
+      <h2 style="font-size: var(--text-2xl); font-weight: 600; letter-spacing: -0.01em; color: var(--ink-900); margin-top: 12px">The first week found something</h2>
+      <p style="font-size: var(--text-base); line-height: 1.75; color: var(--ink-700)">Two vessels carried critical tasks blocked by the same vendor. Nobody had put those two facts side by side, because they lived in different systems and different meetings. The reconciliation did it in one pass.</p>
+      <div style="border-left: 3px solid var(--blue-600); padding: 4px 0 4px 24px">
+        <p style="font-size: var(--text-xl); line-height: 1.5; letter-spacing: -0.01em; color: var(--ink-900)">"The spreadsheet was never wrong. It was just always late, and it never said why."</p>
+        <p style="font-size: var(--text-sm); color: var(--ink-500); margin-top: 10px">Fleet manager, Cargo Overseas</p>
+      </div>
+
+      <h2 style="font-size: var(--text-2xl); font-weight: 600; letter-spacing: -0.01em; color: var(--ink-900); margin-top: 12px">What changed in the routine</h2>
+      <p style="font-size: var(--text-base); line-height: 1.75; color: var(--ink-700)">The Monday export stopped. The weekly call now starts from the queue instead of ending with an action list, and the coordinator spends the freed morning on the vendor conversations that actually move dates.</p>
+      <p style="font-size: var(--text-base); line-height: 1.75; color: var(--ink-700)">The pattern behind the two blocked vessels is now a check of its own: when a critical spare slips more than five days on a vessel that already carries overdue maintenance, someone is told before readiness moves.</p>
+
+      <x-import component-from-global-scope="INTERADesignSystem_430dc5.Card" hint-size="100%,200px" class="itr-lift">
+        <div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-500)">What made it work</div>
+        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 14px; font-size: var(--text-md); color: var(--ink-700); line-height: 1.55">
+          <span>One role, one manager, four checks — nothing company-wide.</span>
+          <span>Read-only access; the planning system stayed the system of record.</span>
+          <span>The check that found the problem became a permanent one.</span>
+        </div>
+      </x-import>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; padding-top: 24px; border-top: 1px solid var(--border-hairline)">
+        <span style="font-size: var(--text-sm); color: var(--ink-500)">Names and figures are anonymised at the customer's request.</span>
+        <div style="display: flex; gap: 8px">
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Button" variant="secondary" size="sm" icon-left="link" hint-size="110px,28px">Copy link</x-import>
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Button" size="sm" href="06-contact-request.dc.html" hint-size="180px,28px">Bring us a real problem</x-import>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 12px; margin-top: 8px">
+        <a href="09-blog-post.dc.html" class="itr-lift" style="border: 1px solid var(--border-card); border-radius: var(--radius-card); padding: 18px" style-hover="background: var(--surface-hover)">
+          <div style="font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--ink-400)">Previous</div>
+          <div style="font-size: var(--text-md); font-weight: 500; color: var(--ink-900); margin-top: 6px; line-height: 1.4">Hadjipetrou family: three generations, one unreconciled ledger</div>
+        </a>
+        <a href="09-blog-post.dc.html" class="itr-lift" style="border: 1px solid var(--border-card); border-radius: var(--radius-card); padding: 18px" style-hover="background: var(--surface-hover)">
+          <div style="font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--ink-400)">Next</div>
+          <div style="font-size: var(--text-md); font-weight: 500; color: var(--ink-900); margin-top: 6px; line-height: 1.4">v0.003 — Metrics gain trend, threshold and data status</div>
+        </a>
+      </div>
+    </article>
+
+    <aside style="position: sticky; top: 100px; flex: 0 1 260px; min-width: 220px; order: 2">
+      <div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-500); margin-bottom: 12px">In this story</div>
+      <div style="display: flex; flex-direction: column; gap: 2px">
+        <a href="#" style="font-size: var(--text-sm); color: var(--ink-700); padding: 7px 12px; border-radius: var(--radius-md)" style-hover="background: var(--surface-hover)">What the first role watched</a>
+        <a href="#" style="font-size: var(--text-sm); color: var(--ink-700); padding: 7px 12px; border-radius: var(--radius-md)" style-hover="background: var(--surface-hover)">The first week found something</a>
+        <a href="#" style="font-size: var(--text-sm); color: var(--ink-700); padding: 7px 12px; border-radius: var(--radius-md)" style-hover="background: var(--surface-hover)">What changed in the routine</a>
+      </div>
+      <div style="margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--border-hairline)">
+        <div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-500); margin-bottom: 12px">Role in this story</div>
+        <a href="02-product.dc.html#roles" style="display: flex; align-items: center; gap: 10px; font-size: var(--text-md); color: var(--ink-800)" style-hover="color: var(--blue-600)">
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="gauge" size="17" color="var(--blue-600)" hint-size="17px,17px"></x-import>Operations Oversight
+        </a>
+        <p style="font-size: var(--text-sm); line-height: 1.6; color: var(--ink-600); margin-top: 10px">Delays, blockers and dependency risk across a fleet.</p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<dc-import name="site-footer" hint-size="100%,420px"></dc-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280}}"></script>
+</body>
+</html>

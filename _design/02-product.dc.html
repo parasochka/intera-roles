@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/intera/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/radius.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/elevation.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/motion.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/base.css">
+  <link rel="stylesheet" href="_ds/intera/styles.css">
+  <link rel="stylesheet" href="mobile.css">
+  <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.js"></script>
+  <script src="_ds/intera/_ds_bundle.js"></script>
+  <style>
+    body { margin: 0; font-family: var(--font-sans); color: var(--text-primary); background: var(--surface-page); -webkit-font-smoothing: antialiased; }
+    a:not(.itr-btn) { color: var(--text-link); text-decoration: none; border-bottom: 0; transition: color 140ms cubic-bezier(.2,.6,.25,1); }
+    a:not(.itr-btn):hover { color: var(--text-link-hover); }
+    a.itr-btn:hover { border-bottom-color: transparent; }
+    a.itr-btn--primary:hover, a.itr-btn--danger:hover { color: var(--text-on-accent); }
+    a.itr-btn--secondary:hover { color: var(--ink-800); border-bottom-color: var(--border-strong); }
+    a.itr-btn--ghost:hover, a.itr-btn--inverse:hover { color: var(--ink-900); }
+    a.itr-btn--outlineInverse:hover { color: var(--white); border-bottom-color: rgba(255,255,255,.6); }
+    h1, h2, h3, h4, p { margin: 0; }
+    img { max-width: 100%; }
+    @keyframes itr-live { 0%, 100% { opacity: 1; } 50% { opacity: .28; } }
+    @keyframes itr-halo { 0% { transform: scale(1); opacity: .5; } 70%, 100% { transform: scale(2.6); opacity: 0; } }
+    .itr-live-dot { animation: itr-live 1.9s cubic-bezier(.2,.6,.25,1) infinite; }
+    .itr-live-halo { animation: itr-halo 1.9s cubic-bezier(.2,.6,.25,1) infinite; }
+    .itr-lift { transition: transform 200ms cubic-bezier(.2,.6,.25,1), box-shadow 200ms cubic-bezier(.2,.6,.25,1), border-color 160ms cubic-bezier(.2,.6,.25,1), background-color 160ms cubic-bezier(.2,.6,.25,1) !important; }
+    .itr-lift:hover { transform: translateY(-5px); box-shadow: 0 18px 34px -18px rgba(14,26,43,.26), 0 2px 6px -2px rgba(14,26,43,.10) !important; border-right-color: var(--border-strong) !important; border-bottom-color: var(--border-strong) !important; border-left-color: var(--border-strong) !important; }
+    .itr-row { transition: transform 180ms cubic-bezier(.2,.6,.25,1), background-color 160ms, border-color 160ms, box-shadow 180ms; }
+    .itr-row:hover { transform: translateX(8px); background: var(--white); border-color: var(--blue-200); box-shadow: 0 10px 22px -14px rgba(14,26,43,.28); }
+    .itr-tile { transition: transform 170ms cubic-bezier(.2,.6,.25,1), background-color 150ms, border-color 150ms, box-shadow 170ms; }
+    .itr-tile:hover { transform: translateY(-4px); background: var(--blue-50); border-color: var(--blue-200); box-shadow: 0 12px 24px -16px rgba(26,79,214,.35); }
+    .itr-panel { transition: transform 200ms cubic-bezier(.2,.6,.25,1), background-color 180ms, border-color 180ms; }
+    .itr-panel:hover { transform: translateY(-4px); background: rgba(255,255,255,.085); border-color: rgba(255,255,255,.28); }
+    .itr-frame { transition: transform 260ms cubic-bezier(.2,.6,.25,1), box-shadow 260ms cubic-bezier(.2,.6,.25,1); }
+    .itr-frame:hover { transform: translateY(-6px); box-shadow: 0 34px 64px -30px rgba(14,26,43,.42), 0 4px 10px -4px rgba(14,26,43,.14) !important; }
+    .itr-hl { transition: border-color 160ms cubic-bezier(.2,.6,.25,1), box-shadow 160ms cubic-bezier(.2,.6,.25,1), background-color 160ms cubic-bezier(.2,.6,.25,1) !important; }
+    .itr-hl:hover { box-shadow: 0 10px 24px -18px rgba(14,26,43,.30) !important; border-right-color: var(--border-strong) !important; border-bottom-color: var(--border-strong) !important; border-left-color: var(--border-strong) !important; }
+    .itr-hl-panel { transition: border-color 180ms cubic-bezier(.2,.6,.25,1), background-color 180ms cubic-bezier(.2,.6,.25,1) !important; }
+    .itr-hl-panel:hover { background: rgba(255,255,255,.085); border-color: rgba(255,255,255,.28); }
+    .itr-lift:has(.itr-row:hover), .itr-lift:has(.itr-tile:hover), .itr-lift:has(.itr-lift:hover) { transform: none !important; }
+    @media (prefers-reduced-motion: reduce) {
+      .itr-live-dot, .itr-live-halo { animation: none; }
+      .itr-lift, .itr-row, .itr-tile, .itr-panel, .itr-frame { transition: border-color 160ms, background-color 160ms !important; }
+      .itr-lift:hover, .itr-row:hover, .itr-tile:hover, .itr-panel:hover, .itr-frame:hover { transform: none; }
+    }
+  </style>
+</helmet>
+<dc-import name="site-nav" hint-size="100%,76px"></dc-import>
+<div style="height: 76px"></div>
+
+<section data-screen-label="Product header" style="background: var(--surface-page); border-bottom: 1px solid var(--border-hairline)">
+  <div style="max-width: 1160px; margin: 0 auto; padding: clamp(37px, 7vw, 64px) clamp(20px, 5vw, 24px) clamp(32px, 7vw, 56px)">
+    <div style="display: flex; gap: 8px; align-items: center; font-size: var(--text-xs); color: var(--ink-400); font-family: var(--font-mono)">
+      <a href="01-main.dc.html" style="color: var(--ink-400)" style-hover="color: var(--ink-600)">Home</a><span>/</span><span style="color: var(--ink-600)">Product</span>
+    </div>
+    <div class="itr-1col" style="margin-top: 24px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 420px); gap: 56px; align-items: start">
+      <div>
+        <h1 style="font-size: clamp(30px, 3.2vw, 38px); font-weight: 600; letter-spacing: -0.02em; line-height: 1.14; color: var(--ink-900); max-width: 560px; text-wrap: pretty">One operating picture across the systems you already run</h1>
+        <p style="font-size: var(--text-lg); line-height: 1.6; color: var(--ink-600); margin-top: 20px; max-width: 520px">INTERA reads your systems, applies your business logic and keeps four things visible: what changed, what disagrees, what needs action, and what keeps happening.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px">
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Button" size="lg" href="06-contact-request.dc.html" hint-size="168px,44px">Get Early Access</x-import>
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Button" size="lg" variant="secondary" icon-right="arrow-right" href="11-docs.dc.html" hint-size="180px,44px">Read the docs</x-import>
+        </div>
+      </div>
+      <div class="itr-hl" style="border: 1px solid var(--border-card); border-radius: var(--radius-lg); background: var(--white); box-shadow: var(--shadow-xs); overflow: hidden">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--border-hairline); background: var(--surface-sunken)">
+          <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-500)">Operations Oversight</span>
+          <span style="display: flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)">
+            <span style="position: relative; display: inline-flex; width: 8px; height: 8px; flex: none"><span class="itr-live-halo" aria-hidden="true" style="position: absolute; inset: 0; border-radius: 999px; background: var(--green-500)"></span><span class="itr-live-dot" style="position: relative; width: 8px; height: 8px; border-radius: 999px; background: var(--green-500)"></span></span>
+            live
+          </span>
+        </div>
+        <div style="padding: 18px 16px 20px">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px">
+            <x-import component-from-global-scope="INTERADesignSystem_430dc5.MetricTile" label="Open incidents" value="7" delta="+2" direction="up" tone="warning" hint-size="100%,92px"></x-import>
+            <x-import component-from-global-scope="INTERADesignSystem_430dc5.MetricTile" label="Unreconciled" value="4,812" delta="-311" direction="down" tone="ok" hint-size="100%,92px"></x-import>
+          </div>
+          <div style="margin-top: 18px; display: flex; flex-direction: column; gap: 10px">
+            <div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-500)">Latest</div>
+            <div style="display: flex; align-items: flex-start; gap: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border-hairline)">
+              <x-import component-from-global-scope="INTERADesignSystem_430dc5.SignalBadge" type="reconciliation" hint-size="120px,20px"></x-import>
+              <span style="font-size: var(--text-md); color: var(--ink-700); line-height: 1.45">Billing vs ERP: 118 invoices differ by more than 0.5%</span>
+            </div>
+            <div style="display: flex; align-items: flex-start; gap: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border-hairline)">
+              <x-import component-from-global-scope="INTERADesignSystem_430dc5.SignalBadge" type="incident" hint-size="96px,20px"></x-import>
+              <span style="font-size: var(--text-md); color: var(--ink-700); line-height: 1.45">No data received from WMS since 03:20 UTC</span>
+            </div>
+            <div style="display: flex; align-items: flex-start; gap: 10px">
+              <x-import component-from-global-scope="INTERADesignSystem_430dc5.SignalBadge" type="pattern" hint-size="90px,20px"></x-import>
+              <span style="font-size: var(--text-md); color: var(--ink-700); line-height: 1.45">Readiness drops every Monday after the weekend import</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="What INTERA watches" style="position: relative; overflow: hidden; background: var(--surface-sunken); border-bottom: 1px solid var(--border-subtle)">
+  <div aria-hidden="true" style="position: absolute; left: 78%; top: 22%; width: 900px; height: 900px; transform: translate(-50%,-50%); pointer-events: none; background: radial-gradient(circle, var(--wash-blue) 0%, transparent 68%)"></div>
+  <div style="position: relative; max-width: 1160px; margin: 0 auto; padding: clamp(49px, 7vw, 84px) clamp(20px, 5vw, 24px)">
+    <div style="max-width: 720px; margin-bottom: 36px">
+      <div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px">The chain</div>
+      <h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)">Event, Reconciliation, Incident, Pattern</h2>
+      <p style="font-size: var(--text-lg); line-height: 1.6; color: var(--ink-600); margin-top: 16px">Four object types, in a fixed order. Everything a role sees is one of them.</p>
+    </div>
+    <x-import component-from-global-scope="INTERADesignSystem_430dc5.SignalChain" captions="{{ chainCaptions }}" hint-size="100%,220px"></x-import>
+    <div class="itr-1col" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; margin-top: 20px">
+      <x-import component-from-global-scope="INTERADesignSystem_430dc5.Card" accent="var(--signal-event)" accent-line="var(--signal-event-line)" hint-size="100%,200px" class="itr-lift">
+        <x-import component-from-global-scope="INTERADesignSystem_430dc5.SignalBadge" type="event" hint-size="80px,22px"></x-import>
+        <div style="font-size: var(--text-md); font-weight: 600; margin-top: 12px">A watched Metric moved</div>
+        <p style="font-size: var(--text-sm); line-height: 1.6; color: var(--ink-600); margin-top: 8px">Thresholds, trends and data status on the numbers a role owns. The event carries the value, the source and the time.</p>
+        <div style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400); margin-top: 12px">metrics.trend · metrics.threshold</div>
+      </x-import>
+      <x-import component-from-global-scope="INTERADesignSystem_430dc5.Card" accent="var(--signal-reconciliation)" accent-line="var(--signal-reconciliation-line)" hint-size="100%,200px" class="itr-lift">
+        <x-import component-from-global-scope="INTERADesignSystem_430dc5.SignalBadge" type="reconciliation" hint-size="120px,22px"></x-import>
+        <div style="font-size: var(--text-md); font-weight: 600; margin-top: 12px">Two systems disagree</div>
+        <p style="font-size: var(--text-sm); line-height: 1.6; color: var(--ink-600); margin-top: 8px">Continuous comparison between systems, periods and business conditions — with the differing records listed, not summarised away.</p>
+        <div style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400); margin-top: 12px">usage ↔ billing · orders ↔ invoices</div>
+      </x-import>
+      <x-import component-from-global-scope="INTERADesignSystem_430dc5.Card" accent="var(--signal-incident)" accent-line="var(--signal-incident-line)" hint-size="100%,200px" class="itr-lift">
+        <x-import component-from-global-scope="INTERADesignSystem_430dc5.SignalBadge" type="incident" hint-size="90px,22px"></x-import>
+        <div style="font-size: var(--text-md); font-weight: 600; margin-top: 12px">Someone has to act</div>
+        <p style="font-size: var(--text-sm); line-height: 1.6; color: var(--ink-600); margin-top: 8px">A tracked item with an owner, a priority, an expected time to impact and the evidence behind it.</p>
+        <div style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400); margin-top: 12px">P0 · impact in 2 days · owner set</div>
+      </x-import>
+      <x-import component-from-global-scope="INTERADesignSystem_430dc5.Card" accent="var(--signal-pattern)" accent-line="var(--signal-pattern-line)" hint-size="100%,200px" class="itr-lift">
+        <x-import component-from-global-scope="INTERADesignSystem_430dc5.SignalBadge" type="pattern" hint-size="86px,22px"></x-import>
+        <div style="font-size: var(--text-md); font-weight: 600; margin-top: 12px">It keeps happening</div>
+        <p style="font-size: var(--text-sm); line-height: 1.6; color: var(--ink-600); margin-top: 8px">Recurring combinations of conditions behind incidents and changes — and the option to keep watching them.</p>
+        <div style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400); margin-top: 12px">4th occurrence · same precondition</div>
+      </x-import>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="Pattern Studio" style="background: var(--surface-page)">
+  <div style="max-width: 1160px; margin: 0 auto; padding: clamp(51px, 7vw, 88px) clamp(20px, 5vw, 24px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 48px; align-items: center">
+    <div>
+      <div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px">Pattern Studio</div>
+      <h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)">Understand what keeps happening, and under which conditions</h2>
+      <p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); margin-top: 18px; max-width: 520px">Look back at what preceded an incident, find the combination that repeats, then turn it into something INTERA keeps watching. What one manager learns becomes a check the whole company keeps.</p>
+      <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 24px; max-width: 520px">
+        <div style="display: flex; gap: 12px; align-items: center; border: 1px solid var(--border-hairline); border-radius: var(--radius-md); padding: 12px 14px; background: var(--surface-sunken)">
+          <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--violet-600)">if</span>
+          <span style="font-size: var(--text-sm); color: var(--ink-800)">a spare part delivery slips more than 5 days</span>
+        </div>
+        <div style="display: flex; gap: 12px; align-items: center; border: 1px solid var(--border-hairline); border-radius: var(--radius-md); padding: 12px 14px; background: var(--surface-sunken)">
+          <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--violet-600)">and</span>
+          <span style="font-size: var(--text-sm); color: var(--ink-800)">the vessel already carries overdue critical maintenance</span>
+        </div>
+        <div class="itr-row" style="display: flex; gap: 12px; align-items: center; border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 12px 14px; background: var(--white)">
+          <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--violet-600)">then</span>
+          <span style="font-size: var(--text-sm); color: var(--ink-900); font-weight: 500">readiness drops below plan within 3 weeks — 4 of the last 5 times</span>
+        </div>
+      </div>
+      <div style="margin-top: 26px"><x-import component-from-global-scope="INTERADesignSystem_430dc5.Button" variant="secondary" icon-right="arrow-right" href="12-docs-article.dc.html" hint-size="200px,36px">How Patterns are defined</x-import></div>
+    </div>
+    <div class="itr-frame" style="border-radius: var(--radius-xl); overflow: hidden; border: 1px solid var(--border-subtle); background: var(--white); box-shadow: var(--shadow-lg)">
+      <div style="display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--border-hairline); background: var(--surface-sunken)">
+        <span style="display: flex; gap: 5px">
+          <span style="width: 8px; height: 8px; border-radius: 999px; background: var(--ink-200)"></span>
+          <span style="width: 8px; height: 8px; border-radius: 999px; background: var(--ink-200)"></span>
+          <span style="width: 8px; height: 8px; border-radius: 999px; background: var(--ink-200)"></span>
+        </span>
+        <span style="font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--ink-500)">Role view · readiness and upcoming dates</span>
+      </div>
+      <div class="itr-shot" style="height: 420px; overflow: hidden">
+        <img src="assets/shots/ship-3.webp" alt="INTERA role view with readiness metrics and upcoming dates" style="display: block; width: 100%; object-fit: cover; object-position: top left">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="integrations" data-screen-label="Integrations" style="position: relative; overflow: hidden; background: var(--surface-sunken); border-top: 1px solid var(--border-subtle)">
+  <div aria-hidden="true" style="position: absolute; left: 20%; top: 80%; width: 860px; height: 860px; transform: translate(-50%,-50%); pointer-events: none; background: radial-gradient(circle, var(--wash-teal) 0%, transparent 68%)"></div>
+  <div style="position: relative; max-width: 1160px; margin: 0 auto; padding: clamp(49px, 7vw, 84px) clamp(20px, 5vw, 24px)">
+    <div style="max-width: 720px; margin-bottom: 36px">
+      <div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px">Integrations and DataSources</div>
+      <h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)">Read-only connections to the systems of record</h2>
+      <p style="font-size: var(--text-lg); line-height: 1.6; color: var(--ink-600); margin-top: 16px">A DataSource states which system holds the data, what is mapped and how often it is read. Nothing is written back.</p>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); gap: 10px">
+      <div class="itr-row" style="display: flex; align-items: center; gap: 12px; background: var(--white); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 14px 16px">
+        <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="database" size="16" color="var(--ink-500)" hint-size="16px,16px"></x-import>
+        <span style="font-size: var(--text-md); color: var(--ink-800)">ERP</span>
+        <span style="font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--ink-400); margin-left: auto">SAP · Oracle · BC</span>
+      </div>
+      <div class="itr-row" style="display: flex; align-items: center; gap: 12px; background: var(--white); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 14px 16px">
+        <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="contact" size="16" color="var(--ink-500)" hint-size="16px,16px"></x-import>
+        <span style="font-size: var(--text-md); color: var(--ink-800)">CRM</span>
+        <span style="font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--ink-400); margin-left: auto">accounts</span>
+      </div>
+      <div class="itr-row" style="display: flex; align-items: center; gap: 12px; background: var(--white); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 14px 16px">
+        <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="receipt" size="16" color="var(--ink-500)" hint-size="16px,16px"></x-import>
+        <span style="font-size: var(--text-md); color: var(--ink-800)">Billing</span>
+        <span style="font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--ink-400); margin-left: auto">invoices · rating</span>
+      </div>
+      <div class="itr-row" style="display: flex; align-items: center; gap: 12px; background: var(--white); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 14px 16px">
+        <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="activity" size="16" color="var(--ink-500)" hint-size="16px,16px"></x-import>
+        <span style="font-size: var(--text-md); color: var(--ink-800)">Mediation</span>
+        <span style="font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--ink-400); margin-left: auto">usage · CDR</span>
+      </div>
+      <div class="itr-row" style="display: flex; align-items: center; gap: 12px; background: var(--white); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 14px 16px">
+        <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="table-2" size="16" color="var(--ink-500)" hint-size="16px,16px"></x-import>
+        <span style="font-size: var(--text-md); color: var(--ink-800)">Excel</span>
+        <span style="font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--ink-400); margin-left: auto">exports · checks</span>
+      </div>
+      <div class="itr-row" style="display: flex; align-items: center; gap: 12px; background: var(--white); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 14px 16px">
+        <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="terminal" size="16" color="var(--ink-500)" hint-size="16px,16px"></x-import>
+        <span style="font-size: var(--text-md); color: var(--ink-800)">Internal APIs</span>
+        <span style="font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--ink-400); margin-left: auto">custom</span>
+      </div>
+      <div class="itr-row" style="display: flex; align-items: center; gap: 12px; background: var(--white); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 14px 16px">
+        <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="landmark" size="16" color="var(--ink-500)" hint-size="16px,16px"></x-import>
+        <span style="font-size: var(--text-md); color: var(--ink-800)">Banking</span>
+        <span style="font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--ink-400); margin-left: auto">Revolut</span>
+      </div>
+      <div class="itr-row" style="display: flex; align-items: center; gap: 12px; background: var(--white); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 14px 16px">
+        <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="mail" size="16" color="var(--ink-500)" hint-size="16px,16px"></x-import>
+        <span style="font-size: var(--text-md); color: var(--ink-800)">Manual inputs</span>
+        <span style="font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--ink-400); margin-left: auto">forms · mail</span>
+      </div>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 20px; margin-top: 28px">
+      <x-import component-from-global-scope="INTERADesignSystem_430dc5.Card" hint-size="100%,160px" class="itr-lift">
+        <x-import component-from-global-scope="INTERADesignSystem_430dc5.CardHeader" title="IT owns access" description="Which system, which credentials, which refresh window." hint-size="100%,50px"></x-import>
+        <p style="font-size: var(--text-sm); line-height: 1.6; color: var(--ink-600); margin-top: 12px">INTERA states the requirement concretely: the system, the DataSource, the fields to map. No open-ended data project.</p>
+      </x-import>
+      <x-import component-from-global-scope="INTERADesignSystem_430dc5.Card" hint-size="100%,160px" class="itr-lift">
+        <x-import component-from-global-scope="INTERADesignSystem_430dc5.CardHeader" title="Business owns logic" description="Metrics, Events, Incidents, Reconciliations, Patterns." hint-size="100%,50px"></x-import>
+        <p style="font-size: var(--text-sm); line-height: 1.6; color: var(--ink-600); margin-top: 12px">The people who know how the operation runs decide what counts as a problem — and can change it without a release.</p>
+      </x-import>
+    </div>
+  </div>
+</section>
+
+<section id="roles" data-screen-label="Roles" style="background: var(--surface-page)">
+  <div style="max-width: 1160px; margin: 0 auto; padding: clamp(51px, 7vw, 88px) clamp(20px, 5vw, 24px)">
+    <div style="max-width: 720px; margin-bottom: 36px">
+      <div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px">INTERA Roles</div>
+      <h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)">A module built around a responsibility, not a data source</h2>
+      <p style="font-size: var(--text-lg); line-height: 1.6; color: var(--ink-600); margin-top: 16px">Each role arrives with its metrics, its checks and its detection logic. Adjust them; you are not locked in.</p>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(270px, 100%), 1fr)); gap: 20px">
+      <x-import component-from-global-scope="INTERADesignSystem_430dc5.Card" interactive="{{ true }}" hint-size="100%,190px" class="itr-lift">
+        <div style="display: flex; align-items: center; gap: 10px">
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="circle-dollar-sign" size="18" color="var(--blue-600)" hint-size="18px,18px"></x-import>
+          <span style="font-size: var(--text-lg); font-weight: 600; letter-spacing: -0.01em">Finance Control</span>
+        </div>
+        <p style="font-size: var(--text-sm); line-height: 1.6; color: var(--ink-600); margin-top: 10px">Revenue vs billing mismatches, uninvoiced or delayed transactions, margin changes across segments.</p>
+        <div style="display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap">
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Tag" hint-size="86px,22px">12 metrics</x-import>
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Tag" hint-size="110px,22px">4 reconciliations</x-import>
+        </div>
+      </x-import>
+      <x-import component-from-global-scope="INTERADesignSystem_430dc5.Card" interactive="{{ true }}" hint-size="100%,190px" class="itr-lift">
+        <div style="display: flex; align-items: center; gap: 10px">
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="gauge" size="18" color="var(--blue-600)" hint-size="18px,18px"></x-import>
+          <span style="font-size: var(--text-lg); font-weight: 600; letter-spacing: -0.01em">Operations Oversight</span>
+        </div>
+        <p style="font-size: var(--text-sm); line-height: 1.6; color: var(--ink-600); margin-top: 10px">Delays across regions or processes, SLA breaches and bottlenecks, workload vs completion gaps.</p>
+        <div style="display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap">
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Tag" hint-size="86px,22px">14 metrics</x-import>
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Tag" hint-size="96px,22px">attention queue</x-import>
+        </div>
+      </x-import>
+      <x-import component-from-global-scope="INTERADesignSystem_430dc5.Card" interactive="{{ true }}" hint-size="100%,190px" class="itr-lift">
+        <div style="display: flex; align-items: center; gap: 10px">
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="scale" size="18" color="var(--blue-600)" hint-size="18px,18px"></x-import>
+          <span style="font-size: var(--text-lg); font-weight: 600; letter-spacing: -0.01em">Revenue Assurance</span>
+        </div>
+        <p style="font-size: var(--text-sm); line-height: 1.6; color: var(--ink-600); margin-top: 10px">Missing or unmapped revenue streams, traffic vs billing inconsistencies, sudden changes in usage.</p>
+        <div style="display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap">
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Tag" hint-size="86px,22px">10 metrics</x-import>
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Tag" hint-size="110px,22px">6 reconciliations</x-import>
+        </div>
+      </x-import>
+      <x-import component-from-global-scope="INTERADesignSystem_430dc5.Card" interactive="{{ true }}" hint-size="100%,190px" class="itr-lift">
+        <div style="display: flex; align-items: center; gap: 10px">
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="heart-pulse" size="18" color="var(--blue-600)" hint-size="18px,18px"></x-import>
+          <span style="font-size: var(--text-lg); font-weight: 600; letter-spacing: -0.01em">Customer Health</span>
+        </div>
+        <p style="font-size: var(--text-sm); line-height: 1.6; color: var(--ink-600); margin-top: 10px">Declining activity or engagement, concentration risks, high-value account changes.</p>
+        <div style="display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap">
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Tag" hint-size="80px,22px">9 metrics</x-import>
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Tag" hint-size="80px,22px">patterns</x-import>
+        </div>
+      </x-import>
+      <x-import component-from-global-scope="INTERADesignSystem_430dc5.Card" interactive="{{ true }}" hint-size="100%,190px" class="itr-lift">
+        <div style="display: flex; align-items: center; gap: 10px">
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="shield-check" size="18" color="var(--blue-600)" hint-size="18px,18px"></x-import>
+          <span style="font-size: var(--text-lg); font-weight: 600; letter-spacing: -0.01em">System Integrity</span>
+        </div>
+        <p style="font-size: var(--text-sm); line-height: 1.6; color: var(--ink-600); margin-top: 10px">Data gaps and inconsistencies, integration failures, manual workarounds nobody documented.</p>
+        <div style="display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap">
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Tag" hint-size="80px,22px">8 metrics</x-import>
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Tag" hint-size="96px,22px">data status</x-import>
+        </div>
+      </x-import>
+      <div style="display: flex; flex-direction: column; justify-content: center; gap: 16px; padding: 0 8px">
+        <p style="font-size: var(--text-xl); font-weight: 600; line-height: 1.35; letter-spacing: -0.01em; color: var(--ink-900)">Different responsibilities. One operating picture.</p>
+        <p style="font-size: var(--text-sm); color: var(--ink-600); line-height: 1.6">Roles combine several sources and apply business logic, so nobody connects the dots by hand.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="packages" data-screen-label="Market packages" style="position: relative; overflow: hidden; background: var(--surface-sunken); border-top: 1px solid var(--border-subtle)">
+  <div aria-hidden="true" style="position: absolute; left: 82%; top: 70%; width: 880px; height: 880px; transform: translate(-50%,-50%); pointer-events: none; background: radial-gradient(circle, var(--wash-violet) 0%, transparent 68%)"></div>
+  <div style="position: relative; max-width: 1160px; margin: 0 auto; padding: clamp(49px, 7vw, 84px) clamp(20px, 5vw, 24px)">
+    <div style="max-width: 720px; margin-bottom: 36px">
+      <div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px">Market packages</div>
+      <h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)">Industry bundles, already shaped around real jobs</h2>
+      <p style="font-size: var(--text-lg); line-height: 1.6; color: var(--ink-600); margin-top: 16px">A market package is a reusable set of roles, checks and integrations for one industry. Two are in progress with beta partners.</p>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 20px">
+      <x-import component-from-global-scope="INTERADesignSystem_430dc5.Card" padding="loose" hint-size="100%,320px" class="itr-hl">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+          <div style="display: flex; align-items: center; gap: 10px">
+            <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="radio-tower" size="18" color="var(--ink-700)" hint-size="18px,18px"></x-import>
+            <span style="font-size: var(--text-xl); font-weight: 600; letter-spacing: -0.01em">Telecommunications</span>
+          </div>
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Badge" tone="info" hint-size="52px,20px">Beta</x-import>
+        </div>
+        <p style="font-size: var(--text-sm); line-height: 1.6; color: var(--ink-600); margin-top: 12px">Where usage, rating, billing and partner settlement have to agree — and rarely do without checking.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-hairline)">
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Tag" hint-size="150px,22px">Revenue Assurance Manager</x-import>
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Tag" hint-size="160px,22px">Billing Operations Manager</x-import>
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Tag" hint-size="170px,22px">Network Operations Manager</x-import>
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Tag" hint-size="160px,22px">Partner / Wholesale Manager</x-import>
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Tag" hint-size="130px,22px">Commercial Director</x-import>
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Tag" hint-size="150px,22px">CFO / Finance Controller</x-import>
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Tag" hint-size="150px,22px">COO / Head of Operations</x-import>
+        </div>
+        <div style="margin-top: 20px"><x-import component-from-global-scope="INTERADesignSystem_430dc5.Button" variant="link" icon-right="arrow-right" href="12-docs-article.dc.html" hint-size="170px,28px">Telecommunications package</x-import></div>
+      </x-import>
+      <x-import component-from-global-scope="INTERADesignSystem_430dc5.Card" padding="loose" hint-size="100%,320px" class="itr-hl">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+          <div style="display: flex; align-items: center; gap: 10px">
+            <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="ship" size="18" color="var(--ink-700)" hint-size="18px,18px"></x-import>
+            <span style="font-size: var(--text-xl); font-weight: 600; letter-spacing: -0.01em">Shipmanagement</span>
+          </div>
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Badge" tone="info" hint-size="52px,20px">Beta</x-import>
+        </div>
+        <p style="font-size: var(--text-sm); line-height: 1.6; color: var(--ink-600); margin-top: 12px">Maintenance backlog, defects, class and certificate dates, and the vendor dependencies that quietly delay all of it.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-hairline)">
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Tag" hint-size="170px,22px">Technical Superintendent</x-import>
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Tag" hint-size="110px,22px">Fleet Manager</x-import>
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Tag" hint-size="150px,22px">Procurement and parts</x-import>
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Tag" hint-size="130px,22px">Compliance and audit</x-import>
+        </div>
+        <div style="margin-top: 20px"><x-import component-from-global-scope="INTERADesignSystem_430dc5.Button" variant="link" icon-right="arrow-right" href="13-docs-category.dc.html" hint-size="170px,28px">Shipmanagement package</x-import></div>
+      </x-import>
+    </div>
+  </div>
+</section>
+
+<section id="method" data-screen-label="Method" style="background: var(--surface-page)">
+  <div style="max-width: 1160px; margin: 0 auto; padding: clamp(51px, 7vw, 88px) clamp(20px, 5vw, 24px)">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 48px; align-items: start">
+      <div>
+        <div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px">INTERA Method</div>
+        <h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)">A working system, not a set of recommendations</h2>
+        <p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); margin-top: 18px; max-width: 520px">The Method is a hands-on engagement: we work on site with your team, map how the operation actually runs, and leave a configured environment behind. Traditional consulting ends with a document. This ends with dashboards that keep working.</p>
+        <div style="display: flex; flex-direction: column; gap: 0; margin-top: 26px; border-top: 1px solid var(--border-hairline); max-width: 520px">
+          <div style="display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--border-hairline)"><span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)">01</span><span style="font-size: var(--text-md); color: var(--ink-700)">Map the real data flows, not the documented ones</span></div>
+          <div style="display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--border-hairline)"><span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)">02</span><span style="font-size: var(--text-md); color: var(--ink-700)">Identify blind spots and the checks nobody owns</span></div>
+          <div style="display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--border-hairline)"><span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)">03</span><span style="font-size: var(--text-md); color: var(--ink-700)">Define Metrics that reflect the operation</span></div>
+          <div style="display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--border-hairline)"><span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)">04</span><span style="font-size: var(--text-md); color: var(--ink-700)">Connect the data sources with IT</span></div>
+          <div style="display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--border-hairline)"><span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)">05</span><span style="font-size: var(--text-md); color: var(--ink-700)">Build the first Roles and dashboards together</span></div>
+        </div>
+      </div>
+      <x-import component-from-global-scope="INTERADesignSystem_430dc5.Card" padding="loose" accent="var(--blue-600)" accent-line="var(--blue-200)" hint-size="100%,320px" class="itr-hl">
+        <div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-500)">What you leave with</div>
+        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 16px; font-size: var(--text-md); color: var(--ink-800); line-height: 1.5">
+          <span>A working INTERA environment</span>
+          <span>Connected data sources</span>
+          <span>Defined Metrics and business logic</span>
+          <span>Operational dashboards in use</span>
+          <span>Visibility into issues you could not see before</span>
+        </div>
+        <div style="margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--border-hairline)">
+          <p style="font-size: var(--text-sm); color: var(--ink-600); line-height: 1.6">Delivered over several intensive on-site days. Scope depends on how many systems and roles are involved.</p>
+          <div style="margin-top: 16px"><x-import component-from-global-scope="INTERADesignSystem_430dc5.Button" block="{{ true }}" href="06-contact-request.dc.html" hint-size="100%,36px">Talk to us about the Method</x-import></div>
+        </div>
+      </x-import>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="CTA" style="background: var(--surface-page)">
+  <div style="max-width: 1160px; margin: 0 auto; padding: 0 24px 88px">
+    <div class="itr-hl" style="border: 1px solid var(--border-card); border-top: 3px solid var(--blue-600); border-radius: var(--radius-lg); background: var(--white); box-shadow: var(--shadow-xs); padding: 32px 36px; display: flex; flex-wrap: wrap; gap: 24px; align-items: center; justify-content: space-between">
+      <div>
+        <h2 style="font-size: var(--text-2xl); font-weight: 600; letter-spacing: -0.01em; color: var(--ink-900); line-height: 1.3">Start with one real problem.</h2>
+        <p style="font-size: var(--text-md); color: var(--ink-600); margin-top: 8px">One role. One operational problem. One working result.</p>
+      </div>
+      <x-import component-from-global-scope="INTERADesignSystem_430dc5.Button" size="lg" href="06-contact-request.dc.html" hint-size="210px,44px">Bring us a real problem</x-import>
+    </div>
+  </div>
+</section>
+
+<dc-import name="site-footer" hint-size="100%,420px"></dc-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280}}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      chainCaptions: {
+        event: "Something important changed.",
+        reconciliation: "Things that should agree — don't.",
+        incident: "Something requires attention and action.",
+        pattern: "Understand what keeps happening, and under which conditions.",
+      },
+    };
+  }
+}
+</script>
+</body>
+</html>

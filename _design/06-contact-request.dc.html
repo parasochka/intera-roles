@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/intera/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/radius.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/elevation.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/motion.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/base.css">
+  <link rel="stylesheet" href="_ds/intera/styles.css">
+  <link rel="stylesheet" href="mobile.css">
+  <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.js"></script>
+  <script src="_ds/intera/_ds_bundle.js"></script>
+  <style>
+    body { margin: 0; font-family: var(--font-sans); color: var(--text-primary); background: var(--surface-page); -webkit-font-smoothing: antialiased; }
+    a:not(.itr-btn) { color: var(--text-link); text-decoration: none; border-bottom: 0; transition: color 140ms cubic-bezier(.2,.6,.25,1); }
+    a:not(.itr-btn):hover { color: var(--text-link-hover); }
+    a.itr-btn:hover { border-bottom-color: transparent; }
+    a.itr-btn--primary:hover, a.itr-btn--danger:hover { color: var(--text-on-accent); }
+    a.itr-btn--secondary:hover { color: var(--ink-800); border-bottom-color: var(--border-strong); }
+    a.itr-btn--ghost:hover, a.itr-btn--inverse:hover { color: var(--ink-900); }
+    a.itr-btn--outlineInverse:hover { color: var(--white); border-bottom-color: rgba(255,255,255,.6); }
+    h1, h2, h3, h4, p { margin: 0; }
+    @keyframes itr-live { 0%, 100% { opacity: 1; } 50% { opacity: .28; } }
+    @keyframes itr-halo { 0% { transform: scale(1); opacity: .5; } 70%, 100% { transform: scale(2.6); opacity: 0; } }
+    .itr-live-dot { animation: itr-live 1.9s cubic-bezier(.2,.6,.25,1) infinite; }
+    .itr-live-halo { animation: itr-halo 1.9s cubic-bezier(.2,.6,.25,1) infinite; }
+    .itr-lift { transition: transform 200ms cubic-bezier(.2,.6,.25,1), box-shadow 200ms cubic-bezier(.2,.6,.25,1), border-color 160ms cubic-bezier(.2,.6,.25,1), background-color 160ms cubic-bezier(.2,.6,.25,1) !important; }
+    .itr-lift:hover { transform: translateY(-5px); box-shadow: 0 18px 34px -18px rgba(14,26,43,.26), 0 2px 6px -2px rgba(14,26,43,.10) !important; border-right-color: var(--border-strong) !important; border-bottom-color: var(--border-strong) !important; border-left-color: var(--border-strong) !important; }
+    .itr-row { transition: transform 180ms cubic-bezier(.2,.6,.25,1), background-color 160ms, border-color 160ms, box-shadow 180ms; }
+    .itr-row:hover { transform: translateX(8px); background: var(--white); border-color: var(--blue-200); box-shadow: 0 10px 22px -14px rgba(14,26,43,.28); }
+    .itr-tile { transition: transform 170ms cubic-bezier(.2,.6,.25,1), background-color 150ms, border-color 150ms, box-shadow 170ms; }
+    .itr-tile:hover { transform: translateY(-4px); background: var(--blue-50); border-color: var(--blue-200); box-shadow: 0 12px 24px -16px rgba(26,79,214,.35); }
+    .itr-panel { transition: transform 200ms cubic-bezier(.2,.6,.25,1), background-color 180ms, border-color 180ms; }
+    .itr-panel:hover { transform: translateY(-4px); background: rgba(255,255,255,.085); border-color: rgba(255,255,255,.28); }
+    .itr-frame { transition: transform 260ms cubic-bezier(.2,.6,.25,1), box-shadow 260ms cubic-bezier(.2,.6,.25,1); }
+    .itr-frame:hover { transform: translateY(-6px); box-shadow: 0 34px 64px -30px rgba(14,26,43,.42), 0 4px 10px -4px rgba(14,26,43,.14) !important; }
+    .itr-hl { transition: border-color 160ms cubic-bezier(.2,.6,.25,1), box-shadow 160ms cubic-bezier(.2,.6,.25,1), background-color 160ms cubic-bezier(.2,.6,.25,1) !important; }
+    .itr-hl:hover { box-shadow: 0 10px 24px -18px rgba(14,26,43,.30) !important; border-right-color: var(--border-strong) !important; border-bottom-color: var(--border-strong) !important; border-left-color: var(--border-strong) !important; }
+    .itr-hl-panel { transition: border-color 180ms cubic-bezier(.2,.6,.25,1), background-color 180ms cubic-bezier(.2,.6,.25,1) !important; }
+    .itr-hl-panel:hover { background: rgba(255,255,255,.085); border-color: rgba(255,255,255,.28); }
+    .itr-lift:has(.itr-row:hover), .itr-lift:has(.itr-tile:hover), .itr-lift:has(.itr-lift:hover) { transform: none !important; }
+    @media (prefers-reduced-motion: reduce) {
+      .itr-live-dot, .itr-live-halo { animation: none; }
+      .itr-lift, .itr-row, .itr-tile, .itr-panel, .itr-frame { transition: border-color 160ms, background-color 160ms !important; }
+      .itr-lift:hover, .itr-row:hover, .itr-tile:hover, .itr-panel:hover, .itr-frame:hover { transform: none; }
+    }
+  </style>
+</helmet>
+<dc-import name="site-nav" hint-size="100%,76px"></dc-import>
+<div style="height: 76px"></div>
+
+<section data-screen-label="Request header" style="background: var(--surface-page); border-bottom: 1px solid var(--border-hairline)">
+  <div style="max-width: 1160px; margin: 0 auto; padding: clamp(32px, 7vw, 56px) clamp(20px, 5vw, 24px) clamp(23px, 7vw, 40px)">
+    <div style="display: flex; gap: 8px; align-items: center; font-size: var(--text-xs); color: var(--ink-400); font-family: var(--font-mono)">
+      <a href="01-main.dc.html" style="color: var(--ink-400)" style-hover="color: var(--ink-600)">Home</a><span>/</span><a href="05-contacts.dc.html" style="color: var(--ink-400)" style-hover="color: var(--ink-600)">Contacts</a><span>/</span><span style="color: var(--ink-600)">Request</span>
+    </div>
+    <div style="max-width: 660px; margin-top: 22px">
+      <h1 style="font-size: clamp(28px, 3vw, 36px); font-weight: 600; letter-spacing: -0.02em; line-height: 1.16; color: var(--ink-900)">Bring us a real problem</h1>
+      <p style="font-size: var(--text-lg); line-height: 1.6; color: var(--ink-600); margin-top: 16px">Six fields. The last one matters most — describe the task in your own words, the way you would describe it to a colleague.</p>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="Request form" style="background: var(--surface-page)">
+  <div style="max-width: 1160px; margin: 0 auto; padding: clamp(28px, 7vw, 48px) clamp(20px, 5vw, 24px) clamp(51px, 7vw, 88px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 44px; align-items: start">
+    <sc-if value="{{ showForm }}" hint-placeholder-val="{{ true }}">
+      <x-import component-from-global-scope="INTERADesignSystem_430dc5.Card" padding="loose" hint-size="100%,720px" class="itr-hl">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 18px">
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Field" label="Name" required="{{ true }}" html-for="name" hint-size="100%,66px">
+            <x-import component-from-global-scope="INTERADesignSystem_430dc5.Input" id="name" placeholder="Anna Kovalenko" hint-size="100%,36px"></x-import>
+          </x-import>
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Field" label="Work email" required="{{ true }}" html-for="email" hint-size="100%,66px">
+            <x-import component-from-global-scope="INTERADesignSystem_430dc5.Input" id="email" type="email" placeholder="a.kovalenko@company.com" hint-size="100%,36px"></x-import>
+          </x-import>
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Field" label="Company" html-for="company" hint-size="100%,66px">
+            <x-import component-from-global-scope="INTERADesignSystem_430dc5.Input" id="company" placeholder="Company name" hint-size="100%,36px"></x-import>
+          </x-import>
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Field" label="Your role" html-for="role" hint="The area you are responsible for." hint-size="100%,84px">
+            <x-import component-from-global-scope="INTERADesignSystem_430dc5.Input" id="role" placeholder="Billing Operations Manager" hint-size="100%,36px"></x-import>
+          </x-import>
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Field" label="Industry" html-for="industry" hint-size="100%,66px">
+            <x-import component-from-global-scope="INTERADesignSystem_430dc5.Select" id="industry" placeholder="Choose an industry" options="{{ industries }}" hint-size="100%,36px"></x-import>
+          </x-import>
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Field" label="What brings you here" html-for="interest" hint-size="100%,66px">
+            <x-import component-from-global-scope="INTERADesignSystem_430dc5.Select" id="interest" placeholder="Choose one" options="{{ interests }}" hint-size="100%,36px"></x-import>
+          </x-import>
+        </div>
+        <div style="margin-top: 18px">
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Field" label="The problem, in your words" required="{{ true }}" html-for="problem" hint="What is checked manually today, which systems are involved, and what happens when it is noticed too late." hint-size="100%,200px">
+            <x-import component-from-global-scope="INTERADesignSystem_430dc5.Textarea" id="problem" rows="6" placeholder="Every month someone exports usage from mediation and compares it with billing by hand. Last quarter we found unbilled usage six weeks late." hint-size="100%,140px"></x-import>
+          </x-import>
+        </div>
+        <div style="margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--border-hairline); display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between">
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Checkbox" label="I agree that INTERA may contact me about this request." hint-size="320px,20px"></x-import>
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Button" size="lg" onClick="{{ submit }}" hint-size="150px,44px">Send request</x-import>
+        </div>
+        <p style="font-size: var(--text-xs); color: var(--ink-500); margin-top: 14px; line-height: 1.5">We use what you send only to answer you. See the <a href="07-policy.dc.html">privacy policy</a>.</p>
+      </x-import>
+    </sc-if>
+    <sc-if value="{{ showSuccess }}" hint-placeholder-val="{{ false }}">
+      <x-import component-from-global-scope="INTERADesignSystem_430dc5.Card" padding="loose" accent="var(--status-ok)" accent-line="var(--status-ok-line)" hint-size="100%,320px" class="itr-hl">
+        <div style="display: flex; align-items: center; gap: 10px; color: var(--status-ok)">
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="check-circle" size="20" hint-size="20px,20px"></x-import>
+          <span style="font-size: var(--text-xl); font-weight: 600; letter-spacing: -0.01em; color: var(--ink-900)">Request received</span>
+        </div>
+        <p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); margin-top: 14px; max-width: 520px">We read every one of these ourselves. You will get an answer describing what INTERA would watch in your case, which systems it would read and what the first role would contain.</p>
+        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--border-hairline); font-size: var(--text-md); color: var(--ink-700)">
+          <span>Reference: <span style="font-family: var(--font-mono)">REQ-2026-0148</span></span>
+          <span>Answer expected: <span style="font-family: var(--font-mono)">within 1 working day</span></span>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px">
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Button" variant="secondary" href="11-docs.dc.html" hint-size="150px,36px">Read the docs</x-import>
+          <x-import component-from-global-scope="INTERADesignSystem_430dc5.Button" variant="ghost" onClick="{{ reset }}" hint-size="150px,36px">Send another request</x-import>
+        </div>
+      </x-import>
+    </sc-if>
+
+    <div style="display: flex; flex-direction: column; gap: 24px; max-width: 400px">
+      <div>
+        <div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-500); margin-bottom: 16px">What happens next</div>
+        <div style="display: flex; flex-direction: column; gap: 0; border-top: 1px solid var(--border-hairline)">
+          <div style="display: flex; gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--border-hairline)">
+            <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400); padding-top: 3px">01</span>
+            <div>
+              <div style="font-size: var(--text-md); font-weight: 500; color: var(--ink-900)">We read it and answer</div>
+              <p style="font-size: var(--text-sm); line-height: 1.6; color: var(--ink-600); margin-top: 4px">Usually the same working day. No sales sequence.</p>
+            </div>
+          </div>
+          <div style="display: flex; gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--border-hairline)">
+            <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400); padding-top: 3px">02</span>
+            <div>
+              <div style="font-size: var(--text-md); font-weight: 500; color: var(--ink-900)">One call, 30 minutes</div>
+              <p style="font-size: var(--text-sm); line-height: 1.6; color: var(--ink-600); margin-top: 4px">We map the problem to a role, metrics and the systems involved.</p>
+            </div>
+          </div>
+          <div style="display: flex; gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--border-hairline)">
+            <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400); padding-top: 3px">03</span>
+            <div>
+              <div style="font-size: var(--text-md); font-weight: 500; color: var(--ink-900)">One role, one result</div>
+              <p style="font-size: var(--text-sm); line-height: 1.6; color: var(--ink-600); margin-top: 4px">We set up the first check on real data and see whether it finds anything.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <x-import component-from-global-scope="INTERADesignSystem_430dc5.Card" hint-size="100%,180px" class="itr-hl">
+        <div style="font-size: var(--text-md); font-weight: 600; color: var(--ink-900)">Early Adopter programme</div>
+        <p style="font-size: var(--text-sm); line-height: 1.6; color: var(--ink-600); margin-top: 8px">Free for the first 12 months, unlimited roles, custom onboarding and one market package included. We take a small number of companies during beta.</p>
+        <div style="margin-top: 14px"><x-import component-from-global-scope="INTERADesignSystem_430dc5.Button" variant="link" icon-right="arrow-right" href="03-pricing.dc.html" hint-size="130px,28px">See what is included</x-import></div>
+      </x-import>
+      <div style="font-size: var(--text-sm); color: var(--ink-600); line-height: 1.6">
+        Prefer email? Write to <a href="mailto:sb@by-sky.net" style="font-family: var(--font-mono)">sb@by-sky.net</a>.
+      </div>
+    </div>
+  </div>
+</section>
+
+<dc-import name="site-footer" hint-size="100%,420px"></dc-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280}}">
+class Component extends DCLogic {
+  state = { sent: false };
+  renderVals() {
+    return {
+      showForm: !this.state.sent,
+      showSuccess: this.state.sent,
+      submit: () => this.setState({ sent: true }),
+      reset: () => this.setState({ sent: false }),
+      industries: [
+        "Telecommunications",
+        "Shipmanagement / maritime",
+        "Logistics and transport",
+        "Manufacturing",
+        "Food production",
+        "Financial services",
+        "Other",
+      ],
+      interests: [
+        "Early Adopter programme",
+        "Evaluation on the free plan",
+        "Commercial deployment",
+        "INTERA Method engagement",
+        "Partner or reseller",
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/intera/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/radius.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/elevation.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/motion.css">
+  <link rel="stylesheet" href="_ds/intera/tokens/base.css">
+  <link rel="stylesheet" href="_ds/intera/styles.css">
+  <link rel="stylesheet" href="mobile.css">
+  <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.js"></script>
+  <script src="_ds/intera/_ds_bundle.js"></script>
+  <style>
+    body { margin: 0; font-family: var(--font-sans); color: var(--text-primary); background: var(--surface-page); -webkit-font-smoothing: antialiased; }
+    a:not(.itr-btn) { color: var(--text-link); text-decoration: none; border-bottom: 0; transition: color 140ms cubic-bezier(.2,.6,.25,1); }
+    a:not(.itr-btn):hover { color: var(--text-link-hover); }
+    a.itr-btn:hover { border-bottom-color: transparent; }
+    a.itr-btn--primary:hover, a.itr-btn--danger:hover { color: var(--text-on-accent); }
+    a.itr-btn--secondary:hover { color: var(--ink-800); border-bottom-color: var(--border-strong); }
+    a.itr-btn--ghost:hover, a.itr-btn--inverse:hover { color: var(--ink-900); }
+    a.itr-btn--outlineInverse:hover { color: var(--white); border-bottom-color: rgba(255,255,255,.6); }
+    h1, h2, h3, h4, p { margin: 0; }
+    summary { list-style: none; cursor: pointer; transition: color 140ms cubic-bezier(.2,.6,.25,1); }
+    summary:hover { color: var(--blue-600); }
+    summary::-webkit-details-marker { display: none; }
+    details[open] summary svg { transform: rotate(180deg); }
+    summary svg { transition: transform 160ms cubic-bezier(.2,.6,.25,1); }
+    @keyframes itr-live { 0%, 100% { opacity: 1; } 50% { opacity: .28; } }
+    @keyframes itr-halo { 0% { transform: scale(1); opacity: .5; } 70%, 100% { transform: scale(2.6); opacity: 0; } }
+    .itr-live-dot { animation: itr-live 1.9s cubic-bezier(.2,.6,.25,1) infinite; }
+    .itr-live-halo { animation: itr-halo 1.9s cubic-bezier(.2,.6,.25,1) infinite; }
+    .itr-lift { transition: transform 200ms cubic-bezier(.2,.6,.25,1), box-shadow 200ms cubic-bezier(.2,.6,.25,1), border-color 160ms cubic-bezier(.2,.6,.25,1), background-color 160ms cubic-bezier(.2,.6,.25,1) !important; }
+    .itr-lift:hover { transform: translateY(-5px); box-shadow: 0 18px 34px -18px rgba(14,26,43,.26), 0 2px 6px -2px rgba(14,26,43,.10) !important; border-right-color: var(--border-strong) !important; border-bottom-color: var(--border-strong) !important; border-left-color: var(--border-strong) !important; }
+    .itr-row { transition: transform 180ms cubic-bezier(.2,.6,.25,1), background-color 160ms, border-color 160ms, box-shadow 180ms; }
+    .itr-row:hover { transform: translateX(8px); background: var(--white); border-color: var(--blue-200); box-shadow: 0 10px 22px -14px rgba(14,26,43,.28); }
+    .itr-tile { transition: transform 170ms cubic-bezier(.2,.6,.25,1), background-color 150ms, border-color 150ms, box-shadow 170ms; }
+    .itr-tile:hover { transform: translateY(-4px); background: var(--blue-50); border-color: var(--blue-200); box-shadow: 0 12px 24px -16px rgba(26,79,214,.35); }
+    .itr-panel { transition: transform 200ms cubic-bezier(.2,.6,.25,1), background-color 180ms, border-color 180ms; }
+    .itr-panel:hover { transform: translateY(-4px); background: rgba(255,255,255,.085); border-color: rgba(255,255,255,.28); }
+    .itr-frame { transition: transform 260ms cubic-bezier(.2,.6,.25,1), box-shadow 260ms cubic-bezier(.2,.6,.25,1); }
+    .itr-frame:hover { transform: translateY(-6px); box-shadow: 0 34px 64px -30px rgba(14,26,43,.42), 0 4px 10px -4px rgba(14,26,43,.14) !important; }
+    .itr-hl { transition: border-color 160ms cubic-bezier(.2,.6,.25,1), box-shadow 160ms cubic-bezier(.2,.6,.25,1), background-color 160ms cubic-bezier(.2,.6,.25,1) !important; }
+    .itr-hl:hover { box-shadow: 0 10px 24px -18px rgba(14,26,43,.30) !important; border-right-color: var(--border-strong) !important; border-bottom-color: var(--border-strong) !important; border-left-color: var(--border-strong) !important; }
+    .itr-hl-panel { transition: border-color 180ms cubic-bezier(.2,.6,.25,1), background-color 180ms cubic-bezier(.2,.6,.25,1) !important; }
+    .itr-hl-panel:hover { background: rgba(255,255,255,.085); border-color: rgba(255,255,255,.28); }
+    .itr-lift:has(.itr-row:hover), .itr-lift:has(.itr-tile:hover), .itr-lift:has(.itr-lift:hover) { transform: none !important; }
+    @media (prefers-reduced-motion: reduce) {
+      .itr-live-dot, .itr-live-halo { animation: none; }
+      .itr-lift, .itr-row, .itr-tile, .itr-panel, .itr-frame { transition: border-color 160ms, background-color 160ms !important; }
+      .itr-lift:hover, .itr-row:hover, .itr-tile:hover, .itr-panel:hover, .itr-frame:hover { transform: none; }
+    }
+  </style>
+</helmet>
+<dc-import name="site-nav" hint-size="100%,76px"></dc-import>
+<div style="height: 76px"></div>
+
+<section data-screen-label="FAQ header" style="background: var(--surface-page); border-bottom: 1px solid var(--border-hairline)">
+  <div style="max-width: 1160px; margin: 0 auto; padding: clamp(35px, 7vw, 60px) clamp(20px, 5vw, 24px) clamp(26px, 7vw, 44px)">
+    <div style="display: flex; gap: 8px; align-items: center; font-size: var(--text-xs); color: var(--ink-400); font-family: var(--font-mono)">
+      <a href="01-main.dc.html" style="color: var(--ink-400)" style-hover="color: var(--ink-600)">Home</a><span>/</span><span style="color: var(--ink-600)">FAQ</span>
+    </div>
+    <div style="max-width: 640px; margin-top: 22px">
+      <h1 style="font-size: clamp(30px, 3.2vw, 38px); font-weight: 600; letter-spacing: -0.02em; line-height: 1.14; color: var(--ink-900)">Questions we get asked</h1>
+      <p style="font-size: var(--text-lg); line-height: 1.6; color: var(--ink-600); margin-top: 18px">What INTERA does, what it does not do, and how the Method works. If something is missing, ask us directly.</p>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="FAQ content" style="background: var(--surface-page)">
+  <div style="max-width: 1160px; margin: 0 auto; padding: clamp(28px, 7vw, 48px) clamp(20px, 5vw, 24px) clamp(46px, 7vw, 80px); display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-start">
+    <aside style="position: sticky; top: 100px; flex: 0 1 260px; min-width: 220px">
+      <div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-500); margin-bottom: 14px">On this page</div>
+      <div style="display: flex; flex-direction: column; gap: 2px">
+        <a href="#roles" style="font-size: var(--text-md); color: var(--ink-700); padding: 8px 12px; border-radius: var(--radius-md)" style-hover="background: var(--surface-hover)">INTERA Roles</a>
+        <a href="#method" style="font-size: var(--text-md); color: var(--ink-700); padding: 8px 12px; border-radius: var(--radius-md)" style-hover="background: var(--surface-hover)">INTERA Method</a>
+        <a href="#it" style="font-size: var(--text-md); color: var(--ink-700); padding: 8px 12px; border-radius: var(--radius-md)" style-hover="background: var(--surface-hover)">IT and data</a>
+      </div>
+      <div style="margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--border-hairline)">
+        <p style="font-size: var(--text-sm); line-height: 1.6; color: var(--ink-600)">Still unclear? Send us the situation in two sentences — we answer with what INTERA would actually watch.</p>
+        <div style="margin-top: 14px"><x-import component-from-global-scope="INTERADesignSystem_430dc5.Button" variant="secondary" size="sm" href="06-contact-request.dc.html" hint-size="130px,28px">Ask a question</x-import></div>
+      </div>
+    </aside>
+
+    <div style="flex: 1 1 520px; min-width: 0; max-width: 760px">
+      <h2 id="roles" style="font-size: var(--text-2xl); font-weight: 600; letter-spacing: -0.01em; color: var(--ink-900); scroll-margin-top: 100px">INTERA Roles</h2>
+      <div style="margin-top: 18px; border-top: 1px solid var(--border-hairline)">
+        <details style="border-bottom: 1px solid var(--border-hairline)">
+          <summary style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 0; font-size: var(--text-lg); font-weight: 500; color: var(--ink-900)">What is an INTERA Role?
+            <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="chevron-down" size="18" color="var(--ink-400)" hint-size="18px,18px"></x-import>
+          </summary>
+          <p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); padding-bottom: 20px; max-width: 640px">A ready-made module built around a real responsibility — finance control, operations oversight, revenue assurance, customer health, system integrity. It arrives with its metrics, its checks and its detection logic, reading from several systems at once.</p>
+        </details>
+        <details style="border-bottom: 1px solid var(--border-hairline)">
+          <summary style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 0; font-size: var(--text-lg); font-weight: 500; color: var(--ink-900)">Who is it for?
+            <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="chevron-down" size="18" color="var(--ink-400)" hint-size="18px,18px"></x-import>
+          </summary>
+          <p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); padding-bottom: 20px; max-width: 640px">Managers who work across several systems, cannot fully trust the numbers they receive, and need visibility without chasing other teams. In practice: operations and COO, finance and billing, revenue assurance, customer operations, commercial, and the department heads above them.</p>
+        </details>
+        <details style="border-bottom: 1px solid var(--border-hairline)">
+          <summary style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 0; font-size: var(--text-lg); font-weight: 500; color: var(--ink-900)">How long until we see something useful?
+            <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="chevron-down" size="18" color="var(--ink-400)" hint-size="18px,18px"></x-import>
+          </summary>
+          <p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); padding-bottom: 20px; max-width: 640px">Days, not quarters. Once a data source is connected, the first reconciliation usually finds something. Value grows as more history accumulates and patterns become visible.</p>
+        </details>
+        <details style="border-bottom: 1px solid var(--border-hairline)">
+          <summary style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 0; font-size: var(--text-lg); font-weight: 500; color: var(--ink-900)">Can we change a Role?
+            <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="chevron-down" size="18" color="var(--ink-400)" hint-size="18px,18px"></x-import>
+          </summary>
+          <p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); padding-bottom: 20px; max-width: 640px">Yes. Adjust metrics, change dashboards, add your own data sources, extend the logic. Roles are a starting configuration, not a fixed product.</p>
+        </details>
+        <details style="border-bottom: 1px solid var(--border-hairline)">
+          <summary style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 0; font-size: var(--text-lg); font-weight: 500; color: var(--ink-900)">How is this different from a dashboard?
+            <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="chevron-down" size="18" color="var(--ink-400)" hint-size="18px,18px"></x-import>
+          </summary>
+          <p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); padding-bottom: 20px; max-width: 640px">A dashboard shows numbers and waits for someone to interpret them. INTERA watches the numbers, compares what should agree, raises the items that need action, and shows what keeps happening around them.</p>
+        </details>
+        <details style="border-bottom: 1px solid var(--border-hairline)">
+          <summary style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 0; font-size: var(--text-lg); font-weight: 500; color: var(--ink-900)">Is INTERA a BI tool?
+            <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="chevron-down" size="18" color="var(--ink-400)" hint-size="18px,18px"></x-import>
+          </summary>
+          <p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); padding-bottom: 20px; max-width: 640px">No. BI tools help you analyse data and build reports. INTERA is for monitoring an operation across systems: role-based views, reusable business logic, and signals that need attention. If your problem is charts, use a BI tool. If your problem is that important signals are scattered across ERP, CRM, billing, spreadsheets and internal tools, that is what INTERA is for.</p>
+        </details>
+        <details style="border-bottom: 1px solid var(--border-hairline)">
+          <summary style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 0; font-size: var(--text-lg); font-weight: 500; color: var(--ink-900)">Do we need technical skills to use it?
+            <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="chevron-down" size="18" color="var(--ink-400)" hint-size="18px,18px"></x-import>
+          </summary>
+          <p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); padding-bottom: 20px; max-width: 640px">No. Once the sources are connected, everything is presented for business users — no SQL, no query building. Connecting a new source is the one task that involves IT.</p>
+        </details>
+        <details style="border-bottom: 1px solid var(--border-hairline)">
+          <summary style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 0; font-size: var(--text-lg); font-weight: 500; color: var(--ink-900)">Is it free?
+            <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="chevron-down" size="18" color="var(--ink-400)" hint-size="18px,18px"></x-import>
+          </summary>
+          <p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); padding-bottom: 20px; max-width: 640px">There is a free plan for evaluation: 3 roles, 10 users, 3 integrations, 30 days of history. Early Adopters get 12 months free with unlimited roles. See <a href="03-pricing.dc.html">pricing</a>.</p>
+        </details>
+      </div>
+
+      <h2 id="method" style="font-size: var(--text-2xl); font-weight: 600; letter-spacing: -0.01em; color: var(--ink-900); margin-top: 56px; scroll-margin-top: 100px">INTERA Method</h2>
+      <div style="margin-top: 18px; border-top: 1px solid var(--border-hairline)">
+        <details style="border-bottom: 1px solid var(--border-hairline)">
+          <summary style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 0; font-size: var(--text-lg); font-weight: 500; color: var(--ink-900)">What is the Method?
+            <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="chevron-down" size="18" color="var(--ink-400)" hint-size="18px,18px"></x-import>
+          </summary>
+          <p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); padding-bottom: 20px; max-width: 640px">An on-site engagement where we work with your team to find the blind spots, define the metrics that reflect reality, connect the sources and build the first working roles.</p>
+        </details>
+        <details style="border-bottom: 1px solid var(--border-hairline)">
+          <summary style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 0; font-size: var(--text-lg); font-weight: 500; color: var(--ink-900)">How is it different from consulting?
+            <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="chevron-down" size="18" color="var(--ink-400)" hint-size="18px,18px"></x-import>
+          </summary>
+          <p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); padding-bottom: 20px; max-width: 640px">Consulting ends with recommendations. The Method ends with a running system: connected sources, defined logic, dashboards your team keeps using after we leave.</p>
+        </details>
+        <details style="border-bottom: 1px solid var(--border-hairline)">
+          <summary style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 0; font-size: var(--text-lg); font-weight: 500; color: var(--ink-900)">How long does it take, and who takes part?
+            <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="chevron-down" size="18" color="var(--ink-400)" hint-size="18px,18px"></x-import>
+          </summary>
+          <p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); padding-bottom: 20px; max-width: 640px">Several intensive on-site days, depending on how many systems and roles are involved. We need operational leads, finance or billing stakeholders, and whoever owns access to the systems.</p>
+        </details>
+        <details style="border-bottom: 1px solid var(--border-hairline)">
+          <summary style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 0; font-size: var(--text-lg); font-weight: 500; color: var(--ink-900)">What do we prepare in advance?
+            <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="chevron-down" size="18" color="var(--ink-400)" hint-size="18px,18px"></x-import>
+          </summary>
+          <p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); padding-bottom: 20px; max-width: 640px">Little. Access to the main systems, a few sample reports or exports, and the people who know how the work actually happens — not how it is documented.</p>
+        </details>
+        <details style="border-bottom: 1px solid var(--border-hairline)">
+          <summary style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 0; font-size: var(--text-lg); font-weight: 500; color: var(--ink-900)">What do we have at the end?
+            <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="chevron-down" size="18" color="var(--ink-400)" hint-size="18px,18px"></x-import>
+          </summary>
+          <p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); padding-bottom: 20px; max-width: 640px">A working environment, connected sources, defined metrics and logic, dashboards in daily use — and a clear view of issues that were invisible before.</p>
+        </details>
+      </div>
+
+      <h2 id="it" style="font-size: var(--text-2xl); font-weight: 600; letter-spacing: -0.01em; color: var(--ink-900); margin-top: 56px; scroll-margin-top: 100px">IT and data</h2>
+      <div style="margin-top: 18px; border-top: 1px solid var(--border-hairline)">
+        <details style="border-bottom: 1px solid var(--border-hairline)">
+          <summary style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 0; font-size: var(--text-lg); font-weight: 500; color: var(--ink-900)">Does INTERA write to our systems?
+            <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="chevron-down" size="18" color="var(--ink-400)" hint-size="18px,18px"></x-import>
+          </summary>
+          <p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); padding-bottom: 20px; max-width: 640px">No. Access is read-only. ERP, CRM and billing remain the systems of record; INTERA reads from them and keeps its own logic on top.</p>
+        </details>
+        <details style="border-bottom: 1px solid var(--border-hairline)">
+          <summary style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 0; font-size: var(--text-lg); font-weight: 500; color: var(--ink-900)">What data can INTERA use?
+            <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="chevron-down" size="18" color="var(--ink-400)" hint-size="18px,18px"></x-import>
+          </summary>
+          <p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); padding-bottom: 20px; max-width: 640px">ERP and accounting systems, CRM, billing and mediation, operational platforms, Excel exports, internal APIs and manual inputs. The value comes from combining them, not from any single one.</p>
+        </details>
+        <details style="border-bottom: 1px solid var(--border-hairline)">
+          <summary style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 0; font-size: var(--text-lg); font-weight: 500; color: var(--ink-900)">What exactly do we ask IT for?
+            <x-import component-from-global-scope="INTERADesignSystem_430dc5.Icon" name="chevron-down" size="18" color="var(--ink-400)" hint-size="18px,18px"></x-import>
+          </summary>
+          <p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); padding-bottom: 20px; max-width: 640px">A named system, a DataSource, the fields to map and a refresh window. The <a href="12-docs-article.dc.html">integration contract</a> in the docs states it in one page.</p>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<dc-import name="site-footer" hint-size="100%,420px"></dc-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280}}"></script>
+</body>
+</html>

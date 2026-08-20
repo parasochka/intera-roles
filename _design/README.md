@@ -1,33 +1,162 @@
-# `_design/` — the Claude Design handoff
+# INTERA — макеты сайта intera-roles.com (передача в Claude Code)
 
-Drop the **Claude Design export here** (unzipped): the artboard/screen files and
-whatever the export ships alongside them — tokens, fonts, images.
+Это **дизайн-референс**, а не production-код. В архиве — 13 HTML-макетов страниц + 2 общих
+партиала, дизайн-система INTERA (токены + собранные компоненты) и изображения. Задача Claude Code —
+**воспроизвести эти макеты как тему WordPress**, а не подключать эти файлы как есть.
 
-This folder is at the repo root, so it is **never deployed**: WP Pusher installs
-only the `theme/` subdirectory.
+Точность макетов: **hi-fi**. Цвета, типографика, отступы, состояния наведения и копирайт —
+финальные. Их нужно переносить один в один, брать значения из CSS-переменных дизайн-системы,
+а не подбирать на глаз.
 
-## Expected shape
+---
 
+## Как открыть макеты локально
+
+Файлы `*.dc.html` — самодостаточные HTML-страницы, но подгружают CSS/JS по относительным путям,
+поэтому нужен локальный сервер (не `file://`):
+
+```bash
+python3 -m http.server 8000
+# затем открыть http://localhost:8000/00-templates.dc.html
 ```
-_design/
-├── screens/            # one file per artboard (home, article, page, 404, …)
-├── tokens/             # colors / typography / spacing / radius / elevation / motion
-└── assets/             # logo, illustrations, icons
-```
 
-Anything is fine as long as it is unzipped and committed — the exact layout is
-adapted once the export lands.
+`00-templates.dc.html` — индекс: карточки всех шаблонов со ссылками, именами PHP-файлов и
+заметками по сборке темы. Начинать чтение с него. Все страницы связаны между собой ссылками,
+сайт можно прокликать целиком, включая мобильную ширину.
 
-## What happens next
+Технически каждый макет — React-разметка, отрендеренная рантаймом `support.js`
+(разметка внутри `<x-dc>`, логика — в `<script data-dc-script>` в конце файла).
+Читать нужно именно разметку и инлайн-стили: это и есть спецификация. Рантайм в тему не переносится.
 
-1. **Tokens** are copied verbatim into `theme/_ds/intera/tokens/*.css` and listed
-   in `theme/_ds/intera/styles.css`. They become the single source of truth for
-   styling — no value is ever duplicated in PHP or `assets/css/intera.css`.
-2. **Screens** are cut into the matching `theme/*.php` templates: the screen's
-   HTML and inline styles are kept verbatim, and only the dynamic slots are
-   swapped for WordPress calls (`the_title`, `the_content`, `WP_Query`, …).
-3. **Preview-only attributes** in the export (e.g. `style-hover="…"`) are not
-   real CSS — every hover/focus state is reimplemented in
-   `theme/assets/css/intera.css`, keyed by a class.
-4. **Assets** that belong to the theme chrome (logo, illustrations) move to
-   `theme/assets/img/`. Editorial images stay in the WordPress media library.
+---
+
+## Карта шаблонов → файлы темы
+
+| Макет | Страница | Файл темы |
+|---|---|---|
+| `01-main.dc.html` | Главная | `front-page.php` |
+| `02-product.dc.html` | Продукт | `page-product.php` |
+| `03-pricing.dc.html` | Цены | `page-pricing.php` |
+| `04-faq.dc.html` | FAQ | `page-faq.php` |
+| `05-contacts.dc.html` | Контакты | `page-contacts.php` |
+| `06-contact-request.dc.html` | Контакты — заявка | `page-contact-request.php` |
+| `07-policy.dc.html` | Политика / cookies / лицензия | `page-legal.php` |
+| `08-blog.dc.html` | Блог — лента | `home.php` |
+| `09-blog-post.dc.html` | Блог — статья | `single.php` |
+| `10-blog-category.dc.html` | Блог — категория | `category.php` |
+| `11-docs.dc.html` | Документация — корень | `archive-docs.php` |
+| `12-docs-article.dc.html` | Документация — статья | `single-docs.php` |
+| `13-docs-category.dc.html` | Документация — категория | `taxonomy-docs_category.php` |
+| `site-nav.dc.html` | Шапка и навигация | `header.php` |
+| `site-footer.dc.html` | Подвал | `footer.php` |
+
+### Заметки по структуре WordPress
+- Меню — область меню WordPress (`register_nav_menus`), не хардкод. Пункты в макете:
+  Product, Pricing, FAQ, Docs, Blog, Contacts + бейдж «Beta» + кнопка «Get Early Access».
+- Документация — custom post type `docs` с одной таксономией `docs_category`.
+- Блог — две категории: `life-stories` и `release-information`.
+- Юридические страницы (политика, cookies, лицензия) используют один шаблон `page-legal.php`.
+- Формы (`06`) в макете не подключены к бэкенду: это шесть полей + состояние успеха.
+  Обработку выбрать по стеку проекта (CF7 / Gravity / собственный обработчик) и сохранить
+  тексты и состояния из макета.
+- Аккордеон FAQ в макете — нативный `<details>`; так же можно оставить в теме.
+
+---
+
+## Дизайн-система (источник истины по значениям)
+
+`_ds/intera/`
+
+- `tokens/*.css` — цвета, типографика, отступы, радиусы, тени, motion. Все макеты используют
+  только `var(--*)` отсюда. **Эти файлы нужно перенести в тему как есть** и подключать через
+  `wp_enqueue_style` — тогда значения совпадут точно.
+- `styles.css` — точка входа, только `@import`.
+- `readme.md` — полное руководство по системе: правила голоса и копирайта, палитра, типографика,
+  сетка, границы/карточки/тени, motion, состояния, иконография, логотип, список компонентов.
+  Прочитать до начала верстки.
+- `_ds_bundle.js` — собранные React-компоненты (Button, Card, Badge, Tag, Field/Input/Select,
+  Alert, Dialog, StatusDot, Tabs, SignalBadge, SignalChain, MetricTile, DataTable, Logo, Icon).
+  В теме их **не** используем: переносим в PHP-партиалы/CSS-классы темы, но разметку и стили
+  сверяем по бандлу (это точная реализация того, что видно в макетах).
+
+Ключевое, что нельзя потерять при переносе:
+- Белая страница, вторая заливка — `--surface-sunken` (#F8F9FB); тёмные полосы — `--ink-950`
+  (герой) и `--ink-900` (Early Adopter, подвал). Максимум два фона на странице плюс тёмные полосы.
+- Единственный интерфейсный акцент — Intera Blue `--blue-600` (#1A4FD6).
+- Сигнальные цвета только по смыслу: Event — синий, Reconciliation — teal (#0E8F8A),
+  Incident — amber (#C97A05), Pattern — violet (#6B4FE0).
+- Граница 1px (`--border-card` #CBD3DE) — основной разделитель, не тень. Радиус карточек 8px,
+  кнопок 5px. Круглые «пилюли» кнопок запрещены.
+- Акцент на карточке — полоса 3px по верхнему краю, никогда слева.
+- Никаких градиентов на том, что читают или нажимают.
+
+### Шрифты и иконки
+- **IBM Plex Sans** (текст) и **IBM Plex Mono** (все числа, идентификаторы, даты, источники,
+  дельты) — подключены из Google Fonts через `tokens/fonts.css`. Для продакшена лучше положить
+  файлы локально в тему и раздавать самостоятельно.
+- Иконки — **Lucide 0.469.0** с CDN (`https://unpkg.com/lucide@0.469.0/dist/umd/lucide.js`),
+  толщина обводки 1.75, `currentColor`. Для темы разумнее инлайнить нужные SVG вместо загрузки
+  всей библиотеки. Фиксированные пары: Event = `activity`, Reconciliation = `scale`,
+  Incident = `alert-triangle`, Pattern = `git-branch`, Connect = `plug`, Source = `database`.
+
+---
+
+## Интерактив и анимация
+
+Правила проекта лежат в `CLAUDE.md` (в корне архива) — их нужно соблюдать и в теме.
+Общие классы объявлены в `<helmet><style>` каждого макета, скопировать их в стиль темы:
+
+| Класс | Где | Поведение при наведении |
+|---|---|---|
+| `.itr-lift` | карточки | подъём 5px, усиление границы и тени |
+| `.itr-row` | строки списков | сдвиг 8px вправо, белая заливка, граница `--blue-200` |
+| `.itr-tile` | компактные плитки-ярлыки | подъём 4px, заливка `--blue-50` |
+| `.itr-panel` | панели на тёмных полосах | подъём 4px, светлее фон и граница |
+| `.itr-frame` | рамки скриншотов продукта | подъём 6px, глубже тень |
+| `.itr-live-dot` / `.itr-live-halo` | индикатор «в бете» / «live» | пульсирующая зелёная точка |
+
+Бюджет движения: 150–260ms, `cubic-bezier(.2,.6,.25,1)`, только transform / opacity / цвет.
+Без пружин, без scroll-reveal, без анимации цифр. Блок `prefers-reduced-motion` обязателен —
+он уже написан в каждом макете, перенести целиком.
+
+## Адаптив
+
+`mobile.css` — правки мобильной раскладки поверх инлайн-стилей (поэтому там `!important`).
+Брейкпоинты: **900px** (сетки 4→2 колонки, двухколоночные разрезы схлопываются, плавающие
+карточки становятся следующим блоком) и **760px** (одна колонка, скриншоты — читаемый кроп,
+широкие таблицы скроллятся по горизонтали). Плюс `@media (hover: none)` — без «залипающих»
+hover-трансформов на тач-устройствах. В теме это лучше переписать нормальным CSS без
+`!important`, сохранив те же брейкпоинты и поведение.
+
+Сетка: контейнер 1160px, боковые отступы 24px; вертикальные отступы секций 88–96px
+(на мобильном сжимаются через `clamp`).
+
+---
+
+## Изображения
+
+- `assets/shots/*.png|webp` — скриншоты продукта (пакет Shipmanagement). На главной по брифу
+  используются **только три** визуала: `ship-5` (состояние флота, герой), `ship-2` (очередь
+  внимания, секция сигналов), `ship-4` (зависимости, секция про ИТ). Ещё `ship-3` на странице
+  продукта и `ship-2` в статье блога. Это кропы; финальные скриншоты будут сняты с живой системы
+  заказчиком — в теме их нужно отдавать через медиатеку/поля, а не хардкодить.
+- `assets/logo/*.svg` — логотип: горизонтальный лок-ап, инверсный, только знак, знак инверсный,
+  квадратный. Минимальный размер знака 16px. Не перекрашивать вне пары ink/blue, не вращать,
+  не добавлять градиент или тень.
+- Фотостока и иллюстраций в бренде нет и не должно появиться.
+
+## Исходные материалы
+
+`uploads/` — бриф и материалы заказчика: `intera-roles.com (2026-08 sow).docx` (+ текстовая
+выгрузка `sow-extract.txt`), `INTERA.xlsx` (+ `xlsx-dump.txt`), скриншоты продукта,
+папка `The INTERA Method`. Копирайт на страницах взят оттуда — при доработке текста
+сверяться с брифом и правилами голоса из `readme.md` дизайн-системы.
+
+## Что не сделано и требует решения
+
+1. Формы не подключены к бэкенду (только UI и состояние успеха).
+2. Юридические тексты в `07-policy.dc.html` — рыба по структуре, не согласованный документ.
+3. Финальные скриншоты продукта заказчик снимет с живой системы.
+4. Шрифты и иконки грузятся с CDN — для продакшена перенести локально.
+5. Логотип — оригинальная работа в рамках дизайн-системы, а не переданный заказчиком файл.
+6. Мультиязычность (RU/EN) в макетах не заложена: если нужна, решать до сборки шаблонов.
