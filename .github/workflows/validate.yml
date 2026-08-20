@@ -1,0 +1,78 @@
+name: Validate theme
+
+# Sanity-checks the theme on every push so WP Pusher never pulls a broken build.
+# Classic PHP theme in theme/: lint every PHP file, confirm the required theme
+# files exist, and confirm the design-system manifest and tokens are present.
+# No secrets, no server access — deploy happens in WordPress via WP Pusher.
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**.md'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+
+      - name: Lint all PHP files
+        run: |
+          set -e
+          find . -name '*.php' -not -path './vendor/*' -not -path '*/node_modules/*' -print0 \
+            | xargs -0 -n1 -P4 php -l
+          echo "All PHP files parse."
+
+      - name: Ensure required theme files exist
+        run: |
+          set -e
+          for f in style.css functions.php index.php header.php footer.php \
+                   page.php single.php 404.php \
+                   inc/setup.php inc/enqueue.php; do
+            if [ ! -f "theme/$f" ]; then
+              echo "::error title=Missing theme file::theme/$f is required for this classic theme"
+              exit 1
+            fi
+          done
+          echo "All required theme files present."
+
+      - name: Ensure the design system is present and wired
+        run: |
+          set -e
+          DS="theme/_ds/intera"
+          if [ ! -f "$DS/styles.css" ]; then
+            echo "::error title=Missing manifest::$DS/styles.css is required"
+            exit 1
+          fi
+          # Every sheet the manifest @imports must exist on disk.
+          missing=0
+          while read -r rel; do
+            [ -z "$rel" ] && continue
+            path="$DS/${rel#./}"
+            if [ ! -f "$path" ]; then
+              echo "::error title=Missing design token::$path is @imported by $DS/styles.css but does not exist"
+              missing=1
+            fi
+          done < <(grep -oE '@import[[:space:]]+(url\()?["'"'"'][^"'"'"']+' "$DS/styles.css" | sed -E 's/.*["'"'"']//')
+          [ "$missing" -eq 0 ] || exit 1
+          echo "Design system present and every @import resolves."
+
+      - name: Warn on hard-coded colors outside the design system
+        continue-on-error: true
+        run: |
+          if grep -rnE '#[0-9a-fA-F]{3,8}\b' theme --include='*.php' --include='assets/css/*.css' >/dev/null 2>&1; then
+            echo "::warning title=Raw hex found::Colors belong in theme/_ds/intera/tokens/*.css — reference them with var(--…)"
+            grep -rnE '#[0-9a-fA-F]{3,8}\b' theme --include='*.php' || true
+          else
+            echo "No raw hex outside the design system."
+          fi

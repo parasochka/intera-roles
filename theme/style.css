@@ -1,0 +1,23 @@
+/*
+Theme Name: Intera Roles
+Theme URI: https://intera-roles.com
+Author: Intera
+Description: Classic PHP theme for intera-roles.com. The Claude Design system (_ds/intera/tokens/*.css) is the single source of truth for styling; the design-handoff screens are reproduced pixel-for-pixel in plain PHP templates. Edit a token in _ds/intera/tokens to re-theme the whole site.
+Version: 0.1.0
+Requires at least: 6.4
+Tested up to: 6.8
+Requires PHP: 8.0
+License: GPL-2.0-or-later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: intera
+*/
+
+/*
+ * No real CSS lives here.
+ *
+ *   Tokens  -> _ds/intera/tokens/*.css   (single source of truth)
+ *   Styles  -> assets/css/intera.css     (prose, hovers, responsive, motion)
+ *
+ * This file exists for the WordPress theme header above and is inlined last by
+ * inc/enqueue.php, so anything added here wins the cascade. Keep it empty.
+ */

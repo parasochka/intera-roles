@@ -1,0 +1,17 @@
+/*
+ * Design-system manifest — the ONLY place the token sheets are listed.
+ *
+ * inc/enqueue.php parses these @import lines and inlines each sheet in this
+ * order. Adding a token file? Add it here too.
+ *
+ * These files are the source of truth for styling and are replaced wholesale by
+ * the Claude Design export. Do not hand-edit values elsewhere.
+ */
+@import "./tokens/fonts.css";
+@import "./tokens/colors.css";
+@import "./tokens/typography.css";
+@import "./tokens/spacing.css";
+@import "./tokens/radius.css";
+@import "./tokens/elevation.css";
+@import "./tokens/motion.css";
+@import "./components/patterns.css";

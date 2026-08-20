@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+vendor/
+
+# Build artifacts
+*.zip
+dist/
+build/
+
+# Design source binaries — the live tokens ship as CSS in
+# theme/_ds/intera/tokens/*.css, so binary exports need not be committed.
+*.fig
+*.sketch
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
+
+# Local WordPress / secrets
+wp-config.php
+.env
+.env.*
