@@ -81,16 +81,16 @@ get_header();
 					<span style="font-size: var(--text-xs); color: rgba(255,255,255,.82); font-weight: 500"><?php echo esc_html( $intera_hero_status ); ?></span>
 				</div>
 			<?php endif; ?>
-			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: rgba(255,255,255,.42); margin-top: 30px"><?php esc_html_e( 'Your business, clearly', 'intera' ); ?></div>
-			<h1 style="font-size: clamp(34px, 4vw, 52px); font-weight: 600; line-height: 1.08; letter-spacing: -0.028em; color: var(--white); margin-top: 14px; max-width: 520px; text-wrap: balance"><?php esc_html_e( 'See what needs attention. Before someone has to ask.', 'intera' ); ?></h1>
-			<p style="font-size: var(--text-lg); line-height: 1.6; color: rgba(255,255,255,.66); margin-top: 22px; max-width: 460px"><?php esc_html_e( 'INTERA connects the systems your teams already use and gives each role a clear view of what matters — changes, risks, inconsistencies and trends.', 'intera' ); ?></p>
+			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: rgba(255,255,255,.42); margin-top: 30px"><?php echo esc_html( intera_copy( 'home_hero__your_business_clearly' ) ); ?></div>
+			<h1 style="font-size: clamp(34px, 4vw, 52px); font-weight: 600; line-height: 1.08; letter-spacing: -0.028em; color: var(--white); margin-top: 14px; max-width: 520px; text-wrap: balance"><?php echo esc_html( intera_copy( 'home_hero__see_what_needs_attention_before_someone' ) ); ?></h1>
+			<p style="font-size: var(--text-lg); line-height: 1.6; color: rgba(255,255,255,.66); margin-top: 22px; max-width: 460px"><?php echo esc_html( intera_copy( 'home_hero__intera_connects_the_systems_your_teams' ) ); ?></p>
 			<div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px">
 				<?php
 				get_template_part(
 					'template-parts/components/button',
 					null,
 					array(
-						'label'   => __( 'Get Early Access', 'intera' ),
+						'label'   => intera_copy( 'home_hero__get_early_access' ),
 						'href'    => $intera_request_url,
 						'variant' => 'inverse',
 						'size'    => 'lg',
@@ -101,7 +101,7 @@ get_header();
 					'template-parts/components/button',
 					null,
 					array(
-						'label'      => __( 'See how INTERA works', 'intera' ),
+						'label'      => intera_copy( 'home_hero__see_how_intera_works' ),
 						'href'       => '#how',
 						'variant'    => 'outlineInverse',
 						'size'       => 'lg',
@@ -113,9 +113,9 @@ get_header();
 			<div style="display: flex; gap: 26px; flex-wrap: wrap; margin-top: 38px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.14)">
 				<?php
 				$intera_hero_facts = array(
-					'route-off'   => __( 'No migration', 'intera' ),
-					'lock'        => __( 'Read-only access', 'intera' ),
-					'circle-dot'  => __( 'Start with one role', 'intera' ),
+					'route-off'   => intera_copy( 'home_hero__no_migration' ),
+					'lock'        => intera_copy( 'home_hero__read_only_access' ),
+					'circle-dot'  => intera_copy( 'home_hero__start_with_one_role' ),
 				);
 
 				foreach ( $intera_hero_facts as $intera_fact_icon => $intera_fact_label ) :
@@ -137,9 +137,9 @@ get_header();
 				?>
 			</div>
 			<div style="display: flex; align-items: center; gap: 14px; margin-top: 18px; flex-wrap: wrap">
-				<span style="font-size: var(--text-2xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: rgba(255,255,255,.4)"><?php esc_html_e( 'Reads from', 'intera' ); ?></span>
+				<span style="font-size: var(--text-2xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: rgba(255,255,255,.4)"><?php echo esc_html( intera_copy( 'home_hero__reads_from' ) ); ?></span>
 				<span style="display: flex; gap: 14px; flex-wrap: wrap; font-family: var(--font-mono); font-size: var(--text-xs); color: rgba(255,255,255,.58)">
-					<span>ERP</span><span>CRM</span><span>Billing</span><span>Excel</span><span><?php esc_html_e( 'Internal tools', 'intera' ); ?></span>
+					<span>ERP</span><span>CRM</span><span>Billing</span><span>Excel</span><span><?php echo esc_html( intera_copy( 'home_hero__internal_tools' ) ); ?></span>
 				</span>
 			</div>
 		</div>
@@ -161,7 +161,7 @@ get_header();
 				null,
 				array(
 					'attachment' => $intera_hero_shot,
-					'caption'    => __( 'Fleet Health Overview · Shipmanagement', 'intera' ),
+					'caption'    => intera_copy( 'home_hero__fleet_health_overview_shipmanagement' ),
 					'height'     => '420px',
 					'shadow'     => 'var(--shadow-overlay)',
 				)
@@ -189,10 +189,10 @@ get_header();
 				?>
 				<span style="font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--ink-400)">09:14 UTC</span>
 			</div>
-			<div style="font-size: var(--text-md); font-weight: 600; color: var(--ink-900); margin-top: 10px; line-height: 1.4"><?php esc_html_e( 'Critical maintenance task overdue', 'intera' ); ?></div>
+			<div style="font-size: var(--text-md); font-weight: 600; color: var(--ink-900); margin-top: 10px; line-height: 1.4"><?php echo esc_html( intera_copy( 'home_hero__critical_maintenance_task_overdue' ) ); ?></div>
 			<div style="display: flex; align-items: baseline; gap: 8px; margin-top: 10px">
-				<span style="font-family: var(--font-mono); font-size: var(--text-2xl); font-weight: 500; color: var(--ink-900); letter-spacing: -0.01em"><?php esc_html_e( '5 days', 'intera' ); ?></span>
-				<span style="font-size: var(--text-xs); color: var(--ink-500)"><?php esc_html_e( 'before impact', 'intera' ); ?></span>
+				<span style="font-family: var(--font-mono); font-size: var(--text-2xl); font-weight: 500; color: var(--ink-900); letter-spacing: -0.01em"><?php echo esc_html( intera_copy( 'home_hero__5_days' ) ); ?></span>
+				<span style="font-size: var(--text-xs); color: var(--ink-500)"><?php echo esc_html( intera_copy( 'home_hero__before_impact' ) ); ?></span>
 			</div>
 			<div style="display: flex; align-items: center; gap: 7px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border-subtle); font-size: var(--text-xs); color: var(--ink-500)">
 				<?php
@@ -203,7 +203,7 @@ get_header();
 						'color' => 'var(--signal-pattern)',
 					)
 				);
-				esc_html_e( '4th occurrence — always after a delayed spare', 'intera' );
+				echo esc_html( intera_copy( 'home_hero__4th_occurrence_always_after_a_delayed' ) );
 				?>
 			</div>
 			<?php
@@ -229,13 +229,13 @@ get_header();
 	<div aria-hidden="true" style="position: absolute; left: 88%; top: 18%; width: 820px; height: 820px; transform: translate(-50%,-50%); pointer-events: none; background: radial-gradient(circle, var(--wash-amber) 0%, transparent 68%)"></div>
 	<div style="position: relative; max-width: 1160px; margin: 0 auto; padding: clamp(51px, 7vw, 88px) clamp(20px, 5vw, 24px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 56px; align-items: start">
 		<div>
-			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php esc_html_e( 'The problem', 'intera' ); ?></div>
-			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php esc_html_e( 'This will feel familiar', 'intera' ); ?></h2>
-			<p style="font-size: var(--text-lg); line-height: 1.6; color: var(--ink-600); margin-top: 16px; max-width: 520px"><?php esc_html_e( 'Your business runs across several systems. Finance sees one part. Operations sees another.', 'intera' ); ?></p>
+			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'home_problem__the_problem' ) ); ?></div>
+			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'home_problem__this_will_feel_familiar' ) ); ?></h2>
+			<p style="font-size: var(--text-lg); line-height: 1.6; color: var(--ink-600); margin-top: 16px; max-width: 520px"><?php echo esc_html( intera_copy( 'home_problem__your_business_runs_across_several_systems' ) ); ?></p>
 			<div style="display: flex; flex-direction: column; gap: 14px; max-width: 520px; margin-top: 24px">
-				<p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-700)"><?php esc_html_e( 'CRM, billing, ERP, spreadsheets and internal tools each contain pieces of the picture. Problems often become visible only when someone connects those pieces manually.', 'intera' ); ?></p>
-				<p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-700)"><?php esc_html_e( 'Teams spend time checking, reconciling, explaining and preparing information that already exists somewhere in the business.', 'intera' ); ?></p>
-				<p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-900); font-weight: 500"><?php esc_html_e( 'INTERA makes that operating picture continuously visible.', 'intera' ); ?></p>
+				<p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-700)"><?php echo esc_html( intera_copy( 'home_problem__crm_billing_erp_spreadsheets_and_internal' ) ); ?></p>
+				<p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-700)"><?php echo esc_html( intera_copy( 'home_problem__teams_spend_time_checking_reconciling_explaining' ) ); ?></p>
+				<p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-900); font-weight: 500"><?php echo esc_html( intera_copy( 'home_problem__intera_makes_that_operating_picture_continuously' ) ); ?></p>
 			</div>
 		</div>
 		<div style="display: flex; flex-direction: column; gap: 10px">
@@ -249,35 +249,35 @@ get_header();
 			$intera_sources = array(
 				array(
 					'icon'   => 'boxes',
-					'label'  => __( 'ERP', 'intera' ),
+					'label'  => intera_copy( 'home_problem__erp' ),
 					'ref'    => 'erp.orders',
 					'dot'    => 'var(--ink-200)',
 					'indent' => 0,
 				),
 				array(
 					'icon'   => 'contact',
-					'label'  => __( 'CRM', 'intera' ),
+					'label'  => intera_copy( 'home_problem__crm' ),
 					'ref'    => 'crm.accounts',
 					'dot'    => 'var(--ink-200)',
 					'indent' => 26,
 				),
 				array(
 					'icon'   => 'receipt',
-					'label'  => __( 'Billing', 'intera' ),
+					'label'  => intera_copy( 'home_problem__billing' ),
 					'ref'    => 'billing.invoices',
 					'dot'    => 'var(--status-warning)',
 					'indent' => 52,
 				),
 				array(
 					'icon'   => 'table-2',
-					'label'  => __( 'Spreadsheets', 'intera' ),
+					'label'  => intera_copy( 'home_problem__spreadsheets' ),
 					'ref'    => 'ops_checks.xlsx',
 					'dot'    => 'var(--ink-200)',
 					'indent' => 26,
 				),
 				array(
 					'icon'   => 'terminal',
-					'label'  => __( 'Internal tools', 'intera' ),
+					'label'  => intera_copy( 'home_problem__internal_tools' ),
 					'ref'    => 'provisioning.api',
 					'dot'    => 'var(--ink-200)',
 					'indent' => 0,
@@ -314,7 +314,7 @@ get_header();
 			<div style="display: flex; align-items: center; gap: 10px; margin-top: 8px; color: var(--ink-400); font-size: var(--text-xs)">
 				<?php
 				intera_icon( 'corner-down-right', array( 'size' => 15 ) );
-				esc_html_e( 'Pieces of the same picture, checked by hand.', 'intera' );
+				echo esc_html( intera_copy( 'home_problem__pieces_of_the_same_picture_checked' ) );
 				?>
 			</div>
 		</div>
@@ -324,26 +324,26 @@ get_header();
 <section id="how" data-screen-label="How it works" style="background: var(--surface-page)">
 	<div style="max-width: 1160px; margin: 0 auto; padding: clamp(53px, 7vw, 92px) clamp(20px, 5vw, 24px)">
 		<div style="max-width: 720px; margin-bottom: 40px">
-			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php esc_html_e( 'How it works', 'intera' ); ?></div>
-			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php esc_html_e( 'Get full visibility without changing how your company operates', 'intera' ); ?></h2>
+			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'home_how_it_works__how_it_works' ) ); ?></div>
+			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'home_how_it_works__get_full_visibility_without_changing_how' ) ); ?></h2>
 		</div>
 		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(290px, 100%), 1fr)); gap: 20px">
 			<?php
 			$intera_steps = array(
 				array(
 					'icon'  => 'plug',
-					'title' => __( 'Connect your existing systems', 'intera' ),
-					'body'  => __( 'INTERA connects to finance, operations, CRM, billing, ERP, Excel and internal systems without replacing them.', 'intera' ),
+					'title' => intera_copy( 'home_how_it_works__connect_your_existing_systems' ),
+					'body'  => intera_copy( 'home_how_it_works__intera_connects_to_finance_operations_crm' ),
 				),
 				array(
 					'icon'  => 'scale',
-					'title' => __( 'INTERA understands what matters', 'intera' ),
-					'body'  => __( 'It applies your business logic and watches changes, risks and inconsistencies across the systems it reads.', 'intera' ),
+					'title' => intera_copy( 'home_how_it_works__intera_understands_what_matters' ),
+					'body'  => intera_copy( 'home_how_it_works__it_applies_your_business_logic_and' ),
 				),
 				array(
 					'icon'  => 'eye',
-					'title' => __( 'See what needs attention', 'intera' ),
-					'body'  => __( 'Managers immediately see what changed, what requires action and where to investigate.', 'intera' ),
+					'title' => intera_copy( 'home_how_it_works__see_what_needs_attention' ),
+					'body'  => intera_copy( 'home_how_it_works__managers_immediately_see_what_changed_what' ),
 				),
 			);
 
@@ -377,7 +377,7 @@ get_header();
 			}
 			?>
 		</div>
-		<p style="font-size: var(--text-lg); color: var(--ink-700); margin-top: 34px; max-width: 760px; line-height: 1.6"><?php esc_html_e( 'INTERA doesn\'t replace your team — it removes unnecessary manual checking and reporting between systems and people.', 'intera' ); ?></p>
+		<p style="font-size: var(--text-lg); color: var(--ink-700); margin-top: 34px; max-width: 760px; line-height: 1.6"><?php echo esc_html( intera_copy( 'home_how_it_works__intera_doesn_t_replace_your_team' ) ); ?></p>
 	</div>
 </section>
 
@@ -385,37 +385,37 @@ get_header();
 	<div aria-hidden="true" style="position: absolute; left: 82%; top: 78%; width: 880px; height: 880px; transform: translate(-50%,-50%); pointer-events: none; background: radial-gradient(circle, var(--wash-teal) 0%, transparent 68%)"></div>
 	<div style="position: relative; max-width: 1160px; margin: 0 auto; padding: clamp(51px, 7vw, 88px) clamp(20px, 5vw, 24px)">
 		<div style="max-width: 720px; margin-bottom: 40px">
-			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php esc_html_e( 'For the manager who owns the area', 'intera' ); ?></div>
-			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php esc_html_e( 'Make your area easier to run', 'intera' ); ?></h2>
-			<p style="font-size: var(--text-lg); line-height: 1.6; color: var(--ink-600); margin-top: 16px"><?php esc_html_e( 'INTERA doesn\'t just give management more visibility. It helps you stay on top of the part of the business you\'re responsible for.', 'intera' ); ?></p>
+			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'home_champion__for_the_manager_who_owns_the' ) ); ?></div>
+			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'home_champion__make_your_area_easier_to_run' ) ); ?></h2>
+			<p style="font-size: var(--text-lg); line-height: 1.6; color: var(--ink-600); margin-top: 16px"><?php echo esc_html( intera_copy( 'home_champion__intera_doesn_t_just_give_management' ) ); ?></p>
 		</div>
 		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 20px">
 			<?php
 			$intera_benefits = array(
 				array(
 					'icon'  => 'bell',
-					'title' => __( 'Know before you\'re asked', 'intera' ),
-					'body'  => __( 'See problems and unusual changes before they become questions or escalations.', 'intera' ),
+					'title' => intera_copy( 'home_champion__know_before_you_re_asked' ),
+					'body'  => intera_copy( 'home_champion__see_problems_and_unusual_changes_before' ),
 				),
 				array(
 					'icon'  => 'clock',
-					'title' => __( 'Spend less time proving what\'s happening', 'intera' ),
-					'body'  => __( 'Reduce repetitive reporting, manual checks and status updates.', 'intera' ),
+					'title' => intera_copy( 'home_champion__spend_less_time_proving_what_s' ),
+					'body'  => intera_copy( 'home_champion__reduce_repetitive_reporting_manual_checks_and' ),
 				),
 				array(
 					'icon'  => 'clipboard-check',
-					'title' => __( 'Bring problems with answers', 'intera' ),
-					'body'  => __( 'See the supporting data and understand what requires action.', 'intera' ),
+					'title' => intera_copy( 'home_champion__bring_problems_with_answers' ),
+					'body'  => intera_copy( 'home_champion__see_the_supporting_data_and_understand' ),
 				),
 				array(
 					'icon'  => 'shield-check',
-					'title' => __( 'Show that your area is under control', 'intera' ),
-					'body'  => __( 'Give management clear and consistent visibility without preparing another spreadsheet.', 'intera' ),
+					'title' => intera_copy( 'home_champion__show_that_your_area_is_under' ),
+					'body'  => intera_copy( 'home_champion__give_management_clear_and_consistent_visibility' ),
 				),
 				array(
 					'icon'  => 'repeat',
-					'title' => __( 'Make improvements that last', 'intera' ),
-					'body'  => __( 'Turn the checks, knowledge and working practices your team already uses into something repeatable and visible across the organization.', 'intera' ),
+					'title' => intera_copy( 'home_champion__make_improvements_that_last' ),
+					'body'  => intera_copy( 'home_champion__turn_the_checks_knowledge_and_working' ),
 				),
 			);
 
@@ -439,7 +439,7 @@ get_header();
 			}
 			?>
 			<div style="display: flex; align-items: center; padding: 0 8px">
-				<p style="font-size: var(--text-xl); font-weight: 600; line-height: 1.35; letter-spacing: -0.01em; color: var(--ink-900)"><?php esc_html_e( 'Less chasing.', 'intera' ); ?><br><?php esc_html_e( 'Fewer surprises.', 'intera' ); ?><br><?php esc_html_e( 'More confidence in the part of the business you own.', 'intera' ); ?></p>
+				<p style="font-size: var(--text-xl); font-weight: 600; line-height: 1.35; letter-spacing: -0.01em; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'home_champion__less_chasing' ) ); ?><br><?php echo esc_html( intera_copy( 'home_champion__fewer_surprises' ) ); ?><br><?php echo esc_html( intera_copy( 'home_champion__more_confidence_in_the_part_of' ) ); ?></p>
 			</div>
 		</div>
 	</div>
@@ -448,8 +448,8 @@ get_header();
 <section id="action" data-screen-label="In action" style="background: var(--surface-page)">
 	<div style="max-width: 1160px; margin: 0 auto; padding: clamp(53px, 7vw, 92px) clamp(20px, 5vw, 24px)">
 		<div style="max-width: 720px; margin-bottom: 40px">
-			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php esc_html_e( 'INTERA in action', 'intera' ); ?></div>
-			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php esc_html_e( 'Don\'t just watch the business. Catch what matters.', 'intera' ); ?></h2>
+			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'home_in_action__intera_in_action' ) ); ?></div>
+			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'home_in_action__don_t_just_watch_the_business' ) ); ?></h2>
 		</div>
 		<?php
 		get_template_part(
@@ -457,10 +457,10 @@ get_header();
 			null,
 			array(
 				'captions' => array(
-					'event'          => __( 'Something important changed.', 'intera' ),
-					'reconciliation' => __( 'Things that should agree — don\'t.', 'intera' ),
-					'incident'       => __( 'Something requires attention and action.', 'intera' ),
-					'pattern'        => __( 'Understand what keeps happening, and under which conditions.', 'intera' ),
+					'event'          => intera_copy( 'home_in_action__something_important_changed' ),
+					'reconciliation' => intera_copy( 'home_in_action__things_that_should_agree_don_t' ),
+					'incident'       => intera_copy( 'home_in_action__something_requires_attention_and_action' ),
+					'pattern'        => intera_copy( 'home_in_action__understand_what_keeps_happening_and_under' ),
 				),
 			)
 		);
@@ -468,9 +468,9 @@ get_header();
 		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 40px; align-items: center; margin-top: 52px">
 			<div>
 				<div style="border-left: 3px solid var(--blue-600); padding-left: 24px; max-width: 520px">
-					<p style="font-size: var(--text-2xl); line-height: 1.4; letter-spacing: -0.01em; color: var(--ink-900)"><?php esc_html_e( 'From "something looks wrong" to "we know what is happening, why it matters, and what to watch next."', 'intera' ); ?></p>
+					<p style="font-size: var(--text-2xl); line-height: 1.4; letter-spacing: -0.01em; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'home_in_action__from_something_looks_wrong_to_we' ) ); ?></p>
 				</div>
-				<p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); margin-top: 24px; max-width: 520px"><?php esc_html_e( 'Every item carries the reason it is on the list: what changed, who owns it, when it becomes a problem, and what keeps happening around it.', 'intera' ); ?></p>
+				<p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); margin-top: 24px; max-width: 520px"><?php echo esc_html( intera_copy( 'home_in_action__every_item_carries_the_reason_it' ) ); ?></p>
 			</div>
 			<?php
 			get_template_part(
@@ -478,7 +478,7 @@ get_header();
 				null,
 				array(
 					'attachment' => intera_option( 'shot_signals' ),
-					'caption'    => __( 'Attention Queue · what to work on first', 'intera' ),
+					'caption'    => intera_copy( 'home_in_action__attention_queue_what_to_work_on' ),
 					'height'     => '420px',
 				)
 			);
@@ -491,9 +491,9 @@ get_header();
 	<div aria-hidden="true" style="position: absolute; left: 14%; top: 22%; width: 900px; height: 900px; transform: translate(-50%,-50%); pointer-events: none; background: radial-gradient(circle, var(--wash-violet) 0%, transparent 68%)"></div>
 	<div style="position: relative; max-width: 1160px; margin: 0 auto; padding: clamp(51px, 7vw, 88px) clamp(20px, 5vw, 24px)">
 		<div style="max-width: 760px; margin-bottom: 40px">
-			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php esc_html_e( 'INTERA Roles', 'intera' ); ?></div>
-			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php esc_html_e( 'Pre-built visibility for the parts of your business that matter most', 'intera' ); ?></h2>
-			<p style="font-size: var(--text-lg); line-height: 1.6; color: var(--ink-600); margin-top: 16px"><?php esc_html_e( 'Roles are ready-made business modules designed around real responsibilities. Each one comes with predefined metrics, logic and automatic issue detection — so you see what\'s happening without building anything from scratch.', 'intera' ); ?></p>
+			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'home_roles__intera_roles' ) ); ?></div>
+			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'home_roles__pre_built_visibility_for_the_parts' ) ); ?></h2>
+			<p style="font-size: var(--text-lg); line-height: 1.6; color: var(--ink-600); margin-top: 16px"><?php echo esc_html( intera_copy( 'home_roles__roles_are_ready_made_business_modules' ) ); ?></p>
 		</div>
 		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 20px">
 			<?php
@@ -521,14 +521,14 @@ get_header();
 			}
 			?>
 			<div style="display: flex; flex-direction: column; justify-content: center; gap: 18px; padding: 0 8px">
-				<p style="font-size: var(--text-xl); font-weight: 600; line-height: 1.35; letter-spacing: -0.01em; color: var(--ink-900)"><?php esc_html_e( 'Different responsibilities. One operating picture.', 'intera' ); ?></p>
+				<p style="font-size: var(--text-xl); font-weight: 600; line-height: 1.35; letter-spacing: -0.01em; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'home_roles__different_responsibilities_one_operating_picture' ) ); ?></p>
 				<div>
 					<?php
 					get_template_part(
 						'template-parts/components/button',
 						null,
 						array(
-							'label'      => __( 'See all Roles', 'intera' ),
+							'label'      => intera_copy( 'home_roles__see_all_roles' ),
 							'href'       => $intera_roles_url,
 							'variant'    => 'secondary',
 							'icon_right' => 'arrow-right',
@@ -544,16 +544,16 @@ get_header();
 <section id="it" data-screen-label="Working with IT" style="background: var(--surface-page)">
 	<div style="max-width: 1160px; margin: 0 auto; padding: clamp(53px, 7vw, 92px) clamp(20px, 5vw, 24px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 52px; align-items: start">
 		<div>
-			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php esc_html_e( 'Working with existing IT', 'intera' ); ?></div>
-			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php esc_html_e( 'Your systems stay. INTERA makes them more useful.', 'intera' ); ?></h2>
+			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'home_working_with_it__working_with_existing_it' ) ); ?></div>
+			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'home_working_with_it__your_systems_stay_intera_makes_them' ) ); ?></h2>
 			<div style="display: flex; flex-direction: column; gap: 0; margin-top: 28px; border-top: 1px solid var(--border-hairline)">
 				<?php
 				$intera_it_facts = array(
-					array( 'database', __( 'ERP, CRM, billing and others remain your systems of record.', 'intera' ) ),
-					array( 'plug', __( 'INTERA connects to them, never replacing anything.', 'intera' ) ),
-					array( 'lock', __( 'IT is responsible for access to systems and data.', 'intera' ) ),
-					array( 'sliders-horizontal', __( 'Business decides which Metrics, Events, Incidents, Reconciliations and Patterns are important.', 'intera' ) ),
-					array( 'route-off', __( 'No company-wide transformation project.', 'intera' ) ),
+					array( 'database', intera_copy( 'home_working_with_it__erp_crm_billing_and_others_remain' ) ),
+					array( 'plug', intera_copy( 'home_working_with_it__intera_connects_to_them_never_replacing' ) ),
+					array( 'lock', intera_copy( 'home_working_with_it__it_is_responsible_for_access_to' ) ),
+					array( 'sliders-horizontal', intera_copy( 'home_working_with_it__business_decides_which_metrics_events_incidents' ) ),
+					array( 'route-off', intera_copy( 'home_working_with_it__no_company_wide_transformation_project' ) ),
 				);
 
 				foreach ( $intera_it_facts as $intera_it_fact ) :
@@ -574,7 +574,7 @@ get_header();
 				endforeach;
 				?>
 			</div>
-			<p style="font-size: var(--text-lg); line-height: 1.55; color: var(--ink-900); font-weight: 500; margin-top: 26px; max-width: 520px"><?php esc_html_e( 'Business teams know what they need to control. IT knows how the systems work. INTERA gives them a practical place to meet.', 'intera' ); ?></p>
+			<p style="font-size: var(--text-lg); line-height: 1.55; color: var(--ink-900); font-weight: 500; margin-top: 26px; max-width: 520px"><?php echo esc_html( intera_copy( 'home_working_with_it__business_teams_know_what_they_need' ) ); ?></p>
 		</div>
 		<?php
 		get_template_part(
@@ -582,7 +582,7 @@ get_header();
 			null,
 			array(
 				'attachment' => intera_option( 'shot_it' ),
-				'caption'    => __( 'Dependencies · vendors, parts, external commitments', 'intera' ),
+				'caption'    => intera_copy( 'home_working_with_it__dependencies_vendors_parts_external_commitments' ),
 				'height'     => '440px',
 			)
 		);
@@ -594,16 +594,16 @@ get_header();
 	<div style="max-width: 1160px; margin: 0 auto; padding: clamp(46px, 7vw, 80px) clamp(20px, 5vw, 24px)">
 		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 48px; align-items: start">
 			<div>
-				<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php esc_html_e( 'Start small', 'intera' ); ?></div>
-				<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php esc_html_e( 'Start with one real problem', 'intera' ); ?></h2>
-				<p style="font-size: var(--text-lg); line-height: 1.6; color: var(--ink-600); margin-top: 16px; max-width: 480px"><?php esc_html_e( 'Do not start by implementing INTERA in your whole company. One role. One operational problem. One working result.', 'intera' ); ?></p>
+				<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'home_start_small__start_small' ) ); ?></div>
+				<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'home_start_small__start_with_one_real_problem' ) ); ?></h2>
+				<p style="font-size: var(--text-lg); line-height: 1.6; color: var(--ink-600); margin-top: 16px; max-width: 480px"><?php echo esc_html( intera_copy( 'home_start_small__do_not_start_by_implementing_intera' ) ); ?></p>
 				<div style="margin-top: 28px">
 					<?php
 					get_template_part(
 						'template-parts/components/button',
 						null,
 						array(
-							'label' => __( 'Bring us a real problem', 'intera' ),
+							'label' => intera_copy( 'home_start_small__bring_us_a_real_problem' ),
 							'href'  => $intera_request_url,
 							'size'  => 'lg',
 						)
@@ -614,10 +614,10 @@ get_header();
 			<div style="display: flex; flex-direction: column; gap: 10px">
 				<?php
 				$intera_symptoms = array(
-					__( 'Billing and usage do not correspond.', 'intera' ),
-					__( 'The problem is detected too late.', 'intera' ),
-					__( 'The same exceptions are constantly checked by hand.', 'intera' ),
-					__( 'A manager gathers the same data from several different systems.', 'intera' ),
+					intera_copy( 'home_start_small__billing_and_usage_do_not_correspond' ),
+					intera_copy( 'home_start_small__the_problem_is_detected_too_late' ),
+					intera_copy( 'home_start_small__the_same_exceptions_are_constantly_checked' ),
+					intera_copy( 'home_start_small__a_manager_gathers_the_same_data' ),
 				);
 
 				$intera_symptom_number = 0;
@@ -640,8 +640,8 @@ get_header();
 <section id="pricing" data-screen-label="Pricing" style="background: var(--surface-sunken); border-top: 1px solid var(--border-subtle)">
 	<div style="max-width: 1160px; margin: 0 auto; padding: clamp(51px, 7vw, 88px) clamp(20px, 5vw, 24px)">
 		<div style="max-width: 640px; margin: 0 auto 44px; text-align: center">
-			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php esc_html_e( 'Pricing', 'intera' ); ?></div>
-			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php esc_html_e( 'Start free. Pay when INTERA is doing real work.', 'intera' ); ?></h2>
+			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'home_pricing__pricing' ) ); ?></div>
+			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'home_pricing__start_free_pay_when_intera_is' ) ); ?></h2>
 		</div>
 		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 20px; align-items: stretch">
 			<?php
@@ -687,9 +687,9 @@ get_header();
 	<div aria-hidden="true" style="position: absolute; left: 88%; top: 90%; width: 720px; height: 720px; transform: translate(-50%,-50%); pointer-events: none; background: radial-gradient(circle, var(--wash-teal-dark) 0%, transparent 66%)"></div>
 	<div style="position: relative; max-width: 1160px; margin: 0 auto; padding: clamp(51px, 7vw, 88px) clamp(20px, 5vw, 24px)">
 		<div style="max-width: 720px">
-			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-200); margin-bottom: 14px"><?php esc_html_e( 'Early Adopter offer', 'intera' ); ?></div>
-			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--white)"><?php esc_html_e( 'Help shape INTERA around a real operation', 'intera' ); ?></h2>
-			<p style="font-size: var(--text-lg); line-height: 1.6; color: rgba(255,255,255,.72); margin-top: 16px"><?php esc_html_e( 'We are looking for a small number of companies and managers ready to use INTERA on their real operational tasks during beta.', 'intera' ); ?></p>
+			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-200); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'home_early_adopter__early_adopter_offer' ) ); ?></div>
+			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--white)"><?php echo esc_html( intera_copy( 'home_early_adopter__help_shape_intera_around_a_real' ) ); ?></h2>
+			<p style="font-size: var(--text-lg); line-height: 1.6; color: rgba(255,255,255,.72); margin-top: 16px"><?php echo esc_html( intera_copy( 'home_early_adopter__we_are_looking_for_a_small' ) ); ?></p>
 		</div>
 		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 20px; margin-top: 40px">
 			<?php
@@ -700,22 +700,22 @@ get_header();
 			 */
 			?>
 			<div class="itr-panel" style="border-radius: var(--radius-card); padding: 24px">
-				<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: rgba(255,255,255,.45); margin-bottom: 16px"><?php esc_html_e( 'Early Adopters receive', 'intera' ); ?></div>
+				<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: rgba(255,255,255,.45); margin-bottom: 16px"><?php echo esc_html( intera_copy( 'home_early_adopter__early_adopters_receive' ) ); ?></div>
 				<div style="display: flex; flex-direction: column; gap: 10px; font-size: var(--text-md); color: rgba(255,255,255,.82); line-height: 1.5">
-					<span><?php esc_html_e( 'INTERA free for the first 12 months', 'intera' ); ?></span>
-					<span><?php esc_html_e( 'Custom onboarding', 'intera' ); ?></span>
-					<span><?php esc_html_e( 'Direct contact with the INTERA team', 'intera' ); ?></span>
-					<span><?php esc_html_e( 'Priority support', 'intera' ); ?></span>
-					<span><?php esc_html_e( 'Influence over product development', 'intera' ); ?></span>
-					<span><?php esc_html_e( 'Help setting up your first real use case', 'intera' ); ?></span>
+					<span><?php echo esc_html( intera_copy( 'home_early_adopter__intera_free_for_the_first_12' ) ); ?></span>
+					<span><?php echo esc_html( intera_copy( 'home_early_adopter__custom_onboarding' ) ); ?></span>
+					<span><?php echo esc_html( intera_copy( 'home_early_adopter__direct_contact_with_the_intera_team' ) ); ?></span>
+					<span><?php echo esc_html( intera_copy( 'home_early_adopter__priority_support' ) ); ?></span>
+					<span><?php echo esc_html( intera_copy( 'home_early_adopter__influence_over_product_development' ) ); ?></span>
+					<span><?php echo esc_html( intera_copy( 'home_early_adopter__help_setting_up_your_first_real' ) ); ?></span>
 				</div>
 			</div>
 			<div class="itr-hl-panel" style="border-radius: var(--radius-card); padding: 24px">
-				<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: rgba(255,255,255,.45); margin-bottom: 16px"><?php esc_html_e( 'We expect in return', 'intera' ); ?></div>
+				<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: rgba(255,255,255,.45); margin-bottom: 16px"><?php echo esc_html( intera_copy( 'home_early_adopter__we_expect_in_return' ) ); ?></div>
 				<div style="display: flex; flex-direction: column; gap: 10px; font-size: var(--text-md); color: rgba(255,255,255,.82); line-height: 1.5">
-					<span><?php esc_html_e( 'A real business case', 'intera' ); ?></span>
-					<span><?php esc_html_e( 'Feedback', 'intera' ); ?></span>
-					<span><?php esc_html_e( 'Readiness to work together and verify our solutions', 'intera' ); ?></span>
+					<span><?php echo esc_html( intera_copy( 'home_early_adopter__a_real_business_case' ) ); ?></span>
+					<span><?php echo esc_html( intera_copy( 'home_early_adopter__feedback' ) ); ?></span>
+					<span><?php echo esc_html( intera_copy( 'home_early_adopter__readiness_to_work_together_and_verify' ) ); ?></span>
 				</div>
 				<div style="margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--border-inverse)">
 					<?php
@@ -723,7 +723,7 @@ get_header();
 						'template-parts/components/button',
 						null,
 						array(
-							'label'   => __( 'I have a problem INTERA could solve', 'intera' ),
+							'label'   => intera_copy( 'home_early_adopter__i_have_a_problem_intera_could' ),
 							'href'    => $intera_request_url,
 							'variant' => 'inverse',
 							'size'    => 'lg',
@@ -740,17 +740,17 @@ get_header();
 <section id="partners" data-screen-label="Partners" style="background: var(--surface-page)">
 	<div style="max-width: 1160px; margin: 0 auto; padding: clamp(51px, 7vw, 88px) clamp(20px, 5vw, 24px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 48px; align-items: start">
 		<div>
-			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php esc_html_e( 'Partners and resellers', 'intera' ); ?></div>
-			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php esc_html_e( 'Turn your industry knowledge into repeatable solutions', 'intera' ); ?></h2>
-			<p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); margin-top: 18px; max-width: 520px"><?php esc_html_e( 'For systems integrators and consultants who already know their customers\' real problems. INTERA turns that expertise into something you can deploy again.', 'intera' ); ?></p>
-			<p style="font-size: var(--text-xl); font-weight: 600; letter-spacing: -0.01em; color: var(--ink-900); margin-top: 22px"><?php esc_html_e( 'Solve once. Adapt. Deploy again.', 'intera' ); ?></p>
+			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'home_partners__partners_and_resellers' ) ); ?></div>
+			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'home_partners__turn_your_industry_knowledge_into_repeatable' ) ); ?></h2>
+			<p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); margin-top: 18px; max-width: 520px"><?php echo esc_html( intera_copy( 'home_partners__for_systems_integrators_and_consultants_who' ) ); ?></p>
+			<p style="font-size: var(--text-xl); font-weight: 600; letter-spacing: -0.01em; color: var(--ink-900); margin-top: 22px"><?php echo esc_html( intera_copy( 'home_partners__solve_once_adapt_deploy_again' ) ); ?></p>
 			<div style="margin-top: 26px">
 				<?php
 				get_template_part(
 					'template-parts/components/button',
 					null,
 					array(
-						'label'      => __( 'Become an INTERA partner', 'intera' ),
+						'label'      => intera_copy( 'home_partners__become_an_intera_partner' ),
 						'href'       => $intera_request_url,
 						'variant'    => 'secondary',
 						'size'       => 'lg',
@@ -763,12 +763,12 @@ get_header();
 		<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; align-content: start">
 			<?php
 			$intera_tiles = array(
-				array( 'layers', 'var(--blue-600)', __( 'Roles', 'intera' ) ),
-				array( 'scale', 'var(--signal-reconciliation)', __( 'Reconciliations', 'intera' ) ),
-				array( 'sliders-horizontal', 'var(--ink-500)', __( 'Business logic', 'intera' ) ),
-				array( 'git-branch', 'var(--signal-pattern)', __( 'Patterns', 'intera' ) ),
-				array( 'plug', 'var(--ink-500)', __( 'Integrations', 'intera' ) ),
-				array( 'package', 'var(--ink-500)', __( 'Market packages', 'intera' ) ),
+				array( 'layers', 'var(--blue-600)', intera_copy( 'home_partners__roles' ) ),
+				array( 'scale', 'var(--signal-reconciliation)', intera_copy( 'home_partners__reconciliations' ) ),
+				array( 'sliders-horizontal', 'var(--ink-500)', intera_copy( 'home_partners__business_logic' ) ),
+				array( 'git-branch', 'var(--signal-pattern)', intera_copy( 'home_partners__patterns' ) ),
+				array( 'plug', 'var(--ink-500)', intera_copy( 'home_partners__integrations' ) ),
+				array( 'package', 'var(--ink-500)', intera_copy( 'home_partners__market_packages' ) ),
 			);
 
 			foreach ( $intera_tiles as $intera_tile ) :

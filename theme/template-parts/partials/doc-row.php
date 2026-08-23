@@ -87,7 +87,7 @@ if ( 'heading' === $intera_doc_variant ) {
 	$intera_doc_term = $args['term'];
 
 	if ( is_numeric( $intera_doc_term ) ) {
-		$intera_doc_term = get_term( (int) $intera_doc_term, 'docs_category' );
+		$intera_doc_term = get_term( (int) $intera_doc_term, 'doc_category' );
 	}
 
 	if ( ! $intera_doc_term || is_wp_error( $intera_doc_term ) ) {

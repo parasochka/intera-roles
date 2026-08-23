@@ -1419,3 +1419,191 @@ a.itr-foot-link:focus-visible,
 		transform: none;
 	}
 }
+
+/* ==========================================================================
+   12. BetterDocs
+   The FAQ page keeps the plugin's own block — that is where an editor writes
+   the questions — so the design cannot arrive by owning the markup. It arrives
+   here instead, mapping the plugin's classes onto `_design/04-faq.dc.html`.
+
+   `inc/betterdocs.php` puts `.intera-has-faq` on <body> and `page-faq.php`
+   puts `.intera-faq` on the content wrapper. Both are needed: the plugin
+   prints a settings-generated <style> block *inside* the content, at six
+   classes of specificity, so a rule that merely ties loses on source order.
+   `!important` appears only on the handful of declarations that block writes
+   (background, colour, font-size) — everything else wins on specificity alone.
+   ========================================================================== */
+
+/* The block repeats the page title as its own section heading. The design has
+   no such element — the <h1> above already says it — so it steps aside. */
+.intera-faq .betterdocs-faq-section-title {
+	display: none;
+}
+
+.intera-faq .betterdocs-faq-wrapper {
+	background: none !important;
+}
+
+/* Group heading: `04-faq` L44 — h2 at --text-2xl over the hairline the list
+   opens with. The plugin renders it as an h3; only the level differs. */
+.intera-faq .betterdocs-faq-title {
+	margin: 0;
+}
+
+.intera-faq .betterdocs-faq-inner-wrapper + .betterdocs-faq-inner-wrapper .betterdocs-faq-title {
+	margin-top: 44px;
+}
+
+.intera-faq .betterdocs-faq-title-tag {
+	font-size: var(--text-2xl) !important;
+	font-weight: 600;
+	letter-spacing: -0.01em;
+	color: var(--ink-900) !important;
+	scroll-margin-top: 100px;
+	margin: 0;
+}
+
+.intera-faq .betterdocs-faq-list {
+	list-style: none;
+	margin: 18px 0 0;
+	padding: 0;
+	border-top: 1px solid var(--border-hairline);
+}
+
+.intera-faq .betterdocs-faq-list > li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+/* One question. The export draws a hairline under every row and nothing else:
+   no card, no shadow, no radius. */
+.intera-faq .betterdocs-faq-wrapper .betterdocs-faq-inner-wrapper .betterdocs-faq-list > li .betterdocs-faq-group {
+	background: none !important;
+	border: 0;
+	border-bottom: 1px solid var(--border-hairline);
+	border-radius: 0;
+	box-shadow: none !important;
+	margin: 0;
+	padding: 0;
+	overflow: visible;
+}
+
+/* The summary row: `04-faq` L46 — flex, spaced apart, 18px of air above and
+   below, question at --text-lg/500. */
+.intera-faq .betterdocs-faq-wrapper .betterdocs-faq-inner-wrapper .betterdocs-faq-list > li .betterdocs-faq-group .betterdocs-faq-post {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	background: none !important;
+	box-shadow: none !important;
+	margin: 0;
+	padding: 18px 0;
+	cursor: pointer;
+}
+
+.intera-faq .betterdocs-faq-wrapper .betterdocs-faq-inner-wrapper .betterdocs-faq-list > li .betterdocs-faq-group .betterdocs-faq-post .betterdocs-faq-post-name {
+	font-size: var(--text-lg) !important;
+	font-weight: 500;
+	line-height: 1.4;
+	color: var(--ink-900) !important;
+	margin: 0;
+	padding: 0;
+	transition: color 140ms cubic-bezier(.2, .6, .25, 1);
+}
+
+/* `summary:hover { color: var(--blue-600) }` from the export's <helmet>. The
+   plugin instead recolours the *open* question; the design does not. */
+.intera-faq .betterdocs-faq-wrapper .betterdocs-faq-inner-wrapper .betterdocs-faq-list > li .betterdocs-faq-group .betterdocs-faq-post:hover .betterdocs-faq-post-name {
+	color: var(--blue-600) !important;
+}
+
+.intera-faq .betterdocs-faq-wrapper .betterdocs-faq-inner-wrapper .betterdocs-faq-list > li .betterdocs-faq-group.active .betterdocs-faq-post .betterdocs-faq-post-name {
+	color: var(--ink-900) !important;
+}
+
+/* The plugin's plus/minus circles are replaced by the export's chevron, which
+   rotates on open. The mark is a mask rather than a background image so its
+   colour stays a token. */
+.intera-faq .betterdocs-faq-iconplus,
+.intera-faq .betterdocs-faq-iconminus,
+.intera-faq .betterdocs-faq-post-icon-group {
+	display: none !important;
+}
+
+.intera-faq .betterdocs-faq-post::after {
+	content: "";
+	flex: none;
+	width: 18px;
+	height: 18px;
+	background-color: var(--ink-400);
+	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") center / 18px 18px no-repeat;
+	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") center / 18px 18px no-repeat;
+	transition: transform 160ms cubic-bezier(.2, .6, .25, 1);
+}
+
+.intera-faq .betterdocs-faq-group.active .betterdocs-faq-post::after {
+	transform: rotate(180deg);
+}
+
+/* The answer: `04-faq` L49 — body copy, no panel behind it, 20px of air before
+   the next hairline. jQuery's slideToggle writes `display` inline, so only the
+   painting is ours; the show/hide stays the plugin's. */
+.intera-faq .betterdocs-faq-wrapper .betterdocs-faq-inner-wrapper .betterdocs-faq-list > li .betterdocs-faq-group .betterdocs-faq-main-content {
+	background: none !important;
+	box-shadow: none !important;
+	font-size: var(--text-base) !important;
+	line-height: 1.65;
+	color: var(--ink-600) !important;
+	max-width: 640px;
+	margin: 0;
+	padding: 0 0 20px;
+	overflow: visible;
+}
+
+.intera-faq .betterdocs-faq-main-content > :first-child {
+	margin-top: 0;
+}
+
+.intera-faq .betterdocs-faq-main-content > :last-child {
+	margin-bottom: 0;
+}
+
+.intera-faq .betterdocs-faq-main-content p {
+	margin: 0 0 12px;
+}
+
+.intera-faq .betterdocs-faq-main-content ul,
+.intera-faq .betterdocs-faq-main-content ol {
+	margin: 12px 0;
+	padding-left: 20px;
+}
+
+.intera-faq .betterdocs-faq-main-content li {
+	margin: 4px 0;
+}
+
+.intera-faq .betterdocs-faq-main-content a {
+	color: var(--text-link);
+}
+
+.intera-faq .betterdocs-faq-main-content a:hover {
+	color: var(--text-link-hover);
+}
+
+/* Keyboard users get the same ring the theme's own controls carry: the
+   plugin's row is a div with a click handler, so it has to be reachable. */
+.intera-faq .betterdocs-faq-post:focus-visible {
+	outline: 2px solid var(--focus-ring);
+	outline-offset: 3px;
+	border-radius: var(--radius-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.intera-faq .betterdocs-faq-post::after,
+	.intera-faq .betterdocs-faq-post-name {
+		transition: none;
+	}
+}

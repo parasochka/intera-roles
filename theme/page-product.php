@@ -49,7 +49,7 @@ if ( '' === $intera_cta_url ) {
 }
 
 if ( '' === $intera_cta_label ) {
-	$intera_cta_label = __( 'Get Early Access', 'intera' );
+	$intera_cta_label = intera_copy( 'product_page__get_early_access' );
 }
 
 $intera_has_cta  = ( '' !== $intera_cta_url );
@@ -60,10 +60,10 @@ $intera_product_shot = (int) get_post_thumbnail_id();
 
 // The chain captions, `renderVals().chainCaptions` in the export.
 $intera_chain_captions = array(
-	'event'          => __( 'Something important changed.', 'intera' ),
-	'reconciliation' => __( "Things that should agree — don't.", 'intera' ),
-	'incident'       => __( 'Something requires attention and action.', 'intera' ),
-	'pattern'        => __( 'Understand what keeps happening, and under which conditions.', 'intera' ),
+	'event'          => intera_copy( 'product_page__something_important_changed' ),
+	'reconciliation' => intera_copy( 'product_page__things_that_should_agree_don_t' ),
+	'incident'       => intera_copy( 'product_page__something_requires_attention_and_action' ),
+	'pattern'        => intera_copy( 'product_page__understand_what_keeps_happening_and_under' ),
 );
 ?>
 
@@ -95,7 +95,7 @@ $intera_chain_captions = array(
 							'template-parts/components/button',
 							null,
 							array(
-								'label'      => __( 'Read the docs', 'intera' ),
+								'label'      => intera_copy( 'product_product_header__read_the_docs' ),
 								'href'       => $intera_docs_url,
 								'size'       => 'lg',
 								'variant'    => 'secondary',
@@ -113,10 +113,10 @@ $intera_chain_captions = array(
 			ob_start();
 			?>
 			<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--border-hairline); background: var(--surface-sunken)">
-				<span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-500)"><?php esc_html_e( 'Operations Oversight', 'intera' ); ?></span>
+				<span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-500)"><?php echo esc_html( intera_copy( 'product_product_header__operations_oversight' ) ); ?></span>
 				<span style="display: flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)">
 					<span style="position: relative; display: inline-flex; width: 8px; height: 8px; flex: none"><span class="itr-live-halo" aria-hidden="true" style="position: absolute; inset: 0; border-radius: 999px; background: var(--green-500)"></span><span class="itr-live-dot" aria-hidden="true" style="position: relative; width: 8px; height: 8px; border-radius: 999px; background: var(--green-500)"></span></span>
-					<?php esc_html_e( 'live', 'intera' ); ?>
+					<?php echo esc_html( intera_copy( 'product_product_header__live' ) ); ?>
 				</span>
 			</div>
 			<div style="padding: 18px 16px 20px">
@@ -126,7 +126,7 @@ $intera_chain_captions = array(
 						'template-parts/components/metric-tile',
 						null,
 						array(
-							'label'     => __( 'Open incidents', 'intera' ),
+							'label'     => intera_copy( 'product_product_header__open_incidents' ),
 							'value'     => '7',
 							'delta'     => '+2',
 							'direction' => 'up',
@@ -138,7 +138,7 @@ $intera_chain_captions = array(
 						'template-parts/components/metric-tile',
 						null,
 						array(
-							'label'     => __( 'Unreconciled', 'intera' ),
+							'label'     => intera_copy( 'product_product_header__unreconciled' ),
 							'value'     => '4,812',
 							'delta'     => '-311',
 							'direction' => 'down',
@@ -148,22 +148,22 @@ $intera_chain_captions = array(
 					?>
 				</div>
 				<div style="margin-top: 18px; display: flex; flex-direction: column; gap: 10px">
-					<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-500)"><?php esc_html_e( 'Latest', 'intera' ); ?></div>
+					<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-500)"><?php echo esc_html( intera_copy( 'product_product_header__latest' ) ); ?></div>
 					<?php
 					$intera_latest = array(
 						array(
 							'type' => 'reconciliation',
-							'text' => __( 'Billing vs ERP: 118 invoices differ by more than 0.5%', 'intera' ),
+							'text' => intera_copy( 'product_product_header__billing_vs_erp_118_invoices_differ' ),
 							'rule' => true,
 						),
 						array(
 							'type' => 'incident',
-							'text' => __( 'No data received from WMS since 03:20 UTC', 'intera' ),
+							'text' => intera_copy( 'product_product_header__no_data_received_from_wms_since' ),
 							'rule' => true,
 						),
 						array(
 							'type' => 'pattern',
-							'text' => __( 'Readiness drops every Monday after the weekend import', 'intera' ),
+							'text' => intera_copy( 'product_product_header__readiness_drops_every_monday_after_the' ),
 							'rule' => false,
 						),
 					);
@@ -207,9 +207,9 @@ $intera_chain_captions = array(
 	<div aria-hidden="true" style="position: absolute; left: 78%; top: 22%; width: 900px; height: 900px; transform: translate(-50%,-50%); pointer-events: none; background: radial-gradient(circle, var(--wash-blue) 0%, transparent 68%)"></div>
 	<div style="position: relative; max-width: 1160px; margin: 0 auto; padding: clamp(49px, 7vw, 84px) clamp(20px, 5vw, 24px)">
 		<div style="max-width: 720px; margin-bottom: 36px">
-			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php esc_html_e( 'The chain', 'intera' ); ?></div>
-			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php esc_html_e( 'Event, Reconciliation, Incident, Pattern', 'intera' ); ?></h2>
-			<p style="font-size: var(--text-lg); line-height: 1.6; color: var(--ink-600); margin-top: 16px"><?php esc_html_e( 'Four object types, in a fixed order. Everything a role sees is one of them.', 'intera' ); ?></p>
+			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'product_what_intera_watches__the_chain' ) ); ?></div>
+			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'product_what_intera_watches__event_reconciliation_incident_pattern' ) ); ?></h2>
+			<p style="font-size: var(--text-lg); line-height: 1.6; color: var(--ink-600); margin-top: 16px"><?php echo esc_html( intera_copy( 'product_what_intera_watches__four_object_types_in_a_fixed' ) ); ?></p>
 		</div>
 		<?php
 		get_template_part(
@@ -223,27 +223,27 @@ $intera_chain_captions = array(
 			$intera_objects = array(
 				array(
 					'type'  => 'event',
-					'title' => __( 'A watched Metric moved', 'intera' ),
-					'body'  => __( 'Thresholds, trends and data status on the numbers a role owns. The event carries the value, the source and the time.', 'intera' ),
-					'mono'  => __( 'metrics.trend · metrics.threshold', 'intera' ),
+					'title' => intera_copy( 'product_what_intera_watches__a_watched_metric_moved' ),
+					'body'  => intera_copy( 'product_what_intera_watches__thresholds_trends_and_data_status_on' ),
+					'mono'  => intera_copy( 'product_what_intera_watches__metrics_trend_metrics_threshold' ),
 				),
 				array(
 					'type'  => 'reconciliation',
-					'title' => __( 'Two systems disagree', 'intera' ),
-					'body'  => __( 'Continuous comparison between systems, periods and business conditions — with the differing records listed, not summarised away.', 'intera' ),
-					'mono'  => __( 'usage ↔ billing · orders ↔ invoices', 'intera' ),
+					'title' => intera_copy( 'product_what_intera_watches__two_systems_disagree' ),
+					'body'  => intera_copy( 'product_what_intera_watches__continuous_comparison_between_systems_periods_an' ),
+					'mono'  => intera_copy( 'product_what_intera_watches__usage_billing_orders_invoices' ),
 				),
 				array(
 					'type'  => 'incident',
-					'title' => __( 'Someone has to act', 'intera' ),
-					'body'  => __( 'A tracked item with an owner, a priority, an expected time to impact and the evidence behind it.', 'intera' ),
-					'mono'  => __( 'P0 · impact in 2 days · owner set', 'intera' ),
+					'title' => intera_copy( 'product_what_intera_watches__someone_has_to_act' ),
+					'body'  => intera_copy( 'product_what_intera_watches__a_tracked_item_with_an_owner' ),
+					'mono'  => intera_copy( 'product_what_intera_watches__p0_impact_in_2_days_owner' ),
 				),
 				array(
 					'type'  => 'pattern',
-					'title' => __( 'It keeps happening', 'intera' ),
-					'body'  => __( 'Recurring combinations of conditions behind incidents and changes — and the option to keep watching them.', 'intera' ),
-					'mono'  => __( '4th occurrence · same precondition', 'intera' ),
+					'title' => intera_copy( 'product_what_intera_watches__it_keeps_happening' ),
+					'body'  => intera_copy( 'product_what_intera_watches__recurring_combinations_of_conditions_behind_inci' ),
+					'mono'  => intera_copy( 'product_what_intera_watches__4th_occurrence_same_precondition' ),
 				),
 			);
 
@@ -281,21 +281,21 @@ $intera_chain_captions = array(
 <section data-screen-label="Pattern Studio" style="background: var(--surface-page)">
 	<div style="max-width: 1160px; margin: 0 auto; padding: clamp(51px, 7vw, 88px) clamp(20px, 5vw, 24px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 48px; align-items: center">
 		<div>
-			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php esc_html_e( 'Pattern Studio', 'intera' ); ?></div>
-			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php esc_html_e( 'Understand what keeps happening, and under which conditions', 'intera' ); ?></h2>
-			<p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); margin-top: 18px; max-width: 520px"><?php esc_html_e( 'Look back at what preceded an incident, find the combination that repeats, then turn it into something INTERA keeps watching. What one manager learns becomes a check the whole company keeps.', 'intera' ); ?></p>
+			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'product_pattern_studio__pattern_studio' ) ); ?></div>
+			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'product_pattern_studio__understand_what_keeps_happening_and_under' ) ); ?></h2>
+			<p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); margin-top: 18px; max-width: 520px"><?php echo esc_html( intera_copy( 'product_pattern_studio__look_back_at_what_preceded_an' ) ); ?></p>
 			<div style="display: flex; flex-direction: column; gap: 8px; margin-top: 24px; max-width: 520px">
 				<div style="display: flex; gap: 12px; align-items: center; border: 1px solid var(--border-hairline); border-radius: var(--radius-md); padding: 12px 14px; background: var(--surface-sunken)">
-					<span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--violet-600)"><?php esc_html_e( 'if', 'intera' ); ?></span>
-					<span style="font-size: var(--text-sm); color: var(--ink-800)"><?php esc_html_e( 'a spare part delivery slips more than 5 days', 'intera' ); ?></span>
+					<span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--violet-600)"><?php echo esc_html( intera_copy( 'product_pattern_studio__if' ) ); ?></span>
+					<span style="font-size: var(--text-sm); color: var(--ink-800)"><?php echo esc_html( intera_copy( 'product_pattern_studio__a_spare_part_delivery_slips_more' ) ); ?></span>
 				</div>
 				<div style="display: flex; gap: 12px; align-items: center; border: 1px solid var(--border-hairline); border-radius: var(--radius-md); padding: 12px 14px; background: var(--surface-sunken)">
-					<span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--violet-600)"><?php esc_html_e( 'and', 'intera' ); ?></span>
-					<span style="font-size: var(--text-sm); color: var(--ink-800)"><?php esc_html_e( 'the vessel already carries overdue critical maintenance', 'intera' ); ?></span>
+					<span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--violet-600)"><?php echo esc_html( intera_copy( 'product_pattern_studio__and' ) ); ?></span>
+					<span style="font-size: var(--text-sm); color: var(--ink-800)"><?php echo esc_html( intera_copy( 'product_pattern_studio__the_vessel_already_carries_overdue_critical' ) ); ?></span>
 				</div>
 				<div class="itr-row" style="--itr-edge: var(--border-default); display: flex; gap: 12px; align-items: center; border-radius: var(--radius-md); padding: 12px 14px">
-					<span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--violet-600)"><?php esc_html_e( 'then', 'intera' ); ?></span>
-					<span style="font-size: var(--text-sm); color: var(--ink-900); font-weight: 500"><?php esc_html_e( 'readiness drops below plan within 3 weeks — 4 of the last 5 times', 'intera' ); ?></span>
+					<span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--violet-600)"><?php echo esc_html( intera_copy( 'product_pattern_studio__then' ) ); ?></span>
+					<span style="font-size: var(--text-sm); color: var(--ink-900); font-weight: 500"><?php echo esc_html( intera_copy( 'product_pattern_studio__readiness_drops_below_plan_within_3' ) ); ?></span>
 				</div>
 			</div>
 			<?php if ( '' !== $intera_docs_url ) : ?>
@@ -305,7 +305,7 @@ $intera_chain_captions = array(
 						'template-parts/components/button',
 						null,
 						array(
-							'label'      => __( 'How Patterns are defined', 'intera' ),
+							'label'      => intera_copy( 'product_pattern_studio__how_patterns_are_defined' ),
 							'href'       => $intera_docs_url,
 							'variant'    => 'secondary',
 							'icon_right' => 'arrow-right',
@@ -321,9 +321,9 @@ $intera_chain_captions = array(
 			null,
 			array(
 				'attachment' => $intera_product_shot,
-				'caption'    => __( 'Role view · readiness and upcoming dates', 'intera' ),
+				'caption'    => intera_copy( 'product_pattern_studio__role_view_readiness_and_upcoming_dates' ),
 				'height'     => '420px',
-				'alt'        => __( 'INTERA role view with readiness metrics and upcoming dates', 'intera' ),
+				'alt'        => intera_copy( 'product_pattern_studio__intera_role_view_with_readiness_metrics' ),
 			)
 		);
 		?>
@@ -334,52 +334,52 @@ $intera_chain_captions = array(
 	<div aria-hidden="true" style="position: absolute; left: 20%; top: 80%; width: 860px; height: 860px; transform: translate(-50%,-50%); pointer-events: none; background: radial-gradient(circle, var(--wash-teal) 0%, transparent 68%)"></div>
 	<div style="position: relative; max-width: 1160px; margin: 0 auto; padding: clamp(49px, 7vw, 84px) clamp(20px, 5vw, 24px)">
 		<div id="it" style="max-width: 720px; margin-bottom: 36px">
-			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php esc_html_e( 'Integrations and DataSources', 'intera' ); ?></div>
-			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php esc_html_e( 'Read-only connections to the systems of record', 'intera' ); ?></h2>
-			<p style="font-size: var(--text-lg); line-height: 1.6; color: var(--ink-600); margin-top: 16px"><?php esc_html_e( 'A DataSource states which system holds the data, what is mapped and how often it is read. Nothing is written back.', 'intera' ); ?></p>
+			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'product_integrations__integrations_and_datasources' ) ); ?></div>
+			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'product_integrations__read_only_connections_to_the_systems' ) ); ?></h2>
+			<p style="font-size: var(--text-lg); line-height: 1.6; color: var(--ink-600); margin-top: 16px"><?php echo esc_html( intera_copy( 'product_integrations__a_datasource_states_which_system_holds' ) ); ?></p>
 		</div>
 		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); gap: 10px">
 			<?php
 			$intera_sources = array(
 				array(
 					'icon'  => 'database',
-					'label' => __( 'ERP', 'intera' ),
-					'note'  => __( 'SAP · Oracle · BC', 'intera' ),
+					'label' => intera_copy( 'product_integrations__erp' ),
+					'note'  => intera_copy( 'product_integrations__sap_oracle_bc' ),
 				),
 				array(
 					'icon'  => 'contact',
-					'label' => __( 'CRM', 'intera' ),
-					'note'  => __( 'accounts', 'intera' ),
+					'label' => intera_copy( 'product_integrations__crm' ),
+					'note'  => intera_copy( 'product_integrations__accounts' ),
 				),
 				array(
 					'icon'  => 'receipt',
-					'label' => __( 'Billing', 'intera' ),
-					'note'  => __( 'invoices · rating', 'intera' ),
+					'label' => intera_copy( 'product_integrations__billing' ),
+					'note'  => intera_copy( 'product_integrations__invoices_rating' ),
 				),
 				array(
 					'icon'  => 'activity',
-					'label' => __( 'Mediation', 'intera' ),
-					'note'  => __( 'usage · CDR', 'intera' ),
+					'label' => intera_copy( 'product_integrations__mediation' ),
+					'note'  => intera_copy( 'product_integrations__usage_cdr' ),
 				),
 				array(
 					'icon'  => 'table-2',
-					'label' => __( 'Excel', 'intera' ),
-					'note'  => __( 'exports · checks', 'intera' ),
+					'label' => intera_copy( 'product_integrations__excel' ),
+					'note'  => intera_copy( 'product_integrations__exports_checks' ),
 				),
 				array(
 					'icon'  => 'terminal',
-					'label' => __( 'Internal APIs', 'intera' ),
-					'note'  => __( 'custom', 'intera' ),
+					'label' => intera_copy( 'product_integrations__internal_apis' ),
+					'note'  => intera_copy( 'product_integrations__custom' ),
 				),
 				array(
 					'icon'  => 'landmark',
-					'label' => __( 'Banking', 'intera' ),
-					'note'  => __( 'Revolut', 'intera' ),
+					'label' => intera_copy( 'product_integrations__banking' ),
+					'note'  => intera_copy( 'product_integrations__revolut' ),
 				),
 				array(
 					'icon'  => 'mail',
-					'label' => __( 'Manual inputs', 'intera' ),
-					'note'  => __( 'forms · mail', 'intera' ),
+					'label' => intera_copy( 'product_integrations__manual_inputs' ),
+					'note'  => intera_copy( 'product_integrations__forms_mail' ),
 				),
 			);
 
@@ -406,14 +406,14 @@ $intera_chain_captions = array(
 			<?php
 			$intera_ownership = array(
 				array(
-					'title'       => __( 'IT owns access', 'intera' ),
-					'description' => __( 'Which system, which credentials, which refresh window.', 'intera' ),
-					'body'        => __( 'INTERA states the requirement concretely: the system, the DataSource, the fields to map. No open-ended data project.', 'intera' ),
+					'title'       => intera_copy( 'product_integrations__it_owns_access' ),
+					'description' => intera_copy( 'product_integrations__which_system_which_credentials_which_refresh' ),
+					'body'        => intera_copy( 'product_integrations__intera_states_the_requirement_concretely_the' ),
 				),
 				array(
-					'title'       => __( 'Business owns logic', 'intera' ),
-					'description' => __( 'Metrics, Events, Incidents, Reconciliations, Patterns.', 'intera' ),
-					'body'        => __( 'The people who know how the operation runs decide what counts as a problem — and can change it without a release.', 'intera' ),
+					'title'       => intera_copy( 'product_integrations__business_owns_logic' ),
+					'description' => intera_copy( 'product_integrations__metrics_events_incidents_reconciliations_pattern' ),
+					'body'        => intera_copy( 'product_integrations__the_people_who_know_how_the' ),
 				),
 			);
 
@@ -450,9 +450,9 @@ $intera_chain_captions = array(
 <section id="roles" data-screen-label="Roles" style="background: var(--surface-page)">
 	<div style="max-width: 1160px; margin: 0 auto; padding: clamp(51px, 7vw, 88px) clamp(20px, 5vw, 24px)">
 		<div style="max-width: 720px; margin-bottom: 36px">
-			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php esc_html_e( 'INTERA Roles', 'intera' ); ?></div>
-			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php esc_html_e( 'A module built around a responsibility, not a data source', 'intera' ); ?></h2>
-			<p style="font-size: var(--text-lg); line-height: 1.6; color: var(--ink-600); margin-top: 16px"><?php esc_html_e( 'Each role arrives with its metrics, its checks and its detection logic. Adjust them; you are not locked in.', 'intera' ); ?></p>
+			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'product_roles__intera_roles' ) ); ?></div>
+			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'product_roles__a_module_built_around_a_responsibility' ) ); ?></h2>
+			<p style="font-size: var(--text-lg); line-height: 1.6; color: var(--ink-600); margin-top: 16px"><?php echo esc_html( intera_copy( 'product_roles__each_role_arrives_with_its_metrics' ) ); ?></p>
 		</div>
 		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(270px, 100%), 1fr)); gap: 20px">
 			<?php
@@ -488,8 +488,8 @@ $intera_chain_captions = array(
 			wp_reset_postdata();
 			?>
 			<div style="display: flex; flex-direction: column; justify-content: center; gap: 16px; padding: 0 8px">
-				<p style="font-size: var(--text-xl); font-weight: 600; line-height: 1.35; letter-spacing: -0.01em; color: var(--ink-900)"><?php esc_html_e( 'Different responsibilities. One operating picture.', 'intera' ); ?></p>
-				<p style="font-size: var(--text-sm); color: var(--ink-600); line-height: 1.6"><?php esc_html_e( 'Roles combine several sources and apply business logic, so nobody connects the dots by hand.', 'intera' ); ?></p>
+				<p style="font-size: var(--text-xl); font-weight: 600; line-height: 1.35; letter-spacing: -0.01em; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'product_roles__different_responsibilities_one_operating_picture' ) ); ?></p>
+				<p style="font-size: var(--text-sm); color: var(--ink-600); line-height: 1.6"><?php echo esc_html( intera_copy( 'product_roles__roles_combine_several_sources_and_apply' ) ); ?></p>
 			</div>
 		</div>
 	</div>
@@ -499,39 +499,39 @@ $intera_chain_captions = array(
 	<div aria-hidden="true" style="position: absolute; left: 82%; top: 70%; width: 880px; height: 880px; transform: translate(-50%,-50%); pointer-events: none; background: radial-gradient(circle, var(--wash-violet) 0%, transparent 68%)"></div>
 	<div style="position: relative; max-width: 1160px; margin: 0 auto; padding: clamp(49px, 7vw, 84px) clamp(20px, 5vw, 24px)">
 		<div style="max-width: 720px; margin-bottom: 36px">
-			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php esc_html_e( 'Market packages', 'intera' ); ?></div>
-			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php esc_html_e( 'Industry bundles, already shaped around real jobs', 'intera' ); ?></h2>
-			<p style="font-size: var(--text-lg); line-height: 1.6; color: var(--ink-600); margin-top: 16px"><?php esc_html_e( 'A market package is a reusable set of roles, checks and integrations for one industry. Two are in progress with beta partners.', 'intera' ); ?></p>
+			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'product_market_packages__market_packages' ) ); ?></div>
+			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'product_market_packages__industry_bundles_already_shaped_around_real' ) ); ?></h2>
+			<p style="font-size: var(--text-lg); line-height: 1.6; color: var(--ink-600); margin-top: 16px"><?php echo esc_html( intera_copy( 'product_market_packages__a_market_package_is_a_reusable' ) ); ?></p>
 		</div>
 		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 20px">
 			<?php
 			$intera_packages = array(
 				array(
 					'icon'  => 'radio-tower',
-					'title' => __( 'Telecommunications', 'intera' ),
-					'body'  => __( 'Where usage, rating, billing and partner settlement have to agree — and rarely do without checking.', 'intera' ),
+					'title' => intera_copy( 'product_market_packages__telecommunications' ),
+					'body'  => intera_copy( 'product_market_packages__where_usage_rating_billing_and_partner' ),
 					'tags'  => array(
-						__( 'Revenue Assurance Manager', 'intera' ),
-						__( 'Billing Operations Manager', 'intera' ),
-						__( 'Network Operations Manager', 'intera' ),
-						__( 'Partner / Wholesale Manager', 'intera' ),
-						__( 'Commercial Director', 'intera' ),
-						__( 'CFO / Finance Controller', 'intera' ),
-						__( 'COO / Head of Operations', 'intera' ),
+						intera_copy( 'product_market_packages__revenue_assurance_manager' ),
+						intera_copy( 'product_market_packages__billing_operations_manager' ),
+						intera_copy( 'product_market_packages__network_operations_manager' ),
+						intera_copy( 'product_market_packages__partner_wholesale_manager' ),
+						intera_copy( 'product_market_packages__commercial_director' ),
+						intera_copy( 'product_market_packages__cfo_finance_controller' ),
+						intera_copy( 'product_market_packages__coo_head_of_operations' ),
 					),
-					'link'  => __( 'Telecommunications package', 'intera' ),
+					'link'  => intera_copy( 'product_market_packages__telecommunications_package' ),
 				),
 				array(
 					'icon'  => 'ship',
-					'title' => __( 'Shipmanagement', 'intera' ),
-					'body'  => __( 'Maintenance backlog, defects, class and certificate dates, and the vendor dependencies that quietly delay all of it.', 'intera' ),
+					'title' => intera_copy( 'product_market_packages__shipmanagement' ),
+					'body'  => intera_copy( 'product_market_packages__maintenance_backlog_defects_class_and_certificat' ),
 					'tags'  => array(
-						__( 'Technical Superintendent', 'intera' ),
-						__( 'Fleet Manager', 'intera' ),
-						__( 'Procurement and parts', 'intera' ),
-						__( 'Compliance and audit', 'intera' ),
+						intera_copy( 'product_market_packages__technical_superintendent' ),
+						intera_copy( 'product_market_packages__fleet_manager' ),
+						intera_copy( 'product_market_packages__procurement_and_parts' ),
+						intera_copy( 'product_market_packages__compliance_and_audit' ),
 					),
-					'link'  => __( 'Shipmanagement package', 'intera' ),
+					'link'  => intera_copy( 'product_market_packages__shipmanagement_package' ),
 				),
 			);
 
@@ -556,7 +556,7 @@ $intera_chain_captions = array(
 						'template-parts/components/badge',
 						null,
 						array(
-							'text' => __( 'Beta', 'intera' ),
+							'text' => intera_copy( 'product_market_packages__beta' ),
 							'tone' => 'info',
 						)
 					);
@@ -612,17 +612,17 @@ $intera_chain_captions = array(
 	<div style="max-width: 1160px; margin: 0 auto; padding: clamp(51px, 7vw, 88px) clamp(20px, 5vw, 24px)">
 		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 48px; align-items: start">
 			<div>
-				<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php esc_html_e( 'INTERA Method', 'intera' ); ?></div>
-				<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php esc_html_e( 'A working system, not a set of recommendations', 'intera' ); ?></h2>
-				<p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); margin-top: 18px; max-width: 520px"><?php esc_html_e( 'The Method is a hands-on engagement: we work on site with your team, map how the operation actually runs, and leave a configured environment behind. Traditional consulting ends with a document. This ends with dashboards that keep working.', 'intera' ); ?></p>
+				<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'product_method__intera_method' ) ); ?></div>
+				<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'product_method__a_working_system_not_a_set' ) ); ?></h2>
+				<p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); margin-top: 18px; max-width: 520px"><?php echo esc_html( intera_copy( 'product_method__the_method_is_a_hands_on' ) ); ?></p>
 				<div style="display: flex; flex-direction: column; gap: 0; margin-top: 26px; border-top: 1px solid var(--border-hairline); max-width: 520px">
 					<?php
 					$intera_method_steps = array(
-						__( 'Map the real data flows, not the documented ones', 'intera' ),
-						__( 'Identify blind spots and the checks nobody owns', 'intera' ),
-						__( 'Define Metrics that reflect the operation', 'intera' ),
-						__( 'Connect the data sources with IT', 'intera' ),
-						__( 'Build the first Roles and dashboards together', 'intera' ),
+						intera_copy( 'product_method__map_the_real_data_flows_not' ),
+						intera_copy( 'product_method__identify_blind_spots_and_the_checks' ),
+						intera_copy( 'product_method__define_metrics_that_reflect_the_operation' ),
+						intera_copy( 'product_method__connect_the_data_sources_with_it' ),
+						intera_copy( 'product_method__build_the_first_roles_and_dashboards' ),
 					);
 
 					foreach ( $intera_method_steps as $intera_step_index => $intera_method_step ) :
@@ -636,15 +636,15 @@ $intera_chain_captions = array(
 			<?php
 			ob_start();
 			?>
-			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-500)"><?php esc_html_e( 'What you leave with', 'intera' ); ?></div>
+			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-500)"><?php echo esc_html( intera_copy( 'product_method__what_you_leave_with' ) ); ?></div>
 			<div style="display: flex; flex-direction: column; gap: 10px; margin-top: 16px; font-size: var(--text-md); color: var(--ink-800); line-height: 1.5">
 				<?php
 				$intera_method_outcomes = array(
-					__( 'A working INTERA environment', 'intera' ),
-					__( 'Connected data sources', 'intera' ),
-					__( 'Defined Metrics and business logic', 'intera' ),
-					__( 'Operational dashboards in use', 'intera' ),
-					__( 'Visibility into issues you could not see before', 'intera' ),
+					intera_copy( 'product_method__a_working_intera_environment' ),
+					intera_copy( 'product_method__connected_data_sources' ),
+					intera_copy( 'product_method__defined_metrics_and_business_logic' ),
+					intera_copy( 'product_method__operational_dashboards_in_use' ),
+					intera_copy( 'product_method__visibility_into_issues_you_could_not' ),
 				);
 
 				foreach ( $intera_method_outcomes as $intera_method_outcome ) {
@@ -653,7 +653,7 @@ $intera_chain_captions = array(
 				?>
 			</div>
 			<div style="margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--border-hairline)">
-				<p style="font-size: var(--text-sm); color: var(--ink-600); line-height: 1.6"><?php esc_html_e( 'Delivered over several intensive on-site days. Scope depends on how many systems and roles are involved.', 'intera' ); ?></p>
+				<p style="font-size: var(--text-sm); color: var(--ink-600); line-height: 1.6"><?php echo esc_html( intera_copy( 'product_method__delivered_over_several_intensive_on_site' ) ); ?></p>
 				<?php if ( $intera_has_cta ) : ?>
 					<div style="margin-top: 16px">
 						<?php
@@ -661,7 +661,7 @@ $intera_chain_captions = array(
 							'template-parts/components/button',
 							null,
 							array(
-								'label' => __( 'Talk to us about the Method', 'intera' ),
+								'label' => intera_copy( 'product_method__talk_to_us_about_the_method' ),
 								'href'  => $intera_cta_url,
 								'block' => true,
 							)
@@ -698,8 +698,8 @@ $intera_chain_captions = array(
 		ob_start();
 		?>
 		<div>
-			<h2 style="font-size: var(--text-2xl); font-weight: 600; letter-spacing: -0.01em; color: var(--ink-900); line-height: 1.3"><?php esc_html_e( 'Start with one real problem.', 'intera' ); ?></h2>
-			<p style="font-size: var(--text-md); color: var(--ink-600); margin-top: 8px"><?php esc_html_e( 'One role. One operational problem. One working result.', 'intera' ); ?></p>
+			<h2 style="font-size: var(--text-2xl); font-weight: 600; letter-spacing: -0.01em; color: var(--ink-900); line-height: 1.3"><?php echo esc_html( intera_copy( 'product_cta__start_with_one_real_problem' ) ); ?></h2>
+			<p style="font-size: var(--text-md); color: var(--ink-600); margin-top: 8px"><?php echo esc_html( intera_copy( 'product_cta__one_role_one_operational_problem_one' ) ); ?></p>
 		</div>
 		<?php
 		if ( $intera_has_cta ) {
@@ -707,7 +707,7 @@ $intera_chain_captions = array(
 				'template-parts/components/button',
 				null,
 				array(
-					'label' => __( 'Bring us a real problem', 'intera' ),
+					'label' => intera_copy( 'product_cta__bring_us_a_real_problem' ),
 					'href'  => $intera_cta_url,
 					'size'  => 'lg',
 				)

@@ -60,16 +60,16 @@ $intera_faq_url     = (string) intera_page_url( 'faq' );
 // The export's "What to send us" list: three numbered items, ordinals printed 01–03.
 $intera_send_items = array(
 	array(
-		'title' => __( 'The check nobody enjoys doing', 'intera' ),
-		'body'  => __( 'The report, reconciliation or status update someone repeats every week.', 'intera' ),
+		'title' => intera_copy( 'contacts_page__the_check_nobody_enjoys_doing' ),
+		'body'  => intera_copy( 'contacts_page__the_report_reconciliation_or_status_update' ),
 	),
 	array(
-		'title' => __( 'The systems involved', 'intera' ),
-		'body'  => __( 'ERP, CRM, billing, spreadsheets — names are enough, no diagrams needed.', 'intera' ),
+		'title' => intera_copy( 'contacts_page__the_systems_involved' ),
+		'body'  => intera_copy( 'contacts_page__erp_crm_billing_spreadsheets_names_are' ),
 	),
 	array(
-		'title' => __( 'What goes wrong when it is found too late', 'intera' ),
-		'body'  => __( 'Lost revenue, a missed date, an escalation, a surprised customer.', 'intera' ),
+		'title' => intera_copy( 'contacts_page__what_goes_wrong_when_it_is' ),
+		'body'  => intera_copy( 'contacts_page__lost_revenue_a_missed_date_an' ),
 	),
 );
 
@@ -77,23 +77,23 @@ $intera_send_items = array(
 $intera_reasons = array(
 	array(
 		'icon'      => 'circle-dot',
-		'title'     => __( 'Early Adopter', 'intera' ),
-		'body'      => __( 'You have a real operational task and want it solved during beta. Twelve months free, custom onboarding, direct line to the team.', 'intera' ),
-		'cta_label' => __( 'Apply as Early Adopter', 'intera' ),
+		'title'     => intera_copy( 'contacts_page__early_adopter' ),
+		'body'      => intera_copy( 'contacts_page__you_have_a_real_operational_task' ),
+		'cta_label' => intera_copy( 'contacts_page__apply_as_early_adopter' ),
 		'cta_url'   => $intera_request_url,
 	),
 	array(
 		'icon'      => 'git-branch',
-		'title'     => __( 'Partner or reseller', 'intera' ),
-		'body'      => __( 'You already solve operational problems for customers in one industry and want to package that as roles, checks and integrations.', 'intera' ),
-		'cta_label' => __( 'Talk about partnership', 'intera' ),
+		'title'     => intera_copy( 'contacts_page__partner_or_reseller' ),
+		'body'      => intera_copy( 'contacts_page__you_already_solve_operational_problems_for' ),
+		'cta_label' => intera_copy( 'contacts_page__talk_about_partnership' ),
 		'cta_url'   => $intera_request_url,
 	),
 	array(
 		'icon'      => 'settings',
-		'title'     => __( 'Deployment and pricing', 'intera' ),
-		'body'      => __( 'You know what you need and want the commercial detail: installation, integrations, implementation scope and cost.', 'intera' ),
-		'cta_label' => __( 'See pricing first', 'intera' ),
+		'title'     => intera_copy( 'contacts_page__deployment_and_pricing' ),
+		'body'      => intera_copy( 'contacts_page__you_know_what_you_need_and' ),
+		'cta_label' => intera_copy( 'contacts_page__see_pricing_first' ),
 		'cta_url'   => $intera_pricing_url,
 	),
 );
@@ -104,7 +104,7 @@ $intera_reasons = array(
  */
 ob_start();
 ?>
-<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-500)"><?php esc_html_e( 'What to send us', 'intera' ); ?></div>
+<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-500)"><?php echo esc_html( intera_copy( 'contacts_page__what_to_send_us' ) ); ?></div>
 <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 18px">
 	<?php foreach ( $intera_send_items as $intera_index => $intera_item ) : ?>
 	<div style="display: flex; gap: 12px">
@@ -135,13 +135,13 @@ $intera_send_card = (string) ob_get_clean();
 <section data-screen-label="Contact routes" style="background: var(--surface-page)">
 	<div style="max-width: 1160px; margin: 0 auto; padding: clamp(32px, 7vw, 56px) clamp(20px, 5vw, 24px) 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 44px; align-items: start">
 		<div>
-			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-500); margin-bottom: 18px"><?php esc_html_e( 'Direct', 'intera' ); ?></div>
+			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-500); margin-bottom: 18px"><?php echo esc_html( intera_copy( 'contacts_contact_routes__direct' ) ); ?></div>
 			<div style="display: flex; flex-direction: column; gap: 0; border-top: 1px solid var(--border-hairline)">
 				<?php if ( '' !== $intera_email ) : ?>
 				<div style="display: flex; align-items: center; gap: 14px; padding: 18px 0; border-bottom: 1px solid var(--border-hairline)">
 					<?php intera_icon( 'mail', array( 'size' => 17, 'color' => 'var(--ink-500)' ) ); ?>
 					<div>
-						<div style="font-size: var(--text-xs); color: var(--ink-500)"><?php esc_html_e( 'Write to us', 'intera' ); ?></div>
+						<div style="font-size: var(--text-xs); color: var(--ink-500)"><?php echo esc_html( intera_copy( 'contacts_contact_routes__write_to_us' ) ); ?></div>
 						<a class="itr-link-strong" href="<?php echo esc_url( $intera_mailto ); ?>" style="font-family: var(--font-mono); font-size: var(--text-md)"><?php echo esc_html( $intera_email ); ?></a>
 					</div>
 				</div>
@@ -151,7 +151,7 @@ $intera_send_card = (string) ob_get_clean();
 				<div style="display: flex; align-items: center; gap: 14px; padding: 18px 0; border-bottom: 1px solid var(--border-hairline)">
 					<?php intera_icon( 'clock', array( 'size' => 17, 'color' => 'var(--ink-500)' ) ); ?>
 					<div>
-						<div style="font-size: var(--text-xs); color: var(--ink-500)"><?php esc_html_e( 'Response time', 'intera' ); ?></div>
+						<div style="font-size: var(--text-xs); color: var(--ink-500)"><?php echo esc_html( intera_copy( 'contacts_contact_routes__response_time' ) ); ?></div>
 						<div style="font-size: var(--text-md); color: var(--ink-800)"><?php echo esc_html( $intera_response ); ?></div>
 					</div>
 				</div>
@@ -161,7 +161,7 @@ $intera_send_card = (string) ob_get_clean();
 				<div style="display: flex; align-items: center; gap: 14px; padding: 18px 0; border-bottom: 1px solid var(--border-hairline)">
 					<?php intera_icon( 'globe', array( 'size' => 17, 'color' => 'var(--ink-500)' ) ); ?>
 					<div>
-						<div style="font-size: var(--text-xs); color: var(--ink-500)"><?php esc_html_e( 'Working language', 'intera' ); ?></div>
+						<div style="font-size: var(--text-xs); color: var(--ink-500)"><?php echo esc_html( intera_copy( 'contacts_contact_routes__working_language' ) ); ?></div>
 						<div style="font-size: var(--text-md); color: var(--ink-800)"><?php echo esc_html( $intera_languages ); ?></div>
 					</div>
 				</div>
@@ -176,7 +176,7 @@ $intera_send_card = (string) ob_get_clean();
 						'template-parts/components/button',
 						null,
 						array(
-							'label' => __( 'Bring us a real problem', 'intera' ),
+							'label' => intera_copy( 'contacts_contact_routes__bring_us_a_real_problem' ),
 							'href'  => $intera_request_url,
 							'size'  => 'lg',
 						)
@@ -188,7 +188,7 @@ $intera_send_card = (string) ob_get_clean();
 						'template-parts/components/button',
 						null,
 						array(
-							'label'   => __( 'Send an email', 'intera' ),
+							'label'   => intera_copy( 'contacts_contact_routes__send_an_email' ),
 							'href'    => $intera_mailto,
 							'variant' => 'secondary',
 							'size'    => 'lg',
@@ -216,7 +216,7 @@ $intera_send_card = (string) ob_get_clean();
 
 <section data-screen-label="Who to talk to" style="background: var(--surface-sunken); border-top: 1px solid var(--border-subtle); margin-top: 40px">
 	<div style="max-width: 1160px; margin: 0 auto; padding: clamp(42px, 7vw, 72px) clamp(20px, 5vw, 24px)">
-		<h2 style="font-size: var(--text-2xl); font-weight: 600; letter-spacing: -0.01em; color: var(--ink-900)"><?php esc_html_e( 'Three reasons people write to us', 'intera' ); ?></h2>
+		<h2 style="font-size: var(--text-2xl); font-weight: 600; letter-spacing: -0.01em; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'contacts_who_to_talk_to__three_reasons_people_write_to_us' ) ); ?></h2>
 		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 20px; margin-top: 26px">
 			<?php
 			foreach ( $intera_reasons as $intera_reason ) {
@@ -265,12 +265,12 @@ $intera_send_card = (string) ob_get_clean();
 		 * FAQ page; each falls back to plain text when that page is not set up.
 		 */
 		$intera_docs_link = '' !== $intera_docs_url
-			? '<a href="' . esc_url( $intera_docs_url ) . '">' . esc_html__( 'Documentation', 'intera' ) . '</a>'
-			: esc_html__( 'Documentation', 'intera' );
+			? '<a href="' . esc_url( $intera_docs_url ) . '">' . esc_html( intera_copy( 'contacts_who_to_talk_to__documentation' ) ) . '</a>'
+			: esc_html( intera_copy( 'contacts_who_to_talk_to__documentation_2' ) );
 
 		$intera_faq_link = '' !== $intera_faq_url
-			? '<a href="' . esc_url( $intera_faq_url ) . '">' . esc_html__( 'FAQ', 'intera' ) . '</a>'
-			: esc_html__( 'FAQ', 'intera' );
+			? '<a href="' . esc_url( $intera_faq_url ) . '">' . esc_html( intera_copy( 'contacts_who_to_talk_to__faq' ) ) . '</a>'
+			: esc_html( intera_copy( 'contacts_who_to_talk_to__faq_2' ) );
 		?>
 		<div style="display: flex; flex-wrap: wrap; gap: 24px; margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--border-hairline); font-size: var(--text-sm); color: var(--ink-600)">
 			<span>
@@ -278,7 +278,7 @@ $intera_send_card = (string) ob_get_clean();
 				echo wp_kses_post(
 					sprintf(
 						/* translators: 1: link to the documentation, 2: link to the FAQ page. */
-						__( 'Prefer to read first? %1$s and %2$s answer most first questions.', 'intera' ),
+						intera_copy( 'contacts_who_to_talk_to__prefer_to_read_first_1_s' ),
 						$intera_docs_link,
 						$intera_faq_link
 					)

@@ -179,11 +179,21 @@ $intera_faq_html = intera_content_with_heading_ids( apply_filters( 'the_content'
 $intera_faq_toc  = intera_headings_get( $intera_faq_html );
 $intera_faq_html = intera_faq_accordion( $intera_faq_html );
 
+/*
+ * Which heading levels the rail lists.
+ *
+ * The export groups its questions under `h2`, and so does a page written with
+ * the block editor. A page whose content is a BetterDocs FAQ groups them under
+ * `h3` instead — the plugin's own markup, which the theme does not rewrite — so
+ * `h3` is listed too and the rail comes out the same either way.
+ */
+$intera_faq_levels = array( 2, 3 );
+
 // The rail hides itself below two entries, so the aside falls back to the blurb alone.
 $intera_faq_rail_rows = 0;
 
 foreach ( $intera_faq_toc as $intera_faq_heading ) {
-	if ( 2 === (int) $intera_faq_heading['level'] && '' !== $intera_faq_heading['id'] && '' !== trim( (string) $intera_faq_heading['text'] ) ) {
+	if ( in_array( (int) $intera_faq_heading['level'], $intera_faq_levels, true ) && '' !== $intera_faq_heading['id'] && '' !== trim( (string) $intera_faq_heading['text'] ) ) {
 		++$intera_faq_rail_rows;
 	}
 }
@@ -247,7 +257,8 @@ if ( '' !== $intera_faq_blurb || ( '' !== $intera_faq_ask && '' !== $intera_faq_
 				null,
 				array(
 					'headings'     => $intera_faq_toc,
-					'title'        => __( 'On this page', 'intera' ),
+					'levels'       => $intera_faq_levels,
+					'title'        => intera_copy( 'faq_faq_content__on_this_page' ),
 					'variant'      => 'jump',
 					'size'         => 'md',
 					'width'        => '260px',
@@ -267,7 +278,7 @@ if ( '' !== $intera_faq_blurb || ( '' !== $intera_faq_ask && '' !== $intera_faq_
 		}
 		?>
 
-		<div class="intera-prose" style="--itr-prose-max: 760px; flex: 1 1 520px">
+		<div class="intera-prose intera-faq" style="--itr-prose-max: 760px; flex: 1 1 520px">
 			<?php echo $intera_faq_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- the_content output, filtered by WordPress. ?>
 		</div>
 	</div>

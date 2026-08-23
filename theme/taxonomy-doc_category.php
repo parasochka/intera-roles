@@ -19,7 +19,7 @@
  * | standfirst                    | `term_description()`                            |
  * | sub-group headings            | the term's child terms — the taxonomy is hierarchical |
  * | each row                      | `partials/doc-row` `ordinal`: `menu_order`, title, excerpt, reading time |
- * | sidebar `Other categories`    | top-level `docs_category` terms, current one excluded, counted with children |
+ * | sidebar `Other categories`    | top-level `doc_category` terms, current one excluded, counted with children |
  * | sidebar CTA                   | `partials/sidebar-cta`, prefix `docs_cta`       |
  *
  * The ordinals run 01…10 straight through the sub-groups, so every row reads
@@ -68,7 +68,7 @@ $intera_docs_query = static function ( $term_id, $per_page ) {
 			'ignore_sticky_posts' => true,
 			'tax_query'           => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 				array(
-					'taxonomy'         => 'docs_category',
+					'taxonomy'         => 'doc_category',
 					'field'            => 'term_id',
 					'terms'            => (int) $term_id,
 					'include_children' => true,
@@ -95,7 +95,7 @@ $intera_docs_source = $intera_docs_id;
 $intera_docs_icon   = $intera_docs_id ? intera_term_icon_get( $intera_docs_id ) : '';
 
 if ( '' === $intera_docs_icon && $intera_docs_id ) {
-	foreach ( (array) get_ancestors( $intera_docs_id, 'docs_category', 'taxonomy' ) as $intera_docs_ancestor ) {
+	foreach ( (array) get_ancestors( $intera_docs_id, 'doc_category', 'taxonomy' ) as $intera_docs_ancestor ) {
 		$intera_docs_candidate = intera_term_icon_get( (int) $intera_docs_ancestor );
 
 		if ( '' !== $intera_docs_candidate ) {
@@ -128,7 +128,7 @@ if ( '' !== $intera_docs_desc ) {
 $intera_docs_children = $intera_docs_id
 	? get_terms(
 		array(
-			'taxonomy'   => 'docs_category',
+			'taxonomy'   => 'doc_category',
 			'parent'     => $intera_docs_id,
 			'hide_empty' => false,
 		)
@@ -143,7 +143,7 @@ foreach ( $intera_docs_children as $intera_docs_child ) {
 	$intera_docs_child_id                          = (int) $intera_docs_child->term_id;
 	$intera_docs_group_of[ $intera_docs_child_id ] = $intera_docs_child_id;
 
-	$intera_docs_deeper = get_term_children( $intera_docs_child_id, 'docs_category' );
+	$intera_docs_deeper = get_term_children( $intera_docs_child_id, 'doc_category' );
 	$intera_docs_deeper = is_wp_error( $intera_docs_deeper ) ? array() : $intera_docs_deeper;
 
 	foreach ( $intera_docs_deeper as $intera_docs_deep_id ) {
@@ -156,7 +156,7 @@ $intera_docs_groups = array();
 
 foreach ( ( $intera_docs_list ? $intera_docs_list->posts : array() ) as $intera_docs_post ) {
 	$intera_docs_group = 0;
-	$intera_docs_terms = get_the_terms( $intera_docs_post, 'docs_category' );
+	$intera_docs_terms = get_the_terms( $intera_docs_post, 'doc_category' );
 	$intera_docs_terms = ( $intera_docs_terms && ! is_wp_error( $intera_docs_terms ) ) ? $intera_docs_terms : array();
 
 	foreach ( $intera_docs_terms as $intera_docs_post_term ) {
@@ -168,7 +168,7 @@ foreach ( ( $intera_docs_list ? $intera_docs_list->posts : array() ) as $intera_
 
 	if ( ! isset( $intera_docs_groups[ $intera_docs_group ] ) ) {
 		$intera_docs_groups[ $intera_docs_group ] = array(
-			'label' => $intera_docs_group ? (string) get_term_field( 'name', $intera_docs_group, 'docs_category' ) : '',
+			'label' => $intera_docs_group ? (string) get_term_field( 'name', $intera_docs_group, 'doc_category' ) : '',
 			'posts' => array(),
 		);
 	}
@@ -179,7 +179,7 @@ foreach ( ( $intera_docs_list ? $intera_docs_list->posts : array() ) as $intera_
 // The sidebar: every other top-level category, counted with its sub-groups.
 $intera_docs_others = get_terms(
 	array(
-		'taxonomy'   => 'docs_category',
+		'taxonomy'   => 'doc_category',
 		'parent'     => 0,
 		'hide_empty' => false,
 		'orderby'    => 'name',
