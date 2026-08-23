@@ -251,6 +251,13 @@ function intera_register_post_types() {
  */
 function intera_register_record_post_types() {
 
+	/*
+	 * `custom-fields` is in the supports list of both record types for one
+	 * reason: WordPress only exposes a post type's `meta` over REST when the
+	 * type declares it. Without it the icon, summary, tags, price, period and
+	 * capability rows are editable in wp-admin but invisible to the REST API,
+	 * so nothing can populate a role or a plan except a human typing it in.
+	 */
 	register_post_type(
 		'role',
 		array(
@@ -278,7 +285,7 @@ function intera_register_record_post_types() {
 			'show_in_rest'        => true,
 			'menu_position'       => 22,
 			'menu_icon'           => 'dashicons-groups',
-			'supports'            => array( 'title', 'editor', 'excerpt', 'page-attributes', 'revisions' ),
+			'supports'            => array( 'title', 'editor', 'excerpt', 'page-attributes', 'revisions', 'custom-fields' ),
 			'has_archive'         => false,
 			'rewrite'             => false,
 			'hierarchical'        => false,
@@ -313,7 +320,7 @@ function intera_register_record_post_types() {
 			'show_in_rest'        => true,
 			'menu_position'       => 23,
 			'menu_icon'           => 'dashicons-money-alt',
-			'supports'            => array( 'title', 'editor', 'excerpt', 'page-attributes', 'revisions' ),
+			'supports'            => array( 'title', 'editor', 'excerpt', 'page-attributes', 'revisions', 'custom-fields' ),
 			'has_archive'         => false,
 			'rewrite'             => false,
 			'hierarchical'        => false,

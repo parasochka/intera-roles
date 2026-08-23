@@ -497,13 +497,18 @@ get_header();
 		</div>
 		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 20px">
 			<?php
-			// The five cards are the `role` post type, ordered by the Order field.
+			/*
+			 * The five cards are the `role` post type. The Order field decides,
+			 * and where it has not been set the cards fall back to the order the
+			 * roles were added in rather than to the alphabet — a designed row
+			 * reads in the sequence someone chose, and alphabetical is not one.
+			 */
 			$intera_role_posts = get_posts(
 				array(
 					'post_type'        => 'role',
 					'post_status'      => 'publish',
 					'numberposts'      => -1,
-					'orderby'          => 'menu_order title',
+					'orderby'          => 'menu_order date',
 					'order'            => 'ASC',
 					'suppress_filters' => false,
 				)
@@ -651,7 +656,7 @@ get_header();
 					'post_type'        => 'plan',
 					'post_status'      => 'publish',
 					'numberposts'      => -1,
-					'orderby'          => 'menu_order title',
+					'orderby'          => 'menu_order date',
 					'order'            => 'ASC',
 					'suppress_filters' => false,
 				)

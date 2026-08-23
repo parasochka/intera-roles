@@ -463,7 +463,7 @@ $intera_chain_captions = array(
 					'posts_per_page'         => -1,
 					'orderby'                => array(
 						'menu_order' => 'ASC',
-						'title'      => 'ASC',
+						'date'       => 'ASC',
 					),
 					'no_found_rows'          => true,
 					'ignore_sticky_posts'    => true,

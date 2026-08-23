@@ -69,7 +69,7 @@ $intera_plans = get_posts(
 		'post_type'        => 'plan',
 		'post_status'      => 'publish',
 		'numberposts'      => -1,
-		'orderby'          => 'menu_order title',
+		'orderby'          => 'menu_order date',
 		'order'            => 'ASC',
 		'suppress_filters' => false,
 	)
