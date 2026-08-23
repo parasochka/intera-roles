@@ -225,3 +225,54 @@ function intera_show_menu_css_classes( $hidden ) {
 	return array_values( array_diff( $hidden, array( 'css-classes' ) ) );
 }
 add_filter( 'get_user_option_managenav-menuscolumnshidden', 'intera_show_menu_css_classes' );
+
+/**
+ * Bind the site's menus to the theme's five locations, once, on activation.
+ *
+ * A menu's *contents* are content and belong in wp-admin, but the mapping from
+ * a menu to a theme location is neither: it is a theme setting, it is empty on
+ * a fresh activation, and until it is filled the header renders its fallback
+ * and the footer renders nothing. There is no way to set it except in code or
+ * by hand, so the theme does it — matching each location to a menu whose slug
+ * says which one it is.
+ *
+ * Only ever fills a location that is empty. A location an editor has already
+ * pointed somewhere is left exactly as they set it, on this and every later
+ * activation.
+ *
+ * @return void
+ */
+function intera_assign_menu_locations() {
+	$wanted = array(
+		'primary'          => array( 'primary-menu', 'main-menu' ),
+		'footer_product'   => array( 'footer-product', 'product' ),
+		'footer_resources' => array( 'footer-resources', 'resources' ),
+		'footer_company'   => array( 'footer-company', 'company' ),
+		'footer_legal'     => array( 'footer-legal', 'legal' ),
+	);
+
+	$locations = get_theme_mod( 'nav_menu_locations' );
+	$locations = is_array( $locations ) ? $locations : array();
+	$changed   = false;
+
+	foreach ( $wanted as $location => $slugs ) {
+		if ( ! empty( $locations[ $location ] ) ) {
+			continue;
+		}
+
+		foreach ( $slugs as $slug ) {
+			$menu = wp_get_nav_menu_object( $slug );
+
+			if ( $menu instanceof WP_Term ) {
+				$locations[ $location ] = $menu->term_id;
+				$changed                = true;
+				break;
+			}
+		}
+	}
+
+	if ( $changed ) {
+		set_theme_mod( 'nav_menu_locations', $locations );
+	}
+}
+add_action( 'after_switch_theme', 'intera_assign_menu_locations', 20 );

@@ -269,10 +269,81 @@
 
 	/* ------------------------------------------------------------------ */
 
+	/**
+	 * Make the BetterDocs FAQ rows reachable from the keyboard.
+	 *
+	 * The FAQ page keeps the plugin's own block, and the plugin builds each
+	 * question as a <div> with a click handler: no tab stop, no Enter, nothing
+	 * announced. The theme cannot rewrite that markup — an editor authors the
+	 * questions there — so it upgrades it in place.
+	 *
+	 * The plugin keeps ownership of opening and closing: this only forwards
+	 * Enter and Space to the click it already listens for, and mirrors the
+	 * resulting state into aria-expanded. Without JavaScript the answers stay
+	 * where the plugin left them, exactly as before.
+	 */
+	function initFaq() {
+		var rows = document.querySelectorAll( '.intera-faq .betterdocs-faq-post' );
+
+		if ( ! rows.length ) {
+			return;
+		}
+
+		Array.prototype.forEach.call( rows, function ( row ) {
+			var group = row.closest ? row.closest( '.betterdocs-faq-group' ) : null;
+			var panel = group ? group.querySelector( '.betterdocs-faq-main-content' ) : null;
+
+			row.setAttribute( 'tabindex', '0' );
+			row.setAttribute( 'role', 'button' );
+
+			function sync() {
+				var open = !! ( group && group.classList.contains( 'active' ) );
+
+				row.setAttribute( 'aria-expanded', open ? 'true' : 'false' );
+			}
+
+			if ( panel ) {
+				if ( ! panel.id ) {
+					panel.id = 'intera-faq-answer-' + ( ++faqPanelCount );
+				}
+
+				row.setAttribute( 'aria-controls', panel.id );
+			}
+
+			sync();
+
+			row.addEventListener( 'keydown', function ( event ) {
+				if ( 'Enter' !== event.key && ' ' !== event.key && 'Spacebar' !== event.key ) {
+					return;
+				}
+
+				event.preventDefault();
+				row.click();
+			} );
+
+			/*
+			 * The plugin toggles `.active` itself, and it animates the panel,
+			 * so the class lands some time after the click rather than during
+			 * it. Reading it on the next frame is what keeps aria-expanded
+			 * honest.
+			 */
+			row.addEventListener( 'click', function () {
+				window.requestAnimationFrame( function () {
+					window.requestAnimationFrame( sync );
+				} );
+			} );
+		} );
+	}
+
+	var faqPanelCount = 0;
+
+	/* ------------------------------------------------------------------ */
+
 	function init() {
 		initNav();
 		initCopy();
 		initPrint();
+		initFaq();
 	}
 
 	if ( 'loading' === document.readyState ) {

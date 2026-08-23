@@ -75,7 +75,7 @@ $intera_plans = get_posts(
 	)
 );
 
-$intera_table_title = __( 'What each plan includes', 'intera' );
+$intera_table_title = intera_copy( 'pricing_page__what_each_plan_includes' );
 
 /*
  * One pass over the plans builds both the columns and the rows: the column
@@ -129,9 +129,9 @@ $intera_no_figure = _x( '—', 'a capability the plan does not include', 'intera
 $intera_tiles = array();
 
 foreach ( array(
-	__( 'Roles', 'intera' )          => __( 'roles', 'intera' ),
-	__( 'Users', 'intera' )          => __( 'users', 'intera' ),
-	__( 'Market package', 'intera' ) => __( 'market package', 'intera' ),
+	intera_copy( 'pricing_page__roles' )          => intera_copy( 'pricing_page__roles_2' ),
+	intera_copy( 'pricing_page__users' )          => intera_copy( 'pricing_page__users_2' ),
+	intera_copy( 'pricing_page__market_package' ) => intera_copy( 'pricing_page__market_package_2' ),
 ) as $intera_tile_capability => $intera_tile_label ) {
 	$intera_tile_key = function_exists( 'intera_plan_capability_key' )
 		? intera_plan_capability_key( $intera_tile_capability )
@@ -147,20 +147,20 @@ foreach ( array(
 // The four questions that come up before signing.
 $intera_questions = array(
 	array(
-		__( 'Is the free plan time-limited?', 'intera' ),
-		__( 'No. It is limited by roles, users, integrations and 30 days of history — not by a trial clock.', 'intera' ),
+		intera_copy( 'pricing_page__is_the_free_plan_time_limited' ),
+		intera_copy( 'pricing_page__no_it_is_limited_by_roles' ),
 	),
 	array(
-		__( 'What happens after the 12 free months?', 'intera' ),
-		__( 'You move to a commercial plan, or you stop. Nothing you configured is held hostage.', 'intera' ),
+		intera_copy( 'pricing_page__what_happens_after_the_12_free' ),
+		intera_copy( 'pricing_page__you_move_to_a_commercial_plan' ),
 	),
 	array(
-		__( 'Do we need the Method to start?', 'intera' ),
-		__( 'No. The Method is for teams that want the first roles built together, on site, in a few intensive days.', 'intera' ),
+		intera_copy( 'pricing_page__do_we_need_the_method_to' ),
+		intera_copy( 'pricing_page__no_the_method_is_for_teams' ),
 	),
 	array(
-		__( 'Where does INTERA run?', 'intera' ),
-		__( 'Local installation is available from the free plan onwards. Access to source systems stays read-only.', 'intera' ),
+		intera_copy( 'pricing_page__where_does_intera_run' ),
+		intera_copy( 'pricing_page__local_installation_is_available_from_the' ),
 	),
 );
 ?>
@@ -203,7 +203,7 @@ $intera_questions = array(
 			<table style="width: 100%; border-collapse: collapse">
 				<thead>
 					<tr style="background: var(--surface-sunken)">
-						<th scope="col" style="text-align: left; padding: 12px 20px; font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-500); border-bottom: 1px solid var(--border-hairline)"><?php esc_html_e( 'Capability', 'intera' ); ?></th>
+						<th scope="col" style="text-align: left; padding: 12px 20px; font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-500); border-bottom: 1px solid var(--border-hairline)"><?php echo esc_html( intera_copy( 'pricing_comparison__capability' ) ); ?></th>
 						<?php foreach ( $intera_columns as $intera_column ) : ?>
 							<th scope="col" style="text-align: right; padding: 12px 20px; font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: <?php echo esc_attr( $intera_column['featured'] ? 'var(--blue-600)' : 'var(--ink-500)' ); ?>; border-bottom: 1px solid var(--border-hairline)"><?php echo esc_html( $intera_column['label'] ); ?></th>
 						<?php endforeach; ?>
@@ -230,7 +230,7 @@ $intera_questions = array(
 				</tbody>
 			</table>
 		</div>
-		<p style="font-size: var(--text-sm); color: var(--ink-500); margin-top: 14px"><?php esc_html_e( 'Prices exclude VAT. Custom integrations and additional market packages are quoted separately.', 'intera' ); ?></p>
+		<p style="font-size: var(--text-sm); color: var(--ink-500); margin-top: 14px"><?php echo esc_html( intera_copy( 'pricing_comparison__prices_exclude_vat_custom_integrations_and' ) ); ?></p>
 	</div>
 </section>
 <?php endif; ?>
@@ -239,9 +239,9 @@ $intera_questions = array(
 	<div aria-hidden="true" style="position: absolute; left: 22%; top: 40%; width: 900px; height: 900px; transform: translate(-50%,-50%); pointer-events: none; background: radial-gradient(circle, var(--wash-blue-dark) 0%, transparent 66%)"></div>
 	<div style="position: relative; max-width: 1160px; margin: 0 auto; padding: clamp(42px, 7vw, 72px) clamp(20px, 5vw, 24px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 40px; align-items: center">
 		<div>
-			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-200); margin-bottom: 14px"><?php esc_html_e( 'Early Adopter offer', 'intera' ); ?></div>
-			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--white)"><?php esc_html_e( 'Help shape INTERA around a real operation', 'intera' ); ?></h2>
-			<p style="font-size: var(--text-lg); line-height: 1.6; color: rgba(255,255,255,.72); margin-top: 16px; max-width: 520px"><?php esc_html_e( 'Twelve months free, custom onboarding and direct contact with the team. We ask for one real business case and your feedback.', 'intera' ); ?></p>
+			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-200); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'pricing_early_adopter__early_adopter_offer' ) ); ?></div>
+			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--white)"><?php echo esc_html( intera_copy( 'pricing_early_adopter__help_shape_intera_around_a_real' ) ); ?></h2>
+			<p style="font-size: var(--text-lg); line-height: 1.6; color: rgba(255,255,255,.72); margin-top: 16px; max-width: 520px"><?php echo esc_html( intera_copy( 'pricing_early_adopter__twelve_months_free_custom_onboarding_and' ) ); ?></p>
 			<?php if ( '' !== $intera_request_url ) : ?>
 				<div style="margin-top: 26px">
 					<?php
@@ -249,7 +249,7 @@ $intera_questions = array(
 						'template-parts/components/button',
 						null,
 						array(
-							'label'   => __( 'I have a problem INTERA could solve', 'intera' ),
+							'label'   => intera_copy( 'pricing_early_adopter__i_have_a_problem_intera_could' ),
 							'href'    => $intera_request_url,
 							'variant' => 'inverse',
 							'size'    => 'lg',
@@ -274,7 +274,7 @@ $intera_questions = array(
 
 <section data-screen-label="Pricing questions" style="background: var(--surface-page)">
 	<div style="max-width: 1160px; margin: 0 auto; padding: clamp(42px, 7vw, 72px) clamp(20px, 5vw, 24px)">
-		<h2 style="font-size: var(--text-2xl); font-weight: 600; letter-spacing: -0.01em; color: var(--ink-900)"><?php esc_html_e( 'Questions that come up before signing', 'intera' ); ?></h2>
+		<h2 style="font-size: var(--text-2xl); font-weight: 600; letter-spacing: -0.01em; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'pricing_pricing_questions__questions_that_come_up_before_signing' ) ); ?></h2>
 		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 20px; margin-top: 26px">
 			<?php foreach ( $intera_questions as $intera_question ) : ?>
 				<div>
@@ -290,7 +290,7 @@ $intera_questions = array(
 					'template-parts/components/button',
 					null,
 					array(
-						'label'      => __( 'Read the full FAQ', 'intera' ),
+						'label'      => intera_copy( 'pricing_pricing_questions__read_the_full_faq' ),
 						'href'       => $intera_faq_url,
 						'variant'    => 'secondary',
 						'icon_right' => 'arrow-right',

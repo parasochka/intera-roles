@@ -14,7 +14,7 @@
  * | slot                       | source                                             |
  * | -------------------------- | -------------------------------------------------- |
  * | docs search                | a real `GET` form scoped to `post_type=docs`        |
- * | tree groups                | `get_terms( 'docs_category' )`, top level only      |
+ * | tree groups                | `get_terms( 'doc_category' )`, top level only      |
  * | tree links                 | the per-term query, ordered by `menu_order`         |
  * | the current item           | `get_the_ID()` — a `<span>`, never a link to itself |
  * | breadcrumb `Docs / …`      | `intera_breadcrumbs()` (no Home crumb on a doc)     |
@@ -77,7 +77,7 @@ while ( have_posts() ) :
 	 * an ordinal — so the tree, the ordinals and the prev/next pair all follow a
 	 * single control. Children are included: a sub-group is part of its parent.
 	 *
-	 * @param int $intera_doc_term_id docs_category term id.
+	 * @param int $intera_doc_term_id doc_category term id.
 	 * @return int[] Post ids.
 	 */
 	$intera_doc_cache = array();
@@ -103,7 +103,7 @@ while ( have_posts() ) :
 				),
 				'tax_query'   => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- one group per query, which is what a docs tree is.
 					array(
-						'taxonomy'         => 'docs_category',
+						'taxonomy'         => 'doc_category',
 						'field'            => 'term_id',
 						'terms'            => $intera_doc_term_id,
 						'include_children' => true,
@@ -123,7 +123,7 @@ while ( have_posts() ) :
 	 * category. `false` tells the partial that side is deliberately empty.
 	 */
 	$intera_doc_term = function_exists( 'intera_breadcrumbs_primary_term' )
-		? intera_breadcrumbs_primary_term( get_post(), 'docs_category' )
+		? intera_breadcrumbs_primary_term( get_post(), 'doc_category' )
 		: null;
 
 	// `null` leaves the partial to resolve neighbours itself — the fallback for
@@ -149,7 +149,7 @@ while ( have_posts() ) :
 	 */
 	$intera_doc_terms = get_terms(
 		array(
-			'taxonomy'   => 'docs_category',
+			'taxonomy'   => 'doc_category',
 			'parent'     => 0,
 			'hide_empty' => false,
 			'orderby'    => 'name',

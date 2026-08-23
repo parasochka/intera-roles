@@ -134,7 +134,7 @@ $intera_error_for = static function ( $errors, $field ) {
 						'id'          => 'name',
 						'name'        => 'name',
 						'value'       => intera_form_old_get( 'name' ),
-						'placeholder' => __( 'Anna Kovalenko', 'intera' ),
+						'placeholder' => intera_copy( 'request_request_form__anna_kovalenko' ),
 						'required'    => true,
 						'invalid'     => '' !== $intera_error_for( $intera_errors, 'name' ),
 						'attrs'       => array( 'autocomplete' => 'name' ),
@@ -146,7 +146,7 @@ $intera_error_for = static function ( $errors, $field ) {
 					'template-parts/components/field',
 					null,
 					array(
-						'label'    => __( 'Name', 'intera' ),
+						'label'    => intera_copy( 'request_request_form__name' ),
 						'for'      => 'name',
 						'required' => true,
 						'error'    => $intera_error_for( $intera_errors, 'name' ),
@@ -163,7 +163,7 @@ $intera_error_for = static function ( $errors, $field ) {
 						'id'          => 'email',
 						'name'        => 'email',
 						'value'       => intera_form_old_get( 'email' ),
-						'placeholder' => __( 'a.kovalenko@company.com', 'intera' ),
+						'placeholder' => intera_copy( 'request_request_form__a_kovalenko_company_com' ),
 						'required'    => true,
 						'invalid'     => '' !== $intera_error_for( $intera_errors, 'email' ),
 						'attrs'       => array( 'autocomplete' => 'email' ),
@@ -175,7 +175,7 @@ $intera_error_for = static function ( $errors, $field ) {
 					'template-parts/components/field',
 					null,
 					array(
-						'label'    => __( 'Work email', 'intera' ),
+						'label'    => intera_copy( 'request_request_form__work_email' ),
 						'for'      => 'email',
 						'required' => true,
 						'error'    => $intera_error_for( $intera_errors, 'email' ),
@@ -191,7 +191,7 @@ $intera_error_for = static function ( $errors, $field ) {
 						'id'          => 'company',
 						'name'        => 'company',
 						'value'       => intera_form_old_get( 'company' ),
-						'placeholder' => __( 'Company name', 'intera' ),
+						'placeholder' => intera_copy( 'request_request_form__company_name' ),
 						'invalid'     => '' !== $intera_error_for( $intera_errors, 'company' ),
 						'attrs'       => array( 'autocomplete' => 'organization' ),
 					)
@@ -202,7 +202,7 @@ $intera_error_for = static function ( $errors, $field ) {
 					'template-parts/components/field',
 					null,
 					array(
-						'label'   => __( 'Company', 'intera' ),
+						'label'   => intera_copy( 'request_request_form__company' ),
 						'for'     => 'company',
 						'error'   => $intera_error_for( $intera_errors, 'company' ),
 						'content' => $intera_control,
@@ -217,7 +217,7 @@ $intera_error_for = static function ( $errors, $field ) {
 						'id'          => 'role',
 						'name'        => 'role',
 						'value'       => intera_form_old_get( 'role' ),
-						'placeholder' => __( 'Billing Operations Manager', 'intera' ),
+						'placeholder' => intera_copy( 'request_request_form__billing_operations_manager' ),
 						'invalid'     => '' !== $intera_error_for( $intera_errors, 'role' ),
 						'attrs'       => array( 'autocomplete' => 'organization-title' ),
 					)
@@ -228,9 +228,9 @@ $intera_error_for = static function ( $errors, $field ) {
 					'template-parts/components/field',
 					null,
 					array(
-						'label'   => __( 'Your role', 'intera' ),
+						'label'   => intera_copy( 'request_request_form__your_role' ),
 						'for'     => 'role',
-						'hint'    => __( 'The area you are responsible for.', 'intera' ),
+						'hint'    => intera_copy( 'request_request_form__the_area_you_are_responsible_for' ),
 						'error'   => $intera_error_for( $intera_errors, 'role' ),
 						'content' => $intera_control,
 					)
@@ -245,7 +245,7 @@ $intera_error_for = static function ( $errors, $field ) {
 						'name'        => 'industry',
 						'options'     => intera_form_industries_get(),
 						'value'       => intera_form_old_get( 'industry' ),
-						'placeholder' => __( 'Choose an industry', 'intera' ),
+						'placeholder' => intera_copy( 'request_request_form__choose_an_industry' ),
 						'invalid'     => '' !== $intera_error_for( $intera_errors, 'industry' ),
 					)
 				);
@@ -255,7 +255,7 @@ $intera_error_for = static function ( $errors, $field ) {
 					'template-parts/components/field',
 					null,
 					array(
-						'label'   => __( 'Industry', 'intera' ),
+						'label'   => intera_copy( 'request_request_form__industry' ),
 						'for'     => 'industry',
 						'error'   => $intera_error_for( $intera_errors, 'industry' ),
 						'content' => $intera_control,
@@ -271,7 +271,7 @@ $intera_error_for = static function ( $errors, $field ) {
 						'name'        => 'interest',
 						'options'     => intera_form_interests_get(),
 						'value'       => intera_form_old_get( 'interest' ),
-						'placeholder' => __( 'Choose one', 'intera' ),
+						'placeholder' => intera_copy( 'request_request_form__choose_one' ),
 						'invalid'     => '' !== $intera_error_for( $intera_errors, 'interest' ),
 					)
 				);
@@ -281,7 +281,7 @@ $intera_error_for = static function ( $errors, $field ) {
 					'template-parts/components/field',
 					null,
 					array(
-						'label'   => __( 'What brings you here', 'intera' ),
+						'label'   => intera_copy( 'request_request_form__what_brings_you_here' ),
 						'for'     => 'interest',
 						'error'   => $intera_error_for( $intera_errors, 'interest' ),
 						'content' => $intera_control,
@@ -300,7 +300,7 @@ $intera_error_for = static function ( $errors, $field ) {
 						'name'        => 'problem',
 						'value'       => intera_form_old_get( 'problem' ),
 						'rows'        => 6,
-						'placeholder' => __( 'Every month someone exports usage from mediation and compares it with billing by hand. Last quarter we found unbilled usage six weeks late.', 'intera' ),
+						'placeholder' => intera_copy( 'request_request_form__every_month_someone_exports_usage_from' ),
 						'required'    => true,
 						'invalid'     => '' !== $intera_error_for( $intera_errors, 'problem' ),
 					)
@@ -311,10 +311,10 @@ $intera_error_for = static function ( $errors, $field ) {
 					'template-parts/components/field',
 					null,
 					array(
-						'label'    => __( 'The problem, in your words', 'intera' ),
+						'label'    => intera_copy( 'request_request_form__the_problem_in_your_words' ),
 						'for'      => 'problem',
 						'required' => true,
-						'hint'     => __( 'What is checked manually today, which systems are involved, and what happens when it is noticed too late.', 'intera' ),
+						'hint'     => intera_copy( 'request_request_form__what_is_checked_manually_today_which' ),
 						'error'    => $intera_error_for( $intera_errors, 'problem' ),
 						'content'  => $intera_control,
 					)
@@ -358,7 +358,7 @@ $intera_error_for = static function ( $errors, $field ) {
 					'template-parts/components/button',
 					null,
 					array(
-						'label' => __( 'Send request', 'intera' ),
+						'label' => intera_copy( 'request_request_form__send_request' ),
 						'size'  => 'lg',
 						'type'  => 'submit',
 					)
@@ -370,11 +370,11 @@ $intera_error_for = static function ( $errors, $field ) {
 				if ( '' !== $intera_legal_url ) {
 					printf(
 						/* translators: %s: link to the privacy policy, reading "privacy policy". */
-						esc_html__( 'We use what you send only to answer you. See the %s.', 'intera' ),
-						'<a href="' . esc_url( $intera_legal_url ) . '">' . esc_html__( 'privacy policy', 'intera' ) . '</a>'
+						esc_html( intera_copy( 'request_request_form__we_use_what_you_send_only' ) ),
+						'<a href="' . esc_url( $intera_legal_url ) . '">' . esc_html( intera_copy( 'request_request_form__privacy_policy' ) ) . '</a>'
 					);
 				} else {
-					esc_html_e( 'We use what you send only to answer you.', 'intera' );
+					echo esc_html( intera_copy( 'request_request_form__we_use_what_you_send_only_2' ) );
 				}
 				?>
 			</p>
@@ -415,7 +415,7 @@ $intera_error_for = static function ( $errors, $field ) {
 						<?php
 						printf(
 							/* translators: %s: request reference number, e.g. REQ-2026-0148. */
-							esc_html__( 'Reference: %s', 'intera' ),
+							esc_html( intera_copy( 'request_request_form__reference_s' ) ),
 							'<span style="font-family: var(--font-mono)">' . esc_html( $intera_reference ) . '</span>'
 						);
 						?>
@@ -425,7 +425,7 @@ $intera_error_for = static function ( $errors, $field ) {
 					<?php
 					printf(
 						/* translators: %s: how soon the request is answered, e.g. "within 1 working day". */
-						esc_html__( 'Answer expected: %s', 'intera' ),
+						esc_html( intera_copy( 'request_request_form__answer_expected_s' ) ),
 						'<span style="font-family: var(--font-mono)">' . esc_html( (string) intera_option( 'contact_success_answer' ) ) . '</span>'
 					);
 					?>
@@ -437,7 +437,7 @@ $intera_error_for = static function ( $errors, $field ) {
 					'template-parts/components/button',
 					null,
 					array(
-						'label'   => __( 'Read the docs', 'intera' ),
+						'label'   => intera_copy( 'request_request_form__read_the_docs' ),
 						'href'    => $intera_docs_url,
 						'variant' => 'secondary',
 					)
@@ -452,7 +452,7 @@ $intera_error_for = static function ( $errors, $field ) {
 					'template-parts/components/button',
 					null,
 					array(
-						'label'   => __( 'Send another request', 'intera' ),
+						'label'   => intera_copy( 'request_request_form__send_another_request' ),
 						'href'    => $intera_self_url,
 						'variant' => 'ghost',
 					)
@@ -480,21 +480,21 @@ $intera_error_for = static function ( $errors, $field ) {
 
 		<div style="display: flex; flex-direction: column; gap: 24px; max-width: 400px">
 			<div>
-				<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-500); margin-bottom: 16px"><?php esc_html_e( 'What happens next', 'intera' ); ?></div>
+				<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-500); margin-bottom: 16px"><?php echo esc_html( intera_copy( 'request_request_form__what_happens_next' ) ); ?></div>
 				<div style="display: flex; flex-direction: column; gap: 0; border-top: 1px solid var(--border-hairline)">
 					<?php
 					$intera_steps = array(
 						array(
-							'title' => __( 'We read it and answer', 'intera' ),
-							'body'  => __( 'Usually the same working day. No sales sequence.', 'intera' ),
+							'title' => intera_copy( 'request_request_form__we_read_it_and_answer' ),
+							'body'  => intera_copy( 'request_request_form__usually_the_same_working_day_no' ),
 						),
 						array(
-							'title' => __( 'One call, 30 minutes', 'intera' ),
-							'body'  => __( 'We map the problem to a role, metrics and the systems involved.', 'intera' ),
+							'title' => intera_copy( 'request_request_form__one_call_30_minutes' ),
+							'body'  => intera_copy( 'request_request_form__we_map_the_problem_to_a' ),
 						),
 						array(
-							'title' => __( 'One role, one result', 'intera' ),
-							'body'  => __( 'We set up the first check on real data and see whether it finds anything.', 'intera' ),
+							'title' => intera_copy( 'request_request_form__one_role_one_result' ),
+							'body'  => intera_copy( 'request_request_form__we_set_up_the_first_check' ),
 						),
 					);
 
@@ -518,15 +518,15 @@ $intera_error_for = static function ( $errors, $field ) {
 			<?php
 			ob_start();
 			?>
-			<div style="font-size: var(--text-md); font-weight: 600; color: var(--ink-900)"><?php esc_html_e( 'Early Adopter programme', 'intera' ); ?></div>
-			<p style="font-size: var(--text-sm); line-height: 1.6; color: var(--ink-600); margin-top: 8px"><?php esc_html_e( 'Free for the first 12 months, unlimited roles, custom onboarding and one market package included. We take a small number of companies during beta.', 'intera' ); ?></p>
+			<div style="font-size: var(--text-md); font-weight: 600; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'request_request_form__early_adopter_programme' ) ); ?></div>
+			<p style="font-size: var(--text-sm); line-height: 1.6; color: var(--ink-600); margin-top: 8px"><?php echo esc_html( intera_copy( 'request_request_form__free_for_the_first_12_months' ) ); ?></p>
 			<div style="margin-top: 14px">
 				<?php
 				get_template_part(
 					'template-parts/components/button',
 					null,
 					array(
-						'label'      => __( 'See what is included', 'intera' ),
+						'label'      => intera_copy( 'request_request_form__see_what_is_included' ),
 						'href'       => $intera_pricing_url,
 						'variant'    => 'link',
 						'icon_right' => 'arrow-right',
@@ -551,7 +551,7 @@ $intera_error_for = static function ( $errors, $field ) {
 					<?php
 					printf(
 						/* translators: %s: mailto link with the contact address. */
-						esc_html__( 'Prefer email? Write to %s.', 'intera' ),
+						esc_html( intera_copy( 'request_request_form__prefer_email_write_to_s' ) ),
 						'<a href="' . esc_url( 'mailto:' . $intera_email ) . '" style="font-family: var(--font-mono)">' . esc_html( $intera_email ) . '</a>'
 					);
 					?>

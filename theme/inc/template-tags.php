@@ -625,7 +625,7 @@ if ( ! function_exists( 'intera_breadcrumbs_get' ) ) :
 				// 12-docs-article opens on the archive, not on Home.
 				$crumbs[] = intera_breadcrumbs_post_type_crumb( 'docs' );
 
-				$term = intera_breadcrumbs_primary_term( $post, 'docs_category' );
+				$term = intera_breadcrumbs_primary_term( $post, 'doc_category' );
 
 				if ( $term ) {
 					foreach ( intera_breadcrumbs_term_trail( $term ) as $term_crumb ) {
@@ -683,7 +683,7 @@ if ( ! function_exists( 'intera_breadcrumbs_get' ) ) :
 
 			$crumbs[] = $home;
 
-			if ( $term instanceof WP_Term && 'docs_category' === $term->taxonomy ) {
+			if ( $term instanceof WP_Term && 'doc_category' === $term->taxonomy ) {
 				$crumbs[] = intera_breadcrumbs_post_type_crumb( 'docs' );
 			} elseif ( is_category() && $blog ) {
 				$crumbs[] = $blog;
@@ -757,7 +757,7 @@ if ( ! function_exists( 'intera_breadcrumbs_primary_term' ) ) :
 	/**
 	 * The term a post belongs under, preferring a top-level one.
 	 *
-	 * `docs_category` is hierarchical — a doc filed under a sub-group still
+	 * `doc_category` is hierarchical — a doc filed under a sub-group still
 	 * breadcrumbs to the group the mockup shows.
 	 *
 	 * @param WP_Post $post     Post.
@@ -879,7 +879,7 @@ endif;
 
 /*
  * ---------------------------------------------------------------------------
- * docs_category term meta
+ * doc_category term meta
  * ---------------------------------------------------------------------------
  *
  * The chip on `11-docs` and `13-docs-category` is an icon in a `--{tone}-600`

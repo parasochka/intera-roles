@@ -15,14 +15,14 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Meta key holding a `docs_category` term's Lucide icon name.
+ * Meta key holding a `doc_category` term's Lucide icon name.
  *
  * @var string
  */
 define( 'INTERA_TERM_ICON_KEY', '_intera_term_icon' );
 
 /**
- * Meta key holding a `docs_category` term's colour family.
+ * Meta key holding a `doc_category` term's colour family.
  *
  * @var string
  */
@@ -182,6 +182,22 @@ endif;
  */
 function intera_register_post_types() {
 
+	/*
+	 * `docs` is only ours when nobody else has claimed it.
+	 *
+	 * This site runs BetterDocs, which registers `docs` itself and already
+	 * holds twenty-six published articles on /docs/. Re-registering the type
+	 * would rewrite its rewrite rules and labels out from under the plugin and
+	 * put the existing URLs at risk, so the theme steps aside and renders that
+	 * content through its own templates instead (see
+	 * `intera_docs_template_include()` below). The registration stays here for
+	 * the case where the plugin is switched off: the theme then owns the type
+	 * again and the docs screens keep working.
+	 */
+	if ( post_type_exists( 'docs' ) ) {
+		return intera_register_record_post_types();
+	}
+
 	register_post_type(
 		'docs',
 		array(
@@ -208,7 +224,7 @@ function intera_register_post_types() {
 			'menu_position'   => 21,
 			'menu_icon'       => 'dashicons-media-document',
 			'supports'        => array( 'title', 'editor', 'excerpt', 'page-attributes', 'revisions', 'custom-fields' ),
-			'taxonomies'      => array( 'docs_category' ),
+			'taxonomies'      => array( 'doc_category' ),
 			'has_archive'     => 'docs',
 			'rewrite'         => array(
 				'slug'       => 'docs',
@@ -218,6 +234,22 @@ function intera_register_post_types() {
 			'capability_type' => 'post',
 		)
 	);
+
+	intera_register_record_post_types();
+}
+
+/**
+ * Register the two record post types.
+ *
+ * `role` and `plan` are records rendered inside other templates — they have no
+ * single view of their own in the design, so they stay out of the front end
+ * routing while remaining fully editable and REST-visible. They are split out
+ * of `intera_register_post_types()` so that the early return taken when a
+ * plugin already owns `docs` never costs us these two.
+ *
+ * @return void
+ */
+function intera_register_record_post_types() {
 
 	register_post_type(
 		'role',
@@ -289,10 +321,10 @@ function intera_register_post_types() {
 		)
 	);
 }
-add_action( 'init', 'intera_register_post_types' );
+add_action( 'init', 'intera_register_post_types', 20 );
 
 /**
- * Register the `docs_category` taxonomy.
+ * Register the `doc_category` taxonomy.
  *
  * Hierarchical: the sub-groups on `13-docs-category` (`First steps`,
  * `Data and modelling`, `Good to know`) are child terms of a top-level category.
@@ -301,8 +333,17 @@ add_action( 'init', 'intera_register_post_types' );
  */
 function intera_register_taxonomies() {
 
+	/*
+	 * Same story as the post type: BetterDocs registers `doc_category`, and the
+	 * twenty-six existing docs are filed under its terms. We only register the
+	 * taxonomy when nothing else has.
+	 */
+	if ( taxonomy_exists( 'doc_category' ) ) {
+		return;
+	}
+
 	register_taxonomy(
-		'docs_category',
+		'doc_category',
 		array( 'docs' ),
 		array(
 			'labels'            => array(
@@ -336,7 +377,7 @@ function intera_register_taxonomies() {
 		)
 	);
 }
-add_action( 'init', 'intera_register_taxonomies', 9 );
+add_action( 'init', 'intera_register_taxonomies', 19 );
 
 /**
  * Register the term meta the docs templates need.
@@ -350,7 +391,7 @@ add_action( 'init', 'intera_register_taxonomies', 9 );
 function intera_register_term_meta() {
 
 	register_term_meta(
-		'docs_category',
+		'doc_category',
 		INTERA_TERM_ICON_KEY,
 		array(
 			'type'              => 'string',
@@ -364,7 +405,7 @@ function intera_register_term_meta() {
 	);
 
 	register_term_meta(
-		'docs_category',
+		'doc_category',
 		INTERA_TERM_TONE_KEY,
 		array(
 			'type'              => 'string',
@@ -377,10 +418,10 @@ function intera_register_term_meta() {
 		)
 	);
 }
-add_action( 'init', 'intera_register_term_meta', 11 );
+add_action( 'init', 'intera_register_term_meta', 21 );
 
 /**
- * Who may read and write `docs_category` term meta.
+ * Who may read and write `doc_category` term meta.
  *
  * @param bool   $allowed   Whether the user can add the meta. Unused.
  * @param string $meta_key  Meta key. Unused.
@@ -402,7 +443,7 @@ function intera_term_meta_auth( $allowed, $meta_key, $term_id ) {
  *
  * @return void
  */
-function intera_docs_category_add_fields() {
+function intera_doc_category_add_fields() {
 	wp_nonce_field( 'intera_save_term_meta', 'intera_term_meta_nonce' );
 	intera_render_icon_datalist();
 	?>
@@ -422,7 +463,7 @@ function intera_docs_category_add_fields() {
 	</div>
 	<?php
 }
-add_action( 'docs_category_add_form_fields', 'intera_docs_category_add_fields' );
+add_action( 'doc_category_add_form_fields', 'intera_doc_category_add_fields' );
 
 /**
  * Icon + tone fields on the "Edit docs category" form.
@@ -430,7 +471,7 @@ add_action( 'docs_category_add_form_fields', 'intera_docs_category_add_fields' )
  * @param WP_Term $term Term being edited.
  * @return void
  */
-function intera_docs_category_edit_fields( $term ) {
+function intera_doc_category_edit_fields( $term ) {
 	$icon = intera_sanitize_icon_name( get_term_meta( $term->term_id, INTERA_TERM_ICON_KEY, true ) );
 	$tone = intera_sanitize_tone( get_term_meta( $term->term_id, INTERA_TERM_TONE_KEY, true ) );
 
@@ -457,7 +498,7 @@ function intera_docs_category_edit_fields( $term ) {
 	</tr>
 	<?php
 }
-add_action( 'docs_category_edit_form_fields', 'intera_docs_category_edit_fields' );
+add_action( 'doc_category_edit_form_fields', 'intera_doc_category_edit_fields' );
 
 /**
  * Persist the icon + tone term meta.
@@ -468,7 +509,7 @@ add_action( 'docs_category_edit_form_fields', 'intera_docs_category_edit_fields'
  * @param int $term_id Term ID.
  * @return void
  */
-function intera_save_docs_category_meta( $term_id ) {
+function intera_save_doc_category_meta( $term_id ) {
 	if ( ! isset( $_POST['intera_term_meta_nonce'] ) ) {
 		return;
 	}
@@ -497,8 +538,8 @@ function intera_save_docs_category_meta( $term_id ) {
 		update_term_meta( $term_id, INTERA_TERM_TONE_KEY, intera_sanitize_tone( wp_unslash( $_POST['intera_term_tone'] ) ) );
 	}
 }
-add_action( 'created_docs_category', 'intera_save_docs_category_meta' );
-add_action( 'edited_docs_category', 'intera_save_docs_category_meta' );
+add_action( 'created_doc_category', 'intera_save_doc_category_meta' );
+add_action( 'edited_doc_category', 'intera_save_doc_category_meta' );
 
 /**
  * Flush rewrite rules once, on theme activation, so /docs/ resolves immediately.

@@ -311,3 +311,42 @@ function intera_customize_register( $wp_customize ) {
 	}
 }
 add_action( 'customize_register', 'intera_customize_register' );
+
+/**
+ * One product screenshot, by its Customizer key.
+ *
+ * The three frames on the home page are Customizer settings — an editor picks
+ * the image and the template keeps the frame, the caption and the crop. On a
+ * site that has just been populated those settings are still empty, though, and
+ * an empty frame is a hole in a designed band.
+ *
+ * So an unset setting falls back to the attachment whose slug matches the name
+ * the screenshot was uploaded under. That is a convention, not a hardcoded
+ * image: the moment an editor picks anything in Customizer → INTERA → Product
+ * images, their choice wins and the fallback is never consulted again. When
+ * neither exists the partial renders nothing, which is what it already does.
+ *
+ * @param string $key Option key: `shot_hero`, `shot_signals` or `shot_it`.
+ * @return int Attachment ID, or 0.
+ */
+function intera_shot_id( $key ) {
+	$chosen = (int) intera_option( $key, 0 );
+
+	if ( $chosen > 0 ) {
+		return $chosen;
+	}
+
+	$seeded = array(
+		'shot_hero'    => 'intera-fleet-health-overview',
+		'shot_signals' => 'intera-attention-queue',
+		'shot_it'      => 'intera-dependencies',
+	);
+
+	if ( ! isset( $seeded[ $key ] ) ) {
+		return 0;
+	}
+
+	$attachment = get_page_by_path( $seeded[ $key ], OBJECT, 'attachment' );
+
+	return $attachment instanceof WP_Post ? (int) $attachment->ID : 0;
+}

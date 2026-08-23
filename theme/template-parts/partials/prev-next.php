@@ -16,7 +16,7 @@
  *
  * Neighbours resolve themselves from the loop; `previous` / `next` override
  * that for orderings WordPress cannot guess (docs are ordered by `menu_order`
- * inside a `docs_category`, not by date). Pass `false` to suppress one side,
+ * inside a `doc_category`, not by date). Pass `false` to suppress one side,
  * and the grid gives the survivor the full width. Nothing at all is rendered
  * when there is no neighbour on either side.
  *

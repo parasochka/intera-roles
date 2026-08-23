@@ -88,7 +88,7 @@ if ( $args['date'] ) {
 }
 
 if ( $args['category'] ) {
-	$intera_meta_tax   = ( 'docs' === get_post_type( $intera_meta_post ) ) ? 'docs_category' : 'category';
+	$intera_meta_tax   = ( 'docs' === get_post_type( $intera_meta_post ) ) ? 'doc_category' : 'category';
 	$intera_meta_terms = get_the_terms( $intera_meta_id, $intera_meta_tax );
 
 	if ( $intera_meta_terms && ! is_wp_error( $intera_meta_terms ) ) {

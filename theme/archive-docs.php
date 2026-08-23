@@ -18,7 +18,7 @@
  * | standfirst                 | `intera_option( 'docs_intro' )`                  |
  * | search field               | a real `GET` form scoped to `post_type=docs`     |
  * | quick links                | the three lowest-ordered `docs` posts            |
- * | one card per category      | `get_terms( 'docs_category' )`, top level only   |
+ * | one card per category      | `get_terms( 'doc_category' )`, top level only   |
  * | chip icon + tone           | `intera_term_icon_get()` / `intera_term_tone_get()`, via `partials/doc-row` |
  * | article count              | the per-term query's `found_posts` (children included) |
  * | five article links         | the per-term query, `partials/doc-row` `compact` |
@@ -77,7 +77,7 @@ $intera_docs_quick = new WP_Query(
  */
 $intera_docs_terms = get_terms(
 	array(
-		'taxonomy'   => 'docs_category',
+		'taxonomy'   => 'doc_category',
 		'parent'     => 0,
 		'hide_empty' => false,
 		'orderby'    => 'name',
@@ -182,7 +182,7 @@ $intera_docs_help = array(
 						'ignore_sticky_posts' => true,
 						'tax_query'           => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- one term per card, the archive's whole purpose.
 							array(
-								'taxonomy'         => 'docs_category',
+								'taxonomy'         => 'doc_category',
 								'field'            => 'term_id',
 								'terms'            => (int) $intera_docs_term->term_id,
 								'include_children' => true,
