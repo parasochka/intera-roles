@@ -43,45 +43,90 @@ function intera_legacy_category_slugs() {
 	);
 }
 
+/** Option that records the theme version whose one-time wiring has already run. */
+const INTERA_BOOTSTRAP_OPTION = 'intera_bootstrap_version';
+
+/** Option that records that the URL settings have been written once. */
+const INTERA_ROUTING_OPTION = 'intera_routing_ready';
+
 /**
- * Point WordPress at the design's URL structure. Runs once, on activation.
+ * Point WordPress at the design's URL structure. Written exactly once, ever.
  *
- * Each setting is written only if it is not already what we want, so a second
- * activation is a no-op and nothing is flushed for nothing.
+ * "Once" is the important word. These are settings an editor can change in
+ * wp-admin afterwards, and a theme that re-asserted them on every load — or
+ * every update — would quietly undo that change and be very hard to argue with.
+ * So the write is guarded by its own option: after the first run this function
+ * costs one option read and does nothing at all.
  *
  * The blog root is looked up, never created: pages are content, and this one is
  * made in wp-admin like any other. If it is missing the rest still applies and
  * the feed falls back to the front page, which is what `intera_page_url('blog')`
  * already assumes.
  *
- * @return void
+ * @return bool Whether anything was written.
  */
-function intera_activate_routing() {
-	$changed = false;
-
-	if ( INTERA_PERMALINK_STRUCTURE !== get_option( 'permalink_structure' ) ) {
-		update_option( 'permalink_structure', INTERA_PERMALINK_STRUCTURE );
-		$changed = true;
+function intera_bootstrap_routing() {
+	if ( get_option( INTERA_ROUTING_OPTION ) ) {
+		return false;
 	}
 
-	if ( INTERA_CATEGORY_BASE !== get_option( 'category_base' ) ) {
-		update_option( 'category_base', INTERA_CATEGORY_BASE );
-		$changed = true;
-	}
+	update_option( 'permalink_structure', INTERA_PERMALINK_STRUCTURE );
+	update_option( 'category_base', INTERA_CATEGORY_BASE );
 
 	$blog = get_page_by_path( INTERA_BLOG_SLUG );
 
-	if ( $blog instanceof WP_Post && (int) get_option( 'page_for_posts' ) !== $blog->ID ) {
+	if ( $blog instanceof WP_Post ) {
 		update_option( 'page_for_posts', $blog->ID );
 		update_option( 'show_on_front', 'page' );
-		$changed = true;
 	}
 
-	if ( $changed ) {
-		flush_rewrite_rules();
-	}
+	update_option( INTERA_ROUTING_OPTION, '1' );
+
+	return true;
 }
-add_action( 'after_switch_theme', 'intera_activate_routing', 5 );
+
+/**
+ * Everything the theme has to set up outside a template, run once per version.
+ *
+ * `after_switch_theme` is the obvious hook and it is not enough here: this theme
+ * is deployed by WP Pusher, which replaces the files of an already-active theme
+ * without ever switching to it, so activation never fires again after the first
+ * time. A version stamp does fire — on the first admin request after any deploy
+ * that bumped `INTERA_VERSION`.
+ *
+ * What runs is deliberately idempotent and deliberately non-destructive: the URL
+ * settings write only on their very first run, menu locations fill only where
+ * they are empty, and the rewrite flush is the one thing that genuinely has to
+ * happen again whenever the routing rules in this theme change.
+ *
+ * @return void
+ */
+function intera_bootstrap() {
+	if ( get_option( INTERA_BOOTSTRAP_OPTION ) === INTERA_VERSION ) {
+		return;
+	}
+
+	intera_bootstrap_routing();
+
+	if ( function_exists( 'intera_assign_menu_locations' ) ) {
+		intera_assign_menu_locations();
+	}
+
+	// A deploy can change a token value, and the parsed palette is cached.
+	if ( function_exists( 'intera_tokens_flush' ) ) {
+		intera_tokens_flush();
+	}
+
+	if ( function_exists( 'intera_flush_page_urls' ) ) {
+		intera_flush_page_urls();
+	}
+
+	flush_rewrite_rules();
+
+	update_option( INTERA_BOOTSTRAP_OPTION, INTERA_VERSION );
+}
+add_action( 'admin_init', 'intera_bootstrap' );
+add_action( 'after_switch_theme', 'intera_bootstrap', 5 );
 
 /**
  * Send a pre-redesign URL to its replacement with a 301.
