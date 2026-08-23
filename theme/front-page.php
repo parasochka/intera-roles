@@ -151,7 +151,7 @@ get_header();
 			 * wrapper. Without a frame the card simply becomes the block it
 			 * already is below 900px.
 			 */
-			$intera_hero_shot  = (int) intera_option( 'shot_hero' );
+			$intera_hero_shot  = intera_shot_id( 'shot_hero' );
 			$intera_hero_float = ( $intera_hero_shot > 0 && wp_attachment_is_image( $intera_hero_shot ) )
 				? 'itr-float itr-lift'
 				: 'itr-lift';
@@ -477,7 +477,7 @@ get_header();
 				'template-parts/partials/screenshot-frame',
 				null,
 				array(
-					'attachment' => intera_option( 'shot_signals' ),
+					'attachment' => intera_shot_id( 'shot_signals' ),
 					'caption'    => intera_copy( 'home_in_action__attention_queue_what_to_work_on' ),
 					'height'     => '420px',
 				)
@@ -581,7 +581,7 @@ get_header();
 			'template-parts/partials/screenshot-frame',
 			null,
 			array(
-				'attachment' => intera_option( 'shot_it' ),
+				'attachment' => intera_shot_id( 'shot_it' ),
 				'caption'    => intera_copy( 'home_working_with_it__dependencies_vendors_parts_external_commitments' ),
 				'height'     => '440px',
 			)
