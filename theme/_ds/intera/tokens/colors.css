@@ -67,6 +67,11 @@
 --text-secondary:var(--ink-600);
 --text-muted:var(--ink-500);
 --text-inverse:var(--white);
+/* Muted text on the dark bands. The ink-900 footer is the tightest of the three
+   dark grounds, so this is set against it: .5 is 5.2:1 there and 5.3:1 on
+   ink-950. The handoff wrote .40/.42/.45 in these places and all three land just
+   under the 4.5:1 that 12px text needs — they are one value, and this is it. */
+--text-inverse-muted:rgba(255,255,255,.5);
 --text-link:var(--blue-600);
 --text-link-hover:var(--blue-700);
 --text-on-accent:var(--white);

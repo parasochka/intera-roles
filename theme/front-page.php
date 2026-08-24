@@ -81,7 +81,7 @@ get_header();
 					<span style="font-size: var(--text-xs); color: rgba(255,255,255,.82); font-weight: 500"><?php echo esc_html( $intera_hero_status ); ?></span>
 				</div>
 			<?php endif; ?>
-			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: rgba(255,255,255,.42); margin-top: 30px"><?php echo esc_html( intera_copy( 'home_hero__your_business_clearly' ) ); ?></div>
+			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--text-inverse-muted); margin-top: 30px"><?php echo esc_html( intera_copy( 'home_hero__your_business_clearly' ) ); ?></div>
 			<h1 style="font-size: clamp(34px, 4vw, 52px); font-weight: 600; line-height: 1.08; letter-spacing: -0.028em; color: var(--white); margin-top: 14px; max-width: 520px; text-wrap: balance"><?php echo esc_html( intera_copy( 'home_hero__see_what_needs_attention_before_someone' ) ); ?></h1>
 			<p style="font-size: var(--text-lg); line-height: 1.6; color: rgba(255,255,255,.66); margin-top: 22px; max-width: 460px"><?php echo esc_html( intera_copy( 'home_hero__intera_connects_the_systems_your_teams' ) ); ?></p>
 			<div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px">
@@ -126,7 +126,7 @@ get_header();
 							$intera_fact_icon,
 							array(
 								'size'  => 15,
-								'color' => 'rgba(255,255,255,.45)',
+								'color' => 'var(--text-inverse-muted)',
 							)
 						);
 						echo esc_html( $intera_fact_label );
@@ -137,7 +137,7 @@ get_header();
 				?>
 			</div>
 			<div style="display: flex; align-items: center; gap: 14px; margin-top: 18px; flex-wrap: wrap">
-				<span style="font-size: var(--text-2xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: rgba(255,255,255,.4)"><?php echo esc_html( intera_copy( 'home_hero__reads_from' ) ); ?></span>
+				<span style="font-size: var(--text-2xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--text-inverse-muted)"><?php echo esc_html( intera_copy( 'home_hero__reads_from' ) ); ?></span>
 				<span style="display: flex; gap: 14px; flex-wrap: wrap; font-family: var(--font-mono); font-size: var(--text-xs); color: rgba(255,255,255,.58)">
 					<span>ERP</span><span>CRM</span><span>Billing</span><span>Excel</span><span><?php echo esc_html( intera_copy( 'home_hero__internal_tools' ) ); ?></span>
 				</span>
@@ -706,7 +706,7 @@ get_header();
 			 */
 			?>
 			<div class="itr-panel" style="border-radius: var(--radius-card); padding: 24px">
-				<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: rgba(255,255,255,.45); margin-bottom: 16px"><?php echo esc_html( intera_copy( 'home_early_adopter__early_adopters_receive' ) ); ?></div>
+				<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--text-inverse-muted); margin-bottom: 16px"><?php echo esc_html( intera_copy( 'home_early_adopter__early_adopters_receive' ) ); ?></div>
 				<div style="display: flex; flex-direction: column; gap: 10px; font-size: var(--text-md); color: rgba(255,255,255,.82); line-height: 1.5">
 					<span><?php echo esc_html( intera_copy( 'home_early_adopter__intera_free_for_the_first_12' ) ); ?></span>
 					<span><?php echo esc_html( intera_copy( 'home_early_adopter__custom_onboarding' ) ); ?></span>
@@ -717,7 +717,7 @@ get_header();
 				</div>
 			</div>
 			<div class="itr-hl-panel" style="border-radius: var(--radius-card); padding: 24px">
-				<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: rgba(255,255,255,.45); margin-bottom: 16px"><?php echo esc_html( intera_copy( 'home_early_adopter__we_expect_in_return' ) ); ?></div>
+				<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--text-inverse-muted); margin-bottom: 16px"><?php echo esc_html( intera_copy( 'home_early_adopter__we_expect_in_return' ) ); ?></div>
 				<div style="display: flex; flex-direction: column; gap: 10px; font-size: var(--text-md); color: rgba(255,255,255,.82); line-height: 1.5">
 					<span><?php echo esc_html( intera_copy( 'home_early_adopter__a_real_business_case' ) ); ?></span>
 					<span><?php echo esc_html( intera_copy( 'home_early_adopter__feedback' ) ); ?></span>

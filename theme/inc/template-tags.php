@@ -839,7 +839,7 @@ if ( ! function_exists( 'intera_breadcrumbs' ) ) :
 	function intera_breadcrumbs( $crumbs = array(), $args = array() ) {
 		$args = wp_parse_args( $args, array( 'inverse' => false ) );
 
-		$row_color     = $args['inverse'] ? 'rgba(255,255,255,.42)' : 'var(--text-muted)';
+		$row_color     = $args['inverse'] ? 'var(--text-inverse-muted)' : 'var(--text-muted)';
 		$link_color    = $args['inverse'] ? 'rgba(255,255,255,.62)' : 'var(--text-muted)';
 		$current_color = $args['inverse'] ? 'rgba(255,255,255,.86)' : 'var(--ink-600)';
 		$link_class    = $args['inverse'] ? 'itr-crumb itr-crumb--inverse' : 'itr-crumb';
