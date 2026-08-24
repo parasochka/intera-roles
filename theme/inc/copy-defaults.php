@@ -78,7 +78,7 @@ function intera_copy_schema() {
 						'home_how_it_works__connect_your_existing_systems' => __( 'Connect your existing systems', 'intera' ),
 						'home_how_it_works__intera_connects_to_finance_operations_crm' => __( 'INTERA connects to finance, operations, CRM, billing, ERP, Excel and internal systems without replacing them.', 'intera' ),
 						'home_how_it_works__intera_understands_what_matters' => __( 'INTERA understands what matters', 'intera' ),
-						'home_how_it_works__it_applies_your_business_logic_and' => __( 'It applies your business logic and watches changes, risks and inconsistencies across the systems it reads.', 'intera' ),
+						'home_how_it_works__it_applies_your_business_logic_and' => __( 'It applies business logic and watches changes, risks and inconsistencies.', 'intera' ),
 						'home_how_it_works__see_what_needs_attention' => __( 'See what needs attention', 'intera' ),
 						'home_how_it_works__managers_immediately_see_what_changed_what' => __( 'Managers immediately see what changed, what requires action and where to investigate.', 'intera' ),
 						'home_how_it_works__intera_doesn_t_replace_your_team' => __( 'INTERA doesn\'t replace your team — it removes unnecessary manual checking and reporting between systems and people.', 'intera' ),
@@ -124,7 +124,7 @@ function intera_copy_schema() {
 					'fields' => array(
 						'home_roles__intera_roles' => __( 'INTERA Roles', 'intera' ),
 						'home_roles__pre_built_visibility_for_the_parts' => __( 'Pre-built visibility for the parts of your business that matter most', 'intera' ),
-						'home_roles__roles_are_ready_made_business_modules' => __( 'Roles are ready-made business modules designed around real responsibilities. Each one comes with predefined metrics, logic and automatic issue detection — so you see what\'s happening without building anything from scratch.', 'intera' ),
+						'home_roles__roles_are_ready_made_business_modules' => __( 'INTERA Roles are ready-made business modules designed around real responsibilities — finance, operations, revenue, and more. Each role comes with predefined metrics, logic, and automatic issue detection, so you can see what\'s happening without building anything from scratch.', 'intera' ),
 						'home_roles__different_responsibilities_one_operating_picture' => __( 'Different responsibilities. One operating picture.', 'intera' ),
 						'home_roles__see_all_roles' => __( 'See all Roles', 'intera' ),
 					),
@@ -134,7 +134,7 @@ function intera_copy_schema() {
 					'fields' => array(
 						'home_working_with_it__working_with_existing_it' => __( 'Working with existing IT', 'intera' ),
 						'home_working_with_it__your_systems_stay_intera_makes_them' => __( 'Your systems stay. INTERA makes them more useful.', 'intera' ),
-						'home_working_with_it__erp_crm_billing_and_others_remain' => __( 'ERP, CRM, billing and others remain your systems of record.', 'intera' ),
+						'home_working_with_it__erp_crm_billing_and_others_remain' => __( 'ERP, CRM, billing and others remain as your systems of record.', 'intera' ),
 						'home_working_with_it__intera_connects_to_them_never_replacing' => __( 'INTERA connects to them, never replacing anything.', 'intera' ),
 						'home_working_with_it__it_is_responsible_for_access_to' => __( 'IT is responsible for access to systems and data.', 'intera' ),
 						'home_working_with_it__business_decides_which_metrics_events_incidents' => __( 'Business decides which Metrics, Events, Incidents, Reconciliations and Patterns are important.', 'intera' ),
@@ -153,7 +153,7 @@ function intera_copy_schema() {
 						'home_start_small__billing_and_usage_do_not_correspond' => __( 'Billing and usage do not correspond.', 'intera' ),
 						'home_start_small__the_problem_is_detected_too_late' => __( 'The problem is detected too late.', 'intera' ),
 						'home_start_small__the_same_exceptions_are_constantly_checked' => __( 'The same exceptions are constantly checked by hand.', 'intera' ),
-						'home_start_small__a_manager_gathers_the_same_data' => __( 'A manager gathers the same data from several different systems.', 'intera' ),
+						'home_start_small__a_manager_gathers_the_same_data' => __( 'A manager gathers data from several different systems.', 'intera' ),
 					),
 				),
 				'pricing' => array(
@@ -168,7 +168,7 @@ function intera_copy_schema() {
 					'fields' => array(
 						'home_early_adopter__early_adopter_offer' => __( 'Early Adopter offer', 'intera' ),
 						'home_early_adopter__help_shape_intera_around_a_real' => __( 'Help shape INTERA around a real operation', 'intera' ),
-						'home_early_adopter__we_are_looking_for_a_small' => __( 'We are looking for a small number of companies and managers ready to use INTERA on their real operational tasks during beta.', 'intera' ),
+						'home_early_adopter__we_are_looking_for_a_small' => __( 'We are looking for a small number of companies and managers who are ready to use INTERA to solve their real operational tasks during the beta testing stage.', 'intera' ),
 						'home_early_adopter__early_adopters_receive' => __( 'Early Adopters receive', 'intera' ),
 						'home_early_adopter__intera_free_for_the_first_12' => __( 'INTERA free for the first 12 months', 'intera' ),
 						'home_early_adopter__custom_onboarding' => __( 'Custom onboarding', 'intera' ),
@@ -188,7 +188,7 @@ function intera_copy_schema() {
 					'fields' => array(
 						'home_partners__partners_and_resellers' => __( 'Partners and resellers', 'intera' ),
 						'home_partners__turn_your_industry_knowledge_into_repeatable' => __( 'Turn your industry knowledge into repeatable solutions', 'intera' ),
-						'home_partners__for_systems_integrators_and_consultants_who' => __( 'For systems integrators and consultants who already know their customers\' real problems. INTERA turns that expertise into something you can deploy again.', 'intera' ),
+						'home_partners__for_systems_integrators_and_consultants_who' => __( 'For systems integrators and consultants who already know their customers\' real problems. INTERA lets you turn your industry expertise into:', 'intera' ),
 						'home_partners__solve_once_adapt_deploy_again' => __( 'Solve once. Adapt. Deploy again.', 'intera' ),
 						'home_partners__become_an_intera_partner' => __( 'Become an INTERA partner', 'intera' ),
 						'home_partners__roles' => __( 'Roles', 'intera' ),
