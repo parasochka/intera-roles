@@ -395,7 +395,7 @@ a.itr-foot-link {
    beside it, which reads as a misalignment because it is one. */
 a.itr-foot-link--dim {
 	font-size: inherit;
-	color: rgba(255,255,255,.45);
+	color: var(--text-inverse-muted);
 }
 
 a.itr-foot-link:hover {
@@ -731,7 +731,7 @@ details[open] summary svg {
 	font-weight: var(--weight-semibold);
 	letter-spacing: 0.09em;
 	text-transform: uppercase;
-	color: rgba(255,255,255,.45);
+	color: var(--text-inverse-muted);
 	margin-bottom: 14px;
 }
 

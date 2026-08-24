@@ -11,7 +11,7 @@
  *            `.itr-cols-4` so the 900px / 760px collapses need no `!important`)
  *   legal    border-top: 1px solid var(--border-inverse); inner strip
  *            padding: 20px clamp(20px, 5vw, 24px); font-size: var(--text-xs);
- *            color: rgba(255,255,255,.45)
+ *            color: var(--text-inverse-muted)
  *
  * Column one is the lockup, the brand line and the call to action, all from
  * `intera_option()`. Columns two to four are the `footer_product`,
@@ -150,7 +150,7 @@ $intera_legal_link_filter = $intera_foot_link_classes( 'itr-foot-link itr-foot-l
 	</div>
 
 	<div style="border-top: 1px solid var(--border-inverse)">
-		<div style="max-width: 1160px; margin: 0 auto; padding: 20px clamp(20px, 5vw, 24px); display: flex; flex-wrap: wrap; gap: 12px; align-items: baseline; justify-content: space-between; font-size: var(--text-xs); color: rgba(255,255,255,.45)">
+		<div style="max-width: 1160px; margin: 0 auto; padding: 20px clamp(20px, 5vw, 24px); display: flex; flex-wrap: wrap; gap: 12px; align-items: baseline; justify-content: space-between; font-size: var(--text-xs); color: var(--text-inverse-muted)">
 			<span class="intera-copyright"><?php echo esc_html( $intera_copyright ); ?></span>
 
 			<?php

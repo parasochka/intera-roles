@@ -406,7 +406,7 @@ function intera_pattern_dark_cta() {
 	$intera_panels = array(
 		'<!-- wp:group {"className":"itr-panel","style":{"border":{"radius":"var(--radius-card)"},"spacing":{"padding":{"top":"24px","right":"24px","bottom":"24px","left":"24px"}}},"layout":{"type":"constrained"}} -->' . "\n"
 			. '<div class="wp-block-group itr-panel" style="border-radius:var(--radius-card);padding-top:24px;padding-right:24px;padding-bottom:24px;padding-left:24px">' . "\n"
-			. intera_pattern_eyebrow( esc_html__( 'What you get', 'intera' ), 'rgba(255,255,255,.45)' )
+			. intera_pattern_eyebrow( esc_html__( 'What you get', 'intera' ), 'var(--text-inverse-muted)' )
 			. intera_pattern_inverse_list(
 				array(
 					esc_html__( 'A working INTERA environment', 'intera' ),
@@ -419,7 +419,7 @@ function intera_pattern_dark_cta() {
 
 		'<!-- wp:group {"className":"itr-hl-panel","style":{"border":{"radius":"var(--radius-card)"},"spacing":{"padding":{"top":"24px","right":"24px","bottom":"24px","left":"24px"}}},"layout":{"type":"constrained"}} -->' . "\n"
 			. '<div class="wp-block-group itr-hl-panel" style="border-radius:var(--radius-card);padding-top:24px;padding-right:24px;padding-bottom:24px;padding-left:24px">' . "\n"
-			. intera_pattern_eyebrow( esc_html__( 'What we ask for', 'intera' ), 'rgba(255,255,255,.45)' )
+			. intera_pattern_eyebrow( esc_html__( 'What we ask for', 'intera' ), 'var(--text-inverse-muted)' )
 			. intera_pattern_inverse_list(
 				array(
 					esc_html__( 'A real business case', 'intera' ),
