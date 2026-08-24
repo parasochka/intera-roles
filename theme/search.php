@@ -73,7 +73,7 @@ $intera_search_count = sprintf(
 				</h1>
 				<div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: baseline; margin-top: 14px; font-size: var(--text-xs)">
 					<span style="font-family: var(--font-mono); color: var(--ink-600)"><?php echo esc_html( $intera_search_count ); ?></span>
-					<span style="color: var(--ink-400)"><?php esc_html_e( 'across pages, stories and documentation', 'intera' ); ?></span>
+					<span style="color: var(--text-muted)"><?php esc_html_e( 'across pages, stories and documentation', 'intera' ); ?></span>
 				</div>
 			</div>
 			<div style="width: 100%; max-width: 380px">

@@ -175,7 +175,7 @@ if ( '' !== $intera_legal_version ) {
 			);
 			?>
 			<div style="border-top: 1px solid var(--border-hairline); padding-top: 20px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between">
-				<span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)"><?php echo esc_html( implode( ' · ', $intera_legal_stamp ) ); ?></span>
+				<span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-muted)"><?php echo esc_html( implode( ' · ', $intera_legal_stamp ) ); ?></span>
 				<?php
 				get_template_part(
 					'template-parts/components/button',

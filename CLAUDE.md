@@ -11,10 +11,12 @@ subdirectory, so docs, design sources and CI at the repo root are never deployed
 to WordPress.
 
 The **design system is the source of truth for styling.** Tokens live in
-`theme/_ds/intera/tokens/*.css` and are enqueued **as-is** — they are the single
-place colors, type, spacing, radii and elevation are defined. There is **no
-`theme.json` token bridge**: two sources of tokens drift apart. Edit a token and
-the whole site re-themes.
+`theme/_ds/intera/tokens/*.css` and are the single place colors, type, spacing,
+radii and elevation are defined. They are inlined into `<head>` verbatim — the
+only thing `inc/enqueue.php` does to them on the way is resolve relative `url()`
+paths and strip comments and whitespace, so what ships is the same cascade.
+There is **no `theme.json` token bridge**: two sources of tokens drift apart.
+Edit a token and the whole site re-themes.
 
 ```
 Claude Design  ─►  theme/ (_ds/intera + PHP)  ─►  GitHub  ─►  WP Pusher  ─►  WordPress
@@ -28,7 +30,7 @@ Claude Design  ─►  theme/ (_ds/intera + PHP)  ─►  GitHub  ─►  WP Pus
 | `style.css` | WP theme header + a pointer note. No real CSS here. |
 | `functions.php` | Thin loader: `INTERA_*` constants + `require inc/*`. |
 | `inc/setup.php` | Theme supports, editor styles, image sizes, content width (1160), the five nav locations. |
-| `inc/enqueue.php` | Parses the `_ds/intera/styles.css` `@import` manifest and inlines every sheet + `assets/css/intera.css` + `style.css` into `<head>`; enqueues `assets/js/intera.js` deferred. DS files stay byte-identical on disk. |
+| `inc/enqueue.php` | Parses the `_ds/intera/styles.css` `@import` manifest and inlines every sheet + `assets/css/intera.css` + `style.css` into `<head>`, rewriting each sheet's relative `url()` to an absolute one and minifying the result into a transient; preloads the two above-the-fold fonts; enqueues `assets/js/intera.js` deferred. DS files stay byte-identical on disk. |
 | `inc/tokens.php` | Parses `_ds/intera/tokens/*.css` into PHP arrays. This is how the block editor gets the brand palette **without a second copy of any value**. |
 | `inc/post-types.php` | CPTs `docs`, `role`, `plan`; taxonomy `docs_category` + its term meta (icon, tone). |
 | `inc/meta.php` | Post meta registration and the meta boxes that make it editable. |
@@ -41,10 +43,12 @@ Claude Design  ─►  theme/ (_ds/intera + PHP)  ─►  GitHub  ─►  WP Pus
 | `template-parts/partials/*.php` | Repeated page markup — one source per block. |
 | `page-templates/` | Named page templates (`Template Name:` header). |
 | `_ds/intera/styles.css` | The **only** list of design-system sheets. Add a token file? Add it here. |
-| `_ds/intera/tokens/*.css` | **Design-system source of truth**, byte-identical to the Claude Design export. Do not fork these values elsewhere. |
+| `_ds/intera/tokens/*.css` | **Design-system source of truth**: every colour, type, spacing, radius and elevation value, as exported from the design project. Do not fork these values elsewhere. The one file that has intentionally moved on from the export is `fonts.css`, whose `@import` and pinned CDN URLs were replaced by the self-hosted faces in `assets/fonts/` — the *families and weights* are still the export's. |
 | `assets/css/intera.css` | Supplemental CSS only: page canvas, prose, real `:hover`/`:focus`, responsive stacking, reduced-motion. References DS tokens. |
 | `assets/js/intera.js` | Optional progressive JS. The site must work without it. |
 | `assets/img/*` | Theme chrome images (logo lock-ups). Editorial images live in the media library. |
+| `assets/fonts/*` | Self-hosted IBM Plex woff2, declared by `_ds/intera/tokens/fonts.css`. Sans is one variable file per subset (wght 400–700), Mono is static 400/500; `unicode-range` keeps a subset unfetched until the page needs it. No third-party font origin. |
+| `screenshot.png` | 1200×900, what WordPress shows on Appearance → Themes. Rendered from the design system, not drawn — re-render it when the hero or the tokens change. |
 
 Repo root (not deployed): `.github/workflows/validate.yml`, `_design/` (the
 Claude Design export), `README.md`, `SETUP.md`, this file.

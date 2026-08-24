@@ -123,7 +123,7 @@ $intera_chain_captions = array(
 			?>
 			<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--border-hairline); background: var(--surface-sunken)">
 				<span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-500)"><?php echo esc_html( intera_copy( 'product_product_header__operations_oversight' ) ); ?></span>
-				<span style="display: flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)">
+				<span style="display: flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-muted)">
 					<span style="position: relative; display: inline-flex; width: 8px; height: 8px; flex: none"><span class="itr-live-halo" aria-hidden="true" style="position: absolute; inset: 0; border-radius: 999px; background: var(--green-500)"></span><span class="itr-live-dot" aria-hidden="true" style="position: relative; width: 8px; height: 8px; border-radius: 999px; background: var(--green-500)"></span></span>
 					<?php echo esc_html( intera_copy( 'product_product_header__live' ) ); ?>
 				</span>
@@ -267,7 +267,7 @@ $intera_chain_captions = array(
 				?>
 				<div style="font-size: var(--text-md); font-weight: 600; margin-top: 12px"><?php echo esc_html( $intera_object['title'] ); ?></div>
 				<p style="font-size: var(--text-sm); line-height: 1.6; color: var(--ink-600); margin-top: 8px"><?php echo esc_html( $intera_object['body'] ); ?></p>
-				<div style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400); margin-top: 12px"><?php echo esc_html( $intera_object['mono'] ); ?></div>
+				<div style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-muted); margin-top: 12px"><?php echo esc_html( $intera_object['mono'] ); ?></div>
 				<?php
 				$intera_object_body = ob_get_clean();
 
@@ -405,7 +405,7 @@ $intera_chain_captions = array(
 					);
 					?>
 					<span style="font-size: var(--text-md); color: var(--ink-800)"><?php echo esc_html( $intera_source['label'] ); ?></span>
-					<span style="font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--ink-400); margin-left: auto"><?php echo esc_html( $intera_source['note'] ); ?></span>
+					<span style="font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--text-muted); margin-left: auto"><?php echo esc_html( $intera_source['note'] ); ?></span>
 				</div>
 				<?php
 			endforeach;
@@ -636,7 +636,7 @@ $intera_chain_captions = array(
 
 					foreach ( $intera_method_steps as $intera_step_index => $intera_method_step ) :
 						?>
-						<div style="display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--border-hairline)"><span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)"><?php echo esc_html( sprintf( '%02d', $intera_step_index + 1 ) ); ?></span><span style="font-size: var(--text-md); color: var(--ink-700)"><?php echo esc_html( $intera_method_step ); ?></span></div>
+						<div style="display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--border-hairline)"><span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-muted)"><?php echo esc_html( sprintf( '%02d', $intera_step_index + 1 ) ); ?></span><span style="font-size: var(--text-md); color: var(--ink-700)"><?php echo esc_html( $intera_method_step ); ?></span></div>
 						<?php
 					endforeach;
 					?>

@@ -108,7 +108,7 @@ ob_start();
 <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 18px">
 	<?php foreach ( $intera_send_items as $intera_index => $intera_item ) : ?>
 	<div style="display: flex; gap: 12px">
-		<span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400); padding-top: 3px"><?php echo esc_html( sprintf( '%02d', $intera_index + 1 ) ); ?></span>
+		<span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-muted); padding-top: 3px"><?php echo esc_html( sprintf( '%02d', $intera_index + 1 ) ); ?></span>
 		<div>
 			<div style="font-size: var(--text-md); font-weight: 500; color: var(--ink-900)"><?php echo esc_html( $intera_item['title'] ); ?></div>
 			<p style="font-size: var(--text-sm); line-height: 1.6; color: var(--ink-600); margin-top: 4px"><?php echo esc_html( $intera_item['body'] ); ?></p>

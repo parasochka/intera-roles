@@ -65,7 +65,7 @@
 /* Text */
 --text-primary:var(--ink-900);
 --text-secondary:var(--ink-600);
---text-muted:var(--ink-400);
+--text-muted:var(--ink-500);
 --text-inverse:var(--white);
 --text-link:var(--blue-600);
 --text-link-hover:var(--blue-700);

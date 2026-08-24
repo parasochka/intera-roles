@@ -849,7 +849,7 @@ if ( ! function_exists( 'intera_breadcrumbs' ) ) :
 
 		$last = count( $crumbs ) - 1;
 
-		echo '<nav class="intera-breadcrumbs" aria-label="' . esc_attr__( 'Breadcrumb', 'intera' ) . '" style="display: flex; gap: 8px; align-items: center; font-size: var(--text-xs); color: var(--ink-400); font-family: var(--font-mono)">';
+		echo '<nav class="intera-breadcrumbs" aria-label="' . esc_attr__( 'Breadcrumb', 'intera' ) . '" style="display: flex; gap: 8px; align-items: center; font-size: var(--text-xs); color: var(--text-muted); font-family: var(--font-mono)">';
 
 		foreach ( $crumbs as $position => $crumb ) {
 			if ( $position > 0 ) {
@@ -858,7 +858,7 @@ if ( ! function_exists( 'intera_breadcrumbs' ) ) :
 
 			if ( '' !== $crumb['url'] ) {
 				printf(
-					'<a class="itr-crumb" href="%1$s" style="color: var(--ink-400)">%2$s</a>',
+					'<a class="itr-crumb" href="%1$s" style="color: var(--text-muted)">%2$s</a>',
 					esc_url( $crumb['url'] ),
 					esc_html( $crumb['label'] )
 				);

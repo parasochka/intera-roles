@@ -164,7 +164,7 @@ $intera_pn_cards = array(
 	<?php foreach ( $intera_pn_cards as $intera_pn_card ) : ?>
 		<?php if ( $intera_pn_card['post'] ) : ?>
 			<a class="itr-lift itr-lift-tint" href="<?php echo esc_url( (string) get_permalink( $intera_pn_card['post'] ) ); ?>" rel="<?php echo esc_attr( $intera_pn_card['rel'] ); ?>" style="<?php echo esc_attr( $intera_pn_card_style ); ?>">
-				<div style="font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--ink-400)"><?php echo esc_html( $intera_pn_card['label'] ); ?></div>
+				<div style="font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--text-muted)"><?php echo esc_html( $intera_pn_card['label'] ); ?></div>
 				<div style="font-size: var(--text-md); font-weight: 500; color: var(--ink-900); margin-top: 6px; line-height: 1.4"><?php echo wp_kses_post( get_the_title( $intera_pn_card['post'] ) ); ?></div>
 			</a>
 		<?php endif; ?>
