@@ -29,24 +29,27 @@ const INTERA_CATEGORY_BASE = 'blog';
 /**
  * The category base this site claims for archive URLs.
  *
- * Empty, and deliberately so. The design puts category archives at
- * `/blog/<category>/`, which WordPress can express as a `blog` category base —
- * but this site also runs Rank Math with "Strip Category Base" on, and the two
- * together are an infinite redirect rather than a cosmetic disagreement: Rank
- * Math 301s anything under the base to the same path without it, WordPress
- * canonically 301s it back, and because the post permalinks *also* begin with
- * `/blog/`, every article on the site disappears between them. That was
- * observed live, twice, with `x-redirect-by: Rank Math` one way and
- * `x-redirect-by: WordPress` the other.
+ * `blog`, which is what puts category archives at `/blog/<category>/` — the
+ * design's structure, and the reason the base is set at all. Leaving it empty
+ * does not give a shorter URL, it gives a longer one: with no base, WordPress
+ * registers the taxonomy `with_front`, so the archives come out at
+ * `/blog/category/<category>/`.
  *
- * Two attempts to detect the plugin's setting and claim the base only when it
- * was safe both read it wrong and left the blog down, so detection is gone.
- * The base is not claimed at all, and the one path that claims it is explicit:
+ * **This depends on nothing else stripping the base.** Rank Math ships a
+ * "Strip Category Base" option, and with it on the two are not a cosmetic
+ * disagreement but an infinite redirect: the plugin 301s anything under the
+ * base to the same path without it, WordPress canonically 301s it back, and
+ * because the post permalinks also begin with `/blog/`, every article on the
+ * site vanishes between them. That happened here, on production, and the way
+ * to recognise it again is the response headers — `x-redirect-by: Rank Math`
+ * one way, `x-redirect-by: WordPress` the other.
  *
- *     add_filter( 'intera_category_base', fn() => 'blog' );
+ * If that option is ever switched back on, switch this off with it:
  *
- * Switch the plugin's option off first. Articles are unaffected either way —
- * `/blog/<category>/<post>/` comes from the permalink structure, not from here.
+ *     add_filter( 'intera_category_base', '__return_empty_string' );
+ *
+ * Articles are unaffected either way. `/blog/<category>/<post>/` comes from the
+ * permalink structure, not from here.
  *
  * @return string
  */
@@ -56,7 +59,7 @@ function intera_category_base() {
 	 *
 	 * @param string $base Category base. '' leaves WordPress's default.
 	 */
-	return (string) apply_filters( 'intera_category_base', '' );
+	return (string) apply_filters( 'intera_category_base', INTERA_CATEGORY_BASE );
 }
 
 /** Slug of the page that becomes the blog root. */
