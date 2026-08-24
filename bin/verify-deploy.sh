@@ -118,6 +118,28 @@ if [ -n "$repo_version" ] && [ "$live_version" != "$repo_version" ]; then
 fi
 
 # ---------------------------------------------------------------------------
+# 1b. What a visitor is actually served.
+# ---------------------------------------------------------------------------
+# Every check above asks with a cache-buster, which reaches the origin. A
+# visitor does not: this host answers HTML with `public, max-age=2678400` — a
+# month — and the theme's CSS is inlined *in* that HTML, so a page cached
+# before a deploy keeps its old stylesheet for as long as the cache says. That
+# is not a broken deploy and does not fail this check, but it is the difference
+# between "shipped" and "seen", and it is worth being told about. The version
+# that rendered a page is legible from the `?ver=` on its script tag.
+served_version="$(curl -sS --max-time 20 "$BASE_URL/" 2>/dev/null | grep -o 'intera\.js?ver=[0-9.]*' | head -n 1 | cut -d= -f2)"
+served_cache="$(curl -sSI --max-time 20 "$BASE_URL/" 2>/dev/null | sed -n 's/^[Cc]ache-[Cc]ontrol:[[:space:]]*//p' | tr -d '\r')"
+
+echo "Served to a visitor: ${served_version:-unreadable} (cache-control: ${served_cache:-none})"
+
+if [ -n "$served_version" ] && [ -n "$live_version" ] && [ "$served_version" != "$live_version" ]; then
+	echo "NOTE: the origin has $live_version but a plain request is answered with"
+	echo "      $served_version — a cache is serving the older render, and with it"
+	echo "      the older inlined CSS. Purge it, or the change waits out the"
+	echo "      max-age above."
+fi
+
+# ---------------------------------------------------------------------------
 # 2. Is the site answering at all?
 # ---------------------------------------------------------------------------
 failures=0
