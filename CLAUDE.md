@@ -34,7 +34,7 @@ Claude Design  ─►  theme/ (_ds/intera + PHP)  ─►  GitHub  ─►  WP Pus
 | `inc/tokens.php` | Parses `_ds/intera/tokens/*.css` into PHP arrays. This is how the block editor gets the brand palette **without a second copy of any value**. |
 | `inc/post-types.php` | CPTs `docs`, `role`, `plan`; taxonomy `docs_category` + its term meta (icon, tone). |
 | `inc/meta.php` | Post meta registration and the meta boxes that make it editable. |
-| `inc/seo.php` | The `<title>` and meta description every screen answers with: written defaults per designed page and archive, `_intera_seo_title` / `_intera_seo_description` overrides an editor can type, and the brand appended once at the end (never twice). Feeds Rank Math through its own filters when the plugin is active. |
+| `inc/seo.php` | The `<title>` and meta description every screen answers with: written defaults per designed page and archive, `_intera_seo_title` / `_intera_seo_description` overrides an editor can type, and the brand appended once at the end (never twice). A last resort under all of it, so a screen nobody has written words for still answers with what it holds. Feeds Rank Math through its own filters when the plugin is active. |
 | `inc/customizer.php` | Theme options + `intera_option()`. No colour or font setting lives here — those come from the tokens. |
 | `inc/template-tags.php` | `intera_icon()` (inlined Lucide), reading time, breadcrumbs, heading ids and TOC data. |
 | `inc/forms.php` | The contact-request handler: nonce, honeypot, validation, storage, mail. |
