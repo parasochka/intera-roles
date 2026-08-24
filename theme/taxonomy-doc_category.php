@@ -283,7 +283,18 @@ $intera_docs_others = is_wp_error( $intera_docs_others ) ? array() : $intera_doc
 			?>
 		</div>
 
-		<aside style="display: flex; flex-direction: column; gap: 20px; max-width: 340px">
+		<?php
+		/*
+		 * The rail. It is a grid item beside a column of ten articles, so it
+		 * runs out of content long before the list does; `intera-rail--sticky`
+		 * pins it under the masthead (`--itr-rail-top`) for the rest of that
+		 * scroll and lets go of it again below 900px, where the grid has
+		 * collapsed to one column and a pinned block would slide over the
+		 * list instead of beside it. The grid's own `align-items: start` is
+		 * what keeps the box its content's height inside the row.
+		 */
+		?>
+		<aside class="intera-rail--sticky" style="display: flex; flex-direction: column; gap: 20px; max-width: 340px; --itr-rail-top: 100px">
 			<?php
 			if ( ! empty( $intera_docs_others ) ) {
 				ob_start();
