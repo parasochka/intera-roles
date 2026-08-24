@@ -1987,11 +1987,19 @@ a.itr-foot-link:focus-visible,
 .intera-doc-plugin .betterdocs-article-reactions-box,
 .intera-doc-plugin .betterdocs-social-share {
 	display: flex;
-	flex-wrap: wrap;
-	gap: 8px 14px;
+	flex-wrap: nowrap;
+	gap: 14px;
 	align-items: center;
 	justify-content: flex-start;
 	margin: 0;
+}
+
+/* A label that wraps is a half that grew a second line, and two halves that
+   each grew one are the strip the design draws as a single row. */
+.intera-doc-plugin .betterdocs-article-reactions-subheading,
+.intera-doc-plugin .betterdocs-reactions-title-tag,
+.intera-doc-plugin .betterdocs-social-share-title-tag {
+	white-space: nowrap;
 }
 
 /* layout-2 nests the row one level deeper, so the outer wrapper is a column of
@@ -2010,10 +2018,70 @@ a.itr-foot-link:focus-visible,
 	list-style: none;
 }
 
-/* The share icons end the line, so they close up to the right of it rather
-   than spreading over whatever the plugin's `space-around` is given. */
-.intera-doc-plugin .betterdocs-social-share-links {
+/* The share row is the design's, drawn over the plugin's links.
+   -------------------------------------------------------------------------
+   BetterDocs prints four 30px brand images, each in its own brand colour —
+   the one place on the page where colour is not answering "what kind of thing
+   is this?". The links, their targets and the plugin's own filter stay
+   exactly as they are; only the picture changes. Each anchor names its glyph
+   by the host it links to, the glyph is painted as a mask so the colour is a
+   token like every other, and an unrecognised network falls back to the
+   design system's own link icon rather than an empty box.
+
+   Brand glyphs: Font Awesome Free 7 (https://fontawesome.com), icons under
+   CC BY 4.0. The fallback is Lucide's `link`, the same path `intera_icon()`
+   inlines. */
+.intera-doc-plugin .betterdocs-social-share .betterdocs-social-share-links {
+	flex: 0 0 auto;
+	gap: 6px;
 	justify-content: flex-end;
+}
+
+/* The plugin spaces its icons with 8px of padding on each item; the row is a
+   flex row with a gap, so that padding is only width the line cannot spare. */
+.intera-doc-plugin .betterdocs-social-share .betterdocs-social-share-links li {
+	margin: 0;
+	padding: 0;
+}
+
+.intera-doc-plugin .betterdocs-social-share .betterdocs-social-share-links li a {
+	width: 28px;
+	height: 28px;
+}
+
+.intera-doc-plugin .betterdocs-social-share .betterdocs-social-share-links li a img {
+	display: none;
+}
+
+.intera-doc-plugin .betterdocs-social-share-links li a::before {
+	content: "";
+	width: 14px;
+	height: 14px;
+	background: var(--ink-600);
+	-webkit-mask: var(--itr-share-glyph, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71' /%3E%3Cpath d='M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71' /%3E%3C/svg%3E")) no-repeat center / contain;
+	mask: var(--itr-share-glyph, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71' /%3E%3Cpath d='M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71' /%3E%3C/svg%3E")) no-repeat center / contain;
+	transition: background var(--duration-fast) var(--ease-standard);
+}
+
+.intera-doc-plugin .betterdocs-social-share-links li a:hover::before {
+	background: var(--ink-900);
+}
+
+.intera-doc-plugin .betterdocs-social-share-links li a[href*="facebook."] {
+	--itr-share-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 512'%3E%3Cpath d='M80 299.3l0 212.7 116 0 0-212.7 86.5 0 18-97.8-104.5 0 0-34.6c0-51.7 20.3-71.5 72.7-71.5 16.3 0 29.4 .4 37 1.2l0-88.7C291.4 4 256.4 0 236.2 0 129.3 0 80 50.5 80 159.4l0 42.1-66 0 0 97.8 66 0z'/%3E%3C/svg%3E");
+}
+
+.intera-doc-plugin .betterdocs-social-share-links li a[href*="twitter.com"],
+.intera-doc-plugin .betterdocs-social-share-links li a[href*="x.com"] {
+	--itr-share-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath d='M357.2 48L427.8 48 273.6 224.2 455 464 313 464 201.7 318.6 74.5 464 3.8 464 168.7 275.5-5.2 48 140.4 48 240.9 180.9 357.2 48zM332.4 421.8l39.1 0-252.4-333.8-42 0 255.3 333.8z'/%3E%3C/svg%3E");
+}
+
+.intera-doc-plugin .betterdocs-social-share-links li a[href*="linkedin."] {
+	--itr-share-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath d='M100.3 448l-92.9 0 0-299.1 92.9 0 0 299.1zM53.8 108.1C24.1 108.1 0 83.5 0 53.8 0 39.5 5.7 25.9 15.8 15.8s23.8-15.8 38-15.8 27.9 5.7 38 15.8 15.8 23.8 15.8 38c0 29.7-24.1 54.3-53.8 54.3zM447.9 448l-92.7 0 0-145.6c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.7l0 148.1-92.8 0 0-299.1 89.1 0 0 40.8 1.3 0c12.4-23.5 42.7-48.3 87.9-48.3 94 0 111.3 61.9 111.3 142.3l0 164.3-.1 0z'/%3E%3C/svg%3E");
+}
+
+.intera-doc-plugin .betterdocs-social-share-links li a[href*="pinterest."] {
+	--itr-share-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 384 512'%3E%3Cpath d='M204 6.5c-102.6 0-204 68.4-204 179.1 0 70.4 39.6 110.4 63.6 110.4 9.9 0 15.6-27.6 15.6-35.4 0-9.3-23.7-29.1-23.7-67.8 0-80.4 61.2-137.4 140.4-137.4 68.1 0 118.5 38.7 118.5 109.8 0 53.1-21.3 152.7-90.3 152.7-24.9 0-46.2-18-46.2-43.8 0-37.8 26.4-74.4 26.4-113.4 0-66.2-93.9-54.2-93.9 25.8 0 16.8 2.1 35.4 9.6 50.7-13.8 59.4-42 147.9-42 209.1 0 18.9 2.7 37.5 4.5 56.4 3.4 3.8 1.7 3.4 6.9 1.5 50.4-69 48.6-82.5 71.4-172.8 12.3 23.4 44.1 36 69.3 36 106.2 0 153.9-103.5 153.9-196.8 0-99.3-85.8-164.1-180-164.1z'/%3E%3C/svg%3E");
 }
 
 .intera-doc-plugin .betterdocs-article-reaction-links li,
