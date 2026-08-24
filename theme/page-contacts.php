@@ -275,10 +275,10 @@ $intera_send_card = (string) ob_get_clean();
 		<div style="display: flex; flex-wrap: wrap; gap: 24px; margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--border-hairline); font-size: var(--text-sm); color: var(--ink-600)">
 			<span>
 				<?php
+				/* translators: 1: link to the documentation, 2: link to the FAQ page. */
 				echo wp_kses_post(
-					sprintf(
-						/* translators: 1: link to the documentation, 2: link to the FAQ page. */
-						intera_copy( 'contacts_who_to_talk_to__prefer_to_read_first_1_s' ),
+					intera_copy_format(
+						'contacts_who_to_talk_to__prefer_to_read_first_1_s',
 						$intera_docs_link,
 						$intera_faq_link
 					)

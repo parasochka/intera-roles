@@ -69,6 +69,57 @@ if ( ! function_exists( 'intera_copy' ) ) :
 endif;
 
 /**
+ * One run of page copy that carries placeholders, formatted safely.
+ *
+ * A few strings are sprintf formats: "Prefer to read first? %1$s and %2$s
+ * answer most first questions." Making them editable is right — they are
+ * sentences — but it hands an editor a loaded gun, because PHP 8 throws on a
+ * format with fewer placeholders than arguments. A page that fatals because
+ * someone tidied a sentence is not an acceptable way to edit copy.
+ *
+ * So the edited string is tried first and the design's own wording is the net:
+ * remove a placeholder and the sentence reverts to the handoff's version rather
+ * than taking the page down. The format is escaped, the arguments are not —
+ * they are the caller's already-escaped links.
+ *
+ * @param string $key     Copy key.
+ * @param mixed  ...$args Values for the placeholders.
+ * @return string Ready to echo.
+ */
+function intera_copy_format( $key, ...$args ) {
+	$formatted = intera_copy_vsprintf( esc_html( intera_copy( $key ) ), $args );
+
+	if ( null === $formatted ) {
+		$defaults  = intera_copy_defaults();
+		$fallback  = isset( $defaults[ $key ] ) ? $defaults[ $key ] : '';
+		$formatted = intera_copy_vsprintf( esc_html( $fallback ), $args );
+	}
+
+	return null === $formatted ? '' : $formatted;
+}
+
+/**
+ * `vsprintf()` that reports a bad format instead of raising it.
+ *
+ * @param string $format Format string.
+ * @param array  $args   Arguments.
+ * @return string|null Formatted string, or null when the format cannot take them.
+ */
+function intera_copy_vsprintf( $format, array $args ) {
+	if ( ! $args ) {
+		return $format;
+	}
+
+	try {
+		return vsprintf( $format, $args );
+	} catch ( \Throwable $intera_copy_error ) {
+		unset( $intera_copy_error );
+
+		return null;
+	}
+}
+
+/**
  * Every registered default, flattened to key => string.
  *
  * The schema is grouped for the editor's benefit; a lookup wants it flat, and
@@ -287,6 +338,11 @@ function intera_render_copy_meta_box( $post ) {
 						<textarea id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $name ); ?>" rows="2" class="large-text" placeholder="<?php echo esc_attr( $default ); ?>"><?php echo esc_textarea( $value ); ?></textarea>
 					<?php else : ?>
 						<input type="text" id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( $value ); ?>" class="large-text" placeholder="<?php echo esc_attr( $default ); ?>" />
+					<?php endif; ?>
+					<?php if ( preg_match( '/%(?:\d+\$)?s/', $default ) ) : ?>
+						<span class="description">
+							<?php echo esc_html__( 'Keep the %s markers — each one is replaced by a link when the page renders. Remove one and this sentence falls back to its original wording.', 'intera' ); ?>
+						</span>
 					<?php endif; ?>
 				</p>
 				<?php
