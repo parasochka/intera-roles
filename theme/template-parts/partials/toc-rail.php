@@ -33,7 +33,7 @@
  *         'footer'       => '',        // trusted HTML under the hairline
  *         'footer_style' => '',        // override the hairline block's spacing
  *         'width'        => '240px',   // flex basis — 260px on 04-faq/09, 200px on 12
- *         'min_width'    => '220px',
+ *         'min_width'    => '220px',   // both ride out as --itr-rail / --itr-rail-min
  *         'sticky'       => true,
  *         'top'          => '100px',
  *         'tag'          => 'aside',
@@ -126,19 +126,28 @@ $intera_toc_title = '' !== $args['title'] ? $args['title'] : __( 'On this page',
 $GLOBALS['intera_toc_seq'] = isset( $GLOBALS['intera_toc_seq'] ) ? (int) $GLOBALS['intera_toc_seq'] + 1 : 1;
 $intera_toc_label_id       = 'intera-toc-' . (int) $GLOBALS['intera_toc_seq'];
 
-$intera_toc_style = '';
+/*
+ * The basis, the minimum and the sticky offset are the three properties the
+ * 900px breakpoint has to override, so they leave the inline style and arrive
+ * at `.intera-rail` as custom properties instead (recon §2, mechanism B). The
+ * handoff's per-screen values still sit at the markup, where a reader expects
+ * them.
+ */
+$intera_toc_style = '--itr-rail: ' . $args['width'] . '; --itr-rail-min: ' . $args['min_width'];
 
 if ( $args['sticky'] ) {
-	$intera_toc_style .= 'position: sticky; top: ' . $args['top'] . '; ';
+	$intera_toc_style .= '; --itr-rail-top: ' . $args['top'];
 }
-
-$intera_toc_style .= 'flex: 0 1 ' . $args['width'] . '; min-width: ' . $args['min_width'];
 
 if ( '' !== $args['style'] ) {
 	$intera_toc_style .= '; ' . $args['style'];
 }
 
-$intera_toc_class = 'intera-toc intera-toc--' . $intera_toc_variant;
+$intera_toc_class = 'intera-rail intera-toc intera-toc--' . $intera_toc_variant;
+
+if ( $args['sticky'] ) {
+	$intera_toc_class .= ' intera-rail--sticky';
+}
 
 if ( '' !== $args['class'] ) {
 	$intera_toc_class .= ' ' . $args['class'];

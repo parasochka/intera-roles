@@ -202,7 +202,7 @@ while ( have_posts() ) :
 	?>
 
 <div data-screen-label="Docs article" style="max-width: 1280px; margin: 0 auto; padding: 32px clamp(20px, 5vw, 24px) clamp(46px, 7vw, 80px); display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start">
-	<aside style="position: sticky; top: 100px; flex: 0 1 240px; min-width: 220px">
+	<aside class="intera-rail intera-rail--sticky intera-doc-tree" style="--itr-rail: 240px; --itr-rail-min: 220px; --itr-rail-top: 100px">
 		<form role="search" method="get" action="<?php echo esc_url( home_url( '/' ) ); ?>">
 			<label class="screen-reader-text" for="intera-doc-search"><?php esc_html_e( 'Search docs', 'intera' ); ?></label>
 			<?php
@@ -378,7 +378,7 @@ while ( have_posts() ) :
 	} elseif ( '' !== $intera_doc_rail_footer ) {
 		// Too few headings for a rail; the help block still belongs in the column.
 		?>
-		<aside style="position: sticky; top: 100px; flex: 0 1 200px; min-width: 180px">
+		<aside class="intera-rail intera-rail--sticky" style="--itr-rail: 200px; --itr-rail-min: 180px; --itr-rail-top: 100px">
 			<?php echo $intera_doc_rail_footer; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- trusted, template-composed markup, escaped above. ?>
 		</aside>
 		<?php

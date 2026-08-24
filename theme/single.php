@@ -280,7 +280,7 @@ while ( have_posts() ) :
 		} elseif ( '' !== $intera_post_aside ) {
 			// Too few headings for a rail, but the role block still belongs here.
 			?>
-			<aside style="position: sticky; top: 100px; flex: 0 1 260px; min-width: 220px; order: 2">
+			<aside class="intera-rail intera-rail--sticky" style="--itr-rail: 260px; --itr-rail-min: 220px; --itr-rail-top: 100px; order: 2">
 				<?php echo $intera_post_aside; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- trusted, template-composed markup, escaped above. ?>
 			</aside>
 			<?php

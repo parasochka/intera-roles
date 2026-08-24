@@ -154,7 +154,7 @@ if ( '' !== $intera_legal_version ) {
 		} elseif ( '' !== $intera_legal_aside ) {
 			// One section or none: no rail to draw, but the sibling policies still belong here.
 			?>
-			<aside style="position: sticky; top: 100px; flex: 0 1 240px; min-width: 220px; display: flex; flex-direction: column; gap: 8px">
+			<aside class="intera-rail intera-rail--sticky" style="--itr-rail: 240px; --itr-rail-min: 220px; --itr-rail-top: 100px; display: flex; flex-direction: column; gap: 8px">
 				<?php echo $intera_legal_aside; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- trusted, template-composed markup, escaped above. ?>
 			</aside>
 			<?php

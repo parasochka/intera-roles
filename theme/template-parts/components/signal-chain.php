@@ -137,7 +137,16 @@ $intera_chain_index    = 0;
 			<?php endif; ?>
 		</div>
 		<?php if ( $intera_chain_index < $intera_chain_last ) : ?>
-			<div style="display:flex;align-items:center;color:var(--ink-300);flex:none">
+			<?php
+			/*
+			 * The chevron between two panels. `display` lives in
+			 * `.itr-signal-chain__sep` rather than here, because the 900px
+			 * breakpoint — where the four panels can no longer share one line
+			 * and the chevron would point at the panel below it — is the one
+			 * thing that has to switch it off.
+			 */
+			?>
+			<div class="itr-signal-chain__sep" style="align-items:center;color:var(--ink-300);flex:none">
 				<?php
 				if ( function_exists( 'intera_icon' ) ) {
 					intera_icon( 'chevron-right', array( 'size' => 18 ) );

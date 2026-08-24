@@ -271,14 +271,14 @@ if ( '' !== $intera_faq_blurb || ( '' !== $intera_faq_ask && '' !== $intera_faq_
 		} elseif ( '' !== $intera_faq_aside ) {
 			// Too few headings for a rail, but the ask-us block still belongs here.
 			?>
-			<aside style="position: sticky; top: 100px; flex: 0 1 260px; min-width: 220px">
+			<aside class="intera-rail intera-rail--sticky" style="--itr-rail: 260px; --itr-rail-min: 220px; --itr-rail-top: 100px">
 				<?php echo $intera_faq_aside; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- trusted, template-composed markup, escaped above. ?>
 			</aside>
 			<?php
 		}
 		?>
 
-		<div class="intera-prose intera-faq" style="--itr-prose-max: 760px; flex: 1 1 520px">
+		<div class="intera-prose intera-faq" style="--itr-prose-max: 760px; flex: 1 1 520px; min-width: 0">
 			<?php echo $intera_faq_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- the_content output, filtered by WordPress. ?>
 		</div>
 	</div>
