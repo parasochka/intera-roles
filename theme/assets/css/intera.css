@@ -1936,10 +1936,14 @@ a.itr-foot-link:focus-visible,
 	margin: 0;
 }
 
-/* Headings: the plugin writes these as h5 at its own size and grey. The
-   design's label type is --text-sm over --ink-600, the same as the strip the
-   theme draws when the plugin has no vote to offer. */
+/* Headings: the plugin writes these at its own size and grey — and under two
+   different class names, because the vote's default layout (single layout-8 ⇒
+   reactions layout-2) labels itself with a <p class="…-subheading"> while the
+   other layouts use the <h5>. Both are the design's label type here: --text-sm
+   over --ink-600, the same as the strip the theme draws when the plugin has no
+   vote to offer. */
 .intera-doc-plugin .betterdocs-reactions-title-tag,
+.intera-doc-plugin .betterdocs-article-reactions-subheading,
 .intera-doc-plugin .betterdocs-social-share-title-tag {
 	margin: 0;
 	font-family: var(--font-sans);
@@ -1958,6 +1962,7 @@ a.itr-foot-link:focus-visible,
 /* Vote and share are both "a label, then a row of controls" — which on a
    wide column reads as one line and wraps to two on a phone. */
 .intera-doc-plugin .betterdocs-article-reactions,
+.intera-doc-plugin .betterdocs-article-reactions-box,
 .intera-doc-plugin .betterdocs-social-share {
 	display: flex;
 	flex-wrap: wrap;
@@ -1965,6 +1970,12 @@ a.itr-foot-link:focus-visible,
 	align-items: center;
 	justify-content: space-between;
 	margin: 0;
+}
+
+/* layout-2 nests the row one level deeper, so the outer wrapper is a column of
+   exactly one child and must not add a second gap. */
+.intera-doc-plugin .betterdocs-article-reactions:has(> .betterdocs-article-reactions-box) {
+	display: block;
 }
 
 .intera-doc-plugin .betterdocs-article-reaction-links,
@@ -2017,15 +2028,17 @@ a.itr-foot-link:focus-visible,
 .intera-doc-plugin .betterdocs-social-share-links li a svg,
 .intera-doc-plugin .betterdocs-article-reaction-links li a img,
 .intera-doc-plugin .betterdocs-social-share-links li a img {
-	width: 18px;
-	height: 18px;
+	width: 20px;
+	height: 20px;
 }
 
-.intera-doc-plugin .betterdocs-article-reaction-links li a svg path {
+/* Only the outline set is re-inked. layout-2 draws full-colour emoji, and a
+   blanket `fill` would flatten all three of them to one grey blob. */
+.intera-doc-plugin .betterdocs-article-reaction-links.layout-1 li a svg path {
 	fill: var(--ink-600);
 }
 
-.intera-doc-plugin .betterdocs-article-reaction-links li a:hover svg path {
+.intera-doc-plugin .betterdocs-article-reaction-links.layout-1 li a:hover svg path {
 	fill: var(--ink-900);
 }
 
