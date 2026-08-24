@@ -18,6 +18,10 @@
  * Note the panel radius is `var(--radius-md)`, not `--radius-card`, and the 3px accent is a
  * top rule — the same accent pattern as Card.
  *
+ * The panel's surface — background, border, the accent rule and the hover that answers a
+ * pointer — lives in `assets/css/intera.css` (`.itr-signal-chain__panel`); this file only says
+ * which colours to paint it with, through `--itr-bg` / `--itr-edge` / `--itr-accent`.
+ *
  * @package Intera
  */
 
@@ -109,10 +113,17 @@ $intera_chain_index    = 0;
 	foreach ( $intera_signals as $intera_chain_key => $intera_chain_signal ) :
 		$intera_chain_on = ( ! $args['active'] || $args['active'] === $intera_chain_key );
 
+		/*
+		 * The ground, the 1px edge and the 3px accent are the panel's three
+		 * per-signal values, so they travel as --itr-bg / --itr-edge /
+		 * --itr-accent and `.itr-signal-chain__panel` paints them. That is what
+		 * lets the hover answer in the panel's own colour: an inline
+		 * `background` or `border` would outrank any :hover rule.
+		 */
 		$intera_panel_style = 'flex:1 1 0;min-width:' . ( $intera_chain_compact ? '132' : '168' ) . 'px';
-		$intera_panel_style .= ';background:' . ( $intera_chain_on ? $intera_chain_signal['soft'] : 'var(--surface-sunken)' );
-		$intera_panel_style .= ';border:1px solid ' . ( $intera_chain_on ? $intera_chain_signal['border'] : 'var(--border-subtle)' );
-		$intera_panel_style .= ';border-top:3px solid ' . ( $intera_chain_on ? $intera_chain_signal['color'] : 'var(--border-default)' );
+		$intera_panel_style .= ';--itr-bg:' . ( $intera_chain_on ? $intera_chain_signal['soft'] : 'var(--surface-sunken)' );
+		$intera_panel_style .= ';--itr-edge:' . ( $intera_chain_on ? $intera_chain_signal['border'] : 'var(--border-subtle)' );
+		$intera_panel_style .= ';--itr-accent:' . ( $intera_chain_on ? $intera_chain_signal['color'] : 'var(--border-default)' );
 		$intera_panel_style .= ';border-radius:var(--radius-md)';
 		$intera_panel_style .= ';padding:' . ( $intera_chain_compact ? 'var(--space-3)' : 'var(--space-4)' );
 		$intera_panel_style .= ';opacity:' . ( $intera_chain_on ? '1' : '.55' );
@@ -120,8 +131,6 @@ $intera_chain_index    = 0;
 		if ( $args['interactive'] ) {
 			$intera_panel_style .= ';cursor:pointer';
 		}
-
-		$intera_panel_style .= ';transition:var(--transition-surface), opacity var(--duration-normal) var(--ease-standard)';
 		?>
 		<div class="itr-signal-chain__panel itr-signal-chain__panel--<?php echo esc_attr( $intera_chain_key ); ?>" style="<?php echo esc_attr( $intera_panel_style ); ?>">
 			<div style="display:flex;align-items:center;gap:7px;color:<?php echo esc_attr( $intera_chain_on ? $intera_chain_signal['color'] : 'var(--ink-500)' ); ?>">

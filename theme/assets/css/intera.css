@@ -236,6 +236,16 @@ a.itr-btn--outlineInverse:hover {
 	border-left-color: var(--border-strong);
 }
 
+/* `.itr-lift` over one of the dark bands. The cast above is a light-ground
+   shadow and says nothing against --ink-950, so there the rise arrives with a
+   deeper cast and a hairline of light. The product header's preview card is
+   the one that needs it. */
+.itr-lift-inverse:hover {
+	box-shadow:
+		0 26px 52px -22px rgba(7,16,28,.55),
+		0 0 0 1px rgba(255,255,255,.18);
+}
+
 /* List rows: 8px slide right, white fill, --blue-200 border. */
 .itr-row {
 	background: var(--itr-bg, var(--white));
@@ -269,6 +279,30 @@ a.itr-btn--outlineInverse:hover {
 	background: var(--blue-50);
 	border-color: var(--blue-200);
 	box-shadow: 0 12px 24px -16px rgba(26,79,214,.35);
+}
+
+/* The four panels of the signal chain: 4px rise, the edge deepening to the
+   signal's own colour. The soft ground, the 1px edge and the 3px accent rule
+   are per-signal, so the component hands them over as --itr-bg / --itr-edge /
+   --itr-accent (template-parts/components/signal-chain.php) and they are
+   painted here — inline, they would outrank the hover. `border-top` keeps the
+   accent at full strength in both states. */
+.itr-signal-chain__panel {
+	background: var(--itr-bg, var(--surface-sunken));
+	border: 1px solid var(--itr-edge, var(--border-subtle));
+	border-top: 3px solid var(--itr-accent, var(--border-default));
+	box-shadow: var(--itr-shadow, none);
+	transition:
+		transform 170ms cubic-bezier(.2, .6, .25, 1),
+		background-color 150ms,
+		border-color 150ms,
+		box-shadow 170ms,
+		opacity var(--duration-normal) var(--ease-standard);
+}
+
+.itr-signal-chain__panel:hover {
+	border-color: var(--itr-accent, var(--border-default));
+	box-shadow: 0 12px 24px -16px rgba(14,26,43,.32);
 }
 
 /* Panels on the dark bands: 4px rise, lighter background and border. */
@@ -1612,7 +1646,8 @@ a.itr-foot-link:focus-visible,
 	}
 
 	.itr-tile:hover,
-	.itr-panel:hover {
+	.itr-panel:hover,
+	.itr-signal-chain__panel:hover {
 		transform: translateY(-4px);
 	}
 
@@ -1638,7 +1673,8 @@ a.itr-foot-link:focus-visible,
 	.itr-row,
 	.itr-tile,
 	.itr-panel,
-	.itr-frame {
+	.itr-frame,
+	.itr-signal-chain__panel {
 		transition: border-color 160ms, background-color 160ms;
 	}
 
@@ -1646,7 +1682,8 @@ a.itr-foot-link:focus-visible,
 	.itr-row:hover,
 	.itr-tile:hover,
 	.itr-panel:hover,
-	.itr-frame:hover {
+	.itr-frame:hover,
+	.itr-signal-chain__panel:hover {
 		transform: none;
 	}
 }
