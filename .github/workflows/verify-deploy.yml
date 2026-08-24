@@ -1,0 +1,62 @@
+name: Verify deploy
+
+# Watches the live site, because CI green and `main` correct do not mean the
+# server got the theme.
+#
+# On 2026-08-24 a WP Pusher update replaced the theme directory and stopped
+# half way: sixteen of sixty-four PHP files never arrived, `index.php` among
+# them. WordPress checks for that one file in `validate_current_theme()`, tries
+# to fall back to a default theme, finds none installed, and `wp_die()`s — the
+# front end, wp-admin and the REST API all answered 500 at once. The commit
+# removed nothing; the theme cannot defend itself, because its own PHP loads
+# after the check that kills the request. The only place left to notice is from
+# outside, over HTTP.
+#
+# So: after every push that touches the theme, and on a schedule in between,
+# ask the server whether the whole theme is actually there. A failure here
+# arrives as a GitHub notification instead of as a dead site somebody happens
+# to open.
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'theme/**'
+      - 'bin/verify-deploy.sh'
+      - '.github/workflows/verify-deploy.yml'
+  schedule:
+    # Every two hours. The job is a minute of curl; the window in which a
+    # broken deploy can sit unnoticed is what this is buying down.
+    - cron: '17 */2 * * *'
+  workflow_dispatch:
+
+# A later push supersedes an in-flight check of an older one.
+concurrency:
+  group: verify-deploy
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # After a push, give the deploy a chance to run before judging it: WP
+      # Pusher pulls on a webhook, and an update someone triggers by hand can
+      # take longer still. The wait only affects the version comparison — a
+      # theme that never updates is reported, not failed. What fails the run is
+      # a site that does not answer or a theme with files missing.
+      - name: Verify the live deploy
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            ./bin/verify-deploy.sh --wait 600
+          else
+            ./bin/verify-deploy.sh
+          fi
+
+      - name: Say what to do about a failure
+        if: failure()
+        run: |
+          echo "::error title=Live site is not whole::The deploy on intera-roles.com is incomplete or the site is down. Re-run WP Pusher → Themes → Update; if wp-admin is down too, upload theme/ over wp-content/themes/theme/ by FTP or the host's file manager. Then re-run this workflow."

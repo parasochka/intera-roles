@@ -52,8 +52,9 @@ Claude Design  ─►  theme/ (_ds/intera + PHP)  ─►  GitHub  ─►  WP Pus
 | `assets/fonts/*` | Self-hosted IBM Plex woff2, declared by `_ds/intera/tokens/fonts.css`. Sans is one variable file per subset (wght 400–700), Mono is static 400/500; `unicode-range` keeps a subset unfetched until the page needs it. No third-party font origin. |
 | `screenshot.png` | 1200×900, what WordPress shows on Appearance → Themes. Rendered from the design system, not drawn — re-render it when the hero or the tokens change. |
 
-Repo root (not deployed): `.github/workflows/validate.yml`, `_design/` (the
-Claude Design export), `README.md`, `SETUP.md`, this file.
+Repo root (not deployed): `.github/workflows/` (`validate.yml` lints the theme,
+`verify-deploy.yml` checks the live site), `bin/verify-deploy.sh`, `_design/`
+(the Claude Design export), `README.md`, `SETUP.md`, this file.
 
 ## Living with BetterDocs
 
@@ -150,3 +151,38 @@ WordPress calls (`the_title`, `the_content`, `the_post_thumbnail`, `WP_Query`,
 - Bump `Version:` in `theme/style.css` **and** `INTERA_VERSION` in
   `functions.php` together — the version busts asset caches.
 - After merging: WP Pusher → Themes → **Update**.
+- **Then verify the deploy: `bin/verify-deploy.sh`.** Not optional — see below.
+
+## The deploy is the part that breaks
+
+`main` being right does not mean the server got it. WP Pusher deploys by
+replacing `wp-content/themes/theme/` wholesale, and on 2026-08-24 that
+replacement stopped half way: sixteen of the theme's sixty-four PHP files never
+arrived, `index.php` among them. Nothing in the commit removed a file — it
+changed three — and the CSS it shipped never even reached the server.
+
+What that costs is the whole site, not one page. WordPress checks for
+`index.php` in `validate_current_theme()` on `setup_theme`, tries to switch to a
+default theme, finds none installed, and calls `wp_die()`. The front end,
+wp-admin and the REST API answer 500 together, so WP Pusher cannot be re-run
+from the dashboard, no recovery-mode email is sent (`wp_die()` is not a fatal
+error), and the way back in is the host's file manager or FTP.
+
+The theme cannot defend itself here: its own PHP is loaded *after* the check
+that ends the request. So the guards are outside it, and there are three.
+
+1. **`bin/verify-deploy.sh`** asks the web server, file by file, whether every
+   tracked theme file is actually there, and whether the front page answers.
+   A missing PHP file answers 404 from nginx; one that exists answers 200 with
+   an empty body, because every file starts with `defined( 'ABSPATH' ) || exit;`.
+   No credentials, no plugin, works while the site is down. Run it after every
+   Update — a clean run is what "deployed" means.
+2. **`.github/workflows/verify-deploy.yml`** runs the same script after every
+   push that touches `theme/`, and every two hours in between, so a deploy that
+   breaks outside a push is still caught within a couple of hours instead of
+   whenever somebody opens the site.
+3. **Keep a default WordPress theme installed** (`twentytwentyfive` or any
+   `twenty*`). It is the difference between `validate_current_theme()` switching
+   to it — an ugly but live site, with a working wp-admin to re-run the deploy
+   from — and `wp_die()` on every request. This is the one that turns the
+   incident above into a nuisance.
