@@ -26,6 +26,44 @@ const INTERA_PERMALINK_STRUCTURE = '/blog/%category%/%postname%/';
 /** The category base that puts category archives under the same root. */
 const INTERA_CATEGORY_BASE = 'blog';
 
+/**
+ * Is something already stripping the category base out of archive URLs?
+ *
+ * Rank Math offers "Strip Category Base", and with it on the two settings are
+ * not merely redundant, they are a redirect loop: the plugin 301s anything
+ * under the base to the same path without it, and because this site's post
+ * permalinks *also* begin with `/blog/`, every article gets stripped to
+ * `/life-stories/<post>/` and sent straight back by WordPress's own canonical
+ * redirect. The blog becomes unreachable.
+ *
+ * So the base is only claimed when nothing else is competing for it.
+ *
+ * @return bool
+ */
+function intera_category_base_is_stripped() {
+	$rank_math = get_option( 'rank_math_options_general' );
+
+	if ( is_array( $rank_math ) && ! empty( $rank_math['strip_category_base'] ) && 'off' !== $rank_math['strip_category_base'] ) {
+		return true;
+	}
+
+	/**
+	 * Filters whether some other plugin removes the category base.
+	 *
+	 * @param bool $stripped Whether the base is being stripped.
+	 */
+	return (bool) apply_filters( 'intera_category_base_is_stripped', false );
+}
+
+/**
+ * The category base this site should be using right now.
+ *
+ * @return string `blog` when the design's URL is safe to claim, '' otherwise.
+ */
+function intera_category_base() {
+	return intera_category_base_is_stripped() ? '' : INTERA_CATEGORY_BASE;
+}
+
 /** Slug of the page that becomes the blog root. */
 const INTERA_BLOG_SLUG = 'blog';
 
@@ -74,7 +112,7 @@ function intera_bootstrap_routing() {
 	}
 
 	update_option( 'permalink_structure', INTERA_PERMALINK_STRUCTURE );
-	update_option( 'category_base', INTERA_CATEGORY_BASE );
+	update_option( 'category_base', intera_category_base() );
 
 	$blog = get_page_by_path( INTERA_BLOG_SLUG );
 
@@ -140,6 +178,7 @@ function intera_bootstrap() {
 	}
 
 	intera_bootstrap_routing();
+	intera_reconcile_category_base();
 
 	if ( function_exists( 'intera_assign_menu_locations' ) ) {
 		intera_assign_menu_locations();
@@ -176,6 +215,37 @@ function intera_bootstrap() {
 add_action( 'init', 'intera_bootstrap', 98 );
 add_action( 'admin_init', 'intera_bootstrap' );
 add_action( 'after_switch_theme', 'intera_bootstrap', 5 );
+
+/**
+ * Keep the category base and the base-stripping plugin out of each other's way.
+ *
+ * This runs on every version change rather than once, because the conflict is
+ * not ours to schedule: someone can switch "Strip Category Base" on in Rank
+ * Math long after the theme settled its URLs, and the first symptom is every
+ * article 301ing in a circle.
+ *
+ * Deliberately narrow. It only ever moves the option between '' and `blog` —
+ * the two values this theme has an opinion about — so a base an editor set to
+ * anything else is left alone, and the flush is deferred like every other one
+ * here.
+ *
+ * @return void
+ */
+function intera_reconcile_category_base() {
+	$current = (string) get_option( 'category_base' );
+	$wanted  = intera_category_base();
+
+	if ( $current === $wanted ) {
+		return;
+	}
+
+	if ( '' !== $current && INTERA_CATEGORY_BASE !== $current ) {
+		return;
+	}
+
+	update_option( 'category_base', $wanted );
+	update_option( INTERA_FLUSH_OPTION, '1' );
+}
 
 /**
  * Send a pre-redesign URL to its replacement with a 301.
