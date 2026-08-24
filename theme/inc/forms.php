@@ -826,11 +826,36 @@ function intera_register_request_post_type() {
 			'supports'            => array( 'title' ),
 			'capability_type'     => 'post',
 			'map_meta_cap'        => true,
+			/*
+			 * Only the *primitive* capabilities are renamed here. The three meta
+			 * capabilities — `edit_post`, `read_post`, `delete_post` — are left
+			 * at their defaults on purpose, and it is not a style preference.
+			 *
+			 * `register_post_type()` copies a renamed meta capability into the
+			 * global `$post_type_meta_caps` map:
+			 *
+			 *     foreach ( $post_type_object->cap as $core => $custom ) {
+			 *         if ( in_array( $core, array( 'read_post', 'delete_post', 'edit_post' ), true ) ) {
+			 *             $post_type_meta_caps[ $custom ] = $core;
+			 *         }
+			 *     }
+			 *
+			 * and `map_meta_cap()` consults that map for *every* capability it
+			 * does not recognise. Pointing a meta capability at `manage_options`
+			 * therefore turns `manage_options` itself into a meta capability
+			 * site-wide: every `current_user_can( 'manage_options' )` is remapped
+			 * to a check that needs a post ID, gets none, and returns
+			 * `do_not_allow` — for administrators too. Half of wp-admin
+			 * disappears, and the pages that do not register answer direct
+			 * requests with "Sorry, you are not allowed to access this page."
+			 *
+			 * The primitive renames below are enough on their own: with
+			 * `map_meta_cap => true`, WordPress resolves `edit_post` through
+			 * `edit_others_posts`, which is `manage_options` here. Same outcome —
+			 * only administrators reach the inbox — without touching the map.
+			 */
 			'capabilities'        => array(
 				'create_posts'        => 'do_not_allow',
-				'edit_post'           => 'manage_options',
-				'read_post'           => 'manage_options',
-				'delete_post'         => 'manage_options',
 				'edit_posts'          => 'manage_options',
 				'edit_others_posts'   => 'manage_options',
 				'delete_posts'        => 'manage_options',
