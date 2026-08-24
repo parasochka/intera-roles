@@ -55,14 +55,27 @@ done
 THEME_URL="${BASE_URL%/}${THEME_PATH}"
 
 # HTTP status of a URL, with a cache-buster so a CDN cannot answer for the
-# origin, and one retry for a network hiccup.
+# origin.
+#
+# The host rate-limits: ninety requests in thirty seconds earns a 429, and a
+# 429 read as "file missing" would report two dozen phantom losses. So an
+# answer that is not about the file — no answer at all, a rate limit, a server
+# error — is retried with a growing wait, and only what still answers after
+# that is believed. The sweep also paces itself (see PROBE_PAUSE) so it stays
+# under the limit in the first place.
 status() {
-	local url="$1" code
-	code="$(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 "${url}?deploycheck=$$$RANDOM" 2>/dev/null)"
-	if [ "$code" = "000" ]; then
-		sleep 2
+	local url="$1" code attempt
+	for attempt in 1 2 3; do
 		code="$(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 "${url}?deploycheck=$$$RANDOM" 2>/dev/null)"
-	fi
+
+		case "$code" in
+			000|429|5??) ;;   # not an answer about the file — back off and ask again
+			*) printf '%s' "$code"; return ;;
+		esac
+
+		sleep $(( attempt * 3 ))
+	done
+
 	printf '%s' "$code"
 }
 
@@ -126,8 +139,10 @@ fi
 mapfile -t tracked < <(cd "$REPO_ROOT/theme" && git ls-files | grep -v '/\.' | grep -v '^\.')
 
 missing=()
+unverified=()
 blocked=0
 checked=0
+PROBE_PAUSE="${INTERA_PROBE_PAUSE:-0.2}"
 
 for rel in "${tracked[@]}"; do
 	code="$(status "$THEME_URL/$rel")"
@@ -136,11 +151,50 @@ for rel in "${tracked[@]}"; do
 	case "$code" in
 		200) ;;
 		403) blocked=$(( blocked + 1 )) ;;
-		*) missing+=( "$rel -> $code" ) ;;
+		000|429|5??) unverified+=( "$rel|$code" ) ;;
+		*) missing+=( "$rel|$code" ) ;;
 	esac
+
+	sleep "$PROBE_PAUSE"
 done
 
-echo "Checked $checked files; ${#missing[@]} missing, $blocked not served (403)."
+echo "Checked $checked files; ${#missing[@]} missing, ${#unverified[@]} unverified, $blocked not served (403)."
+
+if [ "${#unverified[@]}" -gt 0 ]; then
+	echo "NOTE: the server would not answer about these even after backing off,"
+	echo "      so they are neither confirmed present nor missing:"
+	printf '  %s\n' "${unverified[@]//|/ -> }"
+fi
+
+# A deploy in flight looks exactly like a broken one: WP Pusher writes the
+# theme file by file, so a sweep that overtakes it sees files that are about to
+# exist. This is not hypothetical — the first run of this check in CI caught
+# `404.php` mid-write, thirty seconds after the new version appeared, and the
+# file was there a minute later. So a miss is only a miss if it survives a
+# second and a third look, spaced far enough apart for a deploy to finish.
+# A check that cries wolf on every push is a check nobody reads.
+settle_rounds="${INTERA_SETTLE_ROUNDS:-3}"
+settle_delay="${INTERA_SETTLE_DELAY:-30}"
+round=0
+
+while [ "${#missing[@]}" -gt 0 ] && [ "$round" -lt "$settle_rounds" ]; do
+	round=$(( round + 1 ))
+	echo "Missing after pass $round; a deploy may still be writing. Waiting ${settle_delay}s and re-checking those ${#missing[@]}."
+	sleep "$settle_delay"
+
+	still=()
+	for entry in "${missing[@]}"; do
+		rel="${entry%%|*}"
+		code="$(status "$THEME_URL/$rel")"
+		[ "$code" = "200" ] || still+=( "$rel|$code" )
+	done
+
+	missing=( "${still[@]}" )
+done
+
+if [ "$round" -gt 0 ] && [ "${#missing[@]}" -eq 0 ]; then
+	echo "Everything that was missing appeared within $(( round * settle_delay ))s — the deploy was still running, not broken."
+fi
 
 # Every PHP file answering 403 means the host stopped serving them directly, not
 # that the theme is gone — say so rather than reporting sixty-four false alarms.
@@ -151,8 +205,9 @@ fi
 
 if [ "${#missing[@]}" -gt 0 ]; then
 	echo
-	echo "FAIL: the deploy on the server is incomplete. Missing:"
-	printf '  %s\n' "${missing[@]}"
+	echo "FAIL: the deploy on the server is incomplete. Still missing after"
+	echo "      $(( settle_rounds * settle_delay ))s:"
+	printf '  %s\n' "${missing[@]//|/ -> }"
 	echo
 	echo "Fix: re-run WP Pusher → Themes → Intera Roles → Update. If wp-admin is"
 	echo "     down too, upload theme/ over wp-content/themes/theme/ by FTP or"
