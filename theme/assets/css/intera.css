@@ -2044,7 +2044,16 @@ a.itr-foot-link:focus-visible,
 	padding: 0;
 }
 
+/* `display` is repeated here, not inherited from the shared control rule
+   above, because the plugin writes `display: inline-block` on this anchor at
+   the same specificity as that rule and from a sheet that loads after ours —
+   so ours loses, the glyph below becomes an inline box, and width and height
+   on an inline box do nothing. That is what shipped in 0.7.3: four empty
+   outlines. One more class out-specifies it. */
 .intera-doc-plugin .betterdocs-social-share .betterdocs-social-share-links li a {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 	width: 28px;
 	height: 28px;
 }
@@ -2055,6 +2064,7 @@ a.itr-foot-link:focus-visible,
 
 .intera-doc-plugin .betterdocs-social-share-links li a::before {
 	content: "";
+	display: block;
 	width: 14px;
 	height: 14px;
 	background: var(--ink-600);
