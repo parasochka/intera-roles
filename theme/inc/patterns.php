@@ -225,8 +225,8 @@ function intera_pattern_step_list() {
 
 		$intera_rows .= '<!-- wp:group {"style":{"spacing":{"padding":{"top":"14px","bottom":"14px"},"blockGap":"14px"},"border":{"bottom":{"color":"var(--border-hairline)","style":"solid","width":"1px"}}},"layout":{"type":"flex","flexWrap":"nowrap"}} -->' . "\n"
 			. '<div class="wp-block-group" style="border-bottom-color:var(--border-hairline);border-bottom-style:solid;border-bottom-width:1px;padding-top:14px;padding-bottom:14px">' . "\n"
-			. '<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--font-mono)","fontSize":"var(--text-xs)"},"color":{"text":"var(--ink-400)"}}} -->' . "\n"
-			. '<p class="has-text-color" style="color:var(--ink-400);font-family:var(--font-mono);font-size:var(--text-xs)">' . esc_html( sprintf( '%02d', $intera_index ) ) . '</p>' . "\n"
+			. '<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--font-mono)","fontSize":"var(--text-xs)"},"color":{"text":"var(--text-muted)"}}} -->' . "\n"
+			. '<p class="has-text-color" style="color:var(--text-muted);font-family:var(--font-mono);font-size:var(--text-xs)">' . esc_html( sprintf( '%02d', $intera_index ) ) . '</p>' . "\n"
 			. '<!-- /wp:paragraph -->' . "\n"
 			. '<!-- wp:paragraph {"style":{"typography":{"fontSize":"var(--text-md)","lineHeight":"1.5"},"color":{"text":"var(--ink-700)"}}} -->' . "\n"
 			. '<p class="has-text-color" style="color:var(--ink-700);font-size:var(--text-md);line-height:1.5">' . $intera_step . '</p>' . "\n"

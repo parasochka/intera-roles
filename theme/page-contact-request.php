@@ -519,7 +519,7 @@ $intera_error_for = static function ( $errors, $field ) {
 						++$intera_step_number;
 						?>
 						<div style="display: flex; gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--border-hairline)">
-							<span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400); padding-top: 3px"><?php echo esc_html( sprintf( '%02d', $intera_step_number ) ); ?></span>
+							<span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-muted); padding-top: 3px"><?php echo esc_html( sprintf( '%02d', $intera_step_number ) ); ?></span>
 							<div>
 								<div style="font-size: var(--text-md); font-weight: 500; color: var(--ink-900)"><?php echo esc_html( $intera_step['title'] ); ?></div>
 								<p style="font-size: var(--text-sm); line-height: 1.6; color: var(--ink-600); margin-top: 4px"><?php echo esc_html( $intera_step['body'] ); ?></p>

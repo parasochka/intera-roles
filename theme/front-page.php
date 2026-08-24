@@ -187,7 +187,7 @@ get_header();
 					)
 				);
 				?>
-				<span style="font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--ink-400)">09:14 UTC</span>
+				<span style="font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--text-muted)">09:14 UTC</span>
 			</div>
 			<div style="font-size: var(--text-md); font-weight: 600; color: var(--ink-900); margin-top: 10px; line-height: 1.4"><?php echo esc_html( intera_copy( 'home_hero__critical_maintenance_task_overdue' ) ); ?></div>
 			<div style="display: flex; align-items: baseline; gap: 8px; margin-top: 10px">
@@ -305,13 +305,13 @@ get_header();
 					);
 					?>
 					<span style="font-size: var(--text-md); font-weight: 500; color: var(--ink-800)"><?php echo esc_html( $intera_source['label'] ); ?></span>
-					<span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400); margin-left: auto"><?php echo esc_html( $intera_source['ref'] ); ?></span>
+					<span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-muted); margin-left: auto"><?php echo esc_html( $intera_source['ref'] ); ?></span>
 					<span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 999px; background: <?php echo esc_attr( $intera_source['dot'] ); ?>"></span>
 				</div>
 				<?php
 			endforeach;
 			?>
-			<div style="display: flex; align-items: center; gap: 10px; margin-top: 8px; color: var(--ink-400); font-size: var(--text-xs)">
+			<div style="display: flex; align-items: center; gap: 10px; margin-top: 8px; color: var(--text-muted); font-size: var(--text-xs)">
 				<?php
 				intera_icon( 'corner-down-right', array( 'size' => 15 ) );
 				echo esc_html( intera_copy( 'home_problem__pieces_of_the_same_picture_checked' ) );
@@ -358,7 +358,7 @@ get_header();
 					<span style="width: 34px; height: 34px; border-radius: var(--radius-md); background: var(--blue-50); border: 1px solid var(--blue-100); display: grid; place-items: center; color: var(--blue-600)">
 						<?php intera_icon( $intera_step['icon'], array( 'size' => 17 ) ); ?>
 					</span>
-					<span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)"><?php echo esc_html( sprintf( '%02d', $intera_step_number ) ); ?></span>
+					<span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-muted)"><?php echo esc_html( sprintf( '%02d', $intera_step_number ) ); ?></span>
 				</div>
 				<div style="font-size: var(--text-xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.3"><?php echo esc_html( $intera_step['title'] ); ?></div>
 				<p style="font-size: var(--text-md); line-height: 1.6; color: var(--ink-600); margin-top: 10px"><?php echo esc_html( $intera_step['body'] ); ?></p>
@@ -569,7 +569,7 @@ get_header();
 							$intera_it_fact[0],
 							array(
 								'size'  => 16,
-								'color' => 'var(--ink-400)',
+								'color' => 'var(--text-muted)',
 							)
 						);
 						?>
@@ -595,8 +595,9 @@ get_header();
 	</div>
 </section>
 
-<section data-screen-label="Start small" style="background: var(--surface-page); border-top: 1px solid var(--border-hairline)">
-	<div style="max-width: 1160px; margin: 0 auto; padding: clamp(46px, 7vw, 80px) clamp(20px, 5vw, 24px)">
+<section data-screen-label="Start small" style="position: relative; overflow: hidden; background: var(--surface-sunken); border-top: 1px solid var(--border-subtle)">
+	<div aria-hidden="true" style="position: absolute; left: 16%; top: 24%; width: 860px; height: 860px; transform: translate(-50%,-50%); pointer-events: none; background: radial-gradient(circle, var(--wash-blue) 0%, transparent 68%)"></div>
+	<div style="position: relative; max-width: 1160px; margin: 0 auto; padding: clamp(46px, 7vw, 80px) clamp(20px, 5vw, 24px)">
 		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 48px; align-items: start">
 			<div>
 				<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'home_start_small__start_small' ) ); ?></div>
@@ -631,7 +632,7 @@ get_header();
 					++$intera_symptom_number;
 					?>
 					<div class="itr-row" style="--itr-bg: var(--surface-sunken); --itr-edge: var(--border-card); display: flex; gap: 14px; align-items: flex-start; border-radius: var(--radius-md); padding: 16px 18px">
-						<span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400); padding-top: 2px"><?php echo esc_html( sprintf( '%02d', $intera_symptom_number ) ); ?></span>
+						<span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-muted); padding-top: 2px"><?php echo esc_html( sprintf( '%02d', $intera_symptom_number ) ); ?></span>
 						<span style="font-size: var(--text-base); color: var(--ink-800); line-height: 1.5"><?php echo esc_html( $intera_symptom ); ?></span>
 					</div>
 					<?php
@@ -642,7 +643,7 @@ get_header();
 	</div>
 </section>
 
-<section id="pricing" data-screen-label="Pricing" style="background: var(--surface-sunken); border-top: 1px solid var(--border-subtle)">
+<section id="pricing" data-screen-label="Pricing" style="background: var(--surface-page)">
 	<div style="max-width: 1160px; margin: 0 auto; padding: clamp(51px, 7vw, 88px) clamp(20px, 5vw, 24px)">
 		<div style="max-width: 640px; margin: 0 auto 44px; text-align: center">
 			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'home_pricing__pricing' ) ); ?></div>

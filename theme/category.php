@@ -174,10 +174,10 @@ foreach ( $intera_cat_all as $intera_cat_item ) {
 					foreach ( $intera_cat_others as $intera_cat_row ) :
 						$intera_cat_row_style = 'display: flex; justify-content: space-between; align-items: center; padding: 11px 0; border-bottom: 1px solid var(--border-hairline); font-size: var(--text-md)';
 						?>
-						<a class="itr-rail-row" href="<?php echo esc_url( (string) get_category_link( $intera_cat_row ) ); ?>" style="<?php echo esc_attr( $intera_cat_row_style ); ?>"><?php echo esc_html( $intera_cat_row->name ); ?> <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)"><?php echo esc_html( number_format_i18n( (int) $intera_cat_row->count ) ); ?></span></a>
+						<a class="itr-rail-row" href="<?php echo esc_url( (string) get_category_link( $intera_cat_row ) ); ?>" style="<?php echo esc_attr( $intera_cat_row_style ); ?>"><?php echo esc_html( $intera_cat_row->name ); ?> <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-muted)"><?php echo esc_html( number_format_i18n( (int) $intera_cat_row->count ) ); ?></span></a>
 					<?php endforeach; ?>
 					<?php if ( '' !== $intera_cat_blog ) : ?>
-						<a class="itr-rail-row" href="<?php echo esc_url( $intera_cat_blog ); ?>" style="display: flex; justify-content: space-between; align-items: center; padding: 11px 0; font-size: var(--text-md)"><?php esc_html_e( 'All posts', 'intera' ); ?> <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)"><?php echo esc_html( number_format_i18n( $intera_cat_total ) ); ?></span></a>
+						<a class="itr-rail-row" href="<?php echo esc_url( $intera_cat_blog ); ?>" style="display: flex; justify-content: space-between; align-items: center; padding: 11px 0; font-size: var(--text-md)"><?php esc_html_e( 'All posts', 'intera' ); ?> <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-muted)"><?php echo esc_html( number_format_i18n( $intera_cat_total ) ); ?></span></a>
 					<?php endif; ?>
 				</div>
 				<?php

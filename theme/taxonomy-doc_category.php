@@ -305,7 +305,7 @@ $intera_docs_others = is_wp_error( $intera_docs_others ) ? array() : $intera_doc
 							$intera_docs_other_style .= '; border-bottom: 1px solid var(--border-hairline)';
 						}
 						?>
-						<a class="itr-term-link" href="<?php echo esc_url( $intera_docs_other_link ); ?>" style="<?php echo esc_attr( $intera_docs_other_style ); ?>"><?php echo esc_html( $intera_docs_other->name ); ?> <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)"><?php echo esc_html( number_format_i18n( $intera_docs_other_count ) ); ?></span></a>
+						<a class="itr-term-link" href="<?php echo esc_url( $intera_docs_other_link ); ?>" style="<?php echo esc_attr( $intera_docs_other_style ); ?>"><?php echo esc_html( $intera_docs_other->name ); ?> <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-muted)"><?php echo esc_html( number_format_i18n( $intera_docs_other_count ) ); ?></span></a>
 						<?php
 					endforeach;
 					?>

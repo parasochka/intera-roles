@@ -203,7 +203,7 @@ if ( $intera_blog_featured instanceof WP_Post ) :
 							$intera_blog_row .= '; border-bottom: 1px solid var(--border-hairline)';
 						}
 						?>
-						<a class="itr-rail-row" href="<?php echo esc_url( (string) get_category_link( $intera_blog_cat ) ); ?>" style="<?php echo esc_attr( $intera_blog_row ); ?>"><?php echo esc_html( $intera_blog_cat->name ); ?> <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-400)"><?php echo esc_html( number_format_i18n( (int) $intera_blog_cat->count ) ); ?></span></a>
+						<a class="itr-rail-row" href="<?php echo esc_url( (string) get_category_link( $intera_blog_cat ) ); ?>" style="<?php echo esc_attr( $intera_blog_row ); ?>"><?php echo esc_html( $intera_blog_cat->name ); ?> <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-muted)"><?php echo esc_html( number_format_i18n( (int) $intera_blog_cat->count ) ); ?></span></a>
 					<?php endforeach; ?>
 				</div>
 				<?php

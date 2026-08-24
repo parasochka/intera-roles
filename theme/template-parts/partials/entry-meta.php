@@ -127,7 +127,7 @@ $intera_meta_variant = in_array( $args['variant'], array( 'inline', 'pair', 'rul
 
 // The mono chrome, verbatim from the export. `rule` takes it from
 // `.intera-meta-rule` in assets/css/intera.css instead, hairlines included.
-$intera_meta_mono = 'font-family:var(--font-mono);font-size:var(--text-xs);color:var(--ink-400)';
+$intera_meta_mono = 'font-family:var(--font-mono);font-size:var(--text-xs);color:var(--text-muted)';
 
 $intera_meta_class = 'rule' === $intera_meta_variant ? 'intera-meta-rule' : '';
 

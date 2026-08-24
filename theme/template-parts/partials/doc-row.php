@@ -132,7 +132,7 @@ if ( 'heading' === $intera_doc_variant ) {
 			</span>
 			<a class="itr-doc-title" href="<?php echo esc_url( $intera_doc_href ); ?>" style="font-size:var(--text-xl);font-weight:600;letter-spacing:-0.01em;line-height:34px"><?php echo esc_html( $intera_doc_term->name ); ?></a>
 		</div>
-		<span style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--ink-400);line-height:34px"><?php echo esc_html( (string) $intera_doc_count ); ?></span>
+		<span style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--text-muted);line-height:34px"><?php echo esc_html( (string) $intera_doc_count ); ?></span>
 	</div>
 	<?php
 	return;
@@ -209,7 +209,7 @@ if ( $args['class'] ) {
 ?>
 <a class="<?php echo esc_attr( $intera_doc_class ); ?>" href="<?php echo esc_url( get_permalink( $intera_doc_id ) ); ?>" style="<?php echo esc_attr( $intera_doc_style ); ?>"<?php echo $intera_doc_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- each attribute escaped above. ?>>
 	<?php if ( '' !== $intera_doc_ordinal ) : ?>
-		<span style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--ink-400)"><?php echo esc_html( $intera_doc_ordinal ); ?></span>
+		<span style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--text-muted)"><?php echo esc_html( $intera_doc_ordinal ); ?></span>
 	<?php endif; ?>
 	<span style="flex:1">
 		<span style="display:block;font-size:var(--text-md);font-weight:500;color:var(--ink-900)"><?php echo wp_kses_post( get_the_title( $intera_doc_id ) ); ?></span>

@@ -101,7 +101,7 @@ if ( ! function_exists( 'intera_faq_accordion' ) ) :
 		}
 
 		$intera_faq_chevron = function_exists( 'intera_icon_get' )
-			? intera_icon_get( 'chevron-down', array( 'size' => 18, 'color' => 'var(--ink-400)' ) )
+			? intera_icon_get( 'chevron-down', array( 'size' => 18, 'color' => 'var(--text-muted)' ) )
 			: '';
 
 		$intera_faq_opens_group = true;
