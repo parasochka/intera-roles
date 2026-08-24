@@ -43,12 +43,30 @@ const INTERA_CATEGORY_BASE = 'blog';
 function intera_category_base_is_stripped() {
 	$rank_math = get_option( 'rank_math_options_general' );
 
-	if ( is_array( $rank_math ) && ! empty( $rank_math['strip_category_base'] ) && 'off' !== $rank_math['strip_category_base'] ) {
+	// Read the setting where the plugin actually exposes it.
+	if ( is_array( $rank_math ) && array_key_exists( 'strip_category_base', $rank_math ) ) {
+		$setting = $rank_math['strip_category_base'];
+
+		return ! empty( $setting ) && 'off' !== $setting;
+	}
+
+	/*
+	 * Option not where we looked. Rank Math has moved and renamed this setting
+	 * between versions, and being wrong in this direction costs the entire
+	 * blog: `blog` as the category base plus anything stripping it is an
+	 * infinite 301 between the plugin and WordPress's canonical redirect. So
+	 * while the plugin is active and its answer is unreadable, assume the
+	 * conflict. Assuming it wrongly costs one path segment on archive URLs.
+	 */
+	if ( defined( 'RANK_MATH_VERSION' ) || defined( 'RANK_MATH_FILE' ) ) {
 		return true;
 	}
 
 	/**
-	 * Filters whether some other plugin removes the category base.
+	 * Filters whether something removes the category base from archive URLs.
+	 *
+	 * Return false once the stripping is switched off and the design's
+	 * `/blog/<category>/` archives are safe to claim again.
 	 *
 	 * @param bool $stripped Whether the base is being stripped.
 	 */
