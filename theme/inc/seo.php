@@ -10,7 +10,7 @@
  * "Home – INTERA ROLES - INTERA" — the brand twice, and nothing about what the
  * product does.
  *
- * So this file does three things, in the same shape as `inc/copy.php`:
+ * So this file does four things, in the same shape as `inc/copy.php`:
  *
  *   1. `intera_seo_defaults()` holds the written title and description for every
  *      designed screen and every archive the theme renders. A page that carries
@@ -19,7 +19,12 @@
  *   2. `_intera_seo_title` / `_intera_seo_description` post meta override the
  *      default per page, editable in the "Search result" box and writable over
  *      REST. WordPress owns the words; this file owns only the fallback.
- *   3. The result is handed to Rank Math through its own filters when the plugin
+ *   3. `intera_seo_description_last_resort()` is the floor under all of that:
+ *      when a screen carries no written words at all — an undescribed docs
+ *      category, a doc published before its first paragraph was typed — it
+ *      names what the screen actually holds rather than letting the head go out
+ *      with no description on it.
+ *   4. The result is handed to Rank Math through its own filters when the plugin
  *      is active, and printed by the theme when it is not — so the site says the
  *      same thing either way, and a manually written Rank Math value still wins.
  *
@@ -319,6 +324,10 @@ function intera_seo_description() {
 		}
 	}
 
+	if ( '' === $description ) {
+		$description = intera_seo_description_last_resort();
+	}
+
 	$description = trim( preg_replace( '/\s+/u', ' ', (string) $description ) );
 
 	if ( mb_strlen( $description ) > INTERA_SEO_DESC_MAX ) {
@@ -331,6 +340,133 @@ function intera_seo_description() {
 	 * @param string $description Description, already trimmed to length.
 	 */
 	return (string) apply_filters( 'intera_seo_description', $description );
+}
+
+/**
+ * What a screen says about itself when nobody has said anything at all.
+ *
+ * Everything above this reads words someone wrote: an override, a written
+ * default, an excerpt, a body, a term description. When a screen has none of
+ * them — a docs category nobody described, a doc published before its first
+ * paragraph was typed — the head used to carry no description at all, and the
+ * result on a search page was whatever Google could scrape off an empty page.
+ *
+ * So this is the floor, not a policy: it names the things the screen actually
+ * holds, and nothing else. No marketing sentence is written here — a sentence
+ * worth writing belongs in the term description or the page itself, where an
+ * editor owns it and this function stops running.
+ *
+ * @return string
+ */
+function intera_seo_description_last_resort() {
+	$brand = trim( wp_strip_all_tags( (string) get_bloginfo( 'name' ) ) );
+
+	if ( is_tax( 'doc_category' ) ) {
+		return intera_seo_term_contents( $brand );
+	}
+
+	if ( ! is_singular() ) {
+		return '';
+	}
+
+	$post = get_post();
+
+	if ( ! $post instanceof WP_Post ) {
+		return '';
+	}
+
+	$title = trim( wp_strip_all_tags( (string) get_the_title( $post ) ) );
+
+	if ( '' === $title ) {
+		return '';
+	}
+
+	$terms   = get_the_terms( $post, 'doc_category' );
+	$section = ( $terms && ! is_wp_error( $terms ) ) ? trim( wp_strip_all_tags( (string) $terms[0]->name ) ) : '';
+
+	if ( '' !== $section && '' !== $brand ) {
+		return sprintf(
+			/* translators: 1: page title, 2: site name, 3: docs category name. */
+			__( '%1$s: a page in the %2$s docs, filed under %3$s.', 'intera' ),
+			$title,
+			$brand,
+			$section
+		);
+	}
+
+	if ( '' === $brand ) {
+		return '';
+	}
+
+	return sprintf(
+		/* translators: 1: page title, 2: site name. */
+		__( '%1$s on %2$s.', 'intera' ),
+		$title,
+		$brand
+	);
+}
+
+/**
+ * A docs category described by what is filed in it.
+ *
+ * The main query has already run by the time `wp_head` fires, so the first
+ * few titles cost nothing to read; the total comes from the term, which counts
+ * the whole archive rather than the current page of it.
+ *
+ * @param string $brand Site name, already stripped.
+ * @return string
+ */
+function intera_seo_term_contents( $brand ) {
+	$term = get_queried_object();
+
+	if ( ! $term instanceof WP_Term || '' === $brand ) {
+		return '';
+	}
+
+	$posts = ( isset( $GLOBALS['wp_query'] ) && $GLOBALS['wp_query'] instanceof WP_Query )
+		? (array) $GLOBALS['wp_query']->posts
+		: array();
+
+	$titles = array();
+
+	foreach ( $posts as $post ) {
+		if ( ! $post instanceof WP_Post ) {
+			continue;
+		}
+
+		$title = trim( wp_strip_all_tags( (string) get_the_title( $post ) ) );
+
+		if ( '' !== $title ) {
+			$titles[] = $title;
+		}
+
+		if ( count( $titles ) >= 4 ) {
+			break;
+		}
+	}
+
+	if ( ! $titles ) {
+		return '';
+	}
+
+	$list = implode( ', ', $titles );
+	$rest = (int) $term->count - count( $titles );
+
+	if ( $rest > 0 ) {
+		$list .= sprintf(
+			/* translators: %d: number of further articles in the category. */
+			_n( ' and %d more', ' and %d more', $rest, 'intera' ),
+			$rest
+		);
+	}
+
+	return sprintf(
+		/* translators: 1: category name, 2: site name, 3: list of article titles. */
+		__( '%1$s in the %2$s docs: %3$s.', 'intera' ),
+		trim( wp_strip_all_tags( (string) $term->name ) ),
+		$brand,
+		$list
+	);
 }
 
 /**
