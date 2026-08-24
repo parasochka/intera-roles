@@ -43,6 +43,7 @@ foreach ( array(
 	'meta',          // Post meta registration + meta boxes.
 	'copy-defaults', // The design's own words, as registered defaults.
 	'copy',          // Editable page copy for the four designed pages.
+	'seo',           // Search-result title and description for every screen.
 	'customizer',    // Theme options behind intera_option().
 	'forms',         // Contact-request handler.
 	'patterns',      // Block patterns + pattern categories.
