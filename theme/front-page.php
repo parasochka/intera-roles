@@ -767,13 +767,30 @@ get_header();
 		</div>
 		<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; align-content: start">
 			<?php
+			/*
+			 * One colour across the row, and not the export's.
+			 *
+			 * The handoff tints these six individually — two of them borrow the
+			 * signal palette, three stay `--ink-500`, one is `--blue-600` — and
+			 * on the page that reads as a rendering fault rather than a
+			 * distinction, because the six are one kind of thing: what a partner
+			 * gets to package. The design system is explicit that colour answers
+			 * "what kind of thing is this?", so a signal colour on a tile that is
+			 * not a signal is out of spec here, however it looks in isolation.
+			 *
+			 * Unified upwards rather than down: `--blue-600` was already on the
+			 * first tile, and dropping everything to `--ink-500` would take the
+			 * last colour out of the band entirely.
+			 */
+			$intera_tile_icon_color = 'var(--blue-600)';
+
 			$intera_tiles = array(
-				array( 'layers', 'var(--blue-600)', intera_copy( 'home_partners__roles' ) ),
-				array( 'scale', 'var(--signal-reconciliation)', intera_copy( 'home_partners__reconciliations' ) ),
-				array( 'sliders-horizontal', 'var(--ink-500)', intera_copy( 'home_partners__business_logic' ) ),
-				array( 'git-branch', 'var(--signal-pattern)', intera_copy( 'home_partners__patterns' ) ),
-				array( 'plug', 'var(--ink-500)', intera_copy( 'home_partners__integrations' ) ),
-				array( 'package', 'var(--ink-500)', intera_copy( 'home_partners__market_packages' ) ),
+				array( 'layers', intera_copy( 'home_partners__roles' ) ),
+				array( 'scale', intera_copy( 'home_partners__reconciliations' ) ),
+				array( 'sliders-horizontal', intera_copy( 'home_partners__business_logic' ) ),
+				array( 'git-branch', intera_copy( 'home_partners__patterns' ) ),
+				array( 'plug', intera_copy( 'home_partners__integrations' ) ),
+				array( 'package', intera_copy( 'home_partners__market_packages' ) ),
 			);
 
 			foreach ( $intera_tiles as $intera_tile ) :
@@ -784,10 +801,10 @@ get_header();
 						$intera_tile[0],
 						array(
 							'size'  => 16,
-							'color' => $intera_tile[1],
+							'color' => $intera_tile_icon_color,
 						)
 					);
-					echo esc_html( $intera_tile[2] );
+					echo esc_html( $intera_tile[1] );
 					?>
 				</div>
 				<?php
