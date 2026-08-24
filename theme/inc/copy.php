@@ -252,7 +252,13 @@ function intera_sanitize_copy( $value ) {
 
 		$text = sanitize_textarea_field( (string) $text );
 
-		if ( '' !== trim( $text ) ) {
+		/*
+		 * A field left at the design's wording stores nothing. That keeps the
+		 * page following `inc/copy-defaults.php`: reword a section in the
+		 * handoff and every page that never overrode it picks the change up,
+		 * instead of being pinned to a copy of the old text nobody edited.
+		 */
+		if ( '' !== trim( $text ) && $text !== $defaults[ $key ] ) {
 			$clean[ $key ] = $text;
 		}
 	}
@@ -292,6 +298,10 @@ add_action( 'add_meta_boxes', 'intera_add_copy_meta_box', 10, 2 );
  * field falls back to — so "clear it" and "restore the original" are the same
  * gesture, and nothing an editor does here can leave a blank band on the page.
  *
+ * A field that has never been overridden shows the design's wording as its
+ * value, not as a placeholder, so an editor can change one word instead of
+ * retyping a sentence. Saving it unchanged still stores nothing.
+ *
  * @param WP_Post $post Page being edited.
  * @return void
  */
@@ -328,7 +338,16 @@ function intera_render_copy_meta_box( $post ) {
 			<?php
 			foreach ( $section['fields'] as $key => $default ) :
 				$id       = 'intera-copy-' . sanitize_html_class( $key );
-				$value    = isset( $saved[ $key ] ) ? (string) $saved[ $key ] : '';
+				/*
+				 * The control shows the design's own wording when nothing has
+				 * been saved, rather than an empty box with a grey placeholder.
+				 * Changing one word in a sentence should not mean retyping the
+				 * sentence, and there are three hundred of these. Nothing is
+				 * stored for a field left at the default (see
+				 * `intera_sanitize_copy()`), so the page keeps following the
+				 * handoff until someone actually decides otherwise.
+				 */
+				$value    = isset( $saved[ $key ] ) ? (string) $saved[ $key ] : $default;
 				$name     = 'intera_copy[' . $key . ']';
 				$textarea = mb_strlen( $default ) > INTERA_COPY_TEXTAREA_AT;
 				?>
