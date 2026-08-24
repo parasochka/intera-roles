@@ -49,6 +49,9 @@ const INTERA_BOOTSTRAP_OPTION = 'intera_bootstrap_version';
 /** Option that records that the URL settings have been written once. */
 const INTERA_ROUTING_OPTION = 'intera_routing_ready';
 
+/** Option that asks the next front-end request to rebuild the rewrite rules. */
+const INTERA_FLUSH_OPTION = 'intera_routing_flush_pending';
+
 /**
  * Point WordPress at the design's URL structure. Written exactly once, ever.
  *
@@ -81,9 +84,39 @@ function intera_bootstrap_routing() {
 	}
 
 	update_option( INTERA_ROUTING_OPTION, '1' );
+	update_option( INTERA_FLUSH_OPTION, '1' );
 
 	return true;
 }
+
+/**
+ * Rebuild the rewrite rules on a request that has actually seen the new base.
+ *
+ * Flushing in the same request that wrote `category_base` is not enough, and
+ * the failure is quiet. `create_initial_taxonomies()` registers the `category`
+ * permastruct on `init` at priority 0, reading the option as it stood at the
+ * start of that request; the settings are written later, on `admin_init`. So a
+ * flush that follows immediately regenerates the rules from the *old*
+ * permastruct, the option looks correct in wp-admin, and `/blog/<category>/`
+ * answers 404 until something flushes again.
+ *
+ * Hence a flag rather than a flush: the next request registers the taxonomy
+ * with the new base first, and only then are the rules rebuilt. Late on `init`,
+ * so every taxonomy and post type has been registered, and once — the flag is
+ * cleared before the flush so a failure cannot loop.
+ *
+ * @return void
+ */
+function intera_flush_pending_rewrites() {
+	if ( ! get_option( INTERA_FLUSH_OPTION ) ) {
+		return;
+	}
+
+	delete_option( INTERA_FLUSH_OPTION );
+
+	flush_rewrite_rules();
+}
+add_action( 'init', 'intera_flush_pending_rewrites', 99 );
 
 /**
  * Everything the theme has to set up outside a template, run once per version.
@@ -121,7 +154,11 @@ function intera_bootstrap() {
 		intera_flush_page_urls();
 	}
 
-	flush_rewrite_rules();
+	/*
+	 * Deferred for the same reason as above: a deploy that changes a rewrite
+	 * rule is read on `init`, and `admin_init` is already past it.
+	 */
+	update_option( INTERA_FLUSH_OPTION, '1' );
 
 	update_option( INTERA_BOOTSTRAP_OPTION, INTERA_VERSION );
 }

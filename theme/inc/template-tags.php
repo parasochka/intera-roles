@@ -993,19 +993,40 @@ if ( ! function_exists( 'intera_page_url' ) ) :
 			return (string) $cache[ $key ];
 		}
 
+		/*
+		 * `hierarchical => false` is load-bearing, not tidying.
+		 *
+		 * `get_pages()` defaults to true, and in that mode it runs the matches
+		 * through `get_page_children()`: a page survives only if its parent is
+		 * in the result set too. The set here is filtered to one template, so a
+		 * destination that happens to be a child page — the request form lives
+		 * under Contacts — matched the query and was then dropped again for
+		 * having a parent that did not. Every call to action pointing at it
+		 * rendered as an inert <button>, because that is what the Button
+		 * component does with an empty href.
+		 */
 		$pages = get_pages(
 			array(
-				'meta_key'    => '_wp_page_template', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
-				'meta_value'  => 'page-' . $key . '.php', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
-				'number'      => 1,
-				'sort_column' => 'menu_order',
+				'meta_key'     => '_wp_page_template', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+				'meta_value'   => 'page-' . $key . '.php', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
+				'number'       => 1,
+				'sort_column'  => 'menu_order',
+				'hierarchical' => false,
 			)
 		);
 
 		$url = $pages ? (string) get_permalink( $pages[0]->ID ) : '';
 
-		$cache[ $key ] = $url;
-		set_transient( 'intera_page_urls', $cache, HOUR_IN_SECONDS );
+		/*
+		 * Only a resolved URL is cached. Caching the miss would mean that
+		 * assigning the template to a page leaves the site broken until the
+		 * transient expires, and "I fixed it but nothing changed" is the worst
+		 * possible answer to give an editor.
+		 */
+		if ( '' !== $url ) {
+			$cache[ $key ] = $url;
+			set_transient( 'intera_page_urls', $cache, HOUR_IN_SECONDS );
+		}
 
 		return $url;
 	}

@@ -368,10 +368,12 @@ $intera_error_for = static function ( $errors, $field ) {
 			<p style="font-size: var(--text-xs); color: var(--ink-500); margin-top: 14px; line-height: 1.5">
 				<?php
 				if ( '' !== $intera_legal_url ) {
-					printf(
-						/* translators: %s: link to the privacy policy, reading "privacy policy". */
-						esc_html( intera_copy( 'request_request_form__we_use_what_you_send_only' ) ),
-						'<a href="' . esc_url( $intera_legal_url ) . '">' . esc_html( intera_copy( 'request_request_form__privacy_policy' ) ) . '</a>'
+					/* translators: %s: link to the privacy policy, reading "privacy policy". */
+					echo wp_kses_post(
+						intera_copy_format(
+							'request_request_form__we_use_what_you_send_only',
+							'<a href="' . esc_url( $intera_legal_url ) . '">' . esc_html( intera_copy( 'request_request_form__privacy_policy' ) ) . '</a>'
+						)
 					);
 				} else {
 					echo esc_html( intera_copy( 'request_request_form__we_use_what_you_send_only_2' ) );
@@ -413,20 +415,24 @@ $intera_error_for = static function ( $errors, $field ) {
 				<?php if ( '' !== $intera_reference ) : ?>
 					<span>
 						<?php
-						printf(
-							/* translators: %s: request reference number, e.g. REQ-2026-0148. */
-							esc_html( intera_copy( 'request_request_form__reference_s' ) ),
-							'<span style="font-family: var(--font-mono)">' . esc_html( $intera_reference ) . '</span>'
+						/* translators: %s: request reference number, e.g. REQ-2026-0148. */
+						echo wp_kses_post(
+							intera_copy_format(
+								'request_request_form__reference_s',
+								'<span style="font-family: var(--font-mono)">' . esc_html( $intera_reference ) . '</span>'
+							)
 						);
 						?>
 					</span>
 				<?php endif; ?>
 				<span>
 					<?php
-					printf(
-						/* translators: %s: how soon the request is answered, e.g. "within 1 working day". */
-						esc_html( intera_copy( 'request_request_form__answer_expected_s' ) ),
-						'<span style="font-family: var(--font-mono)">' . esc_html( (string) intera_option( 'contact_success_answer' ) ) . '</span>'
+					/* translators: %s: how soon the request is answered, e.g. "within 1 working day". */
+					echo wp_kses_post(
+						intera_copy_format(
+							'request_request_form__answer_expected_s',
+							'<span style="font-family: var(--font-mono)">' . esc_html( (string) intera_option( 'contact_success_answer' ) ) . '</span>'
+						)
 					);
 					?>
 				</span>
@@ -549,10 +555,12 @@ $intera_error_for = static function ( $errors, $field ) {
 			<?php if ( '' !== $intera_email ) : ?>
 				<div style="font-size: var(--text-sm); color: var(--ink-600); line-height: 1.6">
 					<?php
-					printf(
-						/* translators: %s: mailto link with the contact address. */
-						esc_html( intera_copy( 'request_request_form__prefer_email_write_to_s' ) ),
-						'<a href="' . esc_url( 'mailto:' . $intera_email ) . '" style="font-family: var(--font-mono)">' . esc_html( $intera_email ) . '</a>'
+					/* translators: %s: mailto link with the contact address. */
+					echo wp_kses_post(
+						intera_copy_format(
+							'request_request_form__prefer_email_write_to_s',
+							'<a href="' . esc_url( 'mailto:' . $intera_email ) . '" style="font-family: var(--font-mono)">' . esc_html( $intera_email ) . '</a>'
+						)
 					);
 					?>
 				</div>

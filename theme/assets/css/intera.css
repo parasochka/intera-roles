@@ -131,8 +131,17 @@ video {
 a:not(.itr-btn) {
 	color: var(--text-link);
 	text-decoration: none;
-	border-bottom: 0;
 	transition: color 140ms cubic-bezier(.2, .6, .25, 1);
+}
+
+/* Switching off the design system's link underline has to happen at the
+   specificity of the rule that set it — a bare `a`, which base.css gives a
+   1px bottom border. Doing it as `a:not(.itr-btn)` raised the specificity to
+   (0,1,1), which beat `.itr-post-card` at (0,1,0) and quietly erased the
+   bottom edge of every card that is a link. Declared on `a`, the tie with
+   base.css is won on source order and any card class outranks it again. */
+a {
+	border-bottom: 0;
 }
 
 a:not(.itr-btn):hover {
@@ -556,6 +565,23 @@ details[open] summary svg {
 	background: rgba(255,255,255,.92);
 	backdrop-filter: blur(8px);
 	border-bottom: 1px solid var(--border-subtle);
+}
+
+/* The signed-in WordPress toolbar is fixed above the document, and a masthead
+   pinned to top: 0 slides underneath it. Below 601px the toolbar stops being
+   fixed and scrolls away with the page, so the offset comes back off there. */
+@media screen and (min-width: 601px) {
+
+	body.admin-bar .intera-masthead {
+		top: 46px;
+	}
+}
+
+@media screen and (min-width: 783px) {
+
+	body.admin-bar .intera-masthead {
+		top: 32px;
+	}
 }
 
 .intera-masthead-bar {
