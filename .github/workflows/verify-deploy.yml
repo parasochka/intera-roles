@@ -4,13 +4,12 @@ name: Verify deploy
 # server got the theme.
 #
 # On 2026-08-24 a WP Pusher update replaced the theme directory and stopped
-# half way: sixteen of sixty-four PHP files never arrived, `index.php` among
-# them. WordPress checks for that one file in `validate_current_theme()`, tries
-# to fall back to a default theme, finds none installed, and `wp_die()`s — the
-# front end, wp-admin and the REST API all answered 500 at once. The commit
-# removed nothing; the theme cannot defend itself, because its own PHP loads
-# after the check that kills the request. The only place left to notice is from
-# outside, over HTTP.
+# half way: sixteen of sixty-four PHP files never arrived. One was a partial
+# that `inc/setup.php` required without a guard, and `functions.php` loads
+# `inc/*` on every request — so the front end, wp-admin and the REST API all
+# answered 500 together and there was no dashboard left to redeploy from. The
+# commit removed nothing and `main` was correct throughout: CI could not have
+# seen this, because the damage only existed on the server.
 #
 # So: after every push that touches the theme, and on a schedule in between,
 # ask the server whether the whole theme is actually there. A failure here

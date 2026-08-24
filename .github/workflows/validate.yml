@@ -85,6 +85,34 @@ jobs:
           fi
           echo "No meta capability is renamed."
 
+      - name: Refuse an unguarded require of a theme file
+        run: |
+          set -e
+          # A WP Pusher update replaces the theme directory in place, and one
+          # that stops half way leaves the theme missing files. An unguarded
+          # `require` of one of them is a fatal error on *every* request —
+          # front end, wp-admin and REST together — so the dashboard you would
+          # redeploy from is down too. That is how the site went down on
+          # 2026-08-24: `inc/setup.php` required a template part that the
+          # deploy had not written. Guard the require and a half-finished
+          # deploy costs a feature instead of the site.
+          offenders=$(awk '
+            FNR == 1 { ctx1 = ctx2 = ctx3 = "" }
+            {
+              if ($0 ~ /^[[:space:]]*(require|include)(_once)?([[:space:]]|\()/) {
+                if (ctx1 !~ /file_exists|is_readable/ && ctx2 !~ /file_exists|is_readable/ && ctx3 !~ /file_exists|is_readable/) {
+                  printf "%s:%d:%s\n", FILENAME, FNR, $0
+                }
+              }
+              ctx3 = ctx2; ctx2 = ctx1; ctx1 = $0
+            }' $(find theme -name '*.php'))
+          if [ -n "$offenders" ]; then
+            echo "::error title=Unguarded require::A require/include of a theme file is not guarded by file_exists() or is_readable(). A partial deploy then fatals every request, wp-admin included."
+            echo "$offenders"
+            exit 1
+          fi
+          echo "Every require in the theme is guarded."
+
       - name: Warn on hard-coded colors outside the design system
         continue-on-error: true
         run: |

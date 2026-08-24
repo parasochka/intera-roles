@@ -18,8 +18,22 @@ defined( 'ABSPATH' ) || exit;
  * render the partial themselves. Requiring the file here defines its functions
  * and binds its `get_search_form` filter; the file prints nothing when it is
  * required rather than reached as a template part.
+ *
+ * Guarded, like every require in `functions.php`, because this file is not
+ * always whole on the server: a WP Pusher update that stops half way leaves
+ * some of the theme behind, and an unguarded `require` of a missing file is a
+ * fatal error on *every* request — front end, wp-admin and REST at once, which
+ * is precisely when you need wp-admin to redeploy from. That is how the site
+ * went down on 2026-08-24. A missing partial should cost the search form, not
+ * the site: `get_search_form()` then falls back to core's own markup.
  */
-require_once INTERA_DIR . 'template-parts/partials/search-form.php';
+$intera_search_form_partial = INTERA_DIR . 'template-parts/partials/search-form.php';
+
+if ( is_readable( $intera_search_form_partial ) ) {
+	require_once $intera_search_form_partial;
+}
+
+unset( $intera_search_form_partial );
 
 /**
  * Register theme supports and navigation locations.

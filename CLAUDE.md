@@ -158,31 +158,39 @@ WordPress calls (`the_title`, `the_content`, `the_post_thumbnail`, `WP_Query`,
 `main` being right does not mean the server got it. WP Pusher deploys by
 replacing `wp-content/themes/theme/` wholesale, and on 2026-08-24 that
 replacement stopped half way: sixteen of the theme's sixty-four PHP files never
-arrived, `index.php` among them. Nothing in the commit removed a file — it
-changed three — and the CSS it shipped never even reached the server.
+arrived. Nothing in the commit removed a file — it changed three — and the CSS
+it was shipping never reached the server at all.
 
-What that costs is the whole site, not one page. WordPress checks for
-`index.php` in `validate_current_theme()` on `setup_theme`, tries to switch to a
-default theme, finds none installed, and calls `wp_die()`. The front end,
-wp-admin and the REST API answer 500 together, so WP Pusher cannot be re-run
-from the dashboard, no recovery-mode email is sent (`wp_die()` is not a fatal
-error), and the way back in is the host's file manager or FTP.
+What turned a half-written directory into a dead site was one line of ours.
+`inc/setup.php` did an unguarded `require_once` of
+`template-parts/partials/search-form.php`, one of the files that had not
+arrived. `functions.php` loads `inc/*` on **every** request, so the fatal fired
+on the front end, in wp-admin and on the REST API alike: "There has been a
+critical error on this website", 500 everywhere, and therefore no dashboard to
+re-run the deploy from. The way back in was the host's file manager.
 
-The theme cannot defend itself here: its own PHP is loaded *after* the check
-that ends the request. So the guards are outside it, and there are three.
+Two things that sound like they would have saved it, and do not. WordPress only
+checks that a theme is whole in `validate_current_theme()`, which no ordinary
+front-end request ever calls — and a fatal while `functions.php` is loading
+happens before WordPress could act on it anyway. So the default theme installed
+next to ours (Twenty Twenty-Four) was never going to catch this, and neither
+would CI: `main` was correct the whole time.
 
-1. **`bin/verify-deploy.sh`** asks the web server, file by file, whether every
-   tracked theme file is actually there, and whether the front page answers.
-   A missing PHP file answers 404 from nginx; one that exists answers 200 with
-   an empty body, because every file starts with `defined( 'ABSPATH' ) || exit;`.
-   No credentials, no plugin, works while the site is down. Run it after every
-   Update — a clean run is what "deployed" means.
-2. **`.github/workflows/verify-deploy.yml`** runs the same script after every
-   push that touches `theme/`, and every two hours in between, so a deploy that
-   breaks outside a push is still caught within a couple of hours instead of
+Three guards follow from that, and the first is the one that matters.
+
+1. **Never `require` a theme file unguarded.** `functions.php` has always
+   wrapped its requires in `file_exists()`; `inc/setup.php` now does the same,
+   and `validate.yml` fails the build on any `require`/`include` in `theme/`
+   that is not guarded by `file_exists()` or `is_readable()` within the three
+   preceding lines. A theme file that goes missing should cost the feature that
+   lives in it, not the site.
+2. **`bin/verify-deploy.sh`** asks the web server, file by file, whether every
+   tracked theme file is actually there and whether the front page answers. A
+   missing PHP file answers 404 from nginx; one that exists answers 200 with an
+   empty body, because every file starts with `defined( 'ABSPATH' ) || exit;`.
+   No credentials, no plugin — it works while the site is down. Run it after
+   every Update: a clean run is what "deployed" means.
+3. **`.github/workflows/verify-deploy.yml`** runs that script after every push
+   touching `theme/`, and every two hours in between, so a deploy that breaks
+   outside a push surfaces as a GitHub notification within hours instead of
    whenever somebody opens the site.
-3. **Keep a default WordPress theme installed** (`twentytwentyfive` or any
-   `twenty*`). It is the difference between `validate_current_theme()` switching
-   to it — an ugly but live site, with a working wp-admin to re-run the deploy
-   from — and `wp_die()` on every request. This is the one that turns the
-   incident above into a nuisance.

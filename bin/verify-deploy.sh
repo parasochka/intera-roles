@@ -4,19 +4,20 @@
 #
 # WP Pusher deploys by replacing the theme directory on the server. On
 # 2026-08-24 that replacement stopped half way: sixteen of the theme's
-# sixty-four PHP files never arrived, among them `index.php`. WordPress checks
-# for exactly that file in `validate_current_theme()` on `setup_theme`, tries to
-# fall back to a default theme, finds none installed, and calls `wp_die()` — so
-# the front end, wp-admin and the REST API all answered 500 and the only way
-# back in was the host's file manager. Nothing in the commit removed a file, and
-# nothing in the theme can guard against it: the theme's own PHP is loaded after
-# the check that kills the request.
+# sixty-four PHP files never arrived. One of them was a partial that
+# `inc/setup.php` required without a guard, and since `functions.php` loads
+# `inc/*` on every request, that was a PHP fatal on the front end, in wp-admin
+# and on the REST API at once — so the dashboard the deploy would be re-run
+# from was down too. Nothing in the commit removed a file, and `main` was
+# correct the whole time; the only place the damage was visible was the server.
 #
-# So the guard lives outside WordPress: ask the web server, file by file,
-# whether the deploy actually landed. A missing PHP file answers 404 from nginx
-# while one that exists answers 200 with an empty body (it runs, and every file
-# is guarded by `defined( 'ABSPATH' ) || exit;`), which is what makes this
-# checkable over plain HTTP with no credentials.
+# The require is guarded now, and CI refuses an unguarded one, so a partial
+# deploy should cost a feature rather than the site. This script is the other
+# half: ask the web server, file by file, whether the deploy actually landed.
+# A missing PHP file answers 404 from nginx while one that exists answers 200
+# with an empty body (it runs, and every file is guarded by
+# `defined( 'ABSPATH' ) || exit;`), which is what makes this checkable over
+# plain HTTP with no credentials.
 #
 # Usage:
 #   bin/verify-deploy.sh                 # check the live site
