@@ -162,6 +162,18 @@ function intera_bootstrap() {
 
 	update_option( INTERA_BOOTSTRAP_OPTION, INTERA_VERSION );
 }
+/*
+ * `init` as well as `admin_init`, and deliberately so.
+ *
+ * With push-to-deploy the files change without anyone opening wp-admin: WP
+ * Pusher's webhook is a front-end request, so an `admin_init`-only bootstrap
+ * waits for the next human to visit the dashboard before the rewrite rules
+ * catch up. Priority 98 puts it just ahead of `intera_flush_pending_rewrites()`
+ * at 99, so a deploy settles inside the first request that follows it.
+ *
+ * Re-entry is cheap: after the first run this is one autoloaded option read.
+ */
+add_action( 'init', 'intera_bootstrap', 98 );
 add_action( 'admin_init', 'intera_bootstrap' );
 add_action( 'after_switch_theme', 'intera_bootstrap', 5 );
 

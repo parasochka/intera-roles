@@ -989,7 +989,15 @@ if ( ! function_exists( 'intera_page_url' ) ) :
 		$cache = get_transient( 'intera_page_urls' );
 		$cache = is_array( $cache ) ? $cache : array();
 
-		if ( isset( $cache[ $key ] ) ) {
+		/*
+		 * `! empty()` rather than `isset()`, because a cached miss is worse than
+		 * no cache at all here. The transient is rewritten wholesale whenever
+		 * any key resolves, which renews its hour — so an empty entry written
+		 * once was renewed forever and the destination stayed dead long after
+		 * the page it points at had been fixed. An empty entry is now simply
+		 * re-resolved.
+		 */
+		if ( ! empty( $cache[ $key ] ) ) {
 			return (string) $cache[ $key ];
 		}
 
