@@ -194,3 +194,9 @@ Three guards follow from that, and the first is the one that matters.
    touching `theme/`, and every two hours in between, so a deploy that breaks
    outside a push surfaces as a GitHub notification within hours instead of
    whenever somebody opens the site.
+
+One risk the guards narrow but do not remove: `functions.php` skips an
+`inc/*.php` that is not there, and the templates then call functions nothing
+defined — a fatal of a different shape. There is no way to guard a call site
+the way a require can be guarded, so what stands between that and the site is
+the file-level check above. Run it after every deploy.
