@@ -141,9 +141,13 @@ $intera_chain_captions = array(
 				</div>
 			</div>
 			<?php
-			// The "Operations Oversight" preview panel. `.itr-card` paints the white
+			// The "Operations Oversight" preview panel — the header's visual, and the
+			// one card on the page a pointer meets first. `.itr-card` paints the white
 			// surface, the --border-card edge, the 8px radius and --shadow-xs, which is
 			// exactly what the export writes inline; only overflow stays inline.
+			// `.itr-lift` gives it the 5px rise every other card on the site answers a
+			// pointer with, and `.itr-lift-inverse` swaps the hover cast for one that
+			// reads against the --ink-950 band instead of disappearing into it.
 			ob_start();
 			?>
 			<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--border-hairline); background: var(--surface-sunken)">
@@ -228,7 +232,7 @@ $intera_chain_captions = array(
 				array(
 					'content' => $intera_panel,
 					'padding' => 'none',
-					'class'   => 'itr-hl',
+					'class'   => 'itr-lift itr-lift-inverse',
 					'style'   => 'overflow: hidden',
 				)
 			);
