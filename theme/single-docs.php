@@ -13,7 +13,7 @@
  *
  * | slot                       | source                                             |
  * | -------------------------- | -------------------------------------------------- |
- * | docs search                | a real `GET` form scoped to `post_type=docs`        |
+ * | docs search                | a real `GET` form scoped with `intera_docs=1`       |
  * | tree groups                | `get_terms( 'doc_category' )`, top level only      |
  * | tree links                 | the per-term query, ordered by `menu_order`         |
  * | the current item           | `get_the_ID()` — a `<span>`, never a link to itself |
@@ -30,13 +30,24 @@
  * version stamp disappears by itself when `_intera_doc_version` is empty — that
  * decision lives in `partials/entry-meta`, so nothing here has to test for it.
  *
- * **The feedback control works without JavaScript.** The export ships `Yes` /
- * `No` with no handler at all, and PORT.md allows exactly two JS hooks, neither
- * of which is a vote. So the strip is a real `GET` form aimed at the
- * contact-request page: either button navigates there carrying the answer and
- * the article slug, which is where a visitor can say what was wrong anyway. No
- * endpoint, no script, no control that dies with JavaScript off — and when no
- * contact-request page is assigned the strip is not rendered at all.
+ * **Two feedback controls, and only one of them is drawn here.** The export
+ * ships `Yes` / `No` with no handler at all, so the theme's strip is a real
+ * `GET` form aimed at the contact-request page: either button navigates there
+ * carrying the answer and the article slug. It works without JavaScript and it
+ * records nothing — which is the right trade for the only control on the page
+ * and the wrong one next to a control that keeps a number. BetterDocs' reaction
+ * vote is that control: it is what writes to `/betterdocs/v1/feedback` and what
+ * fills BetterDocs → Analytics → Reactions. So `inc/betterdocs.php` draws the
+ * plugin's own article footer below the article — vote, share row, tags,
+ * feedback modal, each present only if the operator has it switched on — and
+ * the theme's strip renders only when that footer offers no vote at all
+ * (BetterDocs off, or both of its feedback features disabled). With no
+ * contact-request page assigned the strip is not rendered either way.
+ *
+ * The print button and the AI summary sit above the body for the same reason,
+ * and the H1 and the prose wrapper carry `betterdocs-entry-title` /
+ * `betterdocs-single-content` because the plugin's print handler reads those
+ * two ids by name.
  *
  * PORT.md §1: nothing here writes `background`, `border`, `box-shadow` or
  * `transition` inline on an element that carries a hover class — the tree links
@@ -163,6 +174,32 @@ while ( have_posts() ) :
 	$intera_doc_ask_url = trim( (string) intera_page_url( 'contact-request' ) );
 
 	/*
+	 * What BetterDocs draws around an article, drawn by BetterDocs.
+	 *
+	 * The plugin owns the content, so it also owns the controls that write
+	 * about the content: the reaction vote is the only thing on this page that
+	 * reaches `/betterdocs/v1/feedback`, and therefore the only thing that ever
+	 * puts a number in BetterDocs → Analytics → Reactions. `inc/betterdocs.php`
+	 * renders the plugin's own views, so each part is present exactly when the
+	 * operator has it switched on in BetterDocs and absent otherwise — nothing
+	 * here has to test a setting.
+	 */
+	$intera_doc_print   = function_exists( 'intera_betterdocs_doc_print_icon' ) ? intera_betterdocs_doc_print_icon() : '';
+	$intera_doc_summary = function_exists( 'intera_betterdocs_doc_summary' ) ? intera_betterdocs_doc_summary() : '';
+	$intera_doc_footer  = function_exists( 'intera_betterdocs_doc_footer' ) ? intera_betterdocs_doc_footer() : '';
+
+	/*
+	 * The theme's own "Was this page useful?" strip is the FALLBACK, not the
+	 * default. It is a `GET` form to the contact page — it answers the visitor's
+	 * half of the question and records nothing, which is fine as the only
+	 * control on the page and misleading as the second one. So it renders when
+	 * the plugin drew no vote of its own: BetterDocs switched off, uninstalled,
+	 * or its reactions and feedback form both disabled.
+	 */
+	$intera_doc_own_vote = '' !== $intera_doc_ask_url
+		&& ! ( function_exists( 'intera_betterdocs_footer_has_vote' ) && intera_betterdocs_footer_has_vote( $intera_doc_footer ) );
+
+	/*
 	 * A GET form replaces the action's whole query string, so on a plain-permalink
 	 * install the `?page_id=…` that identifies the page would be thrown away. Any
 	 * argument already in the destination is re-emitted as a hidden field.
@@ -220,7 +257,7 @@ while ( have_posts() ) :
 				)
 			);
 			?>
-			<input type="hidden" name="post_type" value="docs">
+			<input type="hidden" name="intera_docs" value="1">
 		</form>
 		<nav aria-label="<?php esc_attr_e( 'Documentation', 'intera' ); ?>">
 			<?php
@@ -258,7 +295,7 @@ while ( have_posts() ) :
 
 	<article <?php post_class( 'intera-article' ); ?> style="flex: 1 1 520px; min-width: 0; max-width: 680px">
 		<?php intera_breadcrumbs(); ?>
-		<h1 style="font-size: clamp(26px, 2.8vw, 34px); font-weight: 600; letter-spacing: -0.02em; line-height: 1.18; color: var(--ink-900); margin-top: 16px; text-wrap: pretty"><?php the_title(); ?></h1>
+		<h1 id="betterdocs-entry-title" style="font-size: clamp(26px, 2.8vw, 34px); font-weight: 600; letter-spacing: -0.02em; line-height: 1.18; color: var(--ink-900); margin-top: 16px; text-wrap: pretty"><?php the_title(); ?></h1>
 		<?php if ( has_excerpt() ) : ?>
 			<p style="font-size: var(--text-lg); line-height: 1.6; color: var(--ink-600); margin-top: 14px"><?php echo wp_kses_post( get_the_excerpt() ); ?></p>
 		<?php endif; ?>
@@ -279,9 +316,29 @@ while ( have_posts() ) :
 		);
 		?>
 
-		<div class="intera-prose" style="margin-top: 28px">
+		<?php if ( '' !== $intera_doc_print || '' !== $intera_doc_summary ) : ?>
+			<div class="intera-doc-plugin intera-doc-plugin--head">
+				<?php
+				echo $intera_doc_print;   // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- plugin-composed markup, escaped at its source.
+				echo $intera_doc_summary; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- plugin-composed markup, escaped at its source.
+				?>
+			</div>
+		<?php endif; ?>
+
+		<div id="betterdocs-single-content" class="intera-prose" style="margin-top: 28px">
 			<?php echo $intera_doc_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- the_content output, filtered by WordPress. ?>
 		</div>
+
+		<?php
+		// A doc split across several editor pages still needs a pager — the
+		// same one `page.php` prints, so the two cannot drift apart.
+		wp_link_pages(
+			array(
+				'before' => '<div class="intera-pagination" style="margin-top: 24px">',
+				'after'  => '</div>',
+			)
+		);
+		?>
 
 		<?php if ( '' !== $intera_doc_notice_title || '' !== $intera_doc_notice_body ) : ?>
 			<div style="margin-top: 36px">
@@ -299,7 +356,7 @@ while ( have_posts() ) :
 			</div>
 		<?php endif; ?>
 
-		<?php if ( '' !== $intera_doc_ask_url ) : ?>
+		<?php if ( $intera_doc_own_vote ) : ?>
 			<form class="intera-doc-feedback" method="get" action="<?php echo esc_url( $intera_doc_ask_url ); ?>" aria-labelledby="intera-doc-useful" style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--border-hairline)">
 				<span id="intera-doc-useful" style="font-size: var(--text-sm); color: var(--ink-600)"><?php esc_html_e( 'Was this page useful?', 'intera' ); ?></span>
 				<?php foreach ( $intera_doc_ask_args as $intera_doc_ask_key => $intera_doc_ask_value ) : ?>
@@ -344,6 +401,12 @@ while ( have_posts() ) :
 			</form>
 		<?php endif; ?>
 
+		<?php if ( '' !== $intera_doc_footer ) : ?>
+			<div class="intera-doc-plugin intera-doc-plugin--footer">
+				<?php echo $intera_doc_footer; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- plugin-composed markup, escaped at its source. ?>
+			</div>
+		<?php endif; ?>
+
 		<?php
 		get_template_part(
 			'template-parts/partials/prev-next',
@@ -356,6 +419,16 @@ while ( have_posts() ) :
 				'style'    => 'margin-top: 20px',
 			)
 		);
+		?>
+		<?php
+		/*
+		 * Comments, when BetterDocs' own switch and the post's own setting both
+		 * allow them. The part hands over to `comments_template()`, so a thread
+		 * on a doc is the theme's `comments.php`, same as anywhere else.
+		 */
+		if ( function_exists( 'intera_betterdocs_doc_comments' ) ) {
+			intera_betterdocs_doc_comments();
+		}
 		?>
 	</article>
 

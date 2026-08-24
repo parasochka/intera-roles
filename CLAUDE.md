@@ -33,6 +33,7 @@ Claude Design  ─►  theme/ (_ds/intera + PHP)  ─►  GitHub  ─►  WP Pus
 | `inc/enqueue.php` | Parses the `_ds/intera/styles.css` `@import` manifest and inlines every sheet + `assets/css/intera.css` + `style.css` into `<head>`, rewriting each sheet's relative `url()` to an absolute one and minifying the result into a transient; preloads the two above-the-fold fonts; enqueues `assets/js/intera.js` deferred. DS files stay byte-identical on disk. |
 | `inc/tokens.php` | Parses `_ds/intera/tokens/*.css` into PHP arrays. This is how the block editor gets the brand palette **without a second copy of any value**. |
 | `inc/post-types.php` | CPTs `docs`, `role`, `plan`; taxonomy `docs_category` + its term meta (icon, tone). |
+| `inc/betterdocs.php` | Everything that touches the BetterDocs plugin: the `template_include` takeback for the three docs screens, and the plugin's own article footer (reaction vote, share, tags, feedback modal), print button, AI summary and comments rendered back into `single-docs.php`. See **Living with BetterDocs** below. |
 | `inc/meta.php` | Post meta registration and the meta boxes that make it editable. |
 | `inc/seo.php` | The `<title>` and meta description every screen answers with: written defaults per designed page and archive, `_intera_seo_title` / `_intera_seo_description` overrides an editor can type, and the brand appended once at the end (never twice). Feeds Rank Math through its own filters when the plugin is active. |
 | `inc/customizer.php` | Theme options + `intera_option()`. No colour or font setting lives here — those come from the tokens. |
@@ -53,6 +54,51 @@ Claude Design  ─►  theme/ (_ds/intera + PHP)  ─►  GitHub  ─►  WP Pus
 
 Repo root (not deployed): `.github/workflows/validate.yml`, `_design/` (the
 Claude Design export), `README.md`, `SETUP.md`, this file.
+
+## Living with BetterDocs
+
+The live site keeps its documentation and its FAQ in **BetterDocs Pro**. The
+plugin owns the `docs` post type, the `doc_category` taxonomy, every published
+article and the FAQ block; `inc/post-types.php` steps aside when it finds them
+already registered, and nothing in this repo moves that content.
+
+What the theme owns is the *layout* of three screens — `archive-docs.php`,
+`taxonomy-doc_category.php`, `single-docs.php` — which it takes back from the
+plugin with a late `template_include` filter.
+
+**Taking a template back takes the plugin's features with it.** That is the
+trap this file exists to document, because it caught us once: a BetterDocs
+article is not only a body of text, it is also a reaction vote, a feedback
+form, a share row, the doc's tags, a print button, the AI summary and a comment
+thread — all of them drawn by `views/templates/footer.php` and its parts, none
+of which runs once the template points somewhere else. The reaction vote is the
+one that costs real data: it is the only thing on the page that writes to
+`/betterdocs/v1/feedback`, so BetterDocs → Analytics → Reactions was recording
+nothing while the docs looked finished.
+
+Three rules follow, and they apply to any plugin whose template we replace:
+
+1. **Never reimplement a plugin control — render the plugin's.**
+   `intera_betterdocs_part()` runs the plugin's own view files. That keeps every
+   part gated on the plugin's own settings (a feature switched off in BetterDocs
+   stays off here), keeps votes going to the plugin's endpoint under its own
+   nonce, and keeps `betterdocs_docs_before_social` firing, which is the seam
+   BetterDocs **Pro** hangs its own additions on.
+2. **Dress the plugin's markup, do not strip its stylesheet.** Where plugin
+   markup is on the page, its sheets stay and `assets/css/intera.css`
+   out-specifies them with tokens — the arrangement the FAQ block has always
+   used. Only the screens with *no* plugin markup (the docs archive and the
+   category page) dequeue anything.
+3. **A control that records nothing is a fallback, never the default.** The
+   theme's own "Was this page useful?" strip is a `GET` form to the contact
+   page; it renders only when BetterDocs offers no vote of its own.
+
+One more thing worth knowing, because it looks like a theme bug and is not: a
+bare `post_type` query var is parsed by BetterDocs as a request for its docs
+archive (`Core\Request::$query_vars`). So a docs search form must **not**
+submit `?s=…&post_type=docs` — the term is dropped and every query answers with
+the full archive. The forms send `intera_docs=1` and
+`intera_docs_scope_search()` does the scoping in `pre_get_posts`.
 
 ## How the templates are built
 

@@ -1887,3 +1887,243 @@ a.itr-foot-link:focus-visible,
 		transition: none;
 	}
 }
+
+/* ==========================================================================
+   BetterDocs — the article's own controls
+   --------------------------------------------------------------------------
+   `inc/betterdocs.php` renders the plugin's own footer view below a doc, so
+   the reaction vote keeps writing to the plugin's endpoint and BetterDocs →
+   Analytics → Reactions keeps filling. The markup is therefore the plugin's,
+   at the plugin's specificity, carrying the plugin's own idea of a card —
+   white fills, 5px radii, 80px margins. The FAQ block above is dressed the
+   same way and for the same reason: out-specify the handful of declarations
+   the plugin writes, and let everything else win on the cascade.
+
+   `.intera-doc-plugin` is the theme's wrapper; `--footer` is the strip under
+   the article, `--head` the print button and AI summary above the body.
+   ========================================================================== */
+
+.intera-doc-plugin--footer {
+	margin-top: 36px;
+	padding-top: 24px;
+	border-top: 1px solid var(--border-hairline);
+}
+
+.intera-doc-plugin--head {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	margin-top: 24px;
+}
+
+/* The plugin opens each part with a card of its own. In this column the
+   article is the card, so every part is a row on the page instead. */
+.intera-doc-plugin .betterdocs-entry-footer,
+.intera-doc-plugin .betterdocs-article-reactions,
+.intera-doc-plugin .betterdocs-article-reactions-box,
+.intera-doc-plugin .feedback-form,
+.intera-doc-plugin .betterdocs-social-share {
+	background: none !important;
+	border: 0;
+	box-shadow: none;
+	padding: 0;
+}
+
+.intera-doc-plugin .betterdocs-entry-footer {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	margin: 0;
+}
+
+/* Headings: the plugin writes these as h5 at its own size and grey. The
+   design's label type is --text-sm over --ink-600, the same as the strip the
+   theme draws when the plugin has no vote to offer. */
+.intera-doc-plugin .betterdocs-reactions-title-tag,
+.intera-doc-plugin .betterdocs-social-share-title-tag {
+	margin: 0;
+	font-family: var(--font-sans);
+	font-size: var(--text-sm) !important;
+	font-weight: 500;
+	line-height: 1.5;
+	color: var(--ink-600) !important;
+}
+
+.intera-doc-plugin .betterdocs-article-reactions-heading,
+.intera-doc-plugin .betterdocs-social-share-heading {
+	margin: 0;
+	padding: 0;
+}
+
+/* Vote and share are both "a label, then a row of controls" — which on a
+   wide column reads as one line and wraps to two on a phone. */
+.intera-doc-plugin .betterdocs-article-reactions,
+.intera-doc-plugin .betterdocs-social-share {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px 16px;
+	align-items: center;
+	justify-content: space-between;
+	margin: 0;
+}
+
+.intera-doc-plugin .betterdocs-article-reaction-links,
+.intera-doc-plugin .betterdocs-social-share-links {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.intera-doc-plugin .betterdocs-article-reaction-links li,
+.intera-doc-plugin .betterdocs-social-share-links li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+/* The controls themselves are the design's secondary icon button: a hairline
+   box that fills on hover, not the plugin's coloured circle. */
+.intera-doc-plugin .betterdocs-article-reaction-links li a,
+.intera-doc-plugin .betterdocs-social-share-links li a {
+	display: inline-flex;
+	width: 34px;
+	height: 34px;
+	align-items: center;
+	justify-content: center;
+	background: var(--surface-card) !important;
+	border: 1px solid var(--border-default);
+	border-radius: var(--radius-md);
+	transition: background var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard);
+}
+
+.intera-doc-plugin .betterdocs-article-reaction-links li a:hover,
+.intera-doc-plugin .betterdocs-social-share-links li a:hover {
+	background: var(--surface-hover) !important;
+	border-color: var(--border-strong);
+}
+
+.intera-doc-plugin .betterdocs-article-reaction-links li a:focus-visible,
+.intera-doc-plugin .betterdocs-social-share-links li a:focus-visible,
+.intera-doc-plugin .feedback-form-link:focus-visible,
+.intera-doc-plugin .betterdocs-print-btn:focus-visible {
+	outline: 2px solid var(--focus-ring);
+	outline-offset: 2px;
+}
+
+.intera-doc-plugin .betterdocs-article-reaction-links li a svg,
+.intera-doc-plugin .betterdocs-social-share-links li a svg,
+.intera-doc-plugin .betterdocs-article-reaction-links li a img,
+.intera-doc-plugin .betterdocs-social-share-links li a img {
+	width: 18px;
+	height: 18px;
+}
+
+.intera-doc-plugin .betterdocs-article-reaction-links li a svg path {
+	fill: var(--ink-600);
+}
+
+.intera-doc-plugin .betterdocs-article-reaction-links li a:hover svg path {
+	fill: var(--ink-900);
+}
+
+/* After a vote the plugin fades the row out and drops this in its place. */
+.intera-doc-plugin .feedback-message {
+	margin: 0;
+	font-size: var(--text-sm);
+	color: var(--ink-600);
+}
+
+/* A doc's tags are the design's tag chip, drawn in markup the theme does not
+   own — so the declarations are `components/tag.php`'s, token for token, and
+   the two have to be changed together. The plugin prints them as a comma-
+   separated run of links; the separators fall out of the flex row. */
+.intera-doc-plugin .betterdocs-tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin: 0;
+	font-size: 0;
+}
+
+.intera-doc-plugin .betterdocs-tags a {
+	display: inline-flex;
+	align-items: center;
+	padding: 3px 8px;
+	font-family: var(--font-mono);
+	font-size: var(--text-xs);
+	line-height: 1.5;
+	color: var(--ink-700);
+	background: var(--surface-sunken);
+	border: 1px solid var(--border-default);
+	border-radius: var(--radius-badge);
+	text-decoration: none;
+}
+
+.intera-doc-plugin .betterdocs-tags a:hover {
+	color: var(--ink-900);
+	background: var(--surface-hover);
+}
+
+/* "Still stuck? How can we help?" — a text link in this column, not a button
+   with a 32px gradient envelope beside it. The icon is the plugin's inline
+   SVG, so it is sized rather than replaced. */
+.intera-doc-plugin .feedback-form-link {
+	display: inline-flex;
+	gap: 8px;
+	align-items: center;
+	font-size: var(--text-sm);
+	color: var(--text-link);
+	text-decoration: none;
+}
+
+.intera-doc-plugin .feedback-form-link:hover {
+	color: var(--text-link-hover);
+	text-decoration: underline;
+}
+
+.intera-doc-plugin .feedback-form-icon svg,
+.intera-doc-plugin .feedback-form-icon img {
+	display: block;
+	width: 18px;
+	height: 18px;
+}
+
+/* The modal is the plugin's own overlay and stays that way — it is a layer
+   over the page, not a piece of this column. Only its card is re-cut. */
+.betterdocs-modalwindow .modal-content {
+	border-radius: var(--radius-lg);
+}
+
+/* Print sits with the article's meta, right-aligned above the body. */
+.intera-doc-plugin--head .betterdocs-print-pdf {
+	align-self: flex-end;
+	margin: 0;
+}
+
+.intera-doc-plugin .betterdocs-print-btn {
+	display: inline-flex;
+	padding: 6px;
+	border-radius: var(--radius-md);
+	cursor: pointer;
+}
+
+.intera-doc-plugin .betterdocs-print-btn:hover {
+	background: var(--surface-hover);
+}
+
+/* The theme's meta strip already prints "Updated <date>" under the H1; the
+   plugin's copy of it in the footer would say the same thing twice. */
+.intera-doc-plugin .update-date {
+	display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.intera-doc-plugin .betterdocs-article-reaction-links li a,
+	.intera-doc-plugin .betterdocs-social-share-links li a {
+		transition: none;
+	}
+}

@@ -141,7 +141,7 @@ $intera_docs_help = array(
 						)
 					);
 					?>
-					<input type="hidden" name="post_type" value="docs">
+					<input type="hidden" name="intera_docs" value="1">
 				</form>
 				<?php if ( $intera_docs_quick->have_posts() ) : ?>
 					<div style="display: flex; gap: 14px; margin-top: 12px; flex-wrap: wrap; font-size: var(--text-sm)">
