@@ -169,7 +169,16 @@ $intera_questions = array(
 	<div style="max-width: 1160px; margin: 0 auto; padding: clamp(35px, 7vw, 60px) clamp(20px, 5vw, 24px) clamp(23px, 7vw, 40px)">
 		<?php intera_breadcrumbs(); ?>
 		<div style="max-width: 640px; margin-top: 22px">
-			<h1 style="font-size: clamp(30px, 3.2vw, 38px); font-weight: 600; letter-spacing: -0.02em; line-height: 1.14; color: var(--ink-900); text-wrap: pretty"><?php the_title(); ?></h1>
+			<h1 style="font-size: clamp(30px, 3.2vw, 38px); font-weight: 600; letter-spacing: -0.02em; line-height: 1.14; color: var(--ink-900); text-wrap: pretty"><?php
+					/*
+					 * The design's headline, not the page title. The two are
+					 * different jobs: the title is what the breadcrumb and the
+					 * menu say, and it has to stay short, while this is a full
+					 * sentence. Falls back to the title when the field is empty.
+					 */
+					$intera_headline = trim( (string) intera_copy( 'pricing_headline' ) );
+					echo esc_html( '' !== $intera_headline ? $intera_headline : get_the_title() );
+					?></h1>
 			<?php if ( '' !== trim( (string) get_the_content() ) ) : ?>
 				<div class="intera-prose" style="--itr-prose-max: 640px; margin-top: 18px"><?php the_content(); ?></div>
 			<?php endif; ?>

@@ -228,6 +228,9 @@ $intera_docs_others = is_wp_error( $intera_docs_others ) ? array() : $intera_doc
 			else :
 				$intera_docs_first = true;
 
+				// Runs straight through the sub-groups, as the export numbers them.
+				$intera_docs_seq = 0;
+
 				foreach ( $intera_docs_groups as $intera_docs_group_data ) :
 					$intera_docs_label = (string) $intera_docs_group_data['label'];
 
@@ -248,12 +251,26 @@ $intera_docs_others = is_wp_error( $intera_docs_others ) ? array() : $intera_doc
 					<div style="<?php echo esc_attr( $intera_docs_list_style ); ?>">
 						<?php
 						foreach ( $intera_docs_group_data['posts'] as $intera_docs_row ) {
+							/*
+							 * The export numbers these rows 01…10 straight
+							 * through the sub-groups. The Order field is the
+							 * source wherever an editor set it; where it is
+							 * still zero — which is every article while
+							 * BetterDocs owns the ordering — the running
+							 * position takes over, so the column reads as the
+							 * design draws it instead of collapsing to blanks.
+							 */
+							++$intera_docs_seq;
+
 							get_template_part(
 								'template-parts/partials/doc-row',
 								null,
 								array(
 									'post'    => $intera_docs_row,
 									'variant' => 'ordinal',
+									'ordinal' => (int) $intera_docs_row->menu_order > 0
+										? (int) $intera_docs_row->menu_order
+										: $intera_docs_seq,
 								)
 							);
 						}

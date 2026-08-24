@@ -14,7 +14,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /** Theme version — bump on every release; used for cache busting. Keep in sync with style.css. */
-define( 'INTERA_VERSION', '0.5.4' );
+define( 'INTERA_VERSION', '0.6.0' );
 
 /** Absolute path to the theme root, with a trailing slash. */
 define( 'INTERA_DIR', trailingslashit( get_template_directory() ) );

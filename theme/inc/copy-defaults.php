@@ -205,6 +205,12 @@ function intera_copy_schema() {
 			'label'    => __( 'Product page', 'intera' ),
 			'template' => 'page-product.php',
 			'sections' => array(
+				'header' => array(
+					'label'  => __( 'Header', 'intera' ),
+					'fields' => array(
+						'product_headline' => __( 'One operating picture across the systems you already run', 'intera' ),
+					),
+				),
 				'page' => array(
 					'label'  => __( 'Page', 'intera' ),
 					'fields' => array(
@@ -367,6 +373,12 @@ function intera_copy_schema() {
 			'label'    => __( 'Pricing page', 'intera' ),
 			'template' => 'page-pricing.php',
 			'sections' => array(
+				'header' => array(
+					'label'  => __( 'Header', 'intera' ),
+					'fields' => array(
+						'pricing_headline' => __( 'Start free. Pay when INTERA is doing real work.', 'intera' ),
+					),
+				),
 				'page' => array(
 					'label'  => __( 'Page', 'intera' ),
 					'fields' => array(
@@ -416,6 +428,12 @@ function intera_copy_schema() {
 			'label'    => __( 'Contacts page', 'intera' ),
 			'template' => 'page-contacts.php',
 			'sections' => array(
+				'header' => array(
+					'label'  => __( 'Header', 'intera' ),
+					'fields' => array(
+						'contacts_headline' => __( 'Talk to us about one real problem', 'intera' ),
+					),
+				),
 				'page' => array(
 					'label'  => __( 'Page', 'intera' ),
 					'fields' => array(
@@ -465,6 +483,12 @@ function intera_copy_schema() {
 			'label'    => __( 'Contact request page', 'intera' ),
 			'template' => 'page-contact-request.php',
 			'sections' => array(
+				'header' => array(
+					'label'  => __( 'Header', 'intera' ),
+					'fields' => array(
+						'request_headline' => __( 'Bring us a real problem', 'intera' ),
+					),
+				),
 				'request_form' => array(
 					'label'  => __( 'Request form', 'intera' ),
 					'fields' => array(

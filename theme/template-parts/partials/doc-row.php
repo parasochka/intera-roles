@@ -174,9 +174,20 @@ if ( 'compact' === $intera_doc_variant ) {
 }
 
 $intera_doc_ordinal = null === $args['ordinal'] ? (int) $intera_doc_post->menu_order : $args['ordinal'];
-$intera_doc_ordinal = ( is_numeric( $intera_doc_ordinal ) && (int) $intera_doc_ordinal > 0 )
-	? sprintf( '%02d', (int) $intera_doc_ordinal )
-	: (string) $intera_doc_ordinal;
+/*
+ * A numeric ordinal of zero means "no ordinal", not the number nought. The
+ * cast used to turn it into the string "0", which then passed the non-empty
+ * check below and printed a column of zeroes down the page — every article
+ * BetterDocs owns has `menu_order` 0, because it keeps its own ordering
+ * elsewhere.
+ */
+if ( is_numeric( $intera_doc_ordinal ) ) {
+	$intera_doc_ordinal = (int) $intera_doc_ordinal > 0
+		? sprintf( '%02d', (int) $intera_doc_ordinal )
+		: '';
+} else {
+	$intera_doc_ordinal = (string) $intera_doc_ordinal;
+}
 
 $intera_doc_summary = $args['summary'] ? get_the_excerpt( $intera_doc_post ) : '';
 
