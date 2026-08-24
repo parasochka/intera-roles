@@ -558,6 +558,30 @@ details[open] summary svg {
 	overflow: hidden;
 }
 
+/* Side rails — the docs tree, the "on this page" lists and the blocks that
+   stand in for one when a page has too few headings to draw it. Every rail is
+   a flex item with a fixed basis beside a column that grows, and every one of
+   them wraps onto its own line before 900px; a wrapped rail that keeps a
+   240px basis leaves two thirds of the line empty, so §12 drops the basis and
+   the stickiness. Basis, minimum and sticky offset differ per instance, so
+   they arrive as custom properties in the inline style (recon §2, mechanism B)
+   and the breakpoint overrides the whole property without !important. */
+.intera-rail {
+	flex: 0 1 var(--itr-rail, 240px);
+	min-width: var(--itr-rail-min, 220px);
+}
+
+.intera-rail--sticky {
+	position: sticky;
+	top: var(--itr-rail-top, 100px);
+}
+
+/* The chain's separators only mean anything while all four panels sit on one
+   line, which stops being possible below 900px (§12). */
+.itr-signal-chain__sep {
+	display: flex;
+}
+
 /* ==========================================================================
    8. Site chrome — masthead, navigation, footer
    The export switches between the desktop bar and the burger drawer in
@@ -635,7 +659,9 @@ details[open] summary svg {
 	margin-left: auto;
 }
 
-/* Compact cluster: the small call to action and the burger. */
+/* Compact cluster: the small call to action and the burger. `--drawer` marks
+   the case where a drawer exists to take the call to action below 760px
+   (§12); without a `primary` menu there is neither, and the button stays. */
 .intera-nav-narrow {
 	flex: 1;
 	display: flex;
@@ -708,7 +734,7 @@ details[open] summary svg {
 	padding: 0;
 }
 
-.intera-nav-drawer-list a {
+.intera-nav-drawer-list a:not(.itr-btn) {
 	display: block;
 	font-size: var(--text-lg);
 	color: var(--ink-800);
@@ -716,11 +742,19 @@ details[open] summary svg {
 	border-bottom: 1px solid var(--border-hairline);
 }
 
+/* The call to action the bar gives up below 760px (§12). It is the first row
+   of the drawer rather than the last so the menu's own `:last-child` rule
+   keeps meaning "the last link", open or closed. */
+.intera-nav-drawer-cta {
+	display: none;
+	padding: 6px 0 14px;
+}
+
 .intera-nav-drawer-list > li:last-child > a {
 	border-bottom: 0;
 }
 
-.intera-nav-drawer-list a:hover,
+.intera-nav-drawer-list a:not(.itr-btn):hover,
 .intera-nav-drawer-list .current-menu-item > a {
 	color: var(--ink-900);
 }
@@ -1398,9 +1432,12 @@ a.itr-foot-link:focus-visible,
 
 /* ==========================================================================
    12. Media queries
-   1040px — the navigation switches between the desktop bar and the drawer
-   900px  — footer columns, two-column splits, the floating hero card
-   760px  — staggered rows, screenshot crops, the pricing table scroller
+   1040px — the navigation switches between the desktop bar and the drawer,
+            the compact bar tightens, the docs rail stops being a column
+   900px  — footer columns, two-column splits, the floating hero card, the
+            side rails, the docs tree's place in the order, the signal chain
+   760px  — staggered rows, screenshot crops, the pricing table scroller, the
+            call to action's move from the bar into the drawer
    (hover: none) and (prefers-reduced-motion: reduce) close the file so their
    transform overrides win on source order without !important.
    ========================================================================== */
@@ -1417,6 +1454,27 @@ a.itr-foot-link:focus-visible,
 }
 
 @media (max-width: 1039.98px) {
+
+	/* The bar is now the lockup, the call to action and the burger on one
+	   76px line. At 24px of gap that row is 413px wide and a 360px phone
+	   pushes the burger — the only way into the menu — off the right edge of
+	   a fixed header nothing can scroll. 12px is what still reads as a gap. */
+	.intera-masthead-bar {
+		gap: 12px;
+	}
+
+	/* The docs screen is three columns, not two, so its "on this page" rail
+	   wraps onto its own line ~150px before the two-column pages do. Once it
+	   has, it is a block under the article and takes the width of one. */
+	.intera-toc--rail {
+		flex-basis: 100%;
+		min-width: 0;
+	}
+
+	.intera-toc--rail.intera-rail--sticky {
+		position: static;
+	}
+
 	.intera-nav-toggle:checked ~ .intera-nav-drawer {
 		display: flex;
 	}
@@ -1456,11 +1514,47 @@ a.itr-foot-link:focus-visible,
 		margin-top: 12px;
 		box-shadow: var(--shadow-sm);
 	}
+
+	/* A rail has wrapped onto its own line by now: it takes the whole line,
+	   and it stops being sticky, because a full-width sticky block slides
+	   over the article that follows it instead of beside it. */
+	.intera-rail {
+		flex-basis: 100%;
+		min-width: 0;
+	}
+
+	.intera-rail--sticky {
+		position: static;
+	}
+
+	/* Content before navigation: the docs tree is thirty links, and reading
+	   one page should not start with scrolling past all of them. It keeps its
+	   place in the document, so the tab order still opens with the tree. */
+	.intera-doc-tree {
+		order: 3;
+	}
+
+	/* Four panels and three chevrons need 838px of line. Below that the chain
+	   wraps and the chevrons point at the panel underneath, so they go. */
+	.itr-signal-chain__sep {
+		display: none;
+	}
 }
 
 @media (max-width: 760px) {
 	body {
 		overflow-wrap: break-word;
+	}
+
+	/* Even at 12px of gap the lockup, a 144px call to action and the burger
+	   want 411px of bar; a phone has 320–414. The call to action leaves the
+	   bar and opens the drawer instead, so the burger keeps its gutter. */
+	.intera-nav-narrow--drawer > .itr-btn {
+		display: none;
+	}
+
+	.intera-nav-drawer-cta {
+		display: block;
 	}
 
 	.itr-cols-4 {
@@ -1577,8 +1671,13 @@ a.itr-foot-link:focus-visible,
 	display: none;
 }
 
+/* The plugin opens the block with `margin: 80px auto 0`. In `04-faq` the
+   content column opens with its first <h2>, level with the top of the rail —
+   and on a phone, where the rail is the block above rather than the column
+   beside, those 80px stack on the 48px the column gap already draws. */
 .intera-faq .betterdocs-faq-wrapper {
 	background: none !important;
+	margin-top: 0;
 }
 
 /* Group heading: `04-faq` L44 — h2 at --text-2xl over the hairline the list
@@ -1598,6 +1697,13 @@ a.itr-foot-link:focus-visible,
 	color: var(--ink-900) !important;
 	scroll-margin-top: 100px;
 	margin: 0;
+}
+
+/* The plugin pads that heading by 20px on all four sides, which indents the
+   group title away from the rule and the questions under it — visible at any
+   width, glaring at 350px of column. Four classes to beat the plugin's four. */
+.intera-faq .betterdocs-faq-wrapper .betterdocs-faq-inner-wrapper .betterdocs-faq-title .betterdocs-faq-title-tag {
+	padding: 0;
 }
 
 .intera-faq .betterdocs-faq-list {

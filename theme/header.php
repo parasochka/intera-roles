@@ -169,7 +169,14 @@ $intera_nav_link_classes = static function ( $intera_class ) {
 			?>
 		</span>
 
-		<span class="intera-nav-narrow">
+		<?php
+		/*
+		 * `--drawer` says there is a drawer to hand the call to action to
+		 * below 760px. With no menu assigned to `primary` there is no burger
+		 * and no drawer, so the bar keeps the button at every width.
+		 */
+		?>
+		<span class="intera-nav-narrow<?php echo $intera_has_primary ? ' intera-nav-narrow--drawer' : ''; ?>">
 			<?php
 			if ( $intera_has_cta ) {
 				get_template_part(
@@ -216,6 +223,34 @@ $intera_nav_link_classes = static function ( $intera_class ) {
 		add_filter( 'nav_menu_link_attributes', $intera_drawer_links );
 		add_filter( 'nav_menu_item_id', '__return_empty_string' );
 
+		/*
+		 * Below 760px the bar cannot hold the lockup, the call to action and
+		 * the burger at once, so the call to action is the drawer's first row
+		 * instead (`.intera-nav-drawer-cta`, hidden until that breakpoint).
+		 * It is the same button, rendered once more — the bar's copy is the
+		 * one that disappears.
+		 */
+		if ( $intera_has_cta ) {
+			ob_start();
+			get_template_part(
+				'template-parts/components/button',
+				null,
+				array(
+					'label' => $intera_cta_label,
+					'href'  => $intera_cta_url,
+					'size'  => 'lg',
+					'block' => true,
+				)
+			);
+			$intera_drawer_cta = trim( (string) ob_get_clean() );
+
+			$intera_drawer_cta_item = static function ( $intera_items ) use ( $intera_drawer_cta ) {
+				return '<li class="intera-nav-drawer-cta">' . $intera_drawer_cta . '</li>' . $intera_items;
+			};
+
+			add_filter( 'wp_nav_menu_items', $intera_drawer_cta_item );
+		}
+
 		wp_nav_menu(
 			array(
 				'theme_location'       => 'primary',
@@ -229,6 +264,10 @@ $intera_nav_link_classes = static function ( $intera_class ) {
 				'fallback_cb'          => false,
 			)
 		);
+
+		if ( $intera_has_cta ) {
+			remove_filter( 'wp_nav_menu_items', $intera_drawer_cta_item );
+		}
 
 		remove_filter( 'nav_menu_item_id', '__return_empty_string' );
 		remove_filter( 'nav_menu_link_attributes', $intera_drawer_links );
