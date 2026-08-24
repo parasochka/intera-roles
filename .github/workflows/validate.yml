@@ -67,6 +67,24 @@ jobs:
           [ "$missing" -eq 0 ] || exit 1
           echo "Design system present and every @import resolves."
 
+      - name: Refuse a renamed meta capability
+        run: |
+          set -e
+          # register_post_type() copies a renamed `edit_post`, `read_post` or
+          # `delete_post` into the global $post_type_meta_caps map, and
+          # map_meta_cap() then treats the *target* name as a meta capability
+          # site-wide. Pointing one at a primitive cap such as manage_options
+          # makes every current_user_can() for it fail, for administrators too,
+          # and takes half of wp-admin down with it. This shipped once already.
+          if grep -rnE "'(edit_post|read_post|delete_post)'[[:space:]]*=>" theme --include='*.php' \
+               | grep -vE "=>[[:space:]]*'(edit_post|read_post|delete_post)'" >/dev/null 2>&1; then
+            echo "::error title=Renamed meta capability::A post type renames edit_post, read_post or delete_post. That poisons \$post_type_meta_caps and breaks the target capability site-wide — rename only the primitive capabilities."
+            grep -rnE "'(edit_post|read_post|delete_post)'[[:space:]]*=>" theme --include='*.php' \
+              | grep -vE "=>[[:space:]]*'(edit_post|read_post|delete_post)'" || true
+            exit 1
+          fi
+          echo "No meta capability is renamed."
+
       - name: Warn on hard-coded colors outside the design system
         continue-on-error: true
         run: |
