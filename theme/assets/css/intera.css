@@ -2220,10 +2220,214 @@ a.itr-foot-link:focus-visible,
 	height: 18px;
 }
 
-/* The modal is the plugin's own overlay and stays that way — it is a layer
-   over the page, not a piece of this column. Only its card is re-cut. */
-.betterdocs-modalwindow .modal-content {
-	border-radius: var(--radius-lg);
+/* The feedback modal.
+   -------------------------------------------------------------------------
+   It stays the plugin's overlay — the plugin opens it, closes it and posts
+   from it — and everything below only re-cuts what it looks like: a dialog
+   from the design system, its fields the `.itr-input` body and its submit the
+   primary `.itr-btn`, token for token, because the markup is not ours to give
+   those classes to. Those three sheets have to be changed together.
+
+   The declarations are on `.intera-doc-plugin` for reach: the plugin styles
+   its submit through an id, so nothing shorter than one class plus that id
+   would out-specify it. */
+.intera-doc-plugin .betterdocs-modalwindow {
+	padding: 20px;
+	background: rgba(14, 26, 43, .45);
+	background: color-mix(in srgb, var(--ink-900) 45%, transparent);
+}
+
+.intera-doc-plugin .betterdocs-modalwindow .modal-content {
+	position: relative;
+	width: 100%;
+	max-width: 460px;
+	padding: clamp(20px, 5vw, 28px);
+	background: var(--surface-card);
+	border: 1px solid var(--border-subtle);
+	border-radius: var(--radius-panel);
+	box-shadow: var(--shadow-overlay);
+	/* The plugin parks the card a fifth of the viewport low and animates it up;
+	   as a dialog it belongs in the middle of the screen from the start. */
+	transform: none;
+}
+
+/* Close: the design's icon button, at the size the card's padding leaves. */
+.intera-doc-plugin .betterdocs-modalwindow .close {
+	top: 10px;
+	right: 10px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	padding: 0;
+	color: var(--ink-600);
+	border-radius: var(--radius-control);
+	transition: var(--transition-control);
+}
+
+.intera-doc-plugin .betterdocs-modalwindow .close:hover {
+	background: var(--surface-hover);
+	color: var(--ink-900);
+}
+
+.intera-doc-plugin .betterdocs-modalwindow .close:focus-visible {
+	outline: 2px solid var(--focus-ring);
+	outline-offset: 2px;
+}
+
+.intera-doc-plugin .betterdocs-modalwindow .close svg {
+	display: block;
+	width: 13px;
+	height: 13px;
+}
+
+.intera-doc-plugin .betterdocs-modalwindow h2,
+.intera-doc-plugin .betterdocs-modalwindow .feedback-form-title {
+	margin: 0;
+	padding-right: 28px;
+	font-family: var(--font-sans);
+	font-size: var(--text-xl);
+	font-weight: var(--weight-semibold);
+	line-height: var(--leading-tight);
+	color: var(--ink-900);
+}
+
+.intera-doc-plugin .betterdocs-modalwindow .form-wrapper {
+	margin-top: 18px;
+}
+
+.intera-doc-plugin .betterdocs-feedback-form,
+.intera-doc-plugin .betterdocs-feedback-form p {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+	margin: 0;
+}
+
+.intera-doc-plugin .betterdocs-feedback-form p {
+	gap: 0;
+}
+
+/* A label here is "Name: * <br> <field>" — one text node, one asterisk and one
+   control. Kept a block so the first two stay on one line, with the `<br>`
+   dropped because the field is block-level and starts its own line anyway. */
+.intera-doc-plugin .betterdocs-feedback-form label {
+	display: block;
+	width: 100%;
+	font-family: var(--font-sans);
+	font-size: var(--text-sm);
+	font-weight: var(--weight-medium);
+	line-height: 1.3;
+	color: var(--ink-800);
+}
+
+.intera-doc-plugin .betterdocs-feedback-form label span {
+	color: var(--status-critical);
+}
+
+.intera-doc-plugin .betterdocs-feedback-form label br {
+	display: none;
+}
+
+/* The field body is `.itr-input`'s, declaration for declaration. */
+.intera-doc-plugin .betterdocs-feedback-form input[type="text"],
+.intera-doc-plugin .betterdocs-feedback-form input[type="email"],
+.intera-doc-plugin .betterdocs-feedback-form textarea {
+	width: 100%;
+	margin-top: 6px;
+	padding: 0 12px;
+	height: var(--control-height-md);
+	font-family: var(--font-sans);
+	font-size: var(--text-md);
+	color: var(--text-primary);
+	background: var(--surface-card);
+	border: 1px solid var(--border-default);
+	border-radius: var(--radius-control);
+	transition: var(--transition-control);
+}
+
+.intera-doc-plugin .betterdocs-feedback-form input[type="text"]::placeholder,
+.intera-doc-plugin .betterdocs-feedback-form input[type="email"]::placeholder,
+.intera-doc-plugin .betterdocs-feedback-form textarea::placeholder {
+	color: var(--text-muted);
+}
+
+.intera-doc-plugin .betterdocs-feedback-form input[type="text"]:hover,
+.intera-doc-plugin .betterdocs-feedback-form input[type="email"]:hover,
+.intera-doc-plugin .betterdocs-feedback-form textarea:hover {
+	border-color: var(--border-strong);
+}
+
+.intera-doc-plugin .betterdocs-feedback-form input[type="text"]:focus,
+.intera-doc-plugin .betterdocs-feedback-form input[type="email"]:focus,
+.intera-doc-plugin .betterdocs-feedback-form textarea:focus {
+	outline: none;
+	border-color: var(--focus-ring);
+	box-shadow: var(--ring-focus);
+}
+
+.intera-doc-plugin .betterdocs-feedback-form textarea {
+	height: auto;
+	min-height: 112px;
+	padding: 9px 12px;
+	line-height: var(--leading-normal);
+	resize: vertical;
+}
+
+/* Submit: `.itr-btn` + `.itr-btn--primary` + `.itr-btn--md`. An input centres
+   its own label vertically, so the height and padding are all it needs. */
+.intera-doc-plugin .betterdocs-feedback-form #feedback_form_submit_btn {
+	width: auto;
+	height: var(--control-height-md);
+	padding: 0 16px;
+	font-family: var(--font-sans);
+	font-size: var(--text-md);
+	font-weight: var(--weight-medium);
+	color: var(--text-on-accent);
+	background: var(--action-primary);
+	border: 1px solid transparent;
+	border-radius: var(--radius-control);
+	box-shadow: var(--shadow-xs);
+	cursor: pointer;
+	transition: var(--transition-control);
+}
+
+.intera-doc-plugin .betterdocs-feedback-form #feedback_form_submit_btn:hover {
+	background: var(--action-primary-hover);
+	opacity: 1;
+}
+
+.intera-doc-plugin .betterdocs-feedback-form #feedback_form_submit_btn:active {
+	background: var(--action-primary-active);
+}
+
+.intera-doc-plugin .betterdocs-feedback-form #feedback_form_submit_btn:focus-visible {
+	outline: 2px solid var(--focus-ring);
+	outline-offset: 2px;
+}
+
+/* What the form answers with: the plugin fills `.response` on success and
+   marks a field `.val-error` with an `.error-message` under it. */
+.intera-doc-plugin .betterdocs-modalwindow .response:not(:empty) {
+	margin-bottom: 14px;
+	padding: 10px 12px;
+	font-size: var(--text-sm);
+	line-height: var(--leading-normal);
+	color: var(--ink-700);
+	background: var(--surface-sunken);
+	border-radius: var(--radius-md);
+}
+
+.intera-doc-plugin .betterdocs-feedback-form .val-error {
+	border-color: var(--status-critical);
+}
+
+.intera-doc-plugin .betterdocs-feedback-form .error-message {
+	margin-top: 4px;
+	font-size: var(--text-xs);
+	line-height: var(--leading-normal);
+	color: var(--status-critical);
 }
 
 /* Print sits with the article's meta, right-aligned above the body. */
