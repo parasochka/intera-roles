@@ -67,12 +67,36 @@ $intera_chain_captions = array(
 );
 ?>
 
-<section data-screen-label="Product header" style="background: var(--surface-page); border-bottom: 1px solid var(--border-hairline)">
-	<div style="max-width: 1160px; margin: 0 auto; padding: clamp(37px, 7vw, 64px) clamp(20px, 5vw, 24px) clamp(32px, 7vw, 56px)">
-		<?php intera_breadcrumbs(); ?>
+<section data-screen-label="Product header" style="position: relative; overflow: hidden; background: var(--ink-950)">
+	<?php
+	/*
+	 * The home page's hero ground, verbatim: the 1160px column rules, the two
+	 * ambient washes and the corner lock-up mark. One band opens the site and
+	 * this one opens the product, so they are the same band — see the Hero
+	 * section of front-page.php, which this is quoted from.
+	 */
+	?>
+	<div aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none; overflow: hidden">
+		<div style="position: absolute; inset: 0; max-width: 1160px; margin: 0 auto">
+			<div style="position: absolute; top: 0; bottom: 0; left: 0; width: 1px; background: rgba(255,255,255,.07)"></div>
+			<div style="position: absolute; top: 0; bottom: 0; left: 25%; width: 1px; background: rgba(255,255,255,.07)"></div>
+			<div style="position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; background: rgba(255,255,255,.07)"></div>
+			<div style="position: absolute; top: 0; bottom: 0; left: 75%; width: 1px; background: rgba(255,255,255,.07)"></div>
+			<div style="position: absolute; top: 0; bottom: 0; left: 100%; width: 1px; background: rgba(255,255,255,.07)"></div>
+		</div>
+		<div style="position: absolute; right: -260px; top: 50%; transform: translateY(-50%); width: 1180px; height: 1180px; background: radial-gradient(circle, var(--wash-blue-dark) 0%, transparent 62%)"></div>
+		<div style="position: absolute; right: -60px; bottom: -360px; width: 820px; height: 820px; background: radial-gradient(circle, var(--wash-teal-dark) 0%, transparent 62%)"></div>
+		<svg viewBox="0 0 40 40" width="720" height="720" fill="none" style="position: absolute; right: -180px; top: -160px">
+			<rect x="5" y="5" width="22" height="22" rx="3.5" stroke="rgba(255,255,255,.075)" stroke-width="0.5"></rect>
+			<rect x="13" y="13" width="14" height="14" fill="rgba(255,255,255,.028)"></rect>
+			<rect x="13" y="13" width="22" height="22" rx="3.5" stroke="rgba(255,255,255,.075)" stroke-width="0.5"></rect>
+		</svg>
+	</div>
+	<div style="position: relative; max-width: 1160px; margin: 0 auto; padding: clamp(37px, 7vw, 64px) clamp(20px, 5vw, 24px) clamp(32px, 7vw, 56px)">
+		<?php intera_breadcrumbs( array(), array( 'inverse' => true ) ); ?>
 		<div class="itr-1col" style="--itr-cols: minmax(0, 1fr) minmax(0, 420px); margin-top: 24px; gap: 56px; align-items: start">
 			<div>
-				<h1 style="font-size: clamp(30px, 3.2vw, 38px); font-weight: 600; letter-spacing: -0.02em; line-height: 1.14; color: var(--ink-900); max-width: 560px; text-wrap: pretty"><?php
+				<h1 style="font-size: clamp(30px, 3.2vw, 38px); font-weight: 600; letter-spacing: -0.02em; line-height: 1.14; color: var(--white); max-width: 560px; text-wrap: pretty"><?php
 					/*
 					 * The design's headline, not the page title. The two are
 					 * different jobs: the title is what the breadcrumb and the
@@ -83,7 +107,7 @@ $intera_chain_captions = array(
 					echo esc_html( '' !== $intera_headline ? $intera_headline : get_the_title() );
 					?></h1>
 				<?php if ( '' !== trim( (string) get_the_content() ) ) : ?>
-					<div class="intera-prose" style="--itr-prose-max: 520px; margin-top: 20px"><?php the_content(); ?></div>
+					<div class="intera-prose intera-prose--inverse" style="--itr-prose-max: 520px; margin-top: 20px"><?php the_content(); ?></div>
 				<?php endif; ?>
 				<div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px">
 					<?php
@@ -92,9 +116,10 @@ $intera_chain_captions = array(
 							'template-parts/components/button',
 							null,
 							array(
-								'label' => $intera_cta_label,
-								'href'  => $intera_cta_url,
-								'size'  => 'lg',
+								'label'   => $intera_cta_label,
+								'href'    => $intera_cta_url,
+								'size'    => 'lg',
+								'variant' => 'inverse',
 							)
 						);
 					}
@@ -107,7 +132,7 @@ $intera_chain_captions = array(
 								'label'      => intera_copy( 'product_product_header__read_the_docs' ),
 								'href'       => $intera_docs_url,
 								'size'       => 'lg',
-								'variant'    => 'secondary',
+								'variant'    => 'outlineInverse',
 								'icon_right' => 'arrow-right',
 							)
 						);

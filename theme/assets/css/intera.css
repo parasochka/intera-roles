@@ -358,6 +358,12 @@ a.itr-crumb:hover {
 	color: var(--ink-600);
 }
 
+/* The same trail on a dark band. The resting colour is inline (the tag builds
+   it), so only the hover has to be restated here. */
+a.itr-crumb--inverse:hover {
+	color: rgba(255, 255, 255, .92);
+}
+
 /* Header navigation — desktop bar and burger drawer. */
 a.itr-nav-link {
 	font-size: var(--text-md);
@@ -383,7 +389,12 @@ a.itr-foot-link {
 	color: rgba(255,255,255,.72);
 }
 
+/* The dim variant is the contact address in the legal strip, not one of the
+   15px links in the columns above it. Without the size reset it inherits
+   a.itr-foot-link's --text-md and sits three pixels taller than the domain
+   beside it, which reads as a misalignment because it is one. */
 a.itr-foot-link--dim {
+	font-size: inherit;
 	color: rgba(255,255,255,.45);
 }
 
@@ -941,6 +952,106 @@ details[open] summary svg {
 .intera-prose td.intera-num,
 .intera-prose th.intera-num {
 	text-align: right;
+}
+
+/* --------------------------------------------------------------------------
+   Figure tiles — the Early Adopter row on the pricing page.
+
+   The big number is plan content, not a fixed string: "25", "unlimited" and
+   "1 included" are all real values an editor can set. At the handoff's 25px the
+   longer ones wrap inside the ~170px track the three tiles get, and a figure on
+   two lines pushes its own label down while the neighbouring labels stay where
+   they were — the row stops reading as a row.
+
+   So the figure is one line by construction, at the next size down, which is
+   what the longest of these values fits on. And the label is pinned to the
+   bottom of the tile rather than stacked under the figure, so the three labels
+   stay on one line across the row even if a figure or a label does grow.
+   -------------------------------------------------------------------------- */
+
+.itr-figure-tile {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	min-width: 0;
+}
+
+.itr-figure-tile .itr-figure {
+	font-family: var(--font-mono);
+	font-size: var(--text-xl);
+	line-height: 1.2;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/* --------------------------------------------------------------------------
+   Editor prose on a dark band.
+
+   The product page opens on the same ink-950 hero the home page does, and the
+   words in it are `the_content()` — real editor prose, not a hardcoded lead
+   paragraph. Everything above paints for the white canvas, so this modifier
+   restates only the colours, in the white alphas the dark sections already use
+   (.86 for a heading, .68 for body text, .52 for a caption). Sizes, rhythm and
+   structure are untouched: it is the same prose, lit from the other side.
+   -------------------------------------------------------------------------- */
+
+.intera-prose--inverse p,
+.intera-prose--inverse li,
+.intera-prose--inverse td {
+	color: rgba(255, 255, 255, .68);
+}
+
+.intera-prose--inverse .intera-lede,
+.intera-prose--inverse .has-large-font-size {
+	color: rgba(255, 255, 255, .72);
+}
+
+.intera-prose--inverse h1,
+.intera-prose--inverse h2,
+.intera-prose--inverse h3,
+.intera-prose--inverse h4,
+.intera-prose--inverse h5,
+.intera-prose--inverse h6,
+.intera-prose--inverse strong {
+	color: var(--white);
+}
+
+.intera-prose--inverse blockquote {
+	border-color: rgba(255, 255, 255, .24);
+}
+
+.intera-prose--inverse blockquote cite,
+.intera-prose--inverse blockquote footer,
+.intera-prose--inverse blockquote .wp-block-quote__citation,
+.intera-prose--inverse th {
+	color: rgba(255, 255, 255, .52);
+}
+
+.intera-prose--inverse code,
+.intera-prose--inverse pre {
+	background: rgba(255, 255, 255, .08);
+	border-color: rgba(255, 255, 255, .16);
+	color: rgba(255, 255, 255, .86);
+}
+
+.intera-prose--inverse th {
+	background: rgba(255, 255, 255, .06);
+}
+
+.intera-prose--inverse th,
+.intera-prose--inverse td {
+	border-bottom-color: rgba(255, 255, 255, .14);
+}
+
+.intera-prose--inverse a:not(.itr-btn) {
+	color: var(--blue-200);
+	border-bottom-color: rgba(255, 255, 255, .34);
+}
+
+.intera-prose--inverse a:not(.itr-btn):hover {
+	color: var(--white);
+	border-bottom-color: var(--white);
 }
 
 /* The same table treatment when a table is inside the pricing scroller. */

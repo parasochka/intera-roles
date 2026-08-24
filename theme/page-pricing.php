@@ -205,8 +205,9 @@ $intera_questions = array(
 <?php endif; ?>
 
 <?php if ( $intera_columns && $intera_row_keys ) : ?>
-<section data-screen-label="Comparison" style="background: var(--surface-sunken); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle)">
-	<div style="max-width: 1160px; margin: 0 auto; padding: clamp(42px, 7vw, 72px) clamp(20px, 5vw, 24px)">
+<section data-screen-label="Comparison" style="position: relative; overflow: hidden; background: var(--surface-sunken); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle)">
+	<div aria-hidden="true" style="position: absolute; left: 84%; top: 22%; width: 860px; height: 860px; transform: translate(-50%,-50%); pointer-events: none; background: radial-gradient(circle, var(--wash-teal) 0%, transparent 68%)"></div>
+	<div style="position: relative; max-width: 1160px; margin: 0 auto; padding: clamp(42px, 7vw, 72px) clamp(20px, 5vw, 24px)">
 		<h2 style="font-size: var(--text-2xl); font-weight: 600; letter-spacing: -0.01em; color: var(--ink-900)"><?php echo esc_html( $intera_table_title ); ?></h2>
 		<div class="itr-scroll-x" tabindex="0" role="region" aria-label="<?php echo esc_attr( $intera_table_title ); ?>" style="margin-top: 24px; background: var(--white); border: 1px solid var(--border-card); border-radius: var(--radius-card)">
 			<table style="width: 100%; border-collapse: collapse">
@@ -271,8 +272,8 @@ $intera_questions = array(
 		<?php if ( $intera_tiles ) : ?>
 			<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(140px, 100%), 1fr)); gap: 12px">
 				<?php foreach ( $intera_tiles as $intera_tile ) : ?>
-					<div class="itr-panel" style="border-radius: var(--radius-card); padding: 18px">
-						<div style="font-family: var(--font-mono); font-size: var(--text-2xl); color: var(--white)"><?php echo esc_html( $intera_tile[0] ); ?></div>
+					<div class="itr-panel itr-figure-tile" style="border-radius: var(--radius-card); padding: 18px">
+						<div class="itr-figure" style="color: var(--white)"><?php echo esc_html( $intera_tile[0] ); ?></div>
 						<div style="font-size: var(--text-xs); color: rgba(255,255,255,.6); margin-top: 6px"><?php echo esc_html( $intera_tile[1] ); ?></div>
 					</div>
 				<?php endforeach; ?>

@@ -826,10 +826,23 @@ if ( ! function_exists( 'intera_breadcrumbs' ) ) :
 	/**
 	 * Print the breadcrumb row.
 	 *
+	 * The trail is drawn for the white page canvas. On a dark band — the product
+	 * page opens on one — the ink colours vanish into the background, so
+	 * `inverse` swaps them for the same white alphas the dark sections use for
+	 * every other run of text. Only the three colours change; the markup, the
+	 * separators and the `aria-current` on the last crumb are the same trail.
+	 *
 	 * @param array $crumbs Explicit crumbs; derived from the query when empty.
+	 * @param array $args   'inverse' => bool, for a crumb row on a dark band.
 	 * @return void
 	 */
-	function intera_breadcrumbs( $crumbs = array() ) {
+	function intera_breadcrumbs( $crumbs = array(), $args = array() ) {
+		$args = wp_parse_args( $args, array( 'inverse' => false ) );
+
+		$row_color     = $args['inverse'] ? 'rgba(255,255,255,.42)' : 'var(--text-muted)';
+		$link_color    = $args['inverse'] ? 'rgba(255,255,255,.62)' : 'var(--text-muted)';
+		$current_color = $args['inverse'] ? 'rgba(255,255,255,.86)' : 'var(--ink-600)';
+		$link_class    = $args['inverse'] ? 'itr-crumb itr-crumb--inverse' : 'itr-crumb';
 		$crumbs = intera_breadcrumbs_normalise( $crumbs );
 
 		if ( empty( $crumbs ) ) {
@@ -849,7 +862,7 @@ if ( ! function_exists( 'intera_breadcrumbs' ) ) :
 
 		$last = count( $crumbs ) - 1;
 
-		echo '<nav class="intera-breadcrumbs" aria-label="' . esc_attr__( 'Breadcrumb', 'intera' ) . '" style="display: flex; gap: 8px; align-items: center; font-size: var(--text-xs); color: var(--text-muted); font-family: var(--font-mono)">';
+		echo '<nav class="intera-breadcrumbs" aria-label="' . esc_attr__( 'Breadcrumb', 'intera' ) . '" style="display: flex; gap: 8px; align-items: center; font-size: var(--text-xs); color: ' . esc_attr( $row_color ) . '; font-family: var(--font-mono)">';
 
 		foreach ( $crumbs as $position => $crumb ) {
 			if ( $position > 0 ) {
@@ -858,8 +871,10 @@ if ( ! function_exists( 'intera_breadcrumbs' ) ) :
 
 			if ( '' !== $crumb['url'] ) {
 				printf(
-					'<a class="itr-crumb" href="%1$s" style="color: var(--text-muted)">%2$s</a>',
+					'<a class="%1$s" href="%2$s" style="color: %3$s">%4$s</a>',
+					esc_attr( $link_class ),
 					esc_url( $crumb['url'] ),
+					esc_attr( $link_color ),
 					esc_html( $crumb['label'] )
 				);
 
@@ -867,8 +882,9 @@ if ( ! function_exists( 'intera_breadcrumbs' ) ) :
 			}
 
 			printf(
-				'<span%1$s style="color: var(--ink-600)">%2$s</span>',
+				'<span%1$s style="color: %2$s">%3$s</span>',
 				$position === $last ? ' aria-current="page"' : '',
+				esc_attr( $current_color ),
 				esc_html( $crumb['label'] )
 			);
 		}

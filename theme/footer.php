@@ -150,7 +150,7 @@ $intera_legal_link_filter = $intera_foot_link_classes( 'itr-foot-link itr-foot-l
 	</div>
 
 	<div style="border-top: 1px solid var(--border-inverse)">
-		<div style="max-width: 1160px; margin: 0 auto; padding: 20px clamp(20px, 5vw, 24px); display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; font-size: var(--text-xs); color: rgba(255,255,255,.45)">
+		<div style="max-width: 1160px; margin: 0 auto; padding: 20px clamp(20px, 5vw, 24px); display: flex; flex-wrap: wrap; gap: 12px; align-items: baseline; justify-content: space-between; font-size: var(--text-xs); color: rgba(255,255,255,.45)">
 			<span class="intera-copyright"><?php echo esc_html( $intera_copyright ); ?></span>
 
 			<?php
@@ -174,7 +174,7 @@ $intera_legal_link_filter = $intera_foot_link_classes( 'itr-foot-link itr-foot-l
 			}
 			?>
 
-			<span style="font-family: var(--font-mono); display: flex; gap: 18px">
+			<span style="font-family: var(--font-mono); display: flex; gap: 18px; align-items: baseline">
 				<?php if ( '' !== $intera_site_domain ) : ?>
 					<span class="intera-site-domain"><?php echo esc_html( $intera_site_domain ); ?></span>
 				<?php endif; ?>

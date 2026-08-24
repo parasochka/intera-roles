@@ -595,8 +595,9 @@ get_header();
 	</div>
 </section>
 
-<section data-screen-label="Start small" style="background: var(--surface-page); border-top: 1px solid var(--border-hairline)">
-	<div style="max-width: 1160px; margin: 0 auto; padding: clamp(46px, 7vw, 80px) clamp(20px, 5vw, 24px)">
+<section data-screen-label="Start small" style="position: relative; overflow: hidden; background: var(--surface-sunken); border-top: 1px solid var(--border-subtle)">
+	<div aria-hidden="true" style="position: absolute; left: 16%; top: 24%; width: 860px; height: 860px; transform: translate(-50%,-50%); pointer-events: none; background: radial-gradient(circle, var(--wash-blue) 0%, transparent 68%)"></div>
+	<div style="position: relative; max-width: 1160px; margin: 0 auto; padding: clamp(46px, 7vw, 80px) clamp(20px, 5vw, 24px)">
 		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 48px; align-items: start">
 			<div>
 				<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'home_start_small__start_small' ) ); ?></div>
@@ -642,7 +643,7 @@ get_header();
 	</div>
 </section>
 
-<section id="pricing" data-screen-label="Pricing" style="background: var(--surface-sunken); border-top: 1px solid var(--border-subtle)">
+<section id="pricing" data-screen-label="Pricing" style="background: var(--surface-page)">
 	<div style="max-width: 1160px; margin: 0 auto; padding: clamp(51px, 7vw, 88px) clamp(20px, 5vw, 24px)">
 		<div style="max-width: 640px; margin: 0 auto 44px; text-align: center">
 			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'home_pricing__pricing' ) ); ?></div>

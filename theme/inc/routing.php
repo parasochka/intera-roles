@@ -246,6 +246,82 @@ function intera_reconcile_category_base() {
 }
 
 /**
+ * Stop the category archive rules from swallowing every article URL.
+ *
+ * This structure asks WordPress for two things that overlap:
+ *
+ *     /blog/<category>/          category archive   (category base `blog`)
+ *     /blog/<category>/<post>/   article            (/blog/%category%/%postname%/)
+ *
+ * The category permastruct is `blog/%category%`, and `%category%` is compiled
+ * to `(.+?)` because a category can be nested — a regex that happily matches a
+ * slash. So the archive rule is `blog/(.+?)/?$`, and the category rules are
+ * merged into the rule set *before* the post rules. Every article URL therefore
+ * matches the archive rule first and resolves to
+ * `category_name=release-information/v-0-003-2026-08-13`, a category that does
+ * not exist, and the request 404s. The archive still worked, which is what made
+ * it look like a content problem: the whole blog was reachable except the posts.
+ *
+ * Verbose page rules do not save it. They run first and, for a path that is not
+ * a page, `WP::parse_request()` skips to the next rule — which is the archive
+ * rule, not the article rule.
+ *
+ * The fix is to bound the archive rules to a single path segment. `blog/([^/]+)`
+ * matches `/blog/<category>/` and its feed, embed and paged variants exactly as
+ * before, and stops matching anything deeper, so `/blog/<category>/<post>/`
+ * falls through to the article rule it was always meant to hit.
+ *
+ * The cost is that a **nested** category has no archive URL: `/blog/parent/child/`
+ * is read as the article `child` in the category `parent`. That ambiguity is in
+ * the URL itself, not in this filter — the two addresses are identical and one
+ * of them has to win. Articles win, because this is the shape the site's blog
+ * links are built from. Categories here are flat; if that ever changes, the
+ * category base has to move out from under `/blog/` instead.
+ *
+ * Applied to the finished rule set rather than to `category_rewrite_rules`, so
+ * it does not depend on where in the merge those rules land. A rule is a
+ * category rule when it sits under the base, sets `category_name`, and does not
+ * also set `name` — which is exactly what separates the archive rules from the
+ * article rules that legitimately capture a category too.
+ *
+ * @param array<string,string> $rules Rewrite rules, regex => query.
+ * @return array<string,string>
+ */
+function intera_bound_category_rules( $rules ) {
+	$base = intera_category_base();
+
+	// No base, or a base the article URLs do not sit under: nothing overlaps.
+	if ( '' === $base || 0 !== strpos( ltrim( INTERA_PERMALINK_STRUCTURE, '/' ), $base . '/' ) ) {
+		return $rules;
+	}
+
+	$prefix = $base . '/';
+	$bound  = array();
+
+	foreach ( (array) $rules as $regex => $query ) {
+		$is_archive_rule = (
+			0 === strpos( $regex, $prefix )
+			&& false !== strpos( $query, 'category_name=$matches[' )
+			&& false === strpos( $query, '&name=$matches[' )
+		);
+
+		if ( $is_archive_rule ) {
+			$tightened = preg_replace( '#\(\.\+\?\)#', '([^/]+)', $regex, 1 );
+
+			// Only ever a narrowing, and never one that overwrites another rule.
+			if ( null !== $tightened && ! isset( $bound[ $tightened ] ) ) {
+				$regex = $tightened;
+			}
+		}
+
+		$bound[ $regex ] = $query;
+	}
+
+	return $bound;
+}
+add_filter( 'rewrite_rules_array', 'intera_bound_category_rules' );
+
+/**
  * Send a pre-redesign URL to its replacement with a 301.
  *
  * The old structure was `/<category>/<post>/` and `/<category>/`; the new one

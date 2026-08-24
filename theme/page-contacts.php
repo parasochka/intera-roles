@@ -223,8 +223,9 @@ $intera_send_card = (string) ob_get_clean();
 	</div>
 </section>
 
-<section data-screen-label="Who to talk to" style="background: var(--surface-sunken); border-top: 1px solid var(--border-subtle); margin-top: 40px">
-	<div style="max-width: 1160px; margin: 0 auto; padding: clamp(42px, 7vw, 72px) clamp(20px, 5vw, 24px)">
+<section data-screen-label="Who to talk to" style="position: relative; overflow: hidden; background: var(--surface-sunken); border-top: 1px solid var(--border-subtle); margin-top: 40px">
+	<div aria-hidden="true" style="position: absolute; left: 18%; top: 26%; width: 820px; height: 820px; transform: translate(-50%,-50%); pointer-events: none; background: radial-gradient(circle, var(--wash-amber) 0%, transparent 68%)"></div>
+	<div style="position: relative; max-width: 1160px; margin: 0 auto; padding: clamp(42px, 7vw, 72px) clamp(20px, 5vw, 24px)">
 		<h2 style="font-size: var(--text-2xl); font-weight: 600; letter-spacing: -0.01em; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'contacts_who_to_talk_to__three_reasons_people_write_to_us' ) ); ?></h2>
 		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 20px; margin-top: 26px">
 			<?php
