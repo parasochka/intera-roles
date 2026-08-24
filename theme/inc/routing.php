@@ -27,59 +27,36 @@ const INTERA_PERMALINK_STRUCTURE = '/blog/%category%/%postname%/';
 const INTERA_CATEGORY_BASE = 'blog';
 
 /**
- * Is something already stripping the category base out of archive URLs?
+ * The category base this site claims for archive URLs.
  *
- * Rank Math offers "Strip Category Base", and with it on the two settings are
- * not merely redundant, they are a redirect loop: the plugin 301s anything
- * under the base to the same path without it, and because this site's post
- * permalinks *also* begin with `/blog/`, every article gets stripped to
- * `/life-stories/<post>/` and sent straight back by WordPress's own canonical
- * redirect. The blog becomes unreachable.
+ * Empty, and deliberately so. The design puts category archives at
+ * `/blog/<category>/`, which WordPress can express as a `blog` category base —
+ * but this site also runs Rank Math with "Strip Category Base" on, and the two
+ * together are an infinite redirect rather than a cosmetic disagreement: Rank
+ * Math 301s anything under the base to the same path without it, WordPress
+ * canonically 301s it back, and because the post permalinks *also* begin with
+ * `/blog/`, every article on the site disappears between them. That was
+ * observed live, twice, with `x-redirect-by: Rank Math` one way and
+ * `x-redirect-by: WordPress` the other.
  *
- * So the base is only claimed when nothing else is competing for it.
+ * Two attempts to detect the plugin's setting and claim the base only when it
+ * was safe both read it wrong and left the blog down, so detection is gone.
+ * The base is not claimed at all, and the one path that claims it is explicit:
  *
- * @return bool
- */
-function intera_category_base_is_stripped() {
-	$rank_math = get_option( 'rank_math_options_general' );
-
-	// Read the setting where the plugin actually exposes it.
-	if ( is_array( $rank_math ) && array_key_exists( 'strip_category_base', $rank_math ) ) {
-		$setting = $rank_math['strip_category_base'];
-
-		return ! empty( $setting ) && 'off' !== $setting;
-	}
-
-	/*
-	 * Option not where we looked. Rank Math has moved and renamed this setting
-	 * between versions, and being wrong in this direction costs the entire
-	 * blog: `blog` as the category base plus anything stripping it is an
-	 * infinite 301 between the plugin and WordPress's canonical redirect. So
-	 * while the plugin is active and its answer is unreadable, assume the
-	 * conflict. Assuming it wrongly costs one path segment on archive URLs.
-	 */
-	if ( defined( 'RANK_MATH_VERSION' ) || defined( 'RANK_MATH_FILE' ) ) {
-		return true;
-	}
-
-	/**
-	 * Filters whether something removes the category base from archive URLs.
-	 *
-	 * Return false once the stripping is switched off and the design's
-	 * `/blog/<category>/` archives are safe to claim again.
-	 *
-	 * @param bool $stripped Whether the base is being stripped.
-	 */
-	return (bool) apply_filters( 'intera_category_base_is_stripped', false );
-}
-
-/**
- * The category base this site should be using right now.
+ *     add_filter( 'intera_category_base', fn() => 'blog' );
  *
- * @return string `blog` when the design's URL is safe to claim, '' otherwise.
+ * Switch the plugin's option off first. Articles are unaffected either way —
+ * `/blog/<category>/<post>/` comes from the permalink structure, not from here.
+ *
+ * @return string
  */
 function intera_category_base() {
-	return intera_category_base_is_stripped() ? '' : INTERA_CATEGORY_BASE;
+	/**
+	 * Filters the category base the theme claims.
+	 *
+	 * @param string $base Category base. '' leaves WordPress's default.
+	 */
+	return (string) apply_filters( 'intera_category_base', '' );
 }
 
 /** Slug of the page that becomes the blog root. */
@@ -196,7 +173,6 @@ function intera_bootstrap() {
 	}
 
 	intera_bootstrap_routing();
-	intera_reconcile_category_base();
 
 	if ( function_exists( 'intera_assign_menu_locations' ) ) {
 		intera_assign_menu_locations();
@@ -230,6 +206,7 @@ function intera_bootstrap() {
  *
  * Re-entry is cheap: after the first run this is one autoloaded option read.
  */
+add_action( 'init', 'intera_reconcile_category_base', 97 );
 add_action( 'init', 'intera_bootstrap', 98 );
 add_action( 'admin_init', 'intera_bootstrap' );
 add_action( 'after_switch_theme', 'intera_bootstrap', 5 );
