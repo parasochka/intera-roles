@@ -90,6 +90,16 @@ Three rules follow, and they apply to any plugin whose template we replace:
    out-specifies them with tokens — the arrangement the FAQ block has always
    used. Only the screens with *no* plugin markup (the docs archive and the
    category page) dequeue anything.
+
+   *Out-specify* is literal, and equal specificity is not enough: the theme's
+   CSS is inlined in `<head>`, the plugin's sheets load after it, so a tie goes
+   to the plugin. 0.7.3 shipped four empty outlines exactly this way — the
+   plugin's `display: inline-block` on the share anchor tied with the theme's
+   `inline-flex` and won, which left the glyph an inline box with no size.
+   Which also fixes how to check such a change: rendering it with the new CSS
+   appended to the page proves nothing, because that is not where the rule
+   lands. Verify against the deployed page — its own HTML and its own sheets,
+   with our rule where it really sits.
 3. **A control that records nothing is a fallback, never the default.** The
    theme's own "Was this page useful?" strip is a `GET` form to the contact
    page; it renders only when BetterDocs offers no vote of its own.
