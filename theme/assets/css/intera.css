@@ -2737,12 +2737,16 @@ a.itr-foot-link:focus-visible,
 	min-height: 88px;
 }
 
-/* The export's submit row: a hairline above it, the button at the right end. */
+/* The submit row: a hairline above it, the button under the captcha it is
+   gated by. The export puts the button at the right end of this row because
+   the consent checkbox holds the left; with no consent box the two controls
+   the visitor works through in order — tick the captcha, press the button —
+   read down one edge instead of across the card. */
 .wpcf7 form.itr-cf7 > p:has(.wpcf7-submit) {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	justify-content: flex-end;
+	justify-content: flex-start;
 	gap: 16px;
 	padding-top: 18px;
 	border-top: 1px solid var(--border-hairline);
