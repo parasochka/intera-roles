@@ -144,6 +144,60 @@ video {
 .itr-input--area{height:auto;padding:9px 12px;line-height:var(--leading-normal);resize:vertical;min-height:88px}
 .itr-input--mono{font-family:var(--font-mono);font-size:var(--text-sm)}
 
+/* A button whose label does not fit takes a second line instead of reaching
+   out of its own frame.
+
+   The control sheet above states `white-space: nowrap` and a fixed `height`,
+   which is right for a label the design wrote and wrong for one an editor
+   types: past roughly 250px of text a `sm` block button in the 340px sidebar
+   spilled its label 41px out of the button on both sides, and every desktop
+   width did it — only the phone breakpoint, which already carried these
+   rules, was safe. Nine of the strings behind those buttons are Customizer
+   fields now, so the failure is a sentence away rather than a deploy away.
+
+   `padding-block` is the control height, less one line of text, less the
+   sheet's 1px border top and bottom, halved — exactly the space the fixed
+   height was already leaving above and below a single line, since
+   `box-sizing: border-box` counted that border inside it. A one-line button
+   therefore keeps the height it has to the pixel, and only a wrapped one
+   grows. `max-width` is what stops a button that is wider than its column
+   from reaching out of it in the first place.
+
+   A button in a row that wraps — the two hero calls to action — is untouched:
+   flex gives each item its whole label before it wraps the row, so those
+   still read on one line. The phone breakpoint keeps the one rule that is
+   genuinely phone-only, the 12px it spends on a block button's inline
+   padding. */
+.itr-btn {
+	max-width: 100%;
+	white-space: normal;
+	height: auto;
+	text-align: center;
+}
+
+.itr-btn--sm {
+	min-height: var(--control-height-sm);
+	padding-block: calc((var(--control-height-sm) - var(--type-body-leading) * 1em - 2px) / 2);
+}
+
+.itr-btn--md {
+	min-height: var(--control-height-md);
+	padding-block: calc((var(--control-height-md) - var(--type-body-leading) * 1em - 2px) / 2);
+}
+
+.itr-btn--lg {
+	min-height: var(--control-height-lg);
+	padding-block: calc((var(--control-height-lg) - var(--type-body-leading) * 1em - 2px) / 2);
+}
+
+/* A link button has neither frame nor height to keep, and it reads as a
+   sentence, so it wraps flush left with nothing to centre. */
+.itr-btn--link {
+	min-height: 0;
+	padding-block: 0;
+	text-align: left;
+}
+
 /* ==========================================================================
    3. Link vocabulary — the seven rules every mockup helmet carries
    a:not(.itr-btn) { border-bottom: 0 } cancels tokens/base.css, which gives
@@ -1655,68 +1709,17 @@ a.itr-foot-link:focus-visible,
 		overflow-x: auto;
 	}
 
-	/* Every button on this breakpoint is a label that has to fit a phone
-	   column. The control sheet keeps a button on one line and gives it a
-	   fixed height, which is right for a bar or a card at 560px and wrong at
-	   320px: an editor's sentence — "I have a problem INTERA could solve" is
-	   271px, "Talk to us about your deployment" is 228px, "Telecommunications
-	   package →" is 227px, against a column of 206–230px — simply left the
-	   button, or took the button out of the column it sits in. Here the label
-	   takes a second line instead.
-
-	   Wrapping costs the fixed height, which is what centred the label, so the
-	   height becomes a floor and the padding does the centring: the block
-	   padding is the control height minus one line of text and the control
-	   sheet's 1px border top and bottom, halved — exactly the space the fixed
-	   height was already leaving above and below a single line, since
-	   `box-sizing: border-box` counted that border inside it. A one-line
-	   button therefore keeps the height it has today to the pixel, and only a
-	   wrapped one grows. `max-width` is what stops a button that is wider than
-	   its column from reaching out of it in the first place.
-
-	   A button in a row that wraps — the two hero calls to action — is
-	   untouched: flex gives each item its whole label before it wraps the row,
-	   so those still read on one line. */
-	.itr-btn {
-		max-width: 100%;
-		white-space: normal;
-		height: auto;
-		text-align: center;
-	}
-
-	/* A full-width button has no width left to gain, so the 20px the control
-	   sheet reserves either side is the difference between a label that still
-	   reads on one line and one that takes a second for two words. The phone
-	   spends it on the label: "I have a problem INTERA could solve" is 271px
-	   against 258px of content at 390px and 274px once this rule lands, so it
-	   holds its line where the column allows it and wraps where it does not —
-	   at 320px, where nothing could have kept it. A centred single-line label
-	   does not move. */
+	/* Wrapping is unconditional now (§2), so what is left here is the one part
+	   that is genuinely phone-only. A full-width button has no width left to
+	   gain, so the 20px the control sheet reserves either side is the
+	   difference between a label that still reads on one line and one that
+	   takes a second for two words. The phone spends it on the label: "I have
+	   a problem INTERA could solve" is 271px against 258px of content at 390px
+	   and 274px once this rule lands, so it holds its line where the column
+	   allows it and wraps where it does not — at 320px, where nothing could
+	   have kept it. A centred single-line label does not move. */
 	.itr-btn--block {
 		padding-inline: 12px;
-	}
-
-	.itr-btn--sm {
-		min-height: var(--control-height-sm);
-		padding-block: calc((var(--control-height-sm) - var(--type-body-leading) * 1em - 2px) / 2);
-	}
-
-	.itr-btn--md {
-		min-height: var(--control-height-md);
-		padding-block: calc((var(--control-height-md) - var(--type-body-leading) * 1em - 2px) / 2);
-	}
-
-	.itr-btn--lg {
-		min-height: var(--control-height-lg);
-		padding-block: calc((var(--control-height-lg) - var(--type-body-leading) * 1em - 2px) / 2);
-	}
-
-	/* A link button has neither frame nor height to keep, and it reads as a
-	   sentence, so it wraps flush left with nothing to centre. */
-	.itr-btn--link {
-		min-height: 0;
-		padding-block: 0;
-		text-align: left;
 	}
 
 	.comment-list .children {
