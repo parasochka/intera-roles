@@ -554,7 +554,7 @@ if ( ! function_exists( 'intera_breadcrumbs_get' ) ) :
 	 *
 	 * Follows the mockups exactly:
 	 * `Home / Product` (02) · `Home / Contacts / Request` (06, page ancestors) ·
-	 * `Home / Blog / Life stories` (09, 10) · `Home / Docs` (11) ·
+	 * `Home / Blog / Use Cases` (09, 10) · `Home / Docs` (11) ·
 	 * `Docs / Solutions and reference` (12 — no Home crumb on a doc) ·
 	 * `Home / Docs / Getting started` (13). The front page has no breadcrumb.
 	 *

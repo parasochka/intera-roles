@@ -47,7 +47,7 @@ function intera_option_defaults() {
 		// site-footer, 05-contacts, 06-contact-request, 07-policy.
 		'contact_email'     => 'sb@by-sky.net',
 		'contact_response'  => __( 'Same working day, in most cases', 'intera' ),
-		'contact_languages' => __( 'English, Russian', 'intera' ),
+		'contact_languages' => __( 'English', 'intera' ),
 		'site_domain'       => 'intera-roles.com',
 		'copyright'         => __( '© 2026 INTERA. In beta — Early Adopter programme open.', 'intera' ),
 

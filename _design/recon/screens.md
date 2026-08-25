@@ -165,7 +165,7 @@ the logo href.
 | --- | --- |
 | *(brand)* | tagline `One operating picture across the systems your teams already use.` + CTA |
 | `Product` | `Product overview` → `02-product.dc.html`; `Pricing` → `03-pricing.dc.html`; then a hairline group: `INTERA Roles` → `02-product.dc.html#roles`; `Working with existing IT` → `02-product.dc.html#it`; `INTERA Method` → `02-product.dc.html#method`; `Partners and resellers` → `02-product.dc.html#partners` |
-| `Resources` | `Documentation` → `11-docs.dc.html`; `Blog` → `08-blog.dc.html`; `FAQ` → `04-faq.dc.html`; then: `Life stories` → `10-blog-category.dc.html`; `Release information` → `10-blog-category.dc.html` |
+| `Resources` | `Documentation` → `11-docs.dc.html`; `Blog` → `08-blog.dc.html`; `FAQ` → `04-faq.dc.html`; then: `Use Cases` → `10-blog-category.dc.html`; `Release information` → `10-blog-category.dc.html` |
 | `Company` | `Contacts` → `05-contacts.dc.html`; then: `Privacy policy` → `07-policy.dc.html`; `Cookie policy` → `07-policy.dc.html#cookies`; `License Agreement` → `07-policy.dc.html` |
 
 **Legal strip:** `© 2026 INTERA. In beta — Early Adopter programme open.` and a mono span
@@ -175,7 +175,7 @@ the logo href.
 - The four link columns are **the natural second/third menu locations** — but README only mandates one
   menu area, and repo `inc/setup.php` already registers `primary` and `footer_legal`. The Product /
   Resources / Company columns are candidates for further locations (see §17 open questions).
-- `Life stories` / `Release information` → `get_category_link()` for the two blog categories.
+- `Use Cases` / `Release information` → `get_category_link()` for the two blog categories.
 - Copyright year `© 2026` → either static per the handoff or `date('Y')`.
 - Email address `sb@by-sky.net` and domain `intera-roles.com` are site-identity strings, not post data.
 
@@ -468,7 +468,7 @@ imply one.
 
 **Dynamic slots:** the contact facts are site-identity data rather than post content —
 `sb@by-sky.net` (twice, plus the `mailto:` button), `Same working day, in most cases`,
-`English, Russian`. Good candidates for theme options/customizer so the footer and 06/07 stay in sync.
+`English`. Good candidates for theme options/customizer so the footer and 06/07 stay in sync.
 Everything else is fixed copy.
 
 **Interactive behaviour:** hover only.
@@ -590,9 +590,9 @@ exist in this file's *policy* variant beyond section 8; the cookie policy is mea
 
 **DS components (15):**
 
-- Header: 3 × `Tag` — `selected="{{ true }}"` → `All`; `Life stories`; `Release information`.
-- Featured: `Badge tone="accent"` → `Life stories`; `Icon name="arrow-right" size="16"`.
-- List: 5 × `Tag` (one per row) — `Life stories` ×2, `Release information` ×3.
+- Header: 3 × `Tag` — `selected="{{ true }}"` → `All`; `Use Cases`; `Release information`.
+- Featured: `Badge tone="accent"` → `Use Cases`; `Icon name="arrow-right" size="16"`.
+- List: 5 × `Tag` (one per row) — `Use Cases` ×2, `Release information` ×3.
 - Pagination: `Button variant="secondary" size="sm" disabled="{{ true }}" icon-left="chevron-left"`
   → `Previous`; `Button variant="secondary" size="sm" disabled="{{ true }}" icon-right="chevron-right"`
   → `Next`.
@@ -609,17 +609,17 @@ exist in this file's *policy* variant beyond section 8; the cookie policy is mea
 | --- | --- | --- |
 | Breadcrumb `Home / Blog` | static | `home_url()` + blog page title |
 | H1 `Blog` + standfirst | fixed copy | archive title / editable page |
-| Filter tags `All` / `Life stories` / `Release information` | 3 tags, `All` selected | `get_categories()` + `get_category_link()`; selected state = current query |
-| Featured card | badge `Life stories`, mono `2026-08-04 · 6 min`, H2, excerpt, `Read the story` | sticky post or first `WP_Query` post — `get_the_category()`, `get_the_date('Y-m-d')`, reading time (**meta, see open questions**), `the_title()`, `the_excerpt()`, `the_permalink()` |
+| Filter tags `All` / `Use Cases` / `Release information` | 3 tags, `All` selected | `get_categories()` + `get_category_link()`; selected state = current query |
+| Featured card | badge `Use Cases`, mono `2026-08-04 · 6 min`, H2, excerpt, `Read the story` | sticky post or first `WP_Query` post — `get_the_category()`, `get_the_date('Y-m-d')`, reading time (**meta, see open questions**), `the_title()`, `the_excerpt()`, `the_permalink()` |
 | 5 list rows | mono date `min-width: 96px`, title, excerpt, category `Tag` | the loop; each row is `<a>` wrapping date + title + excerpt + tag |
 | Counter `6 of 6 posts` | mono | `$wp_query->found_posts` |
 | `Previous` / `Next` | both `disabled` | `get_previous_posts_link()` / `get_next_posts_link()` (or `paginate_links`) |
-| Sidebar `Categories` list | `Life stories 3`, `Release information 3` | `wp_list_categories()` with counts, or `get_categories()` |
+| Sidebar `Categories` list | `Use Cases 3`, `Release information 3` | `wp_list_categories()` with counts, or `get_categories()` |
 | `documentation` inline link | `href="11-docs.dc.html"` | docs archive URL |
 
 Post data present in the mockup (dates are `Y-m-d`, all mono):
 `2026-08-04` featured; then `2026-07-22`, `2026-07-08`, `2026-08-13`, `2026-07-07`, `2026-03-15`
-— note the list is **not** date-sorted in the export (life stories first, then releases), so the
+— note the list is **not** date-sorted in the export (use cases first, then releases), so the
 theme must decide sort order or use two queries.
 
 **Fixed marketing copy:** H1 `Blog`, standfirst `Operational stories from real companies, and what
@@ -641,7 +641,7 @@ var(--surface-hover)"` on list rows, `.itr-hl` on sidebar cards). Tags are visua
 `flex: 1 1 520px; max-width: 680px; order: 1`, aside `position: sticky; top: 100px; flex: 0 1 260px; order: 2`).
 
 **DS components (5):**
-`Badge tone="accent"` → `Life stories`;
+`Badge tone="accent"` → `Use Cases`;
 `Card class="itr-lift"` → "What made it work" (3 lines);
 `Button variant="secondary" size="sm" icon-left="link"` → `Copy link`;
 `Button size="sm" href="06-contact-request.dc.html"` → `Bring us a real problem`;
@@ -653,8 +653,8 @@ var(--surface-hover)"` on list rows, `.itr-hl` on sidebar cards). Tags are visua
 
 | Slot | Mockup value | WP source |
 | --- | --- | --- |
-| Breadcrumb | `Home / Blog / Life stories` (third is a link) | `home_url()`, blog URL, `get_the_category()` + `get_category_link()` |
-| Category badge | `Life stories` | `get_the_category()` |
+| Breadcrumb | `Home / Blog / Use Cases` (third is a link) | `home_url()`, blog URL, `get_the_category()` + `get_category_link()` |
+| Category badge | `Use Cases` | `get_the_category()` |
 | Meta line | `2026-08-04 · 6 min read` (mono) | `get_the_date('Y-m-d')` + reading-time meta |
 | H1 | `Cargo Overseas: the readiness number nobody could explain` | `the_title()` |
 | Standfirst `<p>` | `Four systems, one weekly spreadsheet…` | `the_excerpt()` or a subtitle meta field |
@@ -684,7 +684,7 @@ var(--surface-hover)"` on list rows, `.itr-hl` on sidebar cards). Tags are visua
 `repeat(auto-fit, minmax(min(300px,100%),1fr))` gap `44px`).
 
 **DS components (10):**
-2 × `Tag` — `selected="{{ true }}"` → `Life stories`, and `Release information`;
+2 × `Tag` — `selected="{{ true }}"` → `Use Cases`, and `Release information`;
 3 × `Icon name="arrow-right" size="16"` (one per post card);
 2 × pagination `Button variant="secondary" size="sm" disabled="{{ true }}"` (`icon-left="chevron-left"`
 → `Previous`; `icon-right="chevron-right"` → `Next`);
@@ -700,12 +700,12 @@ var(--surface-hover)"` on list rows, `.itr-hl` on sidebar cards). Tags are visua
 
 | Slot | Mockup value | WP source |
 | --- | --- | --- |
-| Breadcrumb third crumb | `Life stories` (plain span) | `single_cat_title()` |
+| Breadcrumb third crumb | `Use Cases` (plain span) | `single_cat_title()` |
 | Eyebrow | `Category` (uppercase, `var(--blue-600)`) | fixed |
-| H1 | `Life stories` | `single_cat_title()` |
+| H1 | `Use Cases` | `single_cat_title()` |
 | Description | `How real companies noticed something too late…` | `category_description()` |
 | Post count | `3 posts` (mono) | `$wp_query->found_posts` |
-| Filter tag row | `Life stories` (selected) + `Release information` + `All posts` link → `08-blog.dc.html` | `get_categories()` + current-term state |
+| Filter tag row | `Use Cases` (selected) + `Release information` + `All posts` link → `08-blog.dc.html` | `get_categories()` + current-term state |
 | 3 post cards | mono `2026-08-04` / `6 min`, `2026-07-22` / `5 min`, `2026-07-08` / `4 min`; H2 title; excerpt (`max-width: 620px`); `Read the story` + arrow | the loop |
 | Pager | `Page 1 of 1` + disabled Previous/Next | `paginate_links()` / `$wp_query->max_num_pages` |
 | Sidebar "Other categories" | `Release information 3`, `All posts 6` | `get_categories()` excluding current + total post count |
@@ -894,7 +894,7 @@ Template names required by the map: `archive-docs.php`, `single-docs.php`,
 | Taxonomy | Attached to | Terms visible in the mockups | README support |
 | --- | --- | --- | --- |
 | `docs_category` | `docs` | `Getting started` (10), `Building with INTERA` (8), `Solutions and reference` (6), `Integrations` (2) | ✅ stated: "с одной таксономией `docs_category`" |
-| built-in `category` | `post` | `life-stories`, `release-information` | ✅ stated: "Блог — две категории: `life-stories` и `release-information`" |
+| built-in `category` | `post` | `use-cases`, `release-information` | ✅ stated: "Блог — две категории: `use-cases` и `release-information`" |
 
 Term-level data the templates need but WP does not provide out of the box — **term meta**:
 - an icon name per `docs_category` (`rocket`, `plug`, `book-open`, `database`) — used on both
@@ -910,7 +910,7 @@ Term-level data the templates need but WP does not provide out of the box — **
 | `primary` | Product, Pricing, FAQ, Docs, Blog, Contacts (6) — plus the fixed `Beta` badge and `Get Early Access` button, which are **template chrome, not menu items** | `site-nav`, both desktop and mobile renders |
 | `footer_legal` | Privacy policy, Cookie policy, License Agreement (3) | `site-footer` Company column, lower group |
 | *(needed, not yet registered)* `footer_product` | Product overview, Pricing + INTERA Roles, Working with existing IT, INTERA Method, Partners and resellers | `site-footer` col 2 |
-| *(needed)* `footer_resources` | Documentation, Blog, FAQ + Life stories, Release information | `site-footer` col 3 |
+| *(needed)* `footer_resources` | Documentation, Blog, FAQ + Use Cases, Release information | `site-footer` col 3 |
 | *(needed)* `footer_company` | Contacts | `site-footer` col 4, upper group |
 
 README only says "Меню — область меню WordPress (`register_nav_menus`), не хардкод" without
@@ -984,7 +984,7 @@ Stroke width `1.75`, `currentColor`, per README.
 - Logo SVGs are theme chrome, already in `theme/assets/img/logo/`.
 - Site-identity strings that recur across templates and should have one source:
   `sb@by-sky.net`, `intera-roles.com`, `In beta — Early Adopter programme open`,
-  `© 2026 INTERA`, `Same working day, in most cases`, `English, Russian`.
+  `© 2026 INTERA`, `Same working day, in most cases`, `English`.
 
 ---
 
@@ -1019,7 +1019,7 @@ Stroke width `1.75`, `currentColor`, per README.
     term meta + an admin field, or a hardcoded slug→icon map in PHP?
 14. **Footer links `02-product.dc.html#it` and `#partners` point at anchors that only exist on
     `01-main.dc.html`.** Decide the correct destination before wiring the menu.
-15. **Blog list sort order** — `08-blog` lists 3 life stories then 3 release notes, not by date.
+15. **Blog list sort order** — `08-blog` lists 3 use cases then 3 release notes, not by date.
     Two queries, or plain date order?
 16. **Multilingual (RU/EN)** — README §162 says it is not designed in and must be decided before
     template assembly.
