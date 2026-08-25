@@ -159,7 +159,7 @@ function intera_setup() {
 	/*
 	 * Blog categories are deliberately NOT seeded here.
 	 *
-	 * The mockups show two ("Life stories", "Release information"), but they
+	 * The mockups show two ("Use Cases", "Release information"), but they
 	 * are content: the templates reach them through `get_the_category()` and
 	 * `get_category_link()` and never name a slug, so creating them from code
 	 * would buy nothing and would break CLAUDE.md's "content is not code".

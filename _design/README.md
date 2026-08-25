@@ -54,7 +54,7 @@ python3 -m http.server 8000
 - Меню — область меню WordPress (`register_nav_menus`), не хардкод. Пункты в макете:
   Product, Pricing, FAQ, Docs, Blog, Contacts + бейдж «Beta» + кнопка «Get Early Access».
 - Документация — custom post type `docs` с одной таксономией `docs_category`.
-- Блог — две категории: `life-stories` и `release-information`.
+- Блог — две категории: `use-cases` и `release-information`.
 - Юридические страницы (политика, cookies, лицензия) используют один шаблон `page-legal.php`.
 - Формы (`06`) в макете не подключены к бэкенду: это шесть полей + состояние успеха.
   Обработку выбрать по стеку проекта (CF7 / Gravity / собственный обработчик) и сохранить

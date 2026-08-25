@@ -139,7 +139,7 @@ intera_option( 'footer_blurb' )
 intera_option( 'footer_cta_label' ) / ( 'footer_cta_url' )
 intera_option( 'contact_email' )       // sb@by-sky.net
 intera_option( 'contact_response' )    // 'Same working day, in most cases'
-intera_option( 'contact_languages' )   // 'English, Russian'
+intera_option( 'contact_languages' )   // 'English'
 intera_option( 'site_domain' )         // 'intera-roles.com'
 intera_option( 'copyright' )           // '© 2026 INTERA. In beta — Early Adopter programme open.'
 intera_option( 'shot_hero' ) / ( 'shot_signals' ) / ( 'shot_it' )  // attachment IDs

@@ -66,16 +66,25 @@ function intera_category_base() {
 const INTERA_BLOG_SLUG = 'blog';
 
 /**
- * Categories that were renamed with the redesign: old slug => new slug.
+ * Categories that have been renamed: old slug => new slug.
  *
- * Only needed for the archive URLs. An article is found by its own slug, which
- * did not change, so it redirects correctly whatever category it sat under.
+ * Two kinds of move end up in the same table. `changelog` was renamed with the
+ * redesign, when the whole blog also moved under `/blog/`; `life-stories` was
+ * renamed afterwards, with the root already where it is now. So a slug listed
+ * here is looked for both at the top level (`/life-stories/`) and under the
+ * category base (`/blog/life-stories/`) — see `intera_legacy_redirect()`.
+ *
+ * Only the archive URL needs the table. An article is found by its own slug,
+ * which did not change, so it redirects correctly whatever category it sat
+ * under — but the category segment in front of it did change, which is why the
+ * article addresses have to be caught under the base too.
  *
  * @return array<string,string>
  */
 function intera_legacy_category_slugs() {
 	return array(
-		'changelog' => 'release-information',
+		'changelog'    => 'release-information',
+		'life-stories' => 'use-cases',
 	);
 }
 
@@ -322,12 +331,18 @@ function intera_bound_category_rules( $rules ) {
 add_filter( 'rewrite_rules_array', 'intera_bound_category_rules' );
 
 /**
- * Send a pre-redesign URL to its replacement with a 301.
+ * Send a superseded URL to its replacement with a 301.
  *
  * The old structure was `/<category>/<post>/` and `/<category>/`; the new one
  * prefixes both with `/blog/`. Rather than keep a table of every moved address,
  * this reads the request the same way WordPress would have: the last segment is
  * an article slug, and the first is a category.
+ *
+ * A category renamed *after* that move leaves addresses of the same shape with
+ * the base already on the front, so `/blog/` is stripped and the rest read the
+ * same way — but only when the segment beneath it is a slug
+ * `intera_legacy_category_slugs()` names, so no live URL under the root is ever
+ * looked at twice.
  *
  * Deliberately narrow. It only ever runs on a request that has *already* 404ed,
  * only for one- and two-segment paths, and only ever redirects to a post or a
@@ -348,12 +363,24 @@ function intera_legacy_redirect() {
 		return;
 	}
 
-	// Anything already living under the new root is not a legacy address.
-	if ( 0 === strpos( $path . '/', INTERA_CATEGORY_BASE . '/' ) ) {
-		return;
-	}
-
 	$segments = array_values( array_filter( explode( '/', $path ), 'strlen' ) );
+
+	/*
+	 * Anything already living under the new root is a legacy address in exactly
+	 * one case: the category segment beneath it is one that has been renamed
+	 * since the root moved. `/blog/life-stories/` and the articles under it
+	 * 404 like any other old URL once the term is `use-cases`, and read the
+	 * same as a pre-redesign path with the base taken off the front.
+	 */
+	if ( INTERA_CATEGORY_BASE === $segments[0] ) {
+		$renamed = intera_legacy_category_slugs();
+
+		if ( ! isset( $segments[1] ) || ! isset( $renamed[ $segments[1] ] ) ) {
+			return;
+		}
+
+		array_shift( $segments );
+	}
 
 	if ( count( $segments ) > 2 ) {
 		return;
