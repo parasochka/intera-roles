@@ -11,6 +11,19 @@
  * `_ds/intera/tokens/*.css`, which is the single source of truth. A Customizer
  * colour picker would be a second one.
  *
+ * Where the line falls between this file and `inc/copy.php`: a page whose words
+ * belong to that one page keeps them in its own Page copy meta box. This file
+ * holds what has no page behind it — an archive, a category listing, a taxonomy
+ * term — plus the standing announcements and the repeated cards that render
+ * across several screens at once, where "edit it on the page" has no page to
+ * mean.
+ *
+ * The registered default *is* the export's wording, and never a second copy of
+ * it: a template reads `intera_option( 'key' )` with one argument and gets it,
+ * so a field an editor never opened still renders the handoff. Clearing a field
+ * is therefore also how a block is switched off — every template tests for an
+ * empty string before it draws anything.
+ *
  * @package Intera
  */
 
@@ -35,14 +48,14 @@ function intera_option_defaults() {
 
 	return $form + array(
 		// site-nav.dc.html.
-		'header_badge'      => __( 'Beta', 'intera' ),
-		'header_cta_label'  => __( 'Get Early Access', 'intera' ),
-		'header_cta_url'    => '',
+		'header_badge'               => __( 'Beta', 'intera' ),
+		'header_cta_label'           => __( 'Get Early Access', 'intera' ),
+		'header_cta_url'             => '',
 
 		// site-footer.dc.html.
-		'footer_blurb'      => __( 'One operating picture across the systems your teams already use.', 'intera' ),
-		'footer_cta_label'  => __( 'Become an Early Adopter', 'intera' ),
-		'footer_cta_url'    => '',
+		'footer_blurb'               => __( 'One operating picture across the systems your teams already use.', 'intera' ),
+		'footer_cta_label'           => __( 'Become an Early Adopter', 'intera' ),
+		'footer_cta_url'             => '',
 
 		/*
 		 * The Contact Form 7 form the request page sends through. Either the
@@ -50,19 +63,68 @@ function intera_option_defaults() {
 		 * the plugin takes both. Empty falls back to the theme's own handler
 		 * in inc/forms.php; see inc/cf7.php.
 		 */
-		'contact_form_id'   => 'f98e0c5',
+		'contact_form_id'            => 'f98e0c5',
 
 		// site-footer, 05-contacts, 06-contact-request, 07-policy.
-		'contact_email'     => 'sb@by-sky.net',
-		'contact_response'  => __( 'Same working day, in most cases', 'intera' ),
-		'contact_languages' => __( 'English', 'intera' ),
-		'site_domain'       => 'intera-roles.com',
-		'copyright'         => __( '© 2026 INTERA. In beta — Early Adopter programme open.', 'intera' ),
+		'contact_email'              => 'sb@by-sky.net',
+		'contact_response'           => __( 'Same working day, in most cases', 'intera' ),
+		'contact_languages'          => __( 'English', 'intera' ),
+		'site_domain'                => 'intera-roles.com',
+		'copyright'                  => __( '© 2026 INTERA. In beta — Early Adopter programme open.', 'intera' ),
+
+		// 01-main: the pill above the hero heading.
+		'hero_status'                => __( 'In beta — Early Adopter programme open', 'intera' ),
+
+		// 04-faq: the block under the rail's hairline.
+		'faq_rail_body'              => __( 'Still unclear? Send us the situation in two sentences — we answer with what INTERA would actually watch.', 'intera' ),
+		'faq_rail_cta_label'         => __( 'Ask a question', 'intera' ),
+
+		// 08-blog: the sidebar card and the note under it.
+		'blog_cta_heading'           => __( 'Have a story like these?', 'intera' ),
+		'blog_cta_body'              => __( 'If one of these situations sounds like your week, describe it to us. We answer with what INTERA would watch.', 'intera' ),
+		'blog_cta_label'             => __( 'Bring us a real problem', 'intera' ),
+		'blog_cta_url'               => '',
+		'blog_docs_note'             => __( 'Release notes are also listed in the documentation.', 'intera' ),
+
+		// 09-blog-post: the strip that closes a story.
+		'article_note'               => __( 'Names and figures are anonymised at the customer’s request.', 'intera' ),
+		'article_cta_label'          => __( 'Bring us a real problem', 'intera' ),
+
+		// 10-blog-category, and every other archive that carries the card.
+		'sidebar_cta_heading'        => __( 'Every story starts the same way', 'intera' ),
+		'sidebar_cta_body'           => __( 'Someone checks something by hand, every week, and finds out too late when it goes wrong. Tell us yours.', 'intera' ),
+		'sidebar_cta_label'          => __( 'Bring us a real problem', 'intera' ),
+		'sidebar_cta_url'            => '',
+
+		// 11-docs: the standfirst and the three panels that close the archive.
+		'docs_intro'                 => __( 'Setup, integrations, the object model, and the role packages we ship. Written for the person doing the work.', 'intera' ),
+		'docs_help_limits_heading'   => __( 'Alpha-stage limitations', 'intera' ),
+		'docs_help_limits_body'      => __( 'What INTERA cannot do yet is written down, not hidden. Read it before planning a rollout.', 'intera' ),
+		'docs_help_limits_label'     => __( 'Current system limitations', 'intera' ),
+		'docs_help_limits_url'       => '',
+		'docs_help_releases_heading' => __( 'Release information', 'intera' ),
+		'docs_help_releases_body'    => __( 'Every version notes what changed in the object model and what it means for existing roles.', 'intera' ),
+		'docs_help_releases_label'   => __( 'Release notes', 'intera' ),
+		'docs_help_releases_url'     => '',
+		'docs_help_ask_heading'      => __( 'Question not answered here?', 'intera' ),
+		'docs_help_ask_body'         => __( 'Send the situation in two sentences. We answer with what INTERA would watch.', 'intera' ),
+		'docs_help_ask_label'        => __( 'Ask the team', 'intera' ),
+		'docs_help_ask_url'          => '',
+
+		// 12-docs-article: the standing announcement above every article.
+		'docs_notice_title'          => __( 'Naming changed in v0.003', 'intera' ),
+		'docs_notice_body'           => __( 'KPI is now Metric across the product and the docs. Existing roles were migrated automatically; saved dashboards keep working.', 'intera' ),
+
+		// 13-docs-category: the sidebar card.
+		'docs_cta_heading'           => __( 'Setting up the first role with us', 'intera' ),
+		'docs_cta_body'              => __( 'Early Adopters get custom onboarding: we connect the first source and build the first check together.', 'intera' ),
+		'docs_cta_label'             => __( 'Apply as Early Adopter', 'intera' ),
+		'docs_cta_url'               => '',
 
 		// Product screenshots — media-library attachment IDs.
-		'shot_hero'         => 0,
-		'shot_signals'      => 0,
-		'shot_it'           => 0,
+		'shot_hero'                  => 0,
+		'shot_signals'               => 0,
+		'shot_it'                    => 0,
 	);
 }
 
@@ -138,6 +200,26 @@ function intera_customize_register( $wp_customize ) {
 			'description' => __( 'Screenshots shown inside the white product frames. Upload to the media library; the frame, caption and size stay with the template.', 'intera' ),
 			'priority'    => 40,
 		),
+		'intera_home'     => array(
+			'title'       => __( 'Home page', 'intera' ),
+			'description' => __( 'The one line on the home page that is not part of its Page copy, because it is a standing announcement rather than one page’s wording.', 'intera' ),
+			'priority'    => 45,
+		),
+		'intera_faq'      => array(
+			'title'       => __( 'FAQ', 'intera' ),
+			'description' => __( 'The block under the FAQ rail. The questions and answers themselves are the page’s own content.', 'intera' ),
+			'priority'    => 50,
+		),
+		'intera_blog'     => array(
+			'title'       => __( 'Blog and stories', 'intera' ),
+			'description' => __( 'The sidebar card and the closing strip. Two cards: one for the blog itself, one for every category and archive beside it.', 'intera' ),
+			'priority'    => 55,
+		),
+		'intera_docs'     => array(
+			'title'       => __( 'Documentation', 'intera' ),
+			'description' => __( 'The standfirst, the three panels that close the archive, the standing announcement above every article and the sidebar card on a category. The articles are BetterDocs’ own.', 'intera' ),
+			'priority'    => 60,
+		),
 	);
 
 	foreach ( $sections as $id => $args ) {
@@ -154,26 +236,26 @@ function intera_customize_register( $wp_customize ) {
 	 * link behind.
 	 */
 	$fields = array(
-		'header_badge'      => array(
+		'header_badge'        => array(
 			'section'     => 'intera_header',
 			'label'       => __( 'Badge text', 'intera' ),
 			'description' => __( 'The small pill beside the wordmark. Empty hides it.', 'intera' ),
 			'sanitize'    => 'sanitize_text_field',
 			'partial'     => '.intera-header-badge',
 		),
-		'header_cta_label'  => array(
+		'header_cta_label'    => array(
 			'section'  => 'intera_header',
 			'label'    => __( 'Call-to-action label', 'intera' ),
 			'sanitize' => 'sanitize_text_field',
 		),
-		'header_cta_url'    => array(
+		'header_cta_url'      => array(
 			'section'     => 'intera_header',
 			'label'       => __( 'Call-to-action link', 'intera' ),
 			'description' => __( 'Point this at the contact-request page.', 'intera' ),
 			'type'        => 'url',
 			'sanitize'    => 'esc_url_raw',
 		),
-		'footer_blurb'      => array(
+		'footer_blurb'        => array(
 			'section'     => 'intera_footer',
 			'label'       => __( 'Brand line', 'intera' ),
 			'description' => __( 'One sentence under the footer wordmark.', 'intera' ),
@@ -181,19 +263,19 @@ function intera_customize_register( $wp_customize ) {
 			'sanitize'    => 'sanitize_textarea_field',
 			'partial'     => '.intera-footer-blurb',
 		),
-		'footer_cta_label'  => array(
+		'footer_cta_label'    => array(
 			'section'  => 'intera_footer',
 			'label'    => __( 'Call-to-action label', 'intera' ),
 			'sanitize' => 'sanitize_text_field',
 		),
-		'footer_cta_url'    => array(
+		'footer_cta_url'      => array(
 			'section'     => 'intera_footer',
 			'label'       => __( 'Call-to-action link', 'intera' ),
 			'description' => __( 'Point this at the contact-request page.', 'intera' ),
 			'type'        => 'url',
 			'sanitize'    => 'esc_url_raw',
 		),
-		'copyright'         => array(
+		'copyright'           => array(
 			'section'     => 'intera_footer',
 			'label'       => __( 'Legal line', 'intera' ),
 			'description' => __( 'The left half of the strip below the footer columns.', 'intera' ),
@@ -201,38 +283,226 @@ function intera_customize_register( $wp_customize ) {
 			'sanitize'    => 'sanitize_text_field',
 			'partial'     => '.intera-copyright',
 		),
-		'contact_form_id'   => array(
+		'contact_form_id'     => array(
 			'section'     => 'intera_contacts',
 			'label'       => __( 'Contact Form 7 form ID', 'intera' ),
 			'description' => __( 'The id from the form’s shortcode in wp-admin — e.g. f98e0c5. The request page renders that form, mails and captcha included. Leave empty to use the theme’s own built-in form instead.', 'intera' ),
 			'sanitize'    => 'sanitize_text_field',
 		),
-		'contact_email'     => array(
+		'contact_email'       => array(
 			'section'     => 'intera_contacts',
 			'label'       => __( 'Contact email', 'intera' ),
 			'description' => __( 'Used as text and as the mailto target.', 'intera' ),
 			'type'        => 'email',
 			'sanitize'    => 'sanitize_email',
 		),
-		'contact_response'  => array(
+		'contact_response'    => array(
 			'section'  => 'intera_contacts',
 			'label'    => __( 'Response time', 'intera' ),
 			'sanitize' => 'sanitize_text_field',
 			'partial'  => '.intera-contact-response',
 		),
-		'contact_languages' => array(
+		'contact_languages'   => array(
 			'section'  => 'intera_contacts',
 			'label'    => __( 'Languages', 'intera' ),
 			'sanitize' => 'sanitize_text_field',
 			'partial'  => '.intera-contact-languages',
 		),
-		'site_domain'       => array(
+		'site_domain'         => array(
 			'section'     => 'intera_contacts',
 			'label'       => __( 'Public domain', 'intera' ),
 			'description' => __( 'Set in mono next to the legal line.', 'intera' ),
 			'sanitize'    => 'sanitize_text_field',
 		),
+
+		/*
+		 * Everything below renders on a screen whose words are not a page's
+		 * Page copy: a standing announcement, an archive that has no page
+		 * behind it, or a card that repeats across several of them. The
+		 * defaults above are the export's own wording, so a field left alone
+		 * still reads exactly like the handoff — and emptying one is how a
+		 * block is switched off, because every template tests for '' before
+		 * it draws anything.
+		 */
+		'hero_status'         => array(
+			'section'     => 'intera_home',
+			'label'       => __( 'Status pill', 'intera' ),
+			'description' => __( 'The pill above the hero heading. Empty hides it.', 'intera' ),
+			'sanitize'    => 'sanitize_text_field',
+		),
+		'faq_rail_body'       => array(
+			'section'     => 'intera_faq',
+			'label'       => __( 'Rail note', 'intera' ),
+			'description' => __( 'Sits under the “On this page” rail, above the button. Empty hides it.', 'intera' ),
+			'type'        => 'textarea',
+			'sanitize'    => 'wp_kses_post',
+		),
+		'faq_rail_cta_label'  => array(
+			'section'     => 'intera_faq',
+			'label'       => __( 'Rail button label', 'intera' ),
+			'description' => __( 'Points at the contact-request page. Empty hides the button.', 'intera' ),
+			'sanitize'    => 'sanitize_text_field',
+		),
+		'blog_cta_heading'    => array(
+			'section'  => 'intera_blog',
+			'label'    => __( 'Blog card — heading', 'intera' ),
+			'sanitize' => 'sanitize_text_field',
+		),
+		'blog_cta_body'       => array(
+			'section'     => 'intera_blog',
+			'label'       => __( 'Blog card — text', 'intera' ),
+			'description' => __( 'The card is hidden when both the heading and the text are empty.', 'intera' ),
+			'type'        => 'textarea',
+			'sanitize'    => 'wp_kses_post',
+		),
+		'blog_cta_label'      => array(
+			'section'  => 'intera_blog',
+			'label'    => __( 'Blog card — button label', 'intera' ),
+			'sanitize' => 'sanitize_text_field',
+		),
+		'blog_cta_url'        => array(
+			'section'     => 'intera_blog',
+			'label'       => __( 'Blog card — button link', 'intera' ),
+			'description' => __( 'Empty points at the contact-request page.', 'intera' ),
+			'type'        => 'url',
+			'sanitize'    => 'esc_url_raw',
+		),
+		'blog_docs_note'      => array(
+			'section'     => 'intera_blog',
+			'label'       => __( 'Blog sidebar footnote', 'intera' ),
+			'description' => __( 'The line under the card on the blog. A link is allowed here. Empty hides it.', 'intera' ),
+			'type'        => 'textarea',
+			'sanitize'    => 'wp_kses_post',
+		),
+		'sidebar_cta_heading' => array(
+			'section'     => 'intera_blog',
+			'label'       => __( 'Archive card — heading', 'intera' ),
+			'description' => __( 'The card beside a category or an archive listing.', 'intera' ),
+			'sanitize'    => 'sanitize_text_field',
+		),
+		'sidebar_cta_body'    => array(
+			'section'     => 'intera_blog',
+			'label'       => __( 'Archive card — text', 'intera' ),
+			'description' => __( 'The card is hidden when both the heading and the text are empty.', 'intera' ),
+			'type'        => 'textarea',
+			'sanitize'    => 'wp_kses_post',
+		),
+		'sidebar_cta_label'   => array(
+			'section'  => 'intera_blog',
+			'label'    => __( 'Archive card — button label', 'intera' ),
+			'sanitize' => 'sanitize_text_field',
+		),
+		'sidebar_cta_url'     => array(
+			'section'     => 'intera_blog',
+			'label'       => __( 'Archive card — button link', 'intera' ),
+			'description' => __( 'Empty points at the contact-request page.', 'intera' ),
+			'type'        => 'url',
+			'sanitize'    => 'esc_url_raw',
+		),
+		'article_note'        => array(
+			'section'     => 'intera_blog',
+			'label'       => __( 'Story footnote', 'intera' ),
+			'description' => __( 'The small print in the strip that closes every story. Empty hides it.', 'intera' ),
+			'type'        => 'textarea',
+			'sanitize'    => 'sanitize_text_field',
+		),
+		'article_cta_label'   => array(
+			'section'     => 'intera_blog',
+			'label'       => __( 'Story button label', 'intera' ),
+			'description' => __( 'Points at the contact-request page. Empty hides the button.', 'intera' ),
+			'sanitize'    => 'sanitize_text_field',
+		),
+		'docs_intro'          => array(
+			'section'     => 'intera_docs',
+			'label'       => __( 'Archive standfirst', 'intera' ),
+			'description' => __( 'The paragraph under the Documentation heading. Empty hides it.', 'intera' ),
+			'type'        => 'textarea',
+			'sanitize'    => 'wp_kses_post',
+		),
+		'docs_notice_title'   => array(
+			'section'     => 'intera_docs',
+			'label'       => __( 'Article announcement — title', 'intera' ),
+			'description' => __( 'The blue strip above every documentation article. Empty both fields and the strip stops rendering.', 'intera' ),
+			'sanitize'    => 'sanitize_text_field',
+		),
+		'docs_notice_body'    => array(
+			'section'  => 'intera_docs',
+			'label'    => __( 'Article announcement — text', 'intera' ),
+			'type'     => 'textarea',
+			'sanitize' => 'sanitize_text_field',
+		),
+		'docs_cta_heading'    => array(
+			'section'     => 'intera_docs',
+			'label'       => __( 'Category card — heading', 'intera' ),
+			'description' => __( 'The card beside a documentation category.', 'intera' ),
+			'sanitize'    => 'sanitize_text_field',
+		),
+		'docs_cta_body'       => array(
+			'section'     => 'intera_docs',
+			'label'       => __( 'Category card — text', 'intera' ),
+			'description' => __( 'The card is hidden when both the heading and the text are empty.', 'intera' ),
+			'type'        => 'textarea',
+			'sanitize'    => 'wp_kses_post',
+		),
+		'docs_cta_label'      => array(
+			'section'  => 'intera_docs',
+			'label'    => __( 'Category card — button label', 'intera' ),
+			'sanitize' => 'sanitize_text_field',
+		),
+		'docs_cta_url'        => array(
+			'section'     => 'intera_docs',
+			'label'       => __( 'Category card — button link', 'intera' ),
+			'description' => __( 'Empty points at the contact-request page.', 'intera' ),
+			'type'        => 'url',
+			'sanitize'    => 'esc_url_raw',
+		),
 	);
+
+	/*
+	 * The three panels that close the docs archive. Same four fields each, so
+	 * they are generated rather than typed out — the defaults, and therefore
+	 * the export's wording, live in `intera_option_defaults()` with everything
+	 * else.
+	 */
+	$panels = array(
+		'docs_help_limits'   => __( 'Panel 1 (limitations)', 'intera' ),
+		'docs_help_releases' => __( 'Panel 2 (releases)', 'intera' ),
+		'docs_help_ask'      => __( 'Panel 3 (ask us)', 'intera' ),
+	);
+
+	foreach ( $panels as $prefix => $panel_label ) {
+		$fields[ $prefix . '_heading' ] = array(
+			'section'     => 'intera_docs',
+			/* translators: %s: panel name, e.g. "Panel 1 (limitations)". */
+			'label'       => sprintf( __( '%s — heading', 'intera' ), $panel_label ),
+			'description' => __( 'The panel is hidden when both the heading and the text are empty.', 'intera' ),
+			'sanitize'    => 'sanitize_text_field',
+		);
+
+		$fields[ $prefix . '_body' ] = array(
+			'section'  => 'intera_docs',
+			/* translators: %s: panel name, e.g. "Panel 1 (limitations)". */
+			'label'    => sprintf( __( '%s — text', 'intera' ), $panel_label ),
+			'type'     => 'textarea',
+			'sanitize' => 'wp_kses_post',
+		);
+
+		$fields[ $prefix . '_label' ] = array(
+			'section'  => 'intera_docs',
+			/* translators: %s: panel name, e.g. "Panel 1 (limitations)". */
+			'label'    => sprintf( __( '%s — link label', 'intera' ), $panel_label ),
+			'sanitize' => 'sanitize_text_field',
+		);
+
+		$fields[ $prefix . '_url' ] = array(
+			'section'     => 'intera_docs',
+			/* translators: %s: panel name, e.g. "Panel 1 (limitations)". */
+			'label'       => sprintf( __( '%s — link target', 'intera' ), $panel_label ),
+			'description' => __( 'Empty falls back to the page the panel was drawn against.', 'intera' ),
+			'type'        => 'url',
+			'sanitize'    => 'esc_url_raw',
+		);
+	}
 
 	$priority = 10;
 

@@ -47,13 +47,10 @@ get_header();
 /*
  * The standfirst and the three closing panels are marketing copy, so they are
  * theme options with the export's wording as the registered default: an editor
- * rewrites them in the Customizer without touching the template, and a fresh
- * install still reads exactly like the handoff.
+ * rewrites them in Customizer → INTERA → Documentation without touching the
+ * template, and a fresh install still reads exactly like the handoff.
  */
-$intera_docs_intro = (string) intera_option(
-	'docs_intro',
-	__( 'Setup, integrations, the object model, and the role packages we ship. Written for the person doing the work.', 'intera' )
-);
+$intera_docs_intro = trim( (string) intera_option( 'docs_intro' ) );
 
 // The header's quick links: the docs an editor ordered first, whatever they are.
 $intera_docs_quick = new WP_Query(
@@ -87,28 +84,25 @@ $intera_docs_terms = get_terms(
 
 $intera_docs_terms = is_wp_error( $intera_docs_terms ) ? array() : $intera_docs_terms;
 
-// The closing panels: option prefix, then the export's copy as the default.
+/*
+ * The closing panels: the option prefix each one reads, and the page its link
+ * points at when nobody has typed a target. Every word is registered with the
+ * Customizer control, so the wording is not repeated here — a panel an editor
+ * has not touched still reads like the export, and emptying its heading and
+ * text is how the panel is removed.
+ */
 $intera_docs_help = array(
 	array(
-		'prefix'  => 'docs_help_limits',
-		'heading' => __( 'Alpha-stage limitations', 'intera' ),
-		'body'    => __( 'What INTERA cannot do yet is written down, not hidden. Read it before planning a rollout.', 'intera' ),
-		'label'   => __( 'Current system limitations', 'intera' ),
-		'url'     => intera_page_url( 'docs' ),
+		'prefix' => 'docs_help_limits',
+		'url'    => intera_page_url( 'docs' ),
 	),
 	array(
-		'prefix'  => 'docs_help_releases',
-		'heading' => __( 'Release information', 'intera' ),
-		'body'    => __( 'Every version notes what changed in the object model and what it means for existing roles.', 'intera' ),
-		'label'   => __( 'Release notes', 'intera' ),
-		'url'     => intera_page_url( 'blog' ),
+		'prefix' => 'docs_help_releases',
+		'url'    => intera_page_url( 'blog' ),
 	),
 	array(
-		'prefix'  => 'docs_help_ask',
-		'heading' => __( 'Question not answered here?', 'intera' ),
-		'body'    => __( 'Send the situation in two sentences. We answer with what INTERA would watch.', 'intera' ),
-		'label'   => __( 'Ask the team', 'intera' ),
-		'url'     => intera_page_url( 'contact-request' ),
+		'prefix' => 'docs_help_ask',
+		'url'    => intera_page_url( 'contact-request' ),
 	),
 );
 ?>
@@ -300,10 +294,15 @@ $intera_docs_help = array(
 		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 20px; padding-top: 32px; border-top: 1px solid var(--border-hairline)">
 			<?php
 			foreach ( $intera_docs_help as $intera_docs_panel ) :
-				$intera_docs_heading = (string) intera_option( $intera_docs_panel['prefix'] . '_heading', $intera_docs_panel['heading'] );
-				$intera_docs_body    = (string) intera_option( $intera_docs_panel['prefix'] . '_body', $intera_docs_panel['body'] );
-				$intera_docs_label   = (string) intera_option( $intera_docs_panel['prefix'] . '_label', $intera_docs_panel['label'] );
-				$intera_docs_url     = (string) intera_option( $intera_docs_panel['prefix'] . '_url', $intera_docs_panel['url'] );
+				$intera_docs_heading = trim( (string) intera_option( $intera_docs_panel['prefix'] . '_heading' ) );
+				$intera_docs_body    = trim( (string) intera_option( $intera_docs_panel['prefix'] . '_body' ) );
+				$intera_docs_label   = trim( (string) intera_option( $intera_docs_panel['prefix'] . '_label' ) );
+				$intera_docs_url     = trim( (string) intera_option( $intera_docs_panel['prefix'] . '_url' ) );
+
+				// No target typed: the page this panel was drawn against.
+				if ( '' === $intera_docs_url ) {
+					$intera_docs_url = (string) $intera_docs_panel['url'];
+				}
 
 				if ( '' === $intera_docs_heading && '' === $intera_docs_body ) {
 					continue;

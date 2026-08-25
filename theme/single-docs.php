@@ -217,8 +217,8 @@ while ( have_posts() ) :
 	 * the default: an editor rewrites it once, or empties both fields and the
 	 * Alert stops rendering everywhere.
 	 */
-	$intera_doc_notice_title = trim( (string) intera_option( 'docs_notice_title', __( 'Naming changed in v0.003', 'intera' ) ) );
-	$intera_doc_notice_body  = trim( (string) intera_option( 'docs_notice_body', __( 'KPI is now Metric across the product and the docs. Existing roles were migrated automatically; saved dashboards keep working.', 'intera' ) ) );
+	$intera_doc_notice_title = trim( (string) intera_option( 'docs_notice_title' ) );
+	$intera_doc_notice_body  = trim( (string) intera_option( 'docs_notice_body' ) );
 
 	// The block under the rail's hairline — passed to the partial as trusted HTML.
 	$intera_doc_rail_footer = '';

@@ -14,7 +14,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /** Theme version — bump on every release; used for cache busting. Keep in sync with style.css. */
-define( 'INTERA_VERSION', '0.7.10' );
+define( 'INTERA_VERSION', '0.7.11' );
 
 /** Absolute path to the theme root, with a trailing slash. */
 define( 'INTERA_DIR', trailingslashit( get_template_directory() ) );
@@ -83,7 +83,14 @@ if ( ! function_exists( 'intera_copy' ) ) {
 		foreach ( intera_copy_schema() as $intera_copy_group ) {
 			foreach ( $intera_copy_group['sections'] as $intera_copy_section ) {
 				if ( isset( $intera_copy_section['fields'][ $key ] ) ) {
-					return (string) $intera_copy_section['fields'][ $key ];
+					$intera_copy_field = $intera_copy_section['fields'][ $key ];
+
+					// A field carrying its own editor label is an array; the rest are the string itself.
+					if ( is_array( $intera_copy_field ) ) {
+						return isset( $intera_copy_field['default'] ) ? (string) $intera_copy_field['default'] : '';
+					}
+
+					return (string) $intera_copy_field;
 				}
 			}
 		}

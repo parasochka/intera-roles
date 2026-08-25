@@ -70,7 +70,7 @@ get_header();
 			 * ends the footer legal line, so it is read as an option rather than
 			 * typed here; the mockup's copy is the registered fallback.
 			 */
-			$intera_hero_status = trim( (string) intera_option( 'hero_status', __( 'In beta — Early Adopter programme open', 'intera' ) ) );
+			$intera_hero_status = trim( (string) intera_option( 'hero_status' ) );
 			?>
 			<?php if ( '' !== $intera_hero_status ) : ?>
 				<div class="itr-panel" style="--itr-edge: rgba(255,255,255,.22); --itr-bg: rgba(255,255,255,.06); display: inline-flex; align-items: center; gap: 9px; border-radius: var(--radius-round); padding: 5px 14px 5px 10px">
@@ -250,35 +250,35 @@ get_header();
 				array(
 					'icon'   => 'boxes',
 					'label'  => intera_copy( 'home_problem__erp' ),
-					'ref'    => 'erp.orders',
+					'ref'    => intera_copy( 'home_problem__erp_orders' ),
 					'dot'    => 'var(--ink-200)',
 					'indent' => 0,
 				),
 				array(
 					'icon'   => 'contact',
 					'label'  => intera_copy( 'home_problem__crm' ),
-					'ref'    => 'crm.accounts',
+					'ref'    => intera_copy( 'home_problem__crm_accounts' ),
 					'dot'    => 'var(--ink-200)',
 					'indent' => 26,
 				),
 				array(
 					'icon'   => 'receipt',
 					'label'  => intera_copy( 'home_problem__billing' ),
-					'ref'    => 'billing.invoices',
+					'ref'    => intera_copy( 'home_problem__billing_invoices' ),
 					'dot'    => 'var(--status-warning)',
 					'indent' => 52,
 				),
 				array(
 					'icon'   => 'table-2',
 					'label'  => intera_copy( 'home_problem__spreadsheets' ),
-					'ref'    => 'ops_checks.xlsx',
+					'ref'    => intera_copy( 'home_problem__ops_checks_xlsx' ),
 					'dot'    => 'var(--ink-200)',
 					'indent' => 26,
 				),
 				array(
 					'icon'   => 'terminal',
 					'label'  => intera_copy( 'home_problem__internal_tools' ),
-					'ref'    => 'provisioning.api',
+					'ref'    => intera_copy( 'home_problem__provisioning_api' ),
 					'dot'    => 'var(--ink-200)',
 					'indent' => 0,
 				),

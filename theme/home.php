@@ -57,7 +57,7 @@ $intera_blog_lede    = $intera_blog_page_id ? trim( (string) get_the_excerpt( $i
 $intera_blog_url     = intera_page_url( 'blog' );
 
 $intera_blog_cats = get_categories( array( 'hide_empty' => true ) );
-$intera_blog_note = trim( (string) intera_option( 'blog_docs_note', '' ) );
+$intera_blog_note = trim( (string) intera_option( 'blog_docs_note' ) );
 ?>
 
 <section data-screen-label="Blog header" style="background: var(--surface-page); border-bottom: 1px solid var(--border-hairline)">

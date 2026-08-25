@@ -119,6 +119,36 @@ function intera_copy_vsprintf( $format, array $args ) {
 	}
 }
 
+if ( ! function_exists( 'intera_copy_field' ) ) :
+	/**
+	 * One schema entry, normalised.
+	 *
+	 * A field is normally just its default string — the design's own wording is
+	 * also the name an editor recognises it by, which is what
+	 * `intera_copy_field_label()` relies on. That breaks down for the handful of
+	 * fields whose default is a bare figure: a control labelled "+2" tells an
+	 * editor nothing about which tile it sits in. Those entries are written as
+	 * `array( 'default' => '+2', 'label' => … )` instead, and this is where the
+	 * two shapes become one.
+	 *
+	 * @param string|array{default:string,label:string} $field Schema entry.
+	 * @return array{default:string,label:string} Label is '' when the default is its own name.
+	 */
+	function intera_copy_field( $field ) {
+		if ( is_array( $field ) ) {
+			return array(
+				'default' => isset( $field['default'] ) ? (string) $field['default'] : '',
+				'label'   => isset( $field['label'] ) ? (string) $field['label'] : '',
+			);
+		}
+
+		return array(
+			'default' => (string) $field,
+			'label'   => '',
+		);
+	}
+endif;
+
 /**
  * Every registered default, flattened to key => string.
  *
@@ -143,8 +173,9 @@ function intera_copy_defaults() {
 
 	foreach ( intera_copy_schema() as $group ) {
 		foreach ( $group['sections'] as $section ) {
-			foreach ( $section['fields'] as $key => $default ) {
-				$flat[ $key ] = $default;
+			foreach ( $section['fields'] as $key => $field ) {
+				$resolved     = intera_copy_field( $field );
+				$flat[ $key ] = $resolved['default'];
 			}
 		}
 	}
@@ -336,7 +367,10 @@ function intera_render_copy_meta_box( $post ) {
 			<legend><?php echo esc_html( $section['label'] ); ?></legend>
 
 			<?php
-			foreach ( $section['fields'] as $key => $default ) :
+			foreach ( $section['fields'] as $key => $field ) :
+				$resolved = intera_copy_field( $field );
+				$default  = $resolved['default'];
+				$label    = '' !== $resolved['label'] ? $resolved['label'] : intera_copy_field_label( $default );
 				$id       = 'intera-copy-' . sanitize_html_class( $key );
 				/*
 				 * The control shows the design's own wording when nothing has
@@ -352,7 +386,7 @@ function intera_render_copy_meta_box( $post ) {
 				$textarea = mb_strlen( $default ) > INTERA_COPY_TEXTAREA_AT;
 				?>
 				<p class="intera-copy-field">
-					<label for="<?php echo esc_attr( $id ); ?>"><?php echo esc_html( intera_copy_field_label( $default ) ); ?></label>
+					<label for="<?php echo esc_attr( $id ); ?>"><?php echo esc_html( $label ); ?></label>
 					<?php if ( $textarea ) : ?>
 						<textarea id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $name ); ?>" rows="2" class="large-text" placeholder="<?php echo esc_attr( $default ); ?>"><?php echo esc_textarea( $value ); ?></textarea>
 					<?php else : ?>

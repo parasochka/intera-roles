@@ -165,8 +165,8 @@ $intera_chain_captions = array(
 						null,
 						array(
 							'label'     => intera_copy( 'product_product_header__open_incidents' ),
-							'value'     => '7',
-							'delta'     => '+2',
+							'value'     => intera_copy( 'product_product_header__7' ),
+							'delta'     => intera_copy( 'product_product_header__2' ),
 							'direction' => 'up',
 							'tone'      => 'warning',
 						)
@@ -177,8 +177,8 @@ $intera_chain_captions = array(
 						null,
 						array(
 							'label'     => intera_copy( 'product_product_header__unreconciled' ),
-							'value'     => '4,812',
-							'delta'     => '-311',
+							'value'     => intera_copy( 'product_product_header__4812' ),
+							'delta'     => intera_copy( 'product_product_header__311' ),
 							'direction' => 'down',
 							'tone'      => 'ok',
 						)

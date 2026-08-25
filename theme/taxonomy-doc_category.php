@@ -345,10 +345,8 @@ $intera_docs_others = is_wp_error( $intera_docs_others ) ? array() : $intera_doc
 				'template-parts/partials/sidebar-cta',
 				null,
 				array(
+					// The partial reads docs_cta_heading / _body / _label / _url itself.
 					'option_prefix' => 'docs_cta',
-					'heading'       => (string) intera_option( 'docs_cta_heading', __( 'Setting up the first role with us', 'intera' ) ),
-					'body'          => (string) intera_option( 'docs_cta_body', __( 'Early Adopters get custom onboarding: we connect the first source and build the first check together.', 'intera' ) ),
-					'cta_label'     => (string) intera_option( 'docs_cta_label', __( 'Apply as Early Adopter', 'intera' ) ),
 					'accent'        => 'var(--signal-reconciliation)',
 					'accent_line'   => 'var(--signal-reconciliation-line)',
 				)

@@ -131,8 +131,8 @@ while ( have_posts() ) :
 	}
 
 	// The closing strip: the standing note, the copy control and the ask-us button.
-	$intera_post_note      = trim( (string) intera_option( 'article_note', __( 'Names and figures are anonymised at the customer’s request.', 'intera' ) ) );
-	$intera_post_cta_label = trim( (string) intera_option( 'article_cta_label', __( 'Bring us a real problem', 'intera' ) ) );
+	$intera_post_note      = trim( (string) intera_option( 'article_note' ) );
+	$intera_post_cta_label = trim( (string) intera_option( 'article_cta_label' ) );
 	$intera_post_cta_url   = trim( (string) intera_page_url( 'contact-request' ) );
 	?>
 

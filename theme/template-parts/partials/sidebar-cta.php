@@ -18,10 +18,19 @@
  *     blog_cta        blog_cta_heading / _body / _label / _url      (08-blog)
  *     docs_cta        docs_cta_heading  / _body / _label / _url     (13-docs-category)
  *
+ * All twelve are registered in `inc/customizer.php` with the export's own
+ * wording as the default, which is what makes a card appear on a site nobody
+ * has been through yet. That registration is load-bearing rather than a
+ * convenience: this partial returns early when the heading and the body are
+ * both empty, so for as long as the three prefixes had no defaults the card the
+ * design draws beside the blog, every category and every archive rendered
+ * nowhere at all.
+ *
  * An explicitly passed value always wins over the option, so a template that
  * already holds the copy (a term description, say) can hand it straight over.
  * Nothing is rendered when there is no heading and no body: an accent stripe
- * over an empty card is worse than no card.
+ * over an empty card is worse than no card — which is also how an editor
+ * switches a card off, by clearing both fields.
  *
  * PORT.md §1 is handled by the `card` component itself — it emits `--itr-edge`
  * and keeps border, background and shadow in `.itr-hl`, so nothing here writes
@@ -84,8 +93,16 @@ $intera_cta_value = static function ( $explicit, $suffix ) use ( $intera_cta_pre
 		return $explicit;
 	}
 
+	/*
+	 * One argument, so the Customizer's registered default is what an untouched
+	 * option answers with. Passing '' here instead — which this did until the
+	 * defaults existed — meant `blog_cta` and `sidebar_cta` resolved to nothing
+	 * and the card the design draws beside the blog, every category and every
+	 * archive was never rendered at all. A prefix nobody registered still
+	 * resolves to '', which is what keeps that case silent.
+	 */
 	return function_exists( 'intera_option' )
-		? (string) intera_option( $intera_cta_prefix . '_' . $suffix, '' )
+		? (string) intera_option( $intera_cta_prefix . '_' . $suffix )
 		: '';
 };
 

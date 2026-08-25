@@ -90,8 +90,8 @@ if ( '' !== $intera_archive_desc ) {
  * returns early with no heading and no body, and a 340px column of nothing is
  * worse than one column.
  */
-$intera_archive_aside = '' !== trim( (string) intera_option( 'sidebar_cta_heading', '' ) )
-	|| '' !== trim( (string) intera_option( 'sidebar_cta_body', '' ) );
+$intera_archive_aside = '' !== trim( (string) intera_option( 'sidebar_cta_heading' ) )
+	|| '' !== trim( (string) intera_option( 'sidebar_cta_body' ) );
 
 $intera_archive_cols = $intera_archive_aside ? 'minmax(0, 1fr) minmax(0, 340px)' : 'minmax(0, 1fr)';
 ?>

@@ -199,8 +199,8 @@ foreach ( $intera_faq_toc as $intera_faq_heading ) {
 }
 
 // The block under the rail's hairline: the Customizer blurb and the ask-us button.
-$intera_faq_blurb    = trim( (string) intera_option( 'faq_rail_body', '' ) );
-$intera_faq_ask      = trim( (string) intera_option( 'faq_rail_cta_label', __( 'Ask a question', 'intera' ) ) );
+$intera_faq_blurb    = trim( (string) intera_option( 'faq_rail_body' ) );
+$intera_faq_ask      = trim( (string) intera_option( 'faq_rail_cta_label' ) );
 $intera_faq_ask_url  = trim( (string) intera_page_url( 'contact-request' ) );
 $intera_faq_aside    = '';
 
