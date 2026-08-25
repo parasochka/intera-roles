@@ -12,6 +12,16 @@
  * refresh can never resubmit. `inc/forms.php` owns everything behind the
  * `<form>`; this file only renders it and reads the outcome back.
  *
+ * **What the live site sends through is Contact Form 7.** The form, its fields,
+ * its two mails, the SMTP transport, the Flamingo record and the reCAPTCHA v2
+ * checkbox are all configured in wp-admin, so the first branch below renders
+ * the plugin's own form inside the export's Card and `inc/cf7.php` dresses it
+ * in the design system — the plugin's controls, at the design's size, colour
+ * and grid. The two branches under it are what draws the screen when there is
+ * no plugin form to render: the theme's own form, and its success card. A
+ * request page that has quietly stopped sending is the one outcome none of the
+ * three may have.
+ *
  * What comes from WordPress:
  *
  * | slot                    | source                                            |
@@ -74,6 +84,50 @@ $intera_sent      = intera_form_succeeded();
 $intera_errors    = intera_form_errors_get();
 $intera_reference = intera_form_reference_get();
 
+/*
+ * The form the live site actually sends through: Contact Form 7, configured in
+ * wp-admin, mailed over SMTP, filed by Flamingo and gated by a reCAPTCHA v2
+ * checkbox. `inc/cf7.php` renders the plugin's own form and dresses it in the
+ * design system, so this file only chooses between the two.
+ *
+ * '' means there is no plugin form to show — deactivated, ID cleared, form
+ * deleted — and the theme's own handler below takes the screen back. A request
+ * page that has stopped sending is the one outcome neither branch may have.
+ */
+$intera_cf7_form = function_exists( 'intera_cf7_form_html' ) ? intera_cf7_form_html() : '';
+
+/**
+ * The line under the form about what happens to what was typed into it.
+ *
+ * Rendered by both branches, so it is composed once. The legal page is a link
+ * when the editor has assigned that template and plain words when they have
+ * not — the design never prints a link to nowhere.
+ *
+ * @param string $legal_url Permalink of the policy page, or ''.
+ * @return string
+ */
+$intera_privacy_note = static function ( $legal_url ) {
+	ob_start();
+	?>
+	<p style="font-size: var(--text-xs); color: var(--ink-500); margin-top: 14px; line-height: 1.5">
+		<?php
+		if ( '' !== $legal_url ) {
+			/* translators: %s: link to the privacy policy, reading "privacy policy". */
+			echo wp_kses_post(
+				intera_copy_format(
+					'request_request_form__we_use_what_you_send_only',
+					'<a href="' . esc_url( $legal_url ) . '">' . esc_html( intera_copy( 'request_request_form__privacy_policy' ) ) . '</a>'
+				)
+			);
+		} else {
+			echo esc_html( intera_copy( 'request_request_form__we_use_what_you_send_only_2' ) );
+		}
+		?>
+	</p>
+	<?php
+	return (string) ob_get_clean();
+};
+
 /**
  * One validation message, or '' when the field passed.
  *
@@ -110,7 +164,33 @@ $intera_error_for = static function ( $errors, $field ) {
 <section data-screen-label="Request form" style="background: var(--surface-page)">
 	<div style="max-width: 1160px; margin: 0 auto; padding: clamp(28px, 7vw, 48px) clamp(20px, 5vw, 24px) clamp(51px, 7vw, 88px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 44px; align-items: start">
 		<?php
-		if ( ! $intera_sent ) :
+		if ( '' !== $intera_cf7_form ) :
+
+			/* ---------------------------------------------------------------
+			 * The plugin branch. The export's Card, with Contact Form 7's own
+			 * form inside it in place of the theme's seven controls: same
+			 * frame, same padding, same `itr-hl` hover, and the plugin keeps
+			 * its nonce, its endpoint, its captcha, its mail and its spam
+			 * check. `inc/cf7.php` is where the plugin's markup is dressed.
+			 *
+			 * The Card is a <div>, not a <form>: the plugin draws the <form>
+			 * itself, and nesting one inside another is markup no browser will
+			 * keep. `#intera-request-form` stays on the outer element so every
+			 * link on the site that points at the form still lands on it.
+			 * ------------------------------------------------------------ */
+			get_template_part(
+				'template-parts/components/card',
+				null,
+				array(
+					'padding' => 'loose',
+					'class'   => 'itr-hl',
+					// The plugin's own markup, dressed in inc/cf7.php.
+					'content' => $intera_cf7_form . $intera_privacy_note( $intera_legal_url ),
+					'attrs'   => array( 'id' => 'intera-request-form' ),
+				)
+			);
+
+		elseif ( ! $intera_sent ) :
 
 			/* ---------------------------------------------------------------
 			 * The form branch — the export's `<sc-if value="{{ showForm }}">`.
@@ -374,22 +454,9 @@ $intera_error_for = static function ( $errors, $field ) {
 				);
 				?>
 			</div>
-			<p style="font-size: var(--text-xs); color: var(--ink-500); margin-top: 14px; line-height: 1.5">
-				<?php
-				if ( '' !== $intera_legal_url ) {
-					/* translators: %s: link to the privacy policy, reading "privacy policy". */
-					echo wp_kses_post(
-						intera_copy_format(
-							'request_request_form__we_use_what_you_send_only',
-							'<a href="' . esc_url( $intera_legal_url ) . '">' . esc_html( intera_copy( 'request_request_form__privacy_policy' ) ) . '</a>'
-						)
-					);
-				} else {
-					echo esc_html( intera_copy( 'request_request_form__we_use_what_you_send_only_2' ) );
-				}
-				?>
-			</p>
 			<?php
+			echo $intera_privacy_note( $intera_legal_url ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped where it is composed.
+
 			$intera_form_body = ob_get_clean();
 
 			get_template_part(

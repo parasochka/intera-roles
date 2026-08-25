@@ -2573,3 +2573,275 @@ a.itr-foot-link:focus-visible,
 		transition: none;
 	}
 }
+
+/* ==========================================================================
+   Contact Form 7 — the request form the site sends
+   --------------------------------------------------------------------------
+   `inc/cf7.php` renders the plugin's own form on the contact-request page and
+   adds the design system's control classes to what the plugin drew, so an
+   input, a textarea and the submit button are already `.itr-input`,
+   `.itr-input--area` and `.itr-btn` by the time they get here. What is left is
+   the layout the export draws around them — the two-column field block, the
+   label above each control, the rule above the submit row — plus the handful
+   of declarations the plugin writes about its own parts.
+
+   Every selector here starts `.wpcf7 form.itr-cf7` on purpose. The plugin
+   writes rules about its own parts — `.wpcf7 form .wpcf7-response-output` is a
+   2px frame with 2em of margin — and which of the two sheets wins a tie is
+   decided by print order, which is decided by the order two `wp_enqueue_scripts`
+   callbacks happen to run in. Today the theme's inlined block prints after the
+   plugin's stylesheet and would win a tie; nothing here guarantees that
+   tomorrow. So these rules beat the plugin's rather than match them, and
+   `form.itr-cf7` (inc/cf7.php, via `wpcf7_form_class_attr`) is the class that
+   buys the margin.
+
+   The 18px grid gap and the 18px rule above the submit row are the export's
+   own numbers, the same ones `page-contact-request.php` carries inline for the
+   theme's fallback form; they are spacing the handoff drew, not tokens.
+   ========================================================================== */
+
+.wpcf7 form.itr-cf7 {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+	gap: 18px;
+}
+
+.wpcf7 form.itr-cf7 > p {
+	margin: 0;
+}
+
+/* The short fields share the two columns; everything that is a row of its own
+   in the design spans both. `:has()` is what reads the control out of the
+   paragraph the plugin wrapped it in — without it the form is a single column,
+   which is the phone layout, so the fallback is a plainer screen and not a
+   broken one. */
+.wpcf7 form.itr-cf7 > p:has(textarea),
+.wpcf7 form.itr-cf7 > p:has(.wpcf7-submit),
+.wpcf7 form.itr-cf7 > p:has(.wpcf7-acceptance),
+.wpcf7 form.itr-cf7 > .wpcf7-form-control-wrap,
+.wpcf7 form.itr-cf7 > .wpcf7-response-output {
+	grid-column: 1 / -1;
+}
+
+/* The order the visitor reads, whatever order the tags are in the form
+   template an editor edits in wp-admin: the fields, the long answer, the
+   consent, then the captcha immediately above the button it gates, and the
+   plugin's reply to the submission last. */
+.wpcf7 form.itr-cf7 > * {
+	order: 1;
+}
+
+.wpcf7 form.itr-cf7 > p:has(textarea) {
+	order: 2;
+}
+
+.wpcf7 form.itr-cf7 > p:has(.wpcf7-acceptance) {
+	order: 3;
+}
+
+.wpcf7 form.itr-cf7 > .wpcf7-form-control-wrap:has(.wpcf7-recaptcha) {
+	order: 4;
+}
+
+.wpcf7 form.itr-cf7 > p:has(.wpcf7-submit) {
+	order: 5;
+}
+
+.wpcf7 form.itr-cf7 > .wpcf7-response-output {
+	order: 6;
+}
+
+/* The plugin writes `<label> Work email<br /> <span…><input…></span></label>`.
+   The <br> is what stacked the two; a flex column does it with the design's own
+   6px, and the wrapper `inc/cf7.php` puts around the text is what lets the
+   label carry the design's size, weight and colour at all — a bare text node
+   has no selector. */
+.wpcf7 form.itr-cf7 label {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.wpcf7 form.itr-cf7 label br {
+	display: none;
+}
+
+.wpcf7 form.itr-cf7 .itr-cf7-label {
+	font-size: var(--text-sm);
+	font-weight: var(--weight-medium);
+	color: var(--ink-800);
+	line-height: 1.3;
+}
+
+/* The `Field` component's mark for a required control. `aria-required` is what
+   a screen reader is told; this is the visible half of the same fact. */
+.wpcf7 form.itr-cf7 .itr-cf7-req {
+	color: var(--status-critical);
+	margin-left: 3px;
+}
+
+/* A consent box reads along its label, not above it. */
+.wpcf7 form.itr-cf7 .wpcf7-list-item {
+	margin: 0;
+	display: block;
+}
+
+.wpcf7 form.itr-cf7 .wpcf7-list-item label {
+	flex-direction: row;
+	align-items: flex-start;
+	gap: 9px;
+	font-size: var(--text-sm);
+	color: var(--ink-700);
+	line-height: var(--leading-normal);
+}
+
+.wpcf7 form.itr-cf7 .wpcf7-list-item input[type="checkbox"] {
+	margin-top: 2px;
+	flex: none;
+	accent-color: var(--action-primary);
+}
+
+/* The `Select`: the native arrow off, a Lucide chevron over the right edge —
+   the same icon call the component makes, wrapped in inc/cf7.php. */
+.wpcf7 form.itr-cf7 .itr-cf7-select {
+	position: relative;
+	display: block;
+}
+
+.wpcf7 form.itr-cf7 .itr-cf7-select > select {
+	appearance: none;
+	-webkit-appearance: none;
+	padding-right: 32px;
+	cursor: pointer;
+}
+
+.wpcf7 form.itr-cf7 .itr-cf7-select__chevron {
+	position: absolute;
+	right: 10px;
+	top: 50%;
+	transform: translateY(-50%);
+	display: flex;
+	color: var(--ink-500);
+	pointer-events: none;
+}
+
+/* The plugin sizes a textarea by the `rows` an editor typed into the form tag;
+   the export draws this box six lines deep, and the box is layout. Six lines of
+   the control's own leading, plus the 9px of padding and the 1px of border the
+   control sheet puts above and below it — a `rows` of 10 therefore changes the
+   words the field asks for and not the shape of the card. `resize: vertical` is
+   still on it, so a visitor with more to say can still pull it open. */
+.wpcf7 form.itr-cf7 textarea {
+	height: calc(6 * var(--leading-normal) * 1em + 20px);
+	min-height: 88px;
+}
+
+/* The export's submit row: a hairline above it, the button at the right end. */
+.wpcf7 form.itr-cf7 > p:has(.wpcf7-submit) {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 16px;
+	padding-top: 18px;
+	border-top: 1px solid var(--border-hairline);
+}
+
+/* The plugin's spinner is a dark-grey disc with 24px of margin either side. */
+.wpcf7 form.itr-cf7 .wpcf7-spinner {
+	margin: 0;
+	background-color: var(--ink-400);
+}
+
+/* A field the plugin rejected, and the message it rejected it with. The class
+   arrives from the plugin's own script after an AJAX round trip, which is why
+   this is keyed on `.wpcf7-not-valid` and not on the theme's own
+   `.itr-input--invalid`. */
+.wpcf7 form.itr-cf7 .wpcf7-not-valid {
+	border-color: var(--status-critical);
+}
+
+.wpcf7 form.itr-cf7 .wpcf7-not-valid:focus {
+	border-color: var(--status-critical);
+	box-shadow: var(--ring-danger);
+}
+
+.wpcf7 form.itr-cf7 .wpcf7-not-valid-tip {
+	margin-top: 6px;
+	font-size: var(--text-xs);
+	line-height: var(--leading-normal);
+	color: var(--status-critical);
+}
+
+/* The plugin's answer to a submission, dressed as the design's `Alert`: the
+   plugin draws it as a 2px blue frame with 2em of margin, and colours that
+   frame per outcome. Same five outcomes, in the status tones. */
+.wpcf7 form.itr-cf7 .wpcf7-response-output {
+	margin: 0;
+	padding: var(--space-3) var(--space-4);
+	border: 1px solid var(--border-default);
+	border-radius: var(--radius-md);
+	background: var(--surface-sunken);
+	color: var(--ink-700);
+	font-size: var(--text-sm);
+	line-height: var(--leading-normal);
+}
+
+.wpcf7 form.itr-cf7.sent .wpcf7-response-output {
+	border-color: var(--status-ok-line);
+	background: var(--status-ok-soft);
+	color: var(--ink-800);
+}
+
+.wpcf7 form.itr-cf7.invalid .wpcf7-response-output,
+.wpcf7 form.itr-cf7.unaccepted .wpcf7-response-output,
+.wpcf7 form.itr-cf7.payment-required .wpcf7-response-output,
+.wpcf7 form.itr-cf7.spam .wpcf7-response-output {
+	border-color: var(--status-warning-line);
+	background: var(--status-warning-soft);
+	color: var(--ink-800);
+}
+
+.wpcf7 form.itr-cf7.failed .wpcf7-response-output,
+.wpcf7 form.itr-cf7.aborted .wpcf7-response-output {
+	border-color: var(--status-critical-line);
+	background: var(--status-critical-soft);
+	color: var(--ink-800);
+}
+
+/* The reCAPTCHA is a control the visitor has to see and pass, so it gets a row
+   of its own directly above the button — `order: 4`, above. */
+.wpcf7 form.itr-cf7 .wpcf7-recaptcha {
+	display: block;
+}
+
+/* Without a script the plugin falls back to Google's own 310px frame. */
+.wpcf7 form.itr-cf7 .grecaptcha-noscript iframe {
+	max-width: 100%;
+}
+
+/* The widget is Google's, and it is 304px wide whatever it is put in. Inside
+   the request card at 375px there are 214–269px of content — page gutter, card
+   border and `--space-7` of card padding are already spent — so from here down
+   it is scaled, and its box is given the height the scale leaves it, since a
+   transform moves nothing around it. The steps are the two the card actually
+   has to answer: 258px of widget against 269px of card at 375px, and 213px
+   against 214px at 320px. */
+@media (max-width: 480px) {
+
+	.wpcf7 form.itr-cf7 .wpcf7-recaptcha {
+		--itr-captcha-height: 78px;
+		--itr-captcha-scale: 0.85;
+
+		transform: scale(var(--itr-captcha-scale));
+		transform-origin: 0 0;
+		height: calc(var(--itr-captcha-height) * var(--itr-captcha-scale));
+	}
+}
+
+@media (max-width: 374.98px) {
+
+	.wpcf7 form.itr-cf7 .wpcf7-recaptcha {
+		--itr-captcha-scale: 0.7;
+	}
+}
