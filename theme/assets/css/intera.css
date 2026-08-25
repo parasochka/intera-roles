@@ -63,6 +63,29 @@ video {
 	padding-left: 20px;
 }
 
+/* A chip is measured from its own label — that is what `white-space: nowrap`
+   in the export says — and it is almost always a flex item beside a sentence
+   that wraps: the "Latest" rows of the product header, a card's title line, a
+   table cell. The export gives it no `flex`, so it keeps the initial
+   `0 1 auto` and is shrinkable, and the only thing between a shrinkable
+   nowrap item and its own text is the automatic minimum size — a floor
+   Blink holds and WebKit gives up.
+
+   On iOS that is exactly what happened to the product header: the
+   RECONCILIATION, INCIDENT and PATTERN badges came out narrower than their
+   labels, so the right padding vanished and the last letter of each label sat
+   on, or past, the badge's own border. Blink never shrank them, which is why
+   the same page is correct in a desktop browser and why nothing here changes
+   what Chrome or Firefox draw.
+
+   `flex: none` writes down what the design already assumed: the row gives the
+   chip its width and the sentence beside it takes the rest. It costs nothing
+   where the chip already fits, and it stays a floor no engine can round off. */
+.itr-badge,
+.itr-signal-badge {
+	flex: none;
+}
+
 /* ==========================================================================
    2. Design-system control sheets
    The export injects these three at runtime from _ds/intera/_ds_bundle.js
@@ -1625,6 +1648,16 @@ a.itr-foot-link:focus-visible,
 	.intera-prose table {
 		display: block;
 		overflow-x: auto;
+	}
+
+	/* A link button is a sentence with an arrow — "Telecommunications package
+	   →" is 227px — and the control sheet keeps every button on one line. It
+	   has no frame and no fixed height to break, so on the narrowest phones it
+	   wraps rather than reaches past the card it sits in. Every other variant
+	   keeps `nowrap`: those do have a height. */
+	.itr-btn--link {
+		white-space: normal;
+		text-align: left;
 	}
 
 	.comment-list .children {

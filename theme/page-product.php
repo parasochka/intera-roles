@@ -576,8 +576,26 @@ $intera_chain_captions = array(
 			foreach ( $intera_packages as $intera_package ) :
 				ob_start();
 				?>
-				<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
-					<div style="display: flex; align-items: center; gap: 10px">
+				<?php
+				/*
+				 * The package name and its "Beta" chip. The export writes this
+				 * line for a 560px card and never lets it wrap, which on a
+				 * phone is 279px of icon, name and chip inside as little as
+				 * 214px of card: at 375px the chip hangs over the card's own
+				 * padding, at 360px it clears the edge entirely. `flex-wrap`
+				 * drops the chip under the name instead, and `min-width: 0`
+				 * lets the name itself break — a single unbreakable word
+				 * ("Telecommunications" is 198px at --text-xl) is wider than a
+				 * 320px card on its own, and a flex item will not go below its
+				 * longest word until it is allowed to. It is on the name as
+				 * well as on the group: each is a flex item, and the floor has
+				 * to come off both before the `overflow-wrap: break-word` the
+				 * phone breakpoint puts on <body> has a line short enough to
+				 * act on.
+				 */
+				?>
+				<div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px">
+					<div style="display: flex; align-items: center; gap: 10px; min-width: 0">
 						<?php
 						intera_icon(
 							$intera_package['icon'],
@@ -587,7 +605,7 @@ $intera_chain_captions = array(
 							)
 						);
 						?>
-						<span style="font-size: var(--text-xl); font-weight: 600; letter-spacing: -0.01em"><?php echo esc_html( $intera_package['title'] ); ?></span>
+						<span style="font-size: var(--text-xl); font-weight: 600; letter-spacing: -0.01em; min-width: 0"><?php echo esc_html( $intera_package['title'] ); ?></span>
 					</div>
 					<?php
 					get_template_part(

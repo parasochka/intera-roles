@@ -134,6 +134,20 @@ WordPress calls (`the_title`, `the_content`, `the_post_thumbnail`, `WP_Query`,
 3. **Layout/structure** → the relevant `theme/*.php`, matching the handoff
    screen.
 
+**A screen that is correct in Chrome is not yet checked.** The handoff is drawn
+at one width in one engine, and the two things it leaves out both surface on a
+phone. A chip with `white-space: nowrap` — every `Badge` and `SignalBadge` — is
+a flex item with the initial `0 1 auto`, and the automatic minimum size is all
+that stops a row from squeezing it below its own label: Blink honours that
+floor, WebKit gives it up, and on iOS the product header's badges spilled their
+labels past their own borders while every desktop browser drew them correctly.
+The mirror image is a row that cannot shrink at all — an unbreakable word, a
+name beside a chip — which reaches past the card in *every* engine once the
+viewport is 375px instead of 560px. So: state `flex: none` on a chip rather
+than trusting the floor, give a long name `min-width: 0` (on the item *and* its
+group — the floor has to come off both) so `overflow-wrap` can act, and check a
+change at 320, 375 and 390px, not only at desktop.
+
 ## Non-negotiable rules
 
 - **Tokens are the source of truth.** No second copy of a color or spacing value
