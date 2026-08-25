@@ -796,7 +796,7 @@ get_header();
 
 			foreach ( $intera_tiles as $intera_tile ) :
 				?>
-				<div class="itr-tile" style="display: flex; align-items: center; gap: 10px; white-space: nowrap; border-radius: var(--radius-md); padding: 16px; font-size: var(--text-md); color: var(--ink-800)">
+				<div class="itr-tile" style="display: flex; align-items: center; gap: 10px; border-radius: var(--radius-md); padding: 16px; font-size: var(--text-md); color: var(--ink-800)">
 					<?php
 					intera_icon(
 						$intera_tile[0],

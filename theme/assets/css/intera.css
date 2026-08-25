@@ -287,8 +287,13 @@ a.itr-btn--outlineInverse:hover {
 	box-shadow: 0 10px 22px -14px rgba(14,26,43,.28);
 }
 
-/* Compact label tiles: 4px rise, --blue-50 fill. */
+/* Compact label tiles: 4px rise, --blue-50 fill. The one-line label is the
+   export's, and it lives here rather than inline because the narrowest phones
+   give these tiles a column narrower than "Market packages" — §12 puts that
+   label back on two lines there, and it can only do that if `white-space` is
+   not sitting in a style attribute where no breakpoint can reach it. */
 .itr-tile {
+	white-space: nowrap;
 	background: var(--itr-bg, var(--white));
 	border: 1px solid var(--itr-edge, var(--border-card));
 	transition:
@@ -1650,18 +1655,93 @@ a.itr-foot-link:focus-visible,
 		overflow-x: auto;
 	}
 
-	/* A link button is a sentence with an arrow — "Telecommunications package
-	   →" is 227px — and the control sheet keeps every button on one line. It
-	   has no frame and no fixed height to break, so on the narrowest phones it
-	   wraps rather than reaches past the card it sits in. Every other variant
-	   keeps `nowrap`: those do have a height. */
-	.itr-btn--link {
+	/* Every button on this breakpoint is a label that has to fit a phone
+	   column. The control sheet keeps a button on one line and gives it a
+	   fixed height, which is right for a bar or a card at 560px and wrong at
+	   320px: an editor's sentence — "I have a problem INTERA could solve" is
+	   271px, "Talk to us about your deployment" is 228px, "Telecommunications
+	   package →" is 227px, against a column of 206–230px — simply left the
+	   button, or took the button out of the column it sits in. Here the label
+	   takes a second line instead.
+
+	   Wrapping costs the fixed height, which is what centred the label, so the
+	   height becomes a floor and the padding does the centring: the block
+	   padding is the control height minus one line of text and the control
+	   sheet's 1px border top and bottom, halved — exactly the space the fixed
+	   height was already leaving above and below a single line, since
+	   `box-sizing: border-box` counted that border inside it. A one-line
+	   button therefore keeps the height it has today to the pixel, and only a
+	   wrapped one grows. `max-width` is what stops a button that is wider than
+	   its column from reaching out of it in the first place.
+
+	   A button in a row that wraps — the two hero calls to action — is
+	   untouched: flex gives each item its whole label before it wraps the row,
+	   so those still read on one line. */
+	.itr-btn {
+		max-width: 100%;
 		white-space: normal;
+		height: auto;
+		text-align: center;
+	}
+
+	/* A full-width button has no width left to gain, so the 20px the control
+	   sheet reserves either side is the difference between a label that still
+	   reads on one line and one that takes a second for two words. The phone
+	   spends it on the label: "I have a problem INTERA could solve" is 271px
+	   against 258px of content at 390px and 274px once this rule lands, so it
+	   holds its line where the column allows it and wraps where it does not —
+	   at 320px, where nothing could have kept it. A centred single-line label
+	   does not move. */
+	.itr-btn--block {
+		padding-inline: 12px;
+	}
+
+	.itr-btn--sm {
+		min-height: var(--control-height-sm);
+		padding-block: calc((var(--control-height-sm) - var(--type-body-leading) * 1em - 2px) / 2);
+	}
+
+	.itr-btn--md {
+		min-height: var(--control-height-md);
+		padding-block: calc((var(--control-height-md) - var(--type-body-leading) * 1em - 2px) / 2);
+	}
+
+	.itr-btn--lg {
+		min-height: var(--control-height-lg);
+		padding-block: calc((var(--control-height-lg) - var(--type-body-leading) * 1em - 2px) / 2);
+	}
+
+	/* A link button has neither frame nor height to keep, and it reads as a
+	   sentence, so it wraps flush left with nothing to centre. */
+	.itr-btn--link {
+		min-height: 0;
+		padding-block: 0;
 		text-align: left;
 	}
 
 	.comment-list .children {
 		margin-left: 12px;
+	}
+}
+
+/* The narrowest phones only. Six label tiles share two columns, and three of
+   the six labels are wider than one of them: "Market packages" is 114px of
+   text against 110px at 390px, 103px at 375px, 95px at 360px and 75px at
+   320px. The first two of those the label simply spends out of the tile's own
+   16px padding, which is what the export draws and what a reader sees as a
+   tight line; by 360px it has crossed the border, and by 320px it has left
+   the tile entirely. So the second line starts here and not at the phone
+   breakpoint above — everything from 375px up keeps the line the design drew.
+
+   `anywhere`, not the `break-word` <body> already carries: the label is a
+   bare text node, so it is an anonymous flex item no selector can give a
+   `min-width` to, and `anywhere` is the one form of the property that lowers
+   an item's own minimum. It acts only on a word with nowhere left to go —
+   "Reconciliations" is one word and 86px against 75px of tile at 320px. */
+@media (max-width: 374.98px) {
+	.itr-tile {
+		white-space: normal;
+		overflow-wrap: anywhere;
 	}
 }
 

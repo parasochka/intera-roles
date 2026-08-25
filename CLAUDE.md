@@ -142,11 +142,23 @@ that stops a row from squeezing it below its own label: Blink honours that
 floor, WebKit gives it up, and on iOS the product header's badges spilled their
 labels past their own borders while every desktop browser drew them correctly.
 The mirror image is a row that cannot shrink at all — an unbreakable word, a
-name beside a chip — which reaches past the card in *every* engine once the
-viewport is 375px instead of 560px. So: state `flex: none` on a chip rather
-than trusting the floor, give a long name `min-width: 0` (on the item *and* its
-group — the floor has to come off both) so `overflow-wrap` can act, and check a
-change at 320, 375 and 390px, not only at desktop.
+name beside a chip, a control whose label the export keeps on one line — which
+reaches past the card in *every* engine once the viewport is 375px instead of
+560px. So: state `flex: none` on a chip rather than trusting the floor, give a
+long name `min-width: 0` (on the item *and* its group — the floor has to come
+off both) so `overflow-wrap` can act, let a label take a second line where the
+column is too narrow for it, and check a change at 320, 375 and 390px, not only
+at desktop.
+
+Letting something wrap costs whatever the one line was paying for, and the
+phone breakpoint has to pay it back. A button's fixed height was centring its
+label, so a wrapping button turns that height into a `min-height` and centres
+with padding worked out from the same token — control height, less one line of
+text, less the border `box-sizing` counts inside it, halved — which leaves a
+one-line button exactly the height it has today. And wrap where a reader would
+see the break, not wherever the arithmetic first goes negative: a label that
+merely leans into its own padding still reads, so the tile labels take their
+second line below 375px rather than at the phone breakpoint the rest uses.
 
 ## Non-negotiable rules
 
