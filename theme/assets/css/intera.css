@@ -2680,7 +2680,8 @@ a.itr-foot-link:focus-visible,
 	margin-left: 3px;
 }
 
-/* A consent box reads along its label, not above it. */
+/* A checkbox or a radio reads along its label, not above it — the one control
+   the plugin draws that the column layout above would otherwise stack. */
 .wpcf7 form.itr-cf7 .wpcf7-list-item {
 	margin: 0;
 	display: block;

@@ -151,10 +151,12 @@ Three things worth knowing before touching it:
   no `api.js` in the page means a widget that never draws and a form nobody can
   submit.
 
-The fields are the form template's, not the theme's — the design draws an
-Industry select and a consent checkbox that the configured form does not have,
-and the theme does not invent them. Add the tags in wp-admin and the CSS already
-has a row for each.
+The fields are the form template's, not the theme's. The seven the form carries
+fill the export's grid exactly — three rows of two, then the long answer — and
+the consent checkbox the export draws below them was dropped on purpose: the
+line under the form about what is done with a request is what stands in its
+place. A field added in wp-admin needs nothing here; the CSS already has a row
+for a checkbox, a radio and a select.
 
 ## How the templates are built
 
