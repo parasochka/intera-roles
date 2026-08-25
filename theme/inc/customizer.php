@@ -44,6 +44,14 @@ function intera_option_defaults() {
 		'footer_cta_label'  => __( 'Become an Early Adopter', 'intera' ),
 		'footer_cta_url'    => '',
 
+		/*
+		 * The Contact Form 7 form the request page sends through. Either the
+		 * hash ID wp-admin prints in the shortcode or the numeric post ID —
+		 * the plugin takes both. Empty falls back to the theme's own handler
+		 * in inc/forms.php; see inc/cf7.php.
+		 */
+		'contact_form_id'   => 'f98e0c5',
+
 		// site-footer, 05-contacts, 06-contact-request, 07-policy.
 		'contact_email'     => 'sb@by-sky.net',
 		'contact_response'  => __( 'Same working day, in most cases', 'intera' ),
@@ -192,6 +200,12 @@ function intera_customize_register( $wp_customize ) {
 			'type'        => 'textarea',
 			'sanitize'    => 'sanitize_text_field',
 			'partial'     => '.intera-copyright',
+		),
+		'contact_form_id'   => array(
+			'section'     => 'intera_contacts',
+			'label'       => __( 'Contact Form 7 form ID', 'intera' ),
+			'description' => __( 'The id from the form’s shortcode in wp-admin — e.g. f98e0c5. The request page renders that form, mails and captcha included. Leave empty to use the theme’s own built-in form instead.', 'intera' ),
+			'sanitize'    => 'sanitize_text_field',
 		),
 		'contact_email'     => array(
 			'section'     => 'intera_contacts',

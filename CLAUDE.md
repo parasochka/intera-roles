@@ -38,7 +38,8 @@ Claude Design  ─►  theme/ (_ds/intera + PHP)  ─►  GitHub  ─►  WP Pus
 | `inc/seo.php` | The `<title>` and meta description every screen answers with: written defaults per designed page and archive, `_intera_seo_title` / `_intera_seo_description` overrides an editor can type, and the brand appended once at the end (never twice). A last resort under all of it, so a screen nobody has written words for still answers with what it holds. Feeds Rank Math through its own filters when the plugin is active. |
 | `inc/customizer.php` | Theme options + `intera_option()`. No colour or font setting lives here — those come from the tokens. |
 | `inc/template-tags.php` | `intera_icon()` (inlined Lucide), reading time, breadcrumbs, heading ids and TOC data. |
-| `inc/forms.php` | The contact-request handler: nonce, honeypot, validation, storage, mail. |
+| `inc/forms.php` | The contact-request handler: nonce, honeypot, validation, storage, mail. The fallback behind Contact Form 7, not the default. |
+| `inc/cf7.php` | Everything that touches Contact Form 7: renders the configured form on the request page and dresses the plugin's markup in the design system. See **Living with Contact Form 7** below. |
 | `header.php` / `footer.php` | Shared chrome. The mobile menu is a CSS-only checkbox toggle; JS only mirrors it into ARIA. |
 | `index.php` · `page.php` · `single.php` · `404.php` | Templates. |
 | `template-parts/components/*.php` | One design-system component each, called via `get_template_part()` with an args array. |
@@ -110,6 +111,50 @@ archive (`Core\Request::$query_vars`). So a docs search form must **not**
 submit `?s=…&post_type=docs` — the term is dropped and every query answers with
 the full archive. The forms send `intera_docs=1` and
 `intera_docs_scope_search()` does the scoping in `pre_get_posts`.
+
+## Living with Contact Form 7
+
+The contact-request screen was built against `inc/forms.php`, the theme's own
+handler. What the live site sends through is **Contact Form 7**: the form and
+its fields, the two mails, the Gmail SMTP transport under them, the Flamingo
+record of every message and the reCAPTCHA v2 checkbox in front of the button are
+all configured in wp-admin. None of that is the theme's, and the same three
+rules the BetterDocs section states apply for the same reason.
+
+`page-contact-request.php` renders the plugin's form inside the export's Card;
+`inc/cf7.php` dresses it. Dressing means *adding* to the plugin's markup and
+never replacing it: `wpcf7_form_class_attr` puts `itr-cf7` on the `<form>`,
+`wpcf7_form_elements` adds `.itr-input`, `.itr-input--area` and `.itr-btn` to
+the controls the plugin drew, and wraps two things the plugin leaves
+unreachable — the label's bare text node and the `<select>` that needs the
+design's chevron over it. Everything else is CSS keyed on `form.itr-cf7`. Every
+hidden field, nonce, endpoint, validation message and script stays the
+plugin's, which is what keeps the mail, the spam check and the captcha working.
+
+Three things worth knowing before touching it:
+
+- **The theme's own form is the fallback, never the default.** With the plugin
+  off, the Customizer's *Contact Form 7 form ID* empty, or the form deleted,
+  `intera_cf7_form_html()` returns `''` and the screen falls back to
+  `inc/forms.php`, which still stores and mails. A request page that has quietly
+  stopped sending is the one outcome no branch may have.
+- **The captcha is a control, so it is visible.** `[recaptcha]` is the v2
+  checkbox from the *ReCaptcha v2 for Contact Form 7* plugin, and the CSS gives
+  it a full-width row of its own directly above the submit button (`order`, so
+  it lands there whatever position the tag has in the form template). Google's
+  widget is 304px wide wherever it is put and the card has 214px of content at
+  320px, so from 480px down it is scaled and its box is given the height the
+  scale leaves it.
+- **The plugin's script enqueues at render time.** The reCAPTCHA script is
+  printed in `wp_footer`, so rendering the form from a template rather than from
+  post content still reaches it. Confirm that stays true after a plugin update:
+  no `api.js` in the page means a widget that never draws and a form nobody can
+  submit.
+
+The fields are the form template's, not the theme's — the design draws an
+Industry select and a consent checkbox that the configured form does not have,
+and the theme does not invent them. Add the tags in wp-admin and the CSS already
+has a row for each.
 
 ## How the templates are built
 

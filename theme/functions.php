@@ -14,7 +14,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /** Theme version — bump on every release; used for cache busting. Keep in sync with style.css. */
-define( 'INTERA_VERSION', '0.7.8' );
+define( 'INTERA_VERSION', '0.7.9' );
 
 /** Absolute path to the theme root, with a trailing slash. */
 define( 'INTERA_DIR', trailingslashit( get_template_directory() ) );
@@ -45,7 +45,8 @@ foreach ( array(
 	'copy',          // Editable page copy for the four designed pages.
 	'seo',           // Search-result title and description for every screen.
 	'customizer',    // Theme options behind intera_option().
-	'forms',         // Contact-request handler.
+	'forms',         // Contact-request handler — the fallback behind Contact Form 7.
+	'cf7',           // Render Contact Form 7's request form; dress it in the design system.
 	'patterns',      // Block patterns + pattern categories.
 ) as $intera_module ) {
 	$intera_module_path = INTERA_DIR . 'inc/' . $intera_module . '.php';
