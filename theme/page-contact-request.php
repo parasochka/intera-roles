@@ -4,7 +4,10 @@
  *
  * Ported from `_design/06-contact-request.dc.html` (recon §8). Two sections, in
  * the export's order: `Request header` and `Request form` (the form beside the
- * "What happens next" aside).
+ * "What happens next" aside), and a third under them that the export does not
+ * have: `What happens if you say yes`, the six steps of the Early Adopter
+ * Program spelled out at full width. It is built from the same band, card and
+ * mono numeral the rest of the site uses, and every word of it is a copy key.
  *
  * This is the only screen in the set with a real state machine. The export
  * drives it from `state = { sent: false }` and two `<sc-if>` branches; here the
@@ -641,6 +644,123 @@ $intera_error_for = static function ( $errors, $field ) {
 					?>
 				</div>
 			<?php endif; ?>
+		</div>
+	</div>
+</section>
+
+<?php
+/*
+ * ---------------------------------------------------------------------------
+ * "What happens if I say yes?" — the six steps of the Early Adopter Program.
+ *
+ * Not from the export: the handoff's answer to "what happens next" is the
+ * three-step aside beside the form, which stays a summary. This band is the
+ * long version — what an invited company is actually agreeing to, step by
+ * step — so it sits below the form rather than beside it, where it has the
+ * width for six cards and nothing competes with the controls.
+ *
+ * The band, the card, the mono step number and the closing line are all the
+ * design system's: `surface-sunken` over a `wash-blue` bloom is the same
+ * alternating band `page-contacts.php` uses for "Who to talk to", and the
+ * numbered card is "How it works" on the front page. Every run of text is a
+ * copy key, so the words are the editor's and the layout stays here.
+ *
+ * It renders under all three form branches — the plugin's form, the theme's
+ * fallback and the success card — because what happens after a request is
+ * sent is exactly what somebody who has just sent one wants to read.
+ * ------------------------------------------------------------------------ */
+
+$intera_yes_steps = array(
+	array(
+		'title' => intera_copy( 'request_say_yes__apply_for_the_early_adopter_program' ),
+		'body'  => array(
+			intera_copy( 'request_say_yes__tell_us_briefly_about_your_company' ),
+			intera_copy( 'request_say_yes__we_are_currently_inviting_only_a' ),
+		),
+	),
+	array(
+		'title' => intera_copy( 'request_say_yes__we_agree_on_one_problem' ),
+		'body'  => array(
+			intera_copy( 'request_say_yes__no_company_wide_implementation' ),
+			intera_copy( 'request_say_yes__we_choose_one_role_one_operational' ),
+		),
+	),
+	array(
+		'title' => intera_copy( 'request_say_yes__we_connect_the_required_data' ),
+		'body'  => array(
+			intera_copy( 'request_say_yes__intera_works_with_your_existing_systems' ),
+			intera_copy( 'request_say_yes__no_migration_and_no_replacement_of' ),
+		),
+	),
+	array(
+		'title' => intera_copy( 'request_say_yes__we_build_the_first_working_view' ),
+		'body'  => array(
+			intera_copy( 'request_say_yes__this_may_be_a_health_view' ),
+			intera_copy( 'request_say_yes__the_goal_is_simple_produce_something' ),
+		),
+	),
+	array(
+		'title' => intera_copy( 'request_say_yes__you_use_it_in_real_work' ),
+		'body'  => array(
+			intera_copy( 'request_say_yes__your_team_uses_the_result_and' ),
+			intera_copy( 'request_say_yes__as_an_invited_early_adopter_you' ),
+		),
+	),
+	array(
+		'title' => intera_copy( 'request_say_yes__then_we_decide_whether_to_expand' ),
+		'body'  => array(
+			intera_copy( 'request_say_yes__if_intera_proves_useful_we_can' ),
+			intera_copy( 'request_say_yes__if_it_does_not_there_is' ),
+		),
+	),
+);
+?>
+
+<section data-screen-label="What happens if you say yes" style="position: relative; overflow: hidden; background: var(--surface-sunken); border-top: 1px solid var(--border-subtle)">
+	<div aria-hidden="true" style="position: absolute; left: 16%; top: 24%; width: 820px; height: 820px; transform: translate(-50%,-50%); pointer-events: none; background: radial-gradient(circle, var(--wash-blue) 0%, transparent 68%)"></div>
+	<div style="position: relative; max-width: 1160px; margin: 0 auto; padding: clamp(42px, 7vw, 72px) clamp(20px, 5vw, 24px)">
+		<h2 style="font-size: var(--text-2xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900); max-width: 720px"><?php echo esc_html( intera_copy( 'request_say_yes__what_happens_if_i_say' ) ); ?></h2>
+		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 20px; margin-top: 26px">
+			<?php
+			$intera_yes_number = 0;
+
+			foreach ( $intera_yes_steps as $intera_yes_step ) {
+				++$intera_yes_number;
+
+				ob_start();
+				?>
+				<div style="display: flex; align-items: center; gap: 12px; margin-bottom: 14px; min-width: 0">
+					<?php
+					/*
+					 * `flex: none` on the numeral and `min-width: 0` on the row
+					 * are the two halves of the same rule (CLAUDE.md): the chip
+					 * never squeezes below its own label, and a long title can
+					 * still wrap instead of reaching past the card at 320px.
+					 */
+					?>
+					<span style="flex: none; width: 30px; height: 30px; border-radius: var(--radius-md); background: var(--blue-50); border: 1px solid var(--blue-100); display: grid; place-items: center; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--blue-600)"><?php echo esc_html( sprintf( '%02d', $intera_yes_number ) ); ?></span>
+				</div>
+				<div style="font-size: var(--text-lg); font-weight: 600; letter-spacing: -0.01em; line-height: 1.3; color: var(--ink-900); overflow-wrap: break-word"><?php echo esc_html( $intera_yes_step['title'] ); ?></div>
+				<?php foreach ( $intera_yes_step['body'] as $intera_yes_line ) : ?>
+					<p style="font-size: var(--text-sm); line-height: 1.6; color: var(--ink-600); margin-top: 10px"><?php echo esc_html( $intera_yes_line ); ?></p>
+				<?php endforeach; ?>
+				<?php
+				$intera_yes_card = (string) ob_get_clean();
+
+				get_template_part(
+					'template-parts/components/card',
+					null,
+					array(
+						'content' => $intera_yes_card,
+						'padding' => 'loose',
+						'class'   => 'itr-hl',
+					)
+				);
+			}
+			?>
+		</div>
+		<div style="margin-top: 30px; padding-top: 24px; border-top: 1px solid var(--border-hairline)">
+			<p style="font-size: var(--text-lg); font-weight: 500; line-height: 1.6; color: var(--ink-800); max-width: 760px"><?php echo esc_html( intera_copy( 'request_say_yes__start_with_one_problem_prove_the' ) ); ?></p>
 		</div>
 	</div>
 </section>
