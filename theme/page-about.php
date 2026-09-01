@@ -115,7 +115,17 @@ $intera_about_people = array(
 	<div style="position: relative; max-width: 1160px; margin: 0 auto; padding: clamp(42px, 7vw, 72px) clamp(20px, 5vw, 24px)">
 		<h2 style="font-size: var(--text-2xl); font-weight: 600; letter-spacing: -0.01em; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'about_people__the_people' ) ); ?></h2>
 
-		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 20px; margin-top: 26px">
+		<?php
+		/*
+		 * `auto-fill`, not `auto-fit`: the tracks the row has room for are laid
+		 * out whether or not there is a person to put in them, so the single
+		 * founder card keeps a third of the row instead of stretching across it.
+		 * The count still comes from the width — three tracks at the 1160px
+		 * content width, two below roughly 900px, one on a phone — so a second
+		 * person needs nothing here.
+		 */
+		?>
+		<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr)); gap: 20px; margin-top: 26px">
 			<?php
 			foreach ( $intera_about_people as $intera_person ) {
 				// A person with no name is a card with nothing in it; leave it out.
