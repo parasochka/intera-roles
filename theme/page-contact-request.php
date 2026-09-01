@@ -736,10 +736,13 @@ $intera_yes_steps = array(
 				<div style="display: flex; align-items: center; gap: 12px; margin-bottom: 14px; min-width: 0">
 					<?php
 					/*
-					 * `flex: none` on the numeral and `min-width: 0` on the row
-					 * are the two halves of the same rule (CLAUDE.md): the chip
-					 * never squeezes below its own label, and a long title can
-					 * still wrap instead of reaching past the card at 320px.
+					 * The numeral sits in a row of its own above the title, the
+					 * way "How it works" on the front page carries its icon and
+					 * step number — the title is the next block, not a sibling
+					 * in this row. `flex: none` still states the floor rather
+					 * than trusting it (CLAUDE.md): WebKit gives up the
+					 * automatic minimum size, and a chip that squeezes below its
+					 * own label spills the label past its border on iOS.
 					 */
 					?>
 					<span style="flex: none; width: 30px; height: 30px; border-radius: var(--radius-md); background: var(--blue-50); border: 1px solid var(--blue-100); display: grid; place-items: center; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--blue-600)"><?php echo esc_html( sprintf( '%02d', $intera_yes_number ) ); ?></span>

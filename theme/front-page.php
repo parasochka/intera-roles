@@ -761,24 +761,49 @@ get_header();
 			foreach ( array(
 				'home_partners__intera_is_designed_to_work_with',
 				'home_partners__during_private_beta_partner_participation_is',
-				'home_partners__for_partnership_enquiries_please_contact_us',
 			) as $intera_partners_line ) :
 				?>
 				<p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); margin-top: 18px; max-width: 520px"><?php echo esc_html( intera_copy( $intera_partners_line ) ); ?></p>
 				<?php
 			endforeach;
+
+			/*
+			 * The third one names the route, so it carries a link rather than
+			 * standing as text: "contact us directly" with nowhere to go is the
+			 * one thing this band must not say now that the button below it is
+			 * held back. The destination is the contacts page — which publishes
+			 * the direct contact and carries the "Partner or reseller" card —
+			 * and the sentence falls back to plain text when that page is gone,
+			 * so a missing page costs the link and never the paragraph.
+			 */
+			$intera_partners_route = intera_copy( 'home_partners__contact_us_directly' );
+
+			if ( '' !== trim( (string) $intera_contacts_url ) && '' !== trim( (string) $intera_partners_route ) ) {
+				$intera_partners_route = '<a class="itr-link-strong" href="' . esc_url( $intera_contacts_url ) . '">' . esc_html( $intera_partners_route ) . '</a>';
+			} else {
+				$intera_partners_route = esc_html( $intera_partners_route );
+			}
 			?>
+			<p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); margin-top: 18px; max-width: 520px">
+				<?php
+				/* translators: %s: link to the contacts page, labelled "contact us directly". */
+				echo wp_kses_post( intera_copy_format( 'home_partners__for_partnership_enquiries_please_s', $intera_partners_route ) );
+				?>
+			</p>
 			<p style="font-size: var(--text-xl); font-weight: 600; letter-spacing: -0.01em; color: var(--ink-900); margin-top: 22px"><?php echo esc_html( intera_copy( 'home_partners__solve_once_adapt_deploy_again' ) ); ?></p>
 			<?php
 			/*
 			 * The partner CTA is held back until the public launch, and the markup
 			 * stays because it is coming back with it. A button that invites
-			 * applications promises an intake, and the paragraph above it now says
-			 * the opposite — participation is by invitation only while the beta is
-			 * private. Return it by filtering `intera_show_partners_cta` to true,
-			 * or by flipping the default here when the programme opens.
+			 * applications promises an intake, and the paragraph above it says the
+			 * opposite — participation is by invitation only while the beta is
+			 * private. Which of the two is true is a position the site takes, not
+			 * a fact about the code, so the switch is the Customizer's
+			 * (Home page → "Show the partner call to action") and turning the
+			 * programme on costs no deploy. The label and destination are left
+			 * alone meanwhile, so it comes back exactly as it went.
 			 */
-			if ( apply_filters( 'intera_show_partners_cta', false ) ) :
+			if ( intera_option( 'partners_cta' ) ) :
 				?>
 				<div style="margin-top: 26px">
 					<?php
@@ -799,7 +824,23 @@ get_header();
 			endif;
 			?>
 		</div>
-		<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; align-content: start">
+		<div>
+			<?php
+			/*
+			 * The line that introduces the tiles.
+			 *
+			 * The export had no such line: its left column ended "…turn your
+			 * industry expertise into:" and the colon read across the gap into
+			 * the six tiles. That reading only ever worked at desktop width —
+			 * the columns stack on a phone, and three paragraphs then sit
+			 * between the colon and the thing it pointed at — and it stopped
+			 * working at every width once the band was rewritten to state the
+			 * Private Beta position instead. So the lead-in sits on the tiles
+			 * themselves, where it stays next to them at any width.
+			 */
+			?>
+			<div style="font-size: var(--text-sm); font-weight: 600; color: var(--ink-700); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'home_partners__what_a_partner_packages_and_reuses' ) ); ?></div>
+			<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; align-content: start">
 			<?php
 			/*
 			 * One colour across the row, and not the export's.
@@ -844,6 +885,7 @@ get_header();
 				<?php
 			endforeach;
 			?>
+			</div>
 		</div>
 	</div>
 </section>

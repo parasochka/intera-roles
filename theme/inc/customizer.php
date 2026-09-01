@@ -88,6 +88,15 @@ function intera_option_defaults() {
 		// 01-main: the pill above the hero heading.
 		'hero_status'                => __( 'In beta — Early Adopter programme open', 'intera' ),
 
+		/*
+		 * 01-main, the Partners band. Off while the beta is private: the band
+		 * says participation is by invitation, and a button inviting
+		 * applications would say the opposite. It is a switch rather than a
+		 * cleared field because the label and the destination are both still
+		 * wanted — they come back untouched when the programme opens.
+		 */
+		'partners_cta'               => false,
+
 		// 04-faq: the block under the rail's hairline.
 		'faq_rail_body'              => __( 'Still unclear? Send us the situation in two sentences — we answer with what INTERA would actually watch.', 'intera' ),
 		'faq_rail_cta_label'         => __( 'Ask a question', 'intera' ),
@@ -301,6 +310,13 @@ function intera_customize_register( $wp_customize ) {
 			'label'       => __( 'Contact Form 7 form ID', 'intera' ),
 			'description' => __( 'The id from the form’s shortcode in wp-admin — e.g. f98e0c5. The request page renders that form, mails and captcha included. Leave empty to use the theme’s own built-in form instead.', 'intera' ),
 			'sanitize'    => 'sanitize_text_field',
+		),
+		'partners_cta'        => array(
+			'section'     => 'intera_home',
+			'label'       => __( 'Show the partner call to action', 'intera' ),
+			'description' => __( 'The “Become an INTERA partner” button in the Partners band on the home page. Off during the private beta, when partner participation is by invitation and the band says so. Turn it on when the programme opens — no deploy needed.', 'intera' ),
+			'type'        => 'checkbox',
+			'sanitize'    => 'rest_sanitize_boolean',
 		),
 		'contact_person'      => array(
 			'section'     => 'intera_contacts',

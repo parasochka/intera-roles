@@ -18,7 +18,7 @@
  * | header lede             | `the_content()`                                  |
  * | section heading         | `about_people__the_people` copy                  |
  * | each person's name/role | `about_people__*` copy on this page              |
- * | the profile link        | `about_people__linkedin_url` copy                |
+ * | the profile link        | `about_people__linkedin_url`, else `contact_person_url` |
  * | the closing call        | `intera_page_url( 'contacts' )`                  |
  *
  * The people are copy rather than a custom post type on purpose: `role`, `plan`
@@ -79,6 +79,14 @@ $intera_contacts_url = (string) intera_page_url( 'contacts' );
  * The people, in the order they are shown. `url` is run through `esc_url()` at
  * the point of output, so an editor who empties or mistypes it costs the link,
  * never the page.
+ *
+ * The founder's own link is left empty in the schema and falls back to the
+ * Customizer's `contact_person_url` — the profile the footer, the contacts
+ * page, the 404 and the request form already point at. One URL in one place:
+ * two fields holding the same address is one of them going stale the first
+ * time it changes. A second person, whose profile is their own and belongs to
+ * nothing else on the site, fills their field in and never reaches the
+ * fallback.
  */
 $intera_about_people = array(
 	array(
@@ -86,8 +94,15 @@ $intera_about_people = array(
 		'role'      => trim( (string) intera_copy( 'about_people__founder' ) ),
 		'link_text' => trim( (string) intera_copy( 'about_people__linkedin' ) ),
 		'url'       => trim( (string) intera_copy( 'about_people__linkedin_url' ) ),
+		'fallback'  => trim( (string) intera_option( 'contact_person_url' ) ),
 	),
 );
+
+foreach ( $intera_about_people as $intera_i => $intera_p ) {
+	if ( '' === $intera_p['url'] && ! empty( $intera_p['fallback'] ) ) {
+		$intera_about_people[ $intera_i ]['url'] = $intera_p['fallback'];
+	}
+}
 ?>
 
 <section data-screen-label="About header" style="background: var(--surface-page); border-bottom: 1px solid var(--border-hairline)">

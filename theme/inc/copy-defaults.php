@@ -195,7 +195,9 @@ function intera_copy_schema() {
 						'home_partners__turn_your_industry_knowledge_into_repeatable' => __( 'Turn your industry knowledge into repeatable solutions', 'intera' ),
 						'home_partners__intera_is_designed_to_work_with' => __( 'INTERA is designed to work with experienced technology and business specialists who understand their customers, industries and operational environments.', 'intera' ),
 						'home_partners__during_private_beta_partner_participation_is' => __( 'During Private Beta, partner participation is limited and by invitation only.', 'intera' ),
-						'home_partners__for_partnership_enquiries_please_contact_us' => __( 'For partnership enquiries, please contact us directly.', 'intera' ),
+						'home_partners__for_partnership_enquiries_please_s' => __( 'For partnership enquiries, please %s.', 'intera' ),
+						'home_partners__contact_us_directly' => __( 'contact us directly', 'intera' ),
+						'home_partners__what_a_partner_packages_and_reuses' => __( 'What a partner packages and reuses:', 'intera' ),
 						'home_partners__solve_once_adapt_deploy_again' => __( 'Solve once. Adapt. Deploy again.', 'intera' ),
 						'home_partners__become_an_intera_partner' => __( 'Become an INTERA partner', 'intera' ),
 						'home_partners__roles' => __( 'Roles', 'intera' ),
@@ -596,9 +598,17 @@ function intera_copy_schema() {
 						'about_people__sergey_bogdanov' => __( 'Sergey Bogdanov', 'intera' ),
 						'about_people__founder' => __( 'Founder', 'intera' ),
 						'about_people__linkedin' => __( 'LinkedIn', 'intera' ),
+						/*
+						 * Empty on purpose: the same profile is already the
+						 * site's direct contact (Customizer → Contacts →
+						 * "Direct contact link"), and two fields holding one
+						 * URL is one of them going stale. Left blank, this
+						 * person's card follows that one setting; a second
+						 * person, whose link is their own, fills it in here.
+						 */
 						'about_people__linkedin_url' => array(
-							'default' => 'https://www.linkedin.com/in/sergey-bogdanov-a282a689/',
-							'label'   => __( 'Founder — profile link (URL)', 'intera' ),
+							'default' => '',
+							'label'   => __( 'Founder — profile link (URL). Empty follows the Customizer’s “Direct contact link”.', 'intera' ),
 						),
 						'about_people__talk_to_us' => __( 'Talk to us', 'intera' ),
 					),
