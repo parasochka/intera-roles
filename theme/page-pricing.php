@@ -160,7 +160,7 @@ $intera_questions = array(
 	),
 	array(
 		intera_copy( 'pricing_page__where_does_intera_run' ),
-		intera_copy( 'pricing_page__local_installation_is_available_from_the' ),
+		intera_copy( 'pricing_page__cloud_installation_on_the_free_plan' ),
 	),
 );
 ?>

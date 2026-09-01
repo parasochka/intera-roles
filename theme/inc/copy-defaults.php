@@ -142,7 +142,7 @@ function intera_copy_schema() {
 						'home_working_with_it__intera_does_not_replace_your_erp' => __( 'INTERA does not replace your ERP, CRM or operational systems.', 'intera' ),
 						'home_working_with_it__connections_can_be_configured_read_only' => __( 'Connections can be configured read-only.', 'intera' ),
 						'home_working_with_it__intera_does_not_need_permission_to' => __( 'INTERA does not need permission to modify operational data.', 'intera' ),
-						'home_working_with_it__local_installation_is_available' => __( 'Local installation is available.', 'intera' ),
+						'home_working_with_it__local_installation_is_available_from' => __( 'Local installation is available from the Early Adopter plan onwards.', 'intera' ),
 						'home_working_with_it__access_follows_intera_roles_and_permissions' => __( 'Access follows INTERA roles and permissions.', 'intera' ),
 						'home_working_with_it__business_teams_know_what_they_need' => __( 'Business teams know what they need to control. IT knows how the systems work. INTERA gives them a practical place to meet.', 'intera' ),
 						'home_working_with_it__dependencies_vendors_parts_external_commitments' => __( 'Dependencies · vendors, parts, external commitments', 'intera' ),
@@ -193,7 +193,9 @@ function intera_copy_schema() {
 					'fields' => array(
 						'home_partners__partners_and_resellers' => __( 'Partners and resellers', 'intera' ),
 						'home_partners__turn_your_industry_knowledge_into_repeatable' => __( 'Turn your industry knowledge into repeatable solutions', 'intera' ),
-						'home_partners__for_systems_integrators_and_consultants_who' => __( 'For systems integrators and consultants who already know their customers\' real problems. INTERA lets you turn your industry expertise into:', 'intera' ),
+						'home_partners__intera_is_designed_to_work_with' => __( 'INTERA is designed to work with experienced technology and business specialists who understand their customers, industries and operational environments.', 'intera' ),
+						'home_partners__during_private_beta_partner_participation_is' => __( 'During Private Beta, partner participation is limited and by invitation only.', 'intera' ),
+						'home_partners__for_partnership_enquiries_please_contact_us' => __( 'For partnership enquiries, please contact us directly.', 'intera' ),
 						'home_partners__solve_once_adapt_deploy_again' => __( 'Solve once. Adapt. Deploy again.', 'intera' ),
 						'home_partners__become_an_intera_partner' => __( 'Become an INTERA partner', 'intera' ),
 						'home_partners__roles' => __( 'Roles', 'intera' ),
@@ -417,7 +419,7 @@ function intera_copy_schema() {
 						'pricing_page__do_we_need_the_method_to' => __( 'Do we need the Method to start?', 'intera' ),
 						'pricing_page__no_the_method_is_for_teams' => __( 'No. The Method is for teams that want the first roles built together, on site, in a few intensive days.', 'intera' ),
 						'pricing_page__where_does_intera_run' => __( 'Where does INTERA run?', 'intera' ),
-						'pricing_page__local_installation_is_available_from_the' => __( 'Local installation is available from the free plan onwards. Access to source systems stays read-only.', 'intera' ),
+						'pricing_page__cloud_installation_on_the_free_plan' => __( 'Cloud installation on the free plan. Local installation is available from the Early Adopter plan onwards. Access to source systems stays read-only.', 'intera' ),
 					),
 				),
 				'comparison' => array(

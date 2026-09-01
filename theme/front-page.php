@@ -557,7 +557,7 @@ get_header();
 					array( 'database', intera_copy( 'home_working_with_it__intera_does_not_replace_your_erp' ) ),
 					array( 'eye', intera_copy( 'home_working_with_it__connections_can_be_configured_read_only' ) ),
 					array( 'lock', intera_copy( 'home_working_with_it__intera_does_not_need_permission_to' ) ),
-					array( 'package', intera_copy( 'home_working_with_it__local_installation_is_available' ) ),
+					array( 'package', intera_copy( 'home_working_with_it__local_installation_is_available_from' ) ),
 					array( 'shield-check', intera_copy( 'home_working_with_it__access_follows_intera_roles_and_permissions' ) ),
 				);
 
@@ -748,23 +748,56 @@ get_header();
 		<div>
 			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'home_partners__partners_and_resellers' ) ); ?></div>
 			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'home_partners__turn_your_industry_knowledge_into_repeatable' ) ); ?></h2>
-			<p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); margin-top: 18px; max-width: 520px"><?php echo esc_html( intera_copy( 'home_partners__for_systems_integrators_and_consultants_who' ) ); ?></p>
-			<p style="font-size: var(--text-xl); font-weight: 600; letter-spacing: -0.01em; color: var(--ink-900); margin-top: 22px"><?php echo esc_html( intera_copy( 'home_partners__solve_once_adapt_deploy_again' ) ); ?></p>
-			<div style="margin-top: 26px">
-				<?php
-				get_template_part(
-					'template-parts/components/button',
-					null,
-					array(
-						'label'      => intera_copy( 'home_partners__become_an_intera_partner' ),
-						'href'       => $intera_request_url,
-						'variant'    => 'secondary',
-						'size'       => 'lg',
-						'icon_right' => 'arrow-right',
-					)
-				);
+			<?php
+			/*
+			 * Three paragraphs where the export drew one. The band used to open an
+			 * intake — "INTERA lets you turn your industry expertise into:" reading
+			 * across into the six tiles — and during Private Beta there is no intake
+			 * to open: who INTERA works with, that participation is invitation-only
+			 * for now, and where to write are three separate statements, so they are
+			 * three separate fields rather than one paragraph an editor has to keep
+			 * whole.
+			 */
+			foreach ( array(
+				'home_partners__intera_is_designed_to_work_with',
+				'home_partners__during_private_beta_partner_participation_is',
+				'home_partners__for_partnership_enquiries_please_contact_us',
+			) as $intera_partners_line ) :
 				?>
-			</div>
+				<p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); margin-top: 18px; max-width: 520px"><?php echo esc_html( intera_copy( $intera_partners_line ) ); ?></p>
+				<?php
+			endforeach;
+			?>
+			<p style="font-size: var(--text-xl); font-weight: 600; letter-spacing: -0.01em; color: var(--ink-900); margin-top: 22px"><?php echo esc_html( intera_copy( 'home_partners__solve_once_adapt_deploy_again' ) ); ?></p>
+			<?php
+			/*
+			 * The partner CTA is held back until the public launch, and the markup
+			 * stays because it is coming back with it. A button that invites
+			 * applications promises an intake, and the paragraph above it now says
+			 * the opposite — participation is by invitation only while the beta is
+			 * private. Return it by filtering `intera_show_partners_cta` to true,
+			 * or by flipping the default here when the programme opens.
+			 */
+			if ( apply_filters( 'intera_show_partners_cta', false ) ) :
+				?>
+				<div style="margin-top: 26px">
+					<?php
+					get_template_part(
+						'template-parts/components/button',
+						null,
+						array(
+							'label'      => intera_copy( 'home_partners__become_an_intera_partner' ),
+							'href'       => $intera_request_url,
+							'variant'    => 'secondary',
+							'size'       => 'lg',
+							'icon_right' => 'arrow-right',
+						)
+					);
+					?>
+				</div>
+				<?php
+			endif;
+			?>
 		</div>
 		<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; align-content: start">
 			<?php

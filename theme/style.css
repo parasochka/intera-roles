@@ -3,7 +3,7 @@ Theme Name: Intera Roles
 Theme URI: https://intera-roles.com
 Author: Intera
 Description: Classic PHP theme for intera-roles.com. The INTERA design system (_ds/intera/tokens/*.css) is the single source of truth for styling; the design-handoff screens are reproduced pixel-for-pixel in plain PHP templates. Edit a token in _ds/intera/tokens to re-theme the whole site.
-Version: 0.7.18
+Version: 0.7.19
 Requires at least: 6.4
 Tested up to: 6.8
 Requires PHP: 8.0
