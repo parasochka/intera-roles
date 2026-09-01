@@ -96,6 +96,11 @@ function intera_seo_defaults() {
 			'description' => __( 'Straight answers on integrations and read-only access, local installation, the free plan, the Early Adopter programme and how the Method works.', 'intera' ),
 		),
 
+		'template:page-about.php' => array(
+			'title'       => __( 'Built by people who have lived this problem', 'intera' ),
+			'description' => __( 'INTERA was created from experience operating businesses where critical information was distributed across billing, finance, operational and technical systems.', 'intera' ),
+		),
+
 		'slug:privacy-policy' => array(
 			'title'       => __( 'Privacy Policy', 'intera' ),
 			'description' => __( 'What personal data this site collects through contact requests, why it is kept, how long it is kept, and how to ask for it to be corrected or deleted.', 'intera' ),
