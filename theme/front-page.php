@@ -550,15 +550,15 @@ get_header();
 	<div style="max-width: 1160px; margin: 0 auto; padding: clamp(53px, 7vw, 92px) clamp(20px, 5vw, 24px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 52px; align-items: start">
 		<div>
 			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'home_working_with_it__working_with_existing_it' ) ); ?></div>
-			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'home_working_with_it__your_systems_stay_intera_makes_them' ) ); ?></h2>
+			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'home_working_with_it__your_systems_remain_in_control' ) ); ?></h2>
 			<div style="display: flex; flex-direction: column; gap: 0; margin-top: 28px; border-top: 1px solid var(--border-hairline)">
 				<?php
 				$intera_it_facts = array(
-					array( 'database', intera_copy( 'home_working_with_it__erp_crm_billing_and_others_remain' ) ),
-					array( 'plug', intera_copy( 'home_working_with_it__intera_connects_to_them_never_replacing' ) ),
-					array( 'lock', intera_copy( 'home_working_with_it__it_is_responsible_for_access_to' ) ),
-					array( 'sliders-horizontal', intera_copy( 'home_working_with_it__business_decides_which_metrics_events_incidents' ) ),
-					array( 'route-off', intera_copy( 'home_working_with_it__no_company_wide_transformation_project' ) ),
+					array( 'database', intera_copy( 'home_working_with_it__intera_does_not_replace_your_erp' ) ),
+					array( 'eye', intera_copy( 'home_working_with_it__connections_can_be_configured_read_only' ) ),
+					array( 'lock', intera_copy( 'home_working_with_it__intera_does_not_need_permission_to' ) ),
+					array( 'package', intera_copy( 'home_working_with_it__local_installation_is_available' ) ),
+					array( 'shield-check', intera_copy( 'home_working_with_it__access_follows_intera_roles_and_permissions' ) ),
 				);
 
 				foreach ( $intera_it_facts as $intera_it_fact ) :
