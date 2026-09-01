@@ -577,6 +577,32 @@ function intera_copy_schema() {
 				),
 			),
 		),
+		'about' => array(
+			'label'    => __( 'About us page', 'intera' ),
+			'template' => 'page-about.php',
+			'sections' => array(
+				'header' => array(
+					'label'  => __( 'Header', 'intera' ),
+					'fields' => array(
+						'about_headline' => __( 'Built by people who have lived this problem', 'intera' ),
+					),
+				),
+				'people' => array(
+					'label'  => __( 'The people', 'intera' ),
+					'fields' => array(
+						'about_people__the_people' => __( 'The people', 'intera' ),
+						'about_people__sergey_bogdanov' => __( 'Sergey Bogdanov', 'intera' ),
+						'about_people__founder' => __( 'Founder', 'intera' ),
+						'about_people__linkedin' => __( 'LinkedIn', 'intera' ),
+						'about_people__linkedin_url' => array(
+							'default' => 'https://www.linkedin.com/in/sergey-bogdanov-a282a689/',
+							'label'   => __( 'Founder — profile link (URL)', 'intera' ),
+						),
+						'about_people__talk_to_us' => __( 'Talk to us', 'intera' ),
+					),
+				),
+			),
+		),
 		'faq' => array(
 			'label'    => __( 'FAQ page', 'intera' ),
 			'template' => 'page-faq.php',
