@@ -17,8 +17,8 @@
  * | H1                         | `post_type_archive_title()` (the `archives` label)|
  * | standfirst                 | `intera_option( 'docs_intro' )`                  |
  * | search field               | a real `GET` form scoped to `post_type=docs`     |
- * | quick links                | the three lowest-ordered `docs` posts            |
- * | one card per category      | `get_terms( 'doc_category' )`, top level only   |
+ * | quick links                | the first three articles of the first category   |
+ * | one card per category      | `get_terms( 'doc_category' )`, top level, in the admin's own order |
  * | chip icon + tone           | `intera_term_icon_get()` / `intera_term_tone_get()`, via `partials/doc-row` |
  * | article count              | the per-term query's `found_posts` (children included) |
  * | five article links         | the per-term query, `partials/doc-row` `compact` |
@@ -26,9 +26,12 @@
  * | `N more articles`          | `found_posts` minus the five shown, through `_n()` |
  * | the three help panels      | `intera_option( 'docs_help_*_…' )` + `intera_page_url()` |
  *
- * The ordinals the design shows on a category page come from each post's
- * `menu_order`, which is also what orders the article lists here — so the Order
- * field an editor sets in the post is the one thing driving both screens.
+ * Every list on this screen is in the editor's own order, which BetterDocs
+ * keeps on the category term rather than on the post — the category cards by
+ * the position dragged on BetterDocs → Categories, the rows inside them by the
+ * `_docs_order` list dragged on All Docs. `intera_docs_query_args()` is the one
+ * place that knows it, so this screen, a category page and an article's rail
+ * cannot disagree; the post's own Order field is the fallback behind it.
  *
  * PORT.md §1: every category card carries `.itr-hl`, so background, border,
  * box-shadow and transition are never written inline — `components/card` hands
@@ -52,21 +55,6 @@ get_header();
  */
 $intera_docs_intro = trim( (string) intera_option( 'docs_intro' ) );
 
-// The header's quick links: the docs an editor ordered first, whatever they are.
-$intera_docs_quick = new WP_Query(
-	array(
-		'post_type'           => 'docs',
-		'posts_per_page'      => 3,
-		'orderby'             => array(
-			'menu_order' => 'ASC',
-			'date'       => 'DESC',
-		),
-		'post_status'         => 'publish',
-		'ignore_sticky_posts' => true,
-		'no_found_rows'       => true,
-	)
-);
-
 /*
  * Top-level categories only — a child term is a sub-group inside its parent's
  * page, never a card of its own. `hide_empty` stays false because a parent whose
@@ -83,6 +71,51 @@ $intera_docs_terms = get_terms(
 );
 
 $intera_docs_terms = is_wp_error( $intera_docs_terms ) ? array() : $intera_docs_terms;
+
+/*
+ * The cards read in the order the admin screen shows, not alphabetically: the
+ * order an editor drags the categories into is the one thing that says which
+ * of them a reader should start from. The name above is only the tie-breaker
+ * behind it, for a category nobody has placed yet.
+ */
+$intera_docs_terms = intera_docs_terms_in_order( $intera_docs_terms );
+
+/*
+ * The header's quick links: the docs an editor ordered first, whatever they
+ * are. "First" is the documentation's own sequence — the opening articles of
+ * the opening category — so the three links are the three a reader is meant to
+ * start with rather than the three most recently published.
+ */
+$intera_docs_quick_ids = array();
+
+foreach ( $intera_docs_terms as $intera_docs_first_term ) {
+	$intera_docs_quick_ids = array_merge( $intera_docs_quick_ids, intera_docs_order_ids( (int) $intera_docs_first_term->term_id ) );
+
+	if ( count( $intera_docs_quick_ids ) >= 3 ) {
+		break;
+	}
+}
+
+$intera_docs_quick_args = array(
+	'post_type'           => 'docs',
+	'posts_per_page'      => 3,
+	'orderby'             => array(
+		'menu_order' => 'ASC',
+		'date'       => 'DESC',
+	),
+	'post_status'         => 'publish',
+	'ignore_sticky_posts' => true,
+	'no_found_rows'       => true,
+);
+
+// Nothing has been arranged yet: the Order field, then the newest, as before.
+if ( ! empty( $intera_docs_quick_ids ) ) {
+	// A few more ids than links, so a draft in the sequence costs no link.
+	$intera_docs_quick_args['post__in'] = array_slice( $intera_docs_quick_ids, 0, 12 );
+	$intera_docs_quick_args['orderby']  = 'post__in';
+}
+
+$intera_docs_quick = new WP_Query( $intera_docs_quick_args );
 
 /*
  * The closing panels: the option prefix each one reads, and the page its link
@@ -164,26 +197,8 @@ $intera_docs_help = array(
 
 			foreach ( $intera_docs_terms as $intera_docs_term ) {
 
-				$intera_docs_query = new WP_Query(
-					array(
-						'post_type'           => 'docs',
-						'posts_per_page'      => 5,
-						'orderby'             => array(
-							'menu_order' => 'ASC',
-							'title'      => 'ASC',
-						),
-						'post_status'         => 'publish',
-						'ignore_sticky_posts' => true,
-						'tax_query'           => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- one term per card, the archive's whole purpose.
-							array(
-								'taxonomy'         => 'doc_category',
-								'field'            => 'term_id',
-								'terms'            => (int) $intera_docs_term->term_id,
-								'include_children' => true,
-							),
-						),
-					)
-				);
+				// One term per card, in the editor's own order — the archive's whole purpose.
+				$intera_docs_query = new WP_Query( intera_docs_query_args( (int) $intera_docs_term->term_id, 5 ) );
 
 				$intera_docs_total = (int) $intera_docs_query->found_posts;
 

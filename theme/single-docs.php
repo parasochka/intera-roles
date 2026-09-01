@@ -102,24 +102,11 @@ while ( have_posts() ) :
 			return $intera_doc_cache[ $intera_doc_term_id ];
 		}
 
+		// One group per query, in the editor's own order — which is what a docs tree is.
 		$intera_doc_rows = get_posts(
-			array(
-				'post_type'   => 'docs',
-				'post_status' => 'publish',
-				'numberposts' => -1,
-				'fields'      => 'ids',
-				'orderby'     => array(
-					'menu_order' => 'ASC',
-					'title'      => 'ASC',
-				),
-				'tax_query'   => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- one group per query, which is what a docs tree is.
-					array(
-						'taxonomy'         => 'doc_category',
-						'field'            => 'term_id',
-						'terms'            => $intera_doc_term_id,
-						'include_children' => true,
-					),
-				),
+			array_merge(
+				intera_docs_query_args( $intera_doc_term_id, -1 ),
+				array( 'fields' => 'ids' )
 			)
 		);
 
@@ -130,8 +117,9 @@ while ( have_posts() ) :
 
 	/*
 	 * Neighbours: WordPress cannot guess this ordering, so PARTIALS.md asks for
-	 * both sides explicitly — the `menu_order` position inside the article's own
-	 * category. `false` tells the partial that side is deliberately empty.
+	 * both sides explicitly — the article's position inside its own category, in
+	 * the order the admin screen shows. `false` tells the partial that side is
+	 * deliberately empty.
 	 */
 	$intera_doc_term = function_exists( 'intera_breadcrumbs_primary_term' )
 		? intera_breadcrumbs_primary_term( get_post(), 'doc_category' )
@@ -169,6 +157,7 @@ while ( have_posts() ) :
 	);
 
 	$intera_doc_terms = is_wp_error( $intera_doc_terms ) ? array() : $intera_doc_terms;
+	$intera_doc_terms = intera_docs_terms_in_order( $intera_doc_terms );
 
 	// Where "Report an issue" and both feedback answers go.
 	$intera_doc_ask_url = trim( (string) intera_page_url( 'contact-request' ) );

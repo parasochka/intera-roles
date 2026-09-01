@@ -209,13 +209,103 @@ function intera_betterdocs_body_class( $classes ) {
 add_filter( 'body_class', 'intera_betterdocs_body_class' );
 
 /**
+ * The order an editor dragged one category's articles into.
+ *
+ * BetterDocs does not write that order into the post — `menu_order` stays 0 on
+ * every doc, which is why ordering by it read as "whatever WordPress returns".
+ * The sequence lives on the *term*, as a comma-separated list of post ids in
+ * `_docs_order`, and the plugin's own reader is what turns it into a list: it
+ * resolves the language-suffixed key on a multilingual site and puts a doc
+ * nobody has dragged yet at the front, exactly as the admin screen does.
+ *
+ * Asked once per term per request; a docs screen asks for the same category
+ * two or three times over.
+ *
+ * @param int $term_id doc_category term id.
+ * @return int[] Post ids in the editor's order, empty when nothing was dragged.
+ */
+function intera_betterdocs_docs_order( $term_id ) {
+	static $intera_bd_order = array();
+
+	$term_id = (int) $term_id;
+
+	if ( $term_id <= 0 ) {
+		return array();
+	}
+
+	if ( isset( $intera_bd_order[ $term_id ] ) ) {
+		return $intera_bd_order[ $term_id ];
+	}
+
+	$ids = array();
+
+	// The plugin's own reader, so its rules are the ones that apply.
+	if ( function_exists( 'betterdocs' ) ) {
+		$intera_bd = betterdocs();
+
+		if ( is_object( $intera_bd ) && isset( $intera_bd->query ) && is_object( $intera_bd->query ) && method_exists( $intera_bd->query, 'get_docs_order_by_terms' ) ) {
+			try {
+				$ids = (array) $intera_bd->query->get_docs_order_by_terms( $term_id );
+			} catch ( \Throwable $intera_bd_error ) {
+				$ids = array();
+			}
+		}
+	}
+
+	/*
+	 * The plugin is switched off, but the order an editor dragged is still on
+	 * the term — so the docs keep the sequence they were arranged in instead of
+	 * falling back to alphabetical the moment BetterDocs is deactivated. A doc
+	 * the list does not name goes first, which is where the plugin puts it.
+	 */
+	if ( empty( $ids ) ) {
+		$stored = get_term_meta( $term_id, '_docs_order', true );
+		$ids    = is_string( $stored ) && '' !== $stored ? explode( ',', $stored ) : array();
+
+		if ( ! empty( $ids ) ) {
+			$assigned = get_objects_in_term( array( $term_id ), 'doc_category' );
+			$assigned = is_wp_error( $assigned ) ? array() : array_map( 'intval', (array) $assigned );
+			$ids      = array_merge( array_diff( $assigned, array_map( 'intval', $ids ) ), $ids );
+		}
+	}
+
+	$ids = array_values( array_unique( array_filter( array_map( 'intval', $ids ) ) ) );
+
+	$intera_bd_order[ $term_id ] = $ids;
+
+	return $ids;
+}
+
+/**
+ * Where a category sits in the plugin's own category order.
+ *
+ * The drag order on BetterDocs → Categories is term meta, one integer per
+ * category. A category nobody has dragged has no meta at all — `null` says so,
+ * which is not the same as position zero.
+ *
+ * @param int $term_id doc_category term id.
+ * @return int|null Position, or null when the category has none.
+ */
+function intera_betterdocs_category_order( $term_id ) {
+	$stored = get_term_meta( (int) $term_id, 'doc_category_order', true );
+
+	return ( '' === $stored || null === $stored || false === $stored ) ? null : (int) $stored;
+}
+
+/**
  * Order documentation the way the design reads it.
  *
  * The category pages number their articles `01…10`, which only means anything
  * if the archive is ordered by the editor's own sequence rather than by
- * publication date. BetterDocs writes that sequence into the post's menu order,
- * so the theme reads it — falling back to the title, never to the date, so two
- * unordered docs still land somewhere stable.
+ * publication date. That sequence is `_docs_order` on the category term, and
+ * `intera_docs_order_ids()` reads it — the post's own Order field is the
+ * fallback behind it, then the title, never the date, so two docs nobody has
+ * arranged still land somewhere stable.
+ *
+ * BetterDocs sets the same `post__in` on this same hook, and earlier: a plugin
+ * loads before a theme. Overwriting `orderby` unconditionally, which is what
+ * this did, threw that away — so the ordered list is set here rather than
+ * assumed, and an ordering another hand already put on the query is left alone.
  *
  * Front end only, and never on a search request, where relevance wins.
  *
@@ -228,6 +318,23 @@ function intera_docs_archive_order( $query ) {
 	}
 
 	if ( ! $query->is_post_type_archive( 'docs' ) && ! $query->is_tax( 'doc_category' ) ) {
+		return;
+	}
+
+	if ( $query->is_tax( 'doc_category' ) && function_exists( 'intera_docs_order_ids' ) ) {
+		$term = $query->get_queried_object();
+		$ids  = $term instanceof WP_Term ? intera_docs_order_ids( (int) $term->term_id ) : array();
+
+		if ( ! empty( $ids ) ) {
+			$query->set( 'post__in', $ids );
+			$query->set( 'orderby', 'post__in' );
+
+			return;
+		}
+	}
+
+	// Something else already ordered this query by an explicit list of posts.
+	if ( ! empty( $query->get( 'post__in' ) ) && 'post__in' === $query->get( 'orderby' ) ) {
 		return;
 	}
 
