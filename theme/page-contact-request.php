@@ -39,7 +39,7 @@
  * | refilled values         | `intera_form_old_get()`                            |
  * | success branch          | `intera_form_succeeded()` + `contact_success_title/body/answer` |
  * | the reference number    | `intera_form_reference_get()` — the export's `REQ-2026-0148` |
- * | every internal link     | `intera_page_url()`; the email is `contact_email`   |
+ * | every internal link     | `intera_page_url()`; the direct route is `contact_person` |
  *
  * The rest is the handoff's fixed copy, per recon §8 ("Dynamic slots: the whole
  * form"): the field labels, hints and placeholders, the three "What happens
@@ -80,7 +80,11 @@ $intera_docs_url    = (string) intera_page_url( 'docs' );
 $intera_pricing_url = (string) intera_page_url( 'pricing' );
 $intera_legal_url   = (string) intera_page_url( 'legal' );
 $intera_self_url    = (string) get_permalink();
-$intera_email       = trim( (string) intera_option( 'contact_email' ) );
+$intera_person      = trim( (string) intera_option( 'contact_person' ) );
+$intera_person_url  = trim( (string) intera_option( 'contact_person_url' ) );
+
+// A name with nowhere to go, or a link with nothing to label it, is not a route.
+$intera_has_person  = ( '' !== $intera_person && '' !== $intera_person_url );
 
 // What the handler left behind for us: the branch, the messages, the reference.
 $intera_sent      = intera_form_succeeded();
@@ -631,14 +635,14 @@ $intera_error_for = static function ( $errors, $field ) {
 				)
 			);
 			?>
-			<?php if ( '' !== $intera_email ) : ?>
+			<?php if ( $intera_has_person ) : ?>
 				<div style="font-size: var(--text-sm); color: var(--ink-600); line-height: 1.6">
 					<?php
-					/* translators: %s: mailto link with the contact address. */
+					/* translators: %s: link to the direct contact's profile, labelled with their name. */
 					echo wp_kses_post(
 						intera_copy_format(
-							'request_request_form__prefer_email_write_to_s',
-							'<a href="' . esc_url( 'mailto:' . $intera_email ) . '" style="font-family: var(--font-mono)">' . esc_html( $intera_email ) . '</a>'
+							'request_request_form__prefer_a_direct_line_message_s',
+							'<a class="itr-link-strong" href="' . esc_url( $intera_person_url ) . '" target="_blank" rel="noopener noreferrer">' . esc_html( $intera_person ) . '</a>'
 						)
 					);
 					?>

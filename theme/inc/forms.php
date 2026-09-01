@@ -717,7 +717,18 @@ function intera_form_reference_for( $post_id ) {
  * @return bool Whether `wp_mail()` accepted the message.
  */
 function intera_form_notify( $values, $reference ) {
-	$to = sanitize_email( (string) intera_option( 'contact_email' ) );
+	$to = sanitize_email( (string) intera_option( 'contact_notify' ) );
+
+	/*
+	 * The recipient is an internal address, never one the site prints, so an
+	 * empty field is the normal state and must not mean "send nowhere": fall
+	 * back to the address WordPress already knows the site by. A request that
+	 * is stored but silently unannounced is the outcome this handler exists
+	 * to prevent.
+	 */
+	if ( ! is_email( $to ) ) {
+		$to = sanitize_email( (string) get_option( 'admin_email' ) );
+	}
 
 	if ( ! is_email( $to ) ) {
 		return false;
@@ -1097,8 +1108,8 @@ function intera_form_option_defaults() {
  * Registers the request-form options.
  *
  * Runs after `intera_customize_register()` so the `intera` panel already
- * exists. The recipient itself is not repeated here — it is the one
- * `contact_email` the footer and the contacts page already use.
+ * exists. The recipient itself is not repeated here — it is the
+ * `contact_notify` address the Contacts section carries.
  *
  * @param WP_Customize_Manager $wp_customize Customizer manager.
  * @return void
@@ -1108,7 +1119,7 @@ function intera_customize_register_form( $wp_customize ) {
 		'intera_request_form',
 		array(
 			'title'       => __( 'Request form', 'intera' ),
-			'description' => __( 'The two option lists, the notification subject and the words on the success card. Requests are mailed to the address in Contacts and kept under Requests in the admin menu.', 'intera' ),
+			'description' => __( 'The two option lists, the notification subject and the words on the success card. Requests are mailed to the notification address in Contacts and kept under Requests in the admin menu.', 'intera' ),
 			'panel'       => 'intera',
 			'priority'    => 35,
 		)

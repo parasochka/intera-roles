@@ -12,16 +12,17 @@
  * | breadcrumb               | `intera_breadcrumbs()` (auto: Home / <title>)    |
  * | header heading           | `the_title()`                                    |
  * | header lede              | `the_content()` — one paragraph, "Large" preset  |
- * | email address + mailto   | `intera_option( 'contact_email' )`               |
+ * | direct contact + link    | `contact_person` / `contact_person_url`         |
  * | response time            | `intera_option( 'contact_response' )`            |
  * | working language         | `intera_option( 'contact_languages' )`           |
  * | every internal link      | `intera_page_url()`                              |
  *
  * The three contact facts are site identity, not page content, so they live in
  * the Customizer and the footer, `page-contact-request.php` and `page-legal.php`
- * read the same three values. Each `Direct` row and each CTA disappears when its
- * option is cleared, so an empty value never ships an empty row or a `mailto:`
- * that goes nowhere.
+ * read the same values. Each `Direct` row and each CTA disappears when its
+ * option is cleared, so an empty value never ships an empty row or a link that
+ * goes nowhere — the direct route needs both halves, a name and a profile to
+ * put behind it.
  *
  * The rest is the handoff's fixed copy, per recon §7 ("Everything else is fixed
  * copy"): the `Direct` labels, the "What to send us" card, the three reasons and
@@ -46,11 +47,13 @@ if ( have_posts() ) {
 	the_post();
 }
 
-$intera_email     = trim( (string) intera_option( 'contact_email' ) );
-$intera_response  = trim( (string) intera_option( 'contact_response' ) );
-$intera_languages = trim( (string) intera_option( 'contact_languages' ) );
+$intera_person     = trim( (string) intera_option( 'contact_person' ) );
+$intera_person_url = trim( (string) intera_option( 'contact_person_url' ) );
+$intera_response   = trim( (string) intera_option( 'contact_response' ) );
+$intera_languages  = trim( (string) intera_option( 'contact_languages' ) );
 
-$intera_mailto = '' !== $intera_email ? 'mailto:' . $intera_email : '';
+// A name with nowhere to go, or a link with nothing to label it, is not a route.
+$intera_has_person = ( '' !== $intera_person && '' !== $intera_person_url );
 
 $intera_request_url = (string) intera_page_url( 'contact-request' );
 $intera_pricing_url = (string) intera_page_url( 'pricing' );
@@ -146,12 +149,12 @@ $intera_send_card = (string) ob_get_clean();
 		<div>
 			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-500); margin-bottom: 18px"><?php echo esc_html( intera_copy( 'contacts_contact_routes__direct' ) ); ?></div>
 			<div style="display: flex; flex-direction: column; gap: 0; border-top: 1px solid var(--border-hairline)">
-				<?php if ( '' !== $intera_email ) : ?>
+				<?php if ( $intera_has_person ) : ?>
 				<div style="display: flex; align-items: center; gap: 14px; padding: 18px 0; border-bottom: 1px solid var(--border-hairline)">
-					<?php intera_icon( 'mail', array( 'size' => 17, 'color' => 'var(--ink-500)' ) ); ?>
-					<div>
-						<div style="font-size: var(--text-xs); color: var(--ink-500)"><?php echo esc_html( intera_copy( 'contacts_contact_routes__write_to_us' ) ); ?></div>
-						<a class="itr-link-strong" href="<?php echo esc_url( $intera_mailto ); ?>" style="font-family: var(--font-mono); font-size: var(--text-md)"><?php echo esc_html( $intera_email ); ?></a>
+					<?php intera_icon( 'linkedin', array( 'size' => 17, 'color' => 'var(--ink-500)' ) ); ?>
+					<div style="min-width: 0">
+						<div style="font-size: var(--text-xs); color: var(--ink-500)"><?php echo esc_html( intera_copy( 'contacts_contact_routes__talk_to_us' ) ); ?></div>
+						<a class="itr-link-strong" href="<?php echo esc_url( $intera_person_url ); ?>" target="_blank" rel="noopener noreferrer" style="font-size: var(--text-md); overflow-wrap: anywhere"><?php echo esc_html( $intera_person ); ?></a>
 					</div>
 				</div>
 				<?php endif; ?>
@@ -177,7 +180,7 @@ $intera_send_card = (string) ob_get_clean();
 				<?php endif; ?>
 			</div>
 
-			<?php if ( '' !== $intera_request_url || '' !== $intera_mailto ) : ?>
+			<?php if ( '' !== $intera_request_url || $intera_has_person ) : ?>
 			<div style="margin-top: 26px; display: flex; flex-wrap: wrap; gap: 12px">
 				<?php
 				if ( '' !== $intera_request_url ) {
@@ -192,15 +195,20 @@ $intera_send_card = (string) ob_get_clean();
 					);
 				}
 
-				if ( '' !== $intera_mailto ) {
+				if ( $intera_has_person ) {
 					get_template_part(
 						'template-parts/components/button',
 						null,
 						array(
-							'label'   => intera_copy( 'contacts_contact_routes__send_an_email' ),
-							'href'    => $intera_mailto,
-							'variant' => 'secondary',
-							'size'    => 'lg',
+							'label'     => intera_copy( 'contacts_contact_routes__connect_on_linkedin' ),
+							'href'      => $intera_person_url,
+							'variant'   => 'secondary',
+							'size'      => 'lg',
+							'icon_left' => 'linkedin',
+							'attrs'     => array(
+								'target' => '_blank',
+								'rel'    => 'noopener noreferrer',
+							),
 						)
 					);
 				}
