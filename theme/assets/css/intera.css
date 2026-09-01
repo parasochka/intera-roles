@@ -934,6 +934,27 @@ details[open] summary svg {
 	margin-top: calc(24px + 12px);
 }
 
+/* The browser's own block margins on the elements the editor can put in an
+   article, cleared once. `.intera-prose ul { margin: 0 }` — which is how each
+   of these used to clear its own — is 0,1,1 against the owl's 0,1,0, so the
+   reset quietly out-specified the rhythm and a list, a figure or a code block
+   sat flush against the paragraph above it. Holding .intera-prose in :where()
+   drops the reset to 0,0,1: it still beats the browser default, and everything
+   here, the owl included, beats it in turn.
+
+   Note the shape of the selector. It is written as one descendant pair per
+   element, and not as `:where(.intera-prose) :where(ul, ol, …)`, because
+   intera_css_minify() strips the whitespace around a `:` — a descendant
+   combinator that lands immediately before a pseudo-class is eaten on the way
+   into <head> and the selector ships as a compound one that matches nothing. */
+:where(.intera-prose) blockquote,
+:where(.intera-prose) ul,
+:where(.intera-prose) ol,
+:where(.intera-prose) figure,
+:where(.intera-prose) pre {
+	margin: 0;
+}
+
 .intera-prose p {
 	font-size: var(--text-base);
 	line-height: 1.75;
@@ -996,7 +1017,6 @@ details[open] summary svg {
 	font-size: var(--text-base);
 	line-height: 1.75;
 	color: var(--ink-700);
-	margin: 0;
 }
 
 .intera-prose li + li,
@@ -1005,14 +1025,27 @@ details[open] summary svg {
 	margin-top: 6px;
 }
 
+/* A quote takes more than the owl's 24px: it is set at --text-xl behind a rule
+   of its own and reads as a break in the article, so it is given a little more
+   air than one paragraph gives another. The margins collapse with the next
+   element's own margin-top, so a quote before a paragraph is 32px and not 56.
+   Zeroed at the ends of the article, where the owl would have given nothing. */
 .intera-prose blockquote {
 	border-left: 3px solid var(--blue-600);
 	padding: 4px 0 4px 24px;
-	margin: 0;
+	margin: 32px 0;
 	font-size: var(--text-xl);
 	line-height: 1.5;
 	letter-spacing: -0.01em;
 	color: var(--ink-900);
+}
+
+.intera-prose > blockquote:first-child {
+	margin-top: 0;
+}
+
+.intera-prose > blockquote:last-child {
+	margin-bottom: 0;
 }
 
 .intera-prose blockquote cite,
@@ -1044,7 +1077,6 @@ details[open] summary svg {
 	font-family: var(--font-mono);
 	font-size: var(--text-sm);
 	color: var(--ink-700);
-	margin: 0;
 	overflow-x: auto;
 }
 
@@ -1068,10 +1100,6 @@ details[open] summary svg {
 
 .intera-prose img {
 	border-radius: var(--radius-media);
-}
-
-.intera-prose figure {
-	margin: 0;
 }
 
 .intera-prose table {
