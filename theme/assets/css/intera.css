@@ -938,20 +938,10 @@ details[open] summary svg {
    article, cleared once. `.intera-prose ul { margin: 0 }` — which is how each
    of these used to clear its own — is 0,1,1 against the owl's 0,1,0, so the
    reset quietly out-specified the rhythm and a list, a figure or a code block
-   sat flush against the paragraph above it. Holding .intera-prose in :where()
-   drops the reset to 0,0,1: it still beats the browser default, and everything
-   here, the owl included, beats it in turn.
-
-   Note the shape of the selector. It is written as one descendant pair per
-   element, and not as `:where(.intera-prose) :where(ul, ol, …)`, because
-   intera_css_minify() strips the whitespace around a `:` — a descendant
-   combinator that lands immediately before a pseudo-class is eaten on the way
-   into <head> and the selector ships as a compound one that matches nothing. */
-:where(.intera-prose) blockquote,
-:where(.intera-prose) ul,
-:where(.intera-prose) ol,
-:where(.intera-prose) figure,
-:where(.intera-prose) pre {
+   sat flush against the paragraph above it. Both :where()s hold the reset at
+   0,0,0: it still beats the browser default, and everything in this sheet, the
+   owl included, beats it in turn. */
+:where(.intera-prose) :where(blockquote, ul, ol, figure, pre) {
 	margin: 0;
 }
 

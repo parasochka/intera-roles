@@ -141,10 +141,13 @@ function intera_css_rewrite_urls( $css, $path ) {
  * Minifies CSS without touching anything inside a string or a `url()`.
  *
  * Deliberately conservative. Comments go, whitespace collapses, and the space
- * that only ever separated a token from a brace, colon, semicolon or comma
- * goes with it. Nothing else is rewritten: no shortening of colours, no
- * reordering, and above all no touching whitespace around `+`, `-`, `*` or `/`,
- * which are operators inside `calc()` and cannot lose their spaces.
+ * that only ever separated a token from a brace, semicolon or comma goes with
+ * it. Nothing else is rewritten: no shortening of colours, no reordering, and
+ * above all no touching whitespace around `+`, `-`, `*` or `/`, which are
+ * operators inside `calc()` and cannot lose their spaces.
+ *
+ * A colon is the one piece of punctuation that is not purely structural, and
+ * it is handled on its own below.
  *
  * Quoted strings and `url()` payloads are lifted out before the rewrite and put
  * back after, so a comment marker or a run of spaces inside one survives intact.
@@ -181,7 +184,21 @@ function intera_css_minify( $css ) {
 	$css = (string) preg_replace( '#\s+#', ' ', $css );
 
 	// The space next to structural punctuation never carried meaning.
-	$css = (string) preg_replace( '#\s*([{};:,>~])\s*#', '$1', $css );
+	$css = (string) preg_replace( '#\s*([{};,>~])\s*#', '$1', $css );
+
+	/*
+	 * A colon is two different things. Between a property and its value the
+	 * space after it is noise; but a colon also opens a pseudo-class, and there
+	 * the space *before* it is a descendant combinator carrying the whole
+	 * meaning of the selector. Stripping both sides — which this did until
+	 * 0.7.16 — turns `.prose :where(ul)` into `.prose:where(ul)`, a compound
+	 * selector that matches nothing, and the rule is gone from the page with
+	 * nothing to show for it: no parse error, no warning, just a style that
+	 * quietly never applies. So only the trailing space goes. A space written
+	 * before a colon in a declaration would survive, which costs a byte and no
+	 * correctness; nothing in this theme writes one.
+	 */
+	$css = (string) preg_replace( '#:\s+#', ':', $css );
 
 	// A semicolon immediately before a closing brace is redundant.
 	$css = str_replace( ';}', '}', $css );

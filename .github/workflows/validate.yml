@@ -33,6 +33,9 @@ jobs:
             | xargs -0 -n1 -P4 php -l
           echo "All PHP files parse."
 
+      - name: Check the CSS minifier
+        run: php bin/test-css-minify.php
+
       - name: Ensure required theme files exist
         run: |
           set -e
