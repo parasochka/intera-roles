@@ -1005,14 +1005,31 @@ details[open] summary svg {
 	margin-top: 6px;
 }
 
+/* The owl above cannot reach a blockquote: `.intera-prose blockquote` carries
+   an element in its selector and out-specifies `.intera-prose > * + *`, so the
+   `margin: 0` reset that clears the browser default also swallowed the 24px
+   rhythm — a pull quote sat flush against the paragraph introducing it, and
+   flush against a list under it (a list zeroes its own margins the same way).
+   The rhythm is therefore stated here, at 32px rather than 24px: the quote is
+   set at --text-xl behind a rule of its own and reads as a break in the
+   article, so it is given a little more air than one paragraph gives another.
+   Zeroed at the ends of the article, where the owl would have given nothing. */
 .intera-prose blockquote {
 	border-left: 3px solid var(--blue-600);
 	padding: 4px 0 4px 24px;
-	margin: 0;
+	margin: 32px 0;
 	font-size: var(--text-xl);
 	line-height: 1.5;
 	letter-spacing: -0.01em;
 	color: var(--ink-900);
+}
+
+.intera-prose > blockquote:first-child {
+	margin-top: 0;
+}
+
+.intera-prose > blockquote:last-child {
+	margin-bottom: 0;
 }
 
 .intera-prose blockquote cite,
