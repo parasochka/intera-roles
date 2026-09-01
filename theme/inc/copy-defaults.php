@@ -480,11 +480,11 @@ function intera_copy_schema() {
 					'label'  => __( 'Contact routes', 'intera' ),
 					'fields' => array(
 						'contacts_contact_routes__direct' => __( 'Direct', 'intera' ),
-						'contacts_contact_routes__write_to_us' => __( 'Write to us', 'intera' ),
+						'contacts_contact_routes__talk_to_us' => __( 'Talk to us', 'intera' ),
 						'contacts_contact_routes__response_time' => __( 'Response time', 'intera' ),
 						'contacts_contact_routes__working_language' => __( 'Working language', 'intera' ),
 						'contacts_contact_routes__bring_us_a_real_problem' => __( 'Bring us a real problem', 'intera' ),
-						'contacts_contact_routes__send_an_email' => __( 'Send an email', 'intera' ),
+						'contacts_contact_routes__connect_on_linkedin' => __( 'Connect on LinkedIn', 'intera' ),
 					),
 				),
 				'who_to_talk_to' => array(
@@ -547,7 +547,7 @@ function intera_copy_schema() {
 						'request_request_form__early_adopter_programme' => __( 'Early Adopter programme', 'intera' ),
 						'request_request_form__free_for_the_first_12_months' => __( 'Free for the first 12 months, unlimited roles, custom onboarding and one market package included. We take a small number of companies during beta.', 'intera' ),
 						'request_request_form__see_what_is_included' => __( 'See what is included', 'intera' ),
-						'request_request_form__prefer_email_write_to_s' => __( 'Prefer email? Write to %s.', 'intera' ),
+						'request_request_form__prefer_a_direct_line_message_s' => __( 'Prefer a direct line? Message %s.', 'intera' ),
 					),
 				),
 				'say_yes' => array(
