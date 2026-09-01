@@ -17,16 +17,16 @@
  * | H1                            | `single_term_title()`                           |
  * | `10 articles`                 | the list query's `found_posts`, through `_n()`  |
  * | standfirst                    | `term_description()`                            |
- * | sub-group headings            | the term's child terms — the taxonomy is hierarchical |
- * | each row                      | `partials/doc-row` `ordinal`: `menu_order`, title, excerpt, reading time |
- * | sidebar `Other categories`    | top-level `doc_category` terms, current one excluded, counted with children |
+ * | sub-group headings            | the term's child terms, in the admin's own order |
+ * | each row                      | `partials/doc-row` `ordinal`: position, title, excerpt, reading time |
+ * | sidebar `Other categories`    | top-level `doc_category` terms in the admin's own order, current one excluded, counted with children |
  * | sidebar CTA                   | `partials/sidebar-cta`, prefix `docs_cta`       |
  *
- * The ordinals run 01…10 straight through the sub-groups, so every row reads
- * its own `menu_order` (the post's Order field) — `partials/doc-row` does that
- * by default and no loop index is used anywhere on this page. The same field
- * orders the query, which is what makes the groups fall into the export's
- * order: a group appears where its first-ordered article does, not
+ * The ordinals run 01…10 straight through the sub-groups. The order they run
+ * in is the editor's own — the `_docs_order` list BetterDocs keeps on the
+ * category term, read by `intera_docs_query_args()`, with the post's Order
+ * field as the fallback behind it — which is what makes the groups fall into
+ * the export's shape: a group appears where its first article does, not
  * alphabetically. Articles filed on the category itself rather than in a
  * sub-group are listed first, without a heading, so nothing goes missing when
  * an editor never creates children.
@@ -56,26 +56,7 @@ $intera_docs_id   = $intera_docs_term ? (int) $intera_docs_term->term_id : 0;
  * @return WP_Query
  */
 $intera_docs_query = static function ( $term_id, $per_page ) {
-	return new WP_Query(
-		array(
-			'post_type'           => 'docs',
-			'post_status'         => 'publish',
-			'posts_per_page'      => (int) $per_page,
-			'orderby'             => array(
-				'menu_order' => 'ASC',
-				'title'      => 'ASC',
-			),
-			'ignore_sticky_posts' => true,
-			'tax_query'           => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
-				array(
-					'taxonomy'         => 'doc_category',
-					'field'            => 'term_id',
-					'terms'            => (int) $term_id,
-					'include_children' => true,
-				),
-			),
-		)
-	);
+	return new WP_Query( intera_docs_query_args( (int) $term_id, (int) $per_page ) );
 };
 
 /*
@@ -136,6 +117,7 @@ $intera_docs_children = $intera_docs_id
 	: array();
 
 $intera_docs_children = is_wp_error( $intera_docs_children ) ? array() : $intera_docs_children;
+$intera_docs_children = intera_docs_terms_in_order( $intera_docs_children );
 
 $intera_docs_group_of = array();
 
@@ -189,6 +171,7 @@ $intera_docs_others = get_terms(
 );
 
 $intera_docs_others = is_wp_error( $intera_docs_others ) ? array() : $intera_docs_others;
+$intera_docs_others = intera_docs_terms_in_order( $intera_docs_others );
 ?>
 
 <section data-screen-label="Docs category header" style="background: var(--surface-sunken); border-bottom: 1px solid var(--border-subtle)">

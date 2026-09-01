@@ -33,12 +33,12 @@ Claude Design  ─►  theme/ (_ds/intera + PHP)  ─►  GitHub  ─►  WP Pus
 | `inc/enqueue.php` | Parses the `_ds/intera/styles.css` `@import` manifest and inlines every sheet + `assets/css/intera.css` + `style.css` into `<head>`, rewriting each sheet's relative `url()` to an absolute one and minifying the result into a transient; preloads the two above-the-fold fonts; enqueues `assets/js/intera.js` deferred. DS files stay byte-identical on disk. |
 | `inc/tokens.php` | Parses `_ds/intera/tokens/*.css` into PHP arrays. This is how the block editor gets the brand palette **without a second copy of any value**. |
 | `inc/post-types.php` | CPTs `docs`, `role`, `plan`; taxonomy `docs_category` + its term meta (icon, tone). |
-| `inc/betterdocs.php` | Everything that touches the BetterDocs plugin: the `template_include` takeback for the three docs screens, and the plugin's own article footer (reaction vote, share, tags, feedback modal), print button, AI summary and comments rendered back into `single-docs.php`. See **Living with BetterDocs** below. |
+| `inc/betterdocs.php` | Everything that touches the BetterDocs plugin: the `template_include` takeback for the three docs screens, the reading of the order an editor dragged (category positions and `_docs_order`), and the plugin's own article footer (reaction vote, share, tags, feedback modal), print button, AI summary and comments rendered back into `single-docs.php`. See **Living with BetterDocs** below. |
 | `inc/meta.php` | Post meta registration and the meta boxes that make it editable. |
 | `inc/copy.php` · `inc/copy-defaults.php` | Every run of text on the five designed pages, as one meta box on the page itself. A schema entry is normally just its default string — the design's own wording is also the name an editor recognises it by. The few whose default is a bare figure (`+2`, `4,812`) are written `array( 'default' => …, 'label' => … )` instead, because a control labelled "+2" names nothing. |
 | `inc/seo.php` | The `<title>` and meta description every screen answers with: written defaults per designed page and archive, `_intera_seo_title` / `_intera_seo_description` overrides an editor can type, and the brand appended once at the end (never twice). A last resort under all of it, so a screen nobody has written words for still answers with what it holds. Feeds Rank Math through its own filters when the plugin is active. |
 | `inc/customizer.php` | Theme options + `intera_option()`. Everything a screen says that no single page owns: the archives, the standing announcements, the cards repeated across the blog, the categories and the docs. The registered default *is* the export's wording, so a template reads `intera_option( 'key' )` with one argument and a field nobody opened still renders the handoff — and clearing a field is how a block is switched off. No colour or font setting lives here — those come from the tokens. |
-| `inc/template-tags.php` | `intera_icon()` (inlined Lucide), reading time, breadcrumbs, heading ids and TOC data. |
+| `inc/template-tags.php` | `intera_icon()` (inlined Lucide), reading time, breadcrumbs, heading ids and TOC data, and the one query shape every docs list is built from (`intera_docs_query_args()` / `intera_docs_terms_in_order()`, ordered by what `inc/betterdocs.php` reads off the term). |
 | `inc/forms.php` | The contact-request handler: nonce, honeypot, validation, storage, mail. The fallback behind Contact Form 7, not the default. |
 | `inc/cf7.php` | Everything that touches Contact Form 7: renders the configured form on the request page and dresses the plugin's markup in the design system. See **Living with Contact Form 7** below. |
 | `header.php` / `footer.php` | Shared chrome. The mobile menu is a CSS-only checkbox toggle; JS only mirrors it into ARIA. |
@@ -79,7 +79,8 @@ one that costs real data: it is the only thing on the page that writes to
 `/betterdocs/v1/feedback`, so BetterDocs → Analytics → Reactions was recording
 nothing while the docs looked finished.
 
-Three rules follow, and they apply to any plugin whose template we replace:
+Four rules follow, and the first three apply to any plugin whose template we
+replace:
 
 1. **Never reimplement a plugin control — render the plugin's.**
    `intera_betterdocs_part()` runs the plugin's own view files. That keeps every
@@ -105,6 +106,25 @@ Three rules follow, and they apply to any plugin whose template we replace:
 3. **A control that records nothing is a fallback, never the default.** The
    theme's own "Was this page useful?" strip is a `GET` form to the contact
    page; it renders only when BetterDocs offers no vote of its own.
+
+4. **The order on a docs screen is the plugin's data, not the post's.**
+   BetterDocs never writes its drag order into `menu_order` — every doc has 0
+   there — so ordering a docs query by the post's Order field reads as
+   "whatever the database returns", which is what put the categories in
+   alphabetical order and their articles in id order while the admin screen
+   showed something else entirely. Both sequences live on the **term**:
+   `doc_category_order` is a category's position, `_docs_order` a
+   comma-separated list of post ids inside it. `inc/betterdocs.php` reads them
+   (through the plugin's own `get_docs_order_by_terms()` where it can, so the
+   multilingual key and the "a doc nobody has dragged goes first" rule are the
+   plugin's), and the templates only ever call `intera_docs_query_args()` and
+   `intera_docs_terms_in_order()` in `inc/template-tags.php` — one query shape,
+   so the archive, a category page and an article's rail cannot disagree. The
+   post's own Order field is the fallback behind it, never above it. The same
+   trap has a second mouth: BetterDocs sets `post__in` on the main query in
+   `pre_get_posts`, and a plugin runs before a theme, so a theme filter that
+   sets `orderby` unconditionally on that hook silently throws the editor's
+   order away.
 
 One more thing worth knowing, because it looks like a theme bug and is not: a
 bare `post_type` query var is parsed by BetterDocs as a request for its docs
