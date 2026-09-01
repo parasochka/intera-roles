@@ -41,7 +41,11 @@ if ( '' === $intera_footer_cta_url && function_exists( 'intera_page_url' ) ) {
 }
 $intera_copyright        = trim( (string) intera_option( 'copyright' ) );
 $intera_site_domain      = trim( (string) intera_option( 'site_domain' ) );
-$intera_contact_email    = trim( (string) intera_option( 'contact_email' ) );
+$intera_contact_person   = trim( (string) intera_option( 'contact_person' ) );
+$intera_contact_url      = trim( (string) intera_option( 'contact_person_url' ) );
+
+// A name with nowhere to go, or a link with nothing to label it, is not a route.
+$intera_has_contact_link = ( '' !== $intera_contact_person && '' !== $intera_contact_url );
 
 // A call to action with no target would render as a dead <button>; leave it out instead.
 $intera_footer_has_cta = ( '' !== $intera_footer_cta_label && '' !== $intera_footer_cta_url );
@@ -174,12 +178,12 @@ $intera_legal_link_filter = $intera_foot_link_classes( 'itr-foot-link itr-foot-l
 			}
 			?>
 
-			<span style="font-family: var(--font-mono); display: flex; gap: 18px; align-items: baseline">
+			<span style="font-family: var(--font-mono); display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: baseline">
 				<?php if ( '' !== $intera_site_domain ) : ?>
 					<span class="intera-site-domain"><?php echo esc_html( $intera_site_domain ); ?></span>
 				<?php endif; ?>
-				<?php if ( is_email( $intera_contact_email ) ) : ?>
-					<a class="itr-foot-link itr-foot-link--dim" href="<?php echo esc_url( 'mailto:' . $intera_contact_email ); ?>"><?php echo esc_html( $intera_contact_email ); ?></a>
+				<?php if ( $intera_has_contact_link ) : ?>
+					<a class="itr-foot-link itr-foot-link--dim" href="<?php echo esc_url( $intera_contact_url ); ?>" target="_blank" rel="noopener noreferrer" style="font-family: var(--font-sans)"><?php echo esc_html( $intera_contact_person ); ?></a>
 				<?php endif; ?>
 			</span>
 		</div>

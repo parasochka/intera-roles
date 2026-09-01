@@ -1167,3 +1167,157 @@ if ( ! function_exists( 'intera_destinations_get' ) ) :
 		return array_slice( array_values( $destinations ), 0, max( 1, (int) $limit ) );
 	}
 endif;
+
+/*
+ * ---------------------------------------------------------------------------
+ * Documentation order
+ * ---------------------------------------------------------------------------
+ *
+ * The docs screens are the one place where the order on the page is the
+ * editor's, not the theme's: the archive's cards, the rows inside them, the
+ * `01…10` ordinals on a category page and the tree in an article's rail all
+ * have to read in the order the admin screen shows. That order is BetterDocs'
+ * — categories by a position on the term, articles by a list of ids on the
+ * term — and `inc/betterdocs.php` is what knows how to read it. These two
+ * helpers are what a template calls, so a template never asks the plugin
+ * anything directly and a theme without `inc/betterdocs.php` still orders by
+ * the post's own Order field instead of fataling.
+ */
+
+if ( ! function_exists( 'intera_docs_terms_in_order' ) ) :
+	/**
+	 * Sort documentation categories into the order the admin screen shows.
+	 *
+	 * A category nobody has dragged has no position at all, so it sorts after
+	 * every category that has one, keeping the order it arrived in — which is
+	 * how a caller's `orderby` (the name, everywhere in this theme) stays the
+	 * tie-breaker rather than being silently replaced by term id.
+	 *
+	 * @param WP_Term[] $terms Categories, in the order `get_terms()` returned.
+	 * @return WP_Term[] The same categories, reordered.
+	 */
+	function intera_docs_terms_in_order( $terms ) {
+		$terms = array_values( array_filter( (array) $terms, static function ( $term ) {
+			return $term instanceof WP_Term;
+		} ) );
+
+		if ( count( $terms ) < 2 || ! function_exists( 'intera_betterdocs_category_order' ) ) {
+			return $terms;
+		}
+
+		$decorated = array();
+
+		foreach ( $terms as $index => $term ) {
+			$position = intera_betterdocs_category_order( (int) $term->term_id );
+
+			$decorated[] = array(
+				'term'     => $term,
+				'unranked' => null === $position ? 1 : 0,
+				'position' => null === $position ? 0 : $position,
+				'index'    => $index,
+			);
+		}
+
+		usort(
+			$decorated,
+			static function ( $a, $b ) {
+				if ( $a['unranked'] !== $b['unranked'] ) {
+					return $a['unranked'] - $b['unranked'];
+				}
+
+				if ( $a['position'] !== $b['position'] ) {
+					return $a['position'] - $b['position'];
+				}
+
+				// `usort` is not stable before PHP 8, so the arrival order is carried.
+				return $a['index'] - $b['index'];
+			}
+		);
+
+		return array_column( $decorated, 'term' );
+	}
+endif;
+
+if ( ! function_exists( 'intera_docs_order_ids' ) ) :
+	/**
+	 * Every article in a category, its sub-groups included, in the editor's order.
+	 *
+	 * A sub-group's articles follow the group they sit in, and the groups
+	 * themselves follow the category order — which is what makes a category page
+	 * fall into the export's shape: a group appears where the admin screen puts
+	 * it, and the ordinals run straight through in that sequence.
+	 *
+	 * @param int $term_id doc_category term id.
+	 * @return int[] Post ids, empty when nothing in the tree has been arranged.
+	 */
+	function intera_docs_order_ids( $term_id ) {
+		$term_id = (int) $term_id;
+
+		if ( $term_id <= 0 || ! function_exists( 'intera_betterdocs_docs_order' ) ) {
+			return array();
+		}
+
+		$ids = intera_betterdocs_docs_order( $term_id );
+
+		$children = get_terms(
+			array(
+				'taxonomy'   => 'doc_category',
+				'parent'     => $term_id,
+				'hide_empty' => false,
+			)
+		);
+
+		$children = is_wp_error( $children ) ? array() : $children;
+
+		foreach ( intera_docs_terms_in_order( $children ) as $child ) {
+			$ids = array_merge( $ids, intera_docs_order_ids( (int) $child->term_id ) );
+		}
+
+		return array_values( array_unique( array_map( 'intval', $ids ) ) );
+	}
+endif;
+
+if ( ! function_exists( 'intera_docs_query_args' ) ) :
+	/**
+	 * The query behind every list of documentation articles.
+	 *
+	 * One shape, so the archive's cards, a category page and an article's rail
+	 * can never disagree about what a category holds or what order it reads in.
+	 * The taxonomy condition stays on the query even when the ordered list is
+	 * there, so an id an editor has since moved to another category is counted
+	 * and drawn by neither.
+	 *
+	 * @param int $term_id  doc_category term id.
+	 * @param int $per_page How many articles to fetch; -1 for all of them.
+	 * @return array WP_Query arguments.
+	 */
+	function intera_docs_query_args( $term_id, $per_page = -1 ) {
+		$args = array(
+			'post_type'           => 'docs',
+			'post_status'         => 'publish',
+			'posts_per_page'      => (int) $per_page,
+			'ignore_sticky_posts' => true,
+			'orderby'             => array(
+				'menu_order' => 'ASC',
+				'title'      => 'ASC',
+			),
+			'tax_query'           => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- one category per list, which is what a docs screen is.
+				array(
+					'taxonomy'         => 'doc_category',
+					'field'            => 'term_id',
+					'terms'            => (int) $term_id,
+					'include_children' => true,
+				),
+			),
+		);
+
+		$ids = intera_docs_order_ids( $term_id );
+
+		if ( ! empty( $ids ) ) {
+			$args['post__in'] = $ids;
+			$args['orderby']  = 'post__in';
+		}
+
+		return $args;
+	}
+endif;

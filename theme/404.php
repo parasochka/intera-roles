@@ -17,7 +17,7 @@
  * | requested path           | the request itself, printed in mono                  |
  * | search field             | `partials/search-form`                               |
  * | the destination list     | the `primary` menu, falling back to `intera_page_url()` |
- * | the "broken link" line   | `intera_option( 'contact_email' )` / contact-request  |
+ * | the "broken link" line   | `contact_person` + `contact_person_url` / contact-request |
  *
  * The destinations are never a hardcoded list of links: they are the top level
  * of whatever menu the site has assigned to `primary`, labels included, so the
@@ -40,9 +40,12 @@ defined( 'ABSPATH' ) || exit;
 
 get_header();
 
-$intera_404_email   = trim( (string) intera_option( 'contact_email' ) );
-$intera_404_request = (string) intera_page_url( 'contact-request' );
-$intera_404_mailto  = '' !== $intera_404_email ? 'mailto:' . $intera_404_email : '';
+$intera_404_person     = trim( (string) intera_option( 'contact_person' ) );
+$intera_404_person_url = trim( (string) intera_option( 'contact_person_url' ) );
+$intera_404_request    = (string) intera_page_url( 'contact-request' );
+
+// A name with nowhere to go, or a link with nothing to label it, is not a route.
+$intera_404_has_person = ( '' !== $intera_404_person && '' !== $intera_404_person_url );
 
 // The address that was asked for, path only, printed as an identifier.
 $intera_404_path = '';
@@ -98,17 +101,33 @@ $intera_404_dest = intera_destinations_get( 6 );
 				?>
 			</div>
 
-			<?php if ( '' !== $intera_404_mailto || '' !== $intera_404_request ) : ?>
+			<?php if ( '' !== $intera_404_request || $intera_404_has_person ) : ?>
 				<?php
-				$intera_404_report = '' !== $intera_404_mailto
-					? '<a class="itr-link-strong" href="' . esc_url( $intera_404_mailto ) . '" style="font-family: var(--font-mono)">' . esc_html( $intera_404_email ) . '</a>'
-					: '<a href="' . esc_url( $intera_404_request ) . '">' . esc_html__( 'tell us', 'intera' ) . '</a>';
+				/*
+				 * The sentence names the route inline, so the link has to read
+				 * as one: an address could stand in for "tell us", a person's
+				 * name cannot. The words stay "tell us" and only the
+				 * destination changes — the request page when there is one,
+				 * the direct contact's profile when there is not, with their
+				 * name as the accessible name so the target is never a guess.
+				 */
+				$intera_404_report = '' !== $intera_404_request
+					? '<a class="itr-link-strong" href="' . esc_url( $intera_404_request ) . '">' . esc_html__( 'tell us', 'intera' ) . '</a>'
+					: '<a class="itr-link-strong" href="' . esc_url( $intera_404_person_url ) . '" target="_blank" rel="noopener noreferrer" aria-label="'
+						. esc_attr(
+							sprintf(
+								/* translators: %s: the direct contact's name, e.g. Sergey Bogdanov - Founder. */
+								__( 'Tell %s', 'intera' ),
+								$intera_404_person
+							)
+						)
+						. '">' . esc_html__( 'tell us', 'intera' ) . '</a>';
 				?>
 				<p style="font-size: var(--text-sm); line-height: 1.6; color: var(--ink-600); margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--border-hairline); max-width: 460px">
 					<?php
 					echo wp_kses_post(
 						sprintf(
-							/* translators: %s: contact email address, or a link to the contact request page. */
+							/* translators: %s: a "tell us" link, to the contact request page or the direct contact's profile. */
 							__( 'If a link on this site brought you here, it is a fault on our side: %s.', 'intera' ),
 							$intera_404_report
 						)

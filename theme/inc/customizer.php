@@ -65,8 +65,21 @@ function intera_option_defaults() {
 		 */
 		'contact_form_id'            => 'f98e0c5',
 
-		// site-footer, 05-contacts, 06-contact-request, 07-policy.
-		'contact_email'              => 'sb@by-sky.net',
+		/*
+		 * site-footer, 05-contacts, 06-contact-request, 07-policy. The direct
+		 * route the site publishes is a person, not an inbox: the name and the
+		 * profile behind it. Clearing either one drops every row, line and
+		 * button that points there, exactly as clearing an address used to.
+		 */
+		'contact_person'             => 'Sergey Bogdanov - Founder',
+		'contact_person_url'         => 'https://www.linkedin.com/in/sergey-bogdanov-a282a689/',
+
+		/*
+		 * Not a published address — nothing renders it. It is only where the
+		 * theme's own request form (inc/forms.php, the fallback behind Contact
+		 * Form 7) sends its notification; empty means the site's admin email.
+		 */
+		'contact_notify'             => '',
 		'contact_response'           => __( 'Same working day, in most cases', 'intera' ),
 		'contact_languages'          => __( 'English', 'intera' ),
 		'site_domain'                => 'intera-roles.com',
@@ -231,9 +244,9 @@ function intera_customize_register( $wp_customize ) {
 	 *
 	 * `partial` marks the ones whose markup is a bare run of text: those are
 	 * cheap to swap in place, so they get postMessage plus a selective-refresh
-	 * partial. Anything that renders an attribute (an href, a mailto) stays on a
-	 * full refresh, because replacing the element's text would leave a stale
-	 * link behind.
+	 * partial. Anything that renders an attribute (an href, a profile link)
+	 * stays on a full refresh, because replacing the element's text would leave
+	 * a stale link behind.
 	 */
 	$fields = array(
 		'header_badge'        => array(
@@ -289,10 +302,23 @@ function intera_customize_register( $wp_customize ) {
 			'description' => __( 'The id from the form’s shortcode in wp-admin — e.g. f98e0c5. The request page renders that form, mails and captcha included. Leave empty to use the theme’s own built-in form instead.', 'intera' ),
 			'sanitize'    => 'sanitize_text_field',
 		),
-		'contact_email'       => array(
+		'contact_person'      => array(
 			'section'     => 'intera_contacts',
-			'label'       => __( 'Contact email', 'intera' ),
-			'description' => __( 'Used as text and as the mailto target.', 'intera' ),
+			'label'       => __( 'Direct contact', 'intera' ),
+			'description' => __( 'The person a visitor writes to, as the site prints it — name and role. Empty hides the direct route everywhere it appears.', 'intera' ),
+			'sanitize'    => 'sanitize_text_field',
+		),
+		'contact_person_url'  => array(
+			'section'     => 'intera_contacts',
+			'label'       => __( 'Direct contact link', 'intera' ),
+			'description' => __( 'Where that name points — the LinkedIn profile. Empty hides the direct route everywhere it appears.', 'intera' ),
+			'type'        => 'url',
+			'sanitize'    => 'esc_url_raw',
+		),
+		'contact_notify'      => array(
+			'section'     => 'intera_contacts',
+			'label'       => __( 'Request notifications', 'intera' ),
+			'description' => __( 'Where the theme’s own request form mails a submission. Never printed on the site. Empty uses the site’s admin email; with Contact Form 7 in front of it, the plugin’s own recipient applies instead.', 'intera' ),
 			'type'        => 'email',
 			'sanitize'    => 'sanitize_email',
 		),
