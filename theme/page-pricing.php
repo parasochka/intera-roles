@@ -129,9 +129,9 @@ $intera_no_figure = _x( '—', 'a capability the plan does not include', 'intera
 $intera_tiles = array();
 
 foreach ( array(
-	intera_copy( 'pricing_page__roles' )          => intera_copy( 'pricing_page__roles_2' ),
-	intera_copy( 'pricing_page__users' )          => intera_copy( 'pricing_page__users_2' ),
-	intera_copy( 'pricing_page__market_package' ) => intera_copy( 'pricing_page__market_package_2' ),
+	intera_copy( 'pricing_page__roles' )        => intera_copy( 'pricing_page__roles_2' ),
+	intera_copy( 'pricing_page__users' )        => intera_copy( 'pricing_page__users_2' ),
+	intera_copy( 'pricing_page__role_package' ) => intera_copy( 'pricing_page__role_package_2' ),
 ) as $intera_tile_capability => $intera_tile_label ) {
 	$intera_tile_key = function_exists( 'intera_plan_capability_key' )
 		? intera_plan_capability_key( $intera_tile_capability )

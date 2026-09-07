@@ -4,7 +4,7 @@
  *
  * Ported from `_design/02-product.dc.html` (recon §4). Eight sections in the
  * export's order: product header, "What INTERA watches", Pattern Studio,
- * Integrations, Roles, Market packages, Method, CTA.
+ * Integrations, Roles, Role packages, Method, CTA.
  *
  * What comes from WordPress:
  *
@@ -20,7 +20,7 @@
  *
  * The rest of the copy is the handoff's own fixed marketing text, per recon §4
  * ("fully static marketing page"): the section headings and ledes, the signal
- * vocabulary, the eight DataSource rows, the two market packages and the five
+ * vocabulary, the eight DataSource rows, the four role packages and the five
  * Method steps.
  *
  * PORT.md §1: no `background`, `border`, `border-color`, `box-shadow` or
@@ -533,43 +533,83 @@ $intera_chain_captions = array(
 	</div>
 </section>
 
-<section id="packages" data-screen-label="Market packages" style="position: relative; overflow: hidden; background: var(--surface-sunken); border-top: 1px solid var(--border-subtle)">
+<section id="packages" data-screen-label="Role packages" style="position: relative; overflow: hidden; background: var(--surface-sunken); border-top: 1px solid var(--border-subtle)">
 	<div aria-hidden="true" style="position: absolute; left: 82%; top: 70%; width: 880px; height: 880px; transform: translate(-50%,-50%); pointer-events: none; background: radial-gradient(circle, var(--wash-violet) 0%, transparent 68%)"></div>
 	<div style="position: relative; max-width: 1160px; margin: 0 auto; padding: clamp(49px, 7vw, 84px) clamp(20px, 5vw, 24px)">
 		<div style="max-width: 720px; margin-bottom: 36px">
-			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'product_market_packages__market_packages' ) ); ?></div>
-			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'product_market_packages__industry_bundles_already_shaped_around_real' ) ); ?></h2>
-			<p style="font-size: var(--text-lg); line-height: 1.6; color: var(--ink-600); margin-top: 16px"><?php echo esc_html( intera_copy( 'product_market_packages__a_market_package_is_a_reusable' ) ); ?></p>
+			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'product_role_packages__role_packages' ) ); ?></div>
+			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'product_role_packages__ready_made_packages_shaped_around_real' ) ); ?></h2>
+			<p style="font-size: var(--text-lg); line-height: 1.6; color: var(--ink-600); margin-top: 16px"><?php echo esc_html( intera_copy( 'product_role_packages__a_role_package_is_a_reusable' ) ); ?></p>
 		</div>
-		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 20px">
+		<?php
+		/*
+		 * Four packages, so the row is asked for two columns rather than the
+		 * three a 320px floor would give a 1160px band: 420px is wide enough
+		 * that only two fit, and `min()` keeps the floor off a phone.
+		 */
+		?>
+		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); gap: 20px">
 			<?php
 			$intera_packages = array(
 				array(
-					'icon'  => 'radio-tower',
-					'title' => intera_copy( 'product_market_packages__telecommunications' ),
-					'body'  => intera_copy( 'product_market_packages__where_usage_rating_billing_and_partner' ),
+					'icon'  => 'terminal',
+					'title' => intera_copy( 'product_role_packages__system_administrator' ),
+					'body'  => intera_copy( 'product_role_packages__what_needs_attention_across_infrastructure_serv' ),
+					'badge' => intera_copy( 'product_role_packages__included_free' ),
+					'tone'  => 'ok',
 					'tags'  => array(
-						intera_copy( 'product_market_packages__revenue_assurance_manager' ),
-						intera_copy( 'product_market_packages__billing_operations_manager' ),
-						intera_copy( 'product_market_packages__network_operations_manager' ),
-						intera_copy( 'product_market_packages__partner_wholesale_manager' ),
-						intera_copy( 'product_market_packages__commercial_director' ),
-						intera_copy( 'product_market_packages__cfo_finance_controller' ),
-						intera_copy( 'product_market_packages__coo_head_of_operations' ),
+						intera_copy( 'product_role_packages__infrastructure_health' ),
+						intera_copy( 'product_role_packages__backups_and_restores' ),
+						intera_copy( 'product_role_packages__service_availability' ),
+						intera_copy( 'product_role_packages__licences_and_certificates' ),
+						intera_copy( 'product_role_packages__supplier_and_vendor_slas' ),
+						intera_copy( 'product_role_packages__ticket_backlog' ),
 					),
-					'link'  => intera_copy( 'product_market_packages__telecommunications_package' ),
 				),
 				array(
-					'icon'  => 'ship',
-					'title' => intera_copy( 'product_market_packages__shipmanagement' ),
-					'body'  => intera_copy( 'product_market_packages__maintenance_backlog_defects_class_and_certificat' ),
+					'icon'  => 'circle-dollar-sign',
+					'title' => intera_copy( 'product_role_packages__finance_billing_control' ),
+					'body'  => intera_copy( 'product_role_packages__do_billing_accounting_and_payments_agree' ),
+					'badge' => intera_copy( 'product_role_packages__beta' ),
+					'tone'  => 'info',
 					'tags'  => array(
-						intera_copy( 'product_market_packages__technical_superintendent' ),
-						intera_copy( 'product_market_packages__fleet_manager' ),
-						intera_copy( 'product_market_packages__procurement_and_parts' ),
-						intera_copy( 'product_market_packages__compliance_and_audit' ),
+						intera_copy( 'product_role_packages__invoicing_and_billing_runs' ),
+						intera_copy( 'product_role_packages__payments_and_receivables' ),
+						intera_copy( 'product_role_packages__accounting_reconciliation' ),
+						intera_copy( 'product_role_packages__tariffs_and_price_lists' ),
+						intera_copy( 'product_role_packages__disputes_and_credit_notes' ),
+						intera_copy( 'product_role_packages__revenue_leakage' ),
 					),
-					'link'  => intera_copy( 'product_market_packages__shipmanagement_package' ),
+				),
+				array(
+					'icon'  => 'boxes',
+					'title' => intera_copy( 'product_role_packages__operations' ),
+					'body'  => intera_copy( 'product_role_packages__which_assets_customers_or_projects_are' ),
+					'badge' => intera_copy( 'product_role_packages__beta' ),
+					'tone'  => 'info',
+					'tags'  => array(
+						intera_copy( 'product_role_packages__asset_and_equipment_status' ),
+						intera_copy( 'product_role_packages__customer_and_project_health' ),
+						intera_copy( 'product_role_packages__delivery_and_schedule_slippage' ),
+						intera_copy( 'product_role_packages__stock_and_consumables' ),
+						intera_copy( 'product_role_packages__maintenance_backlog' ),
+						intera_copy( 'product_role_packages__exceptions_and_deviations' ),
+					),
+				),
+				array(
+					'icon'  => 'heart-pulse',
+					'title' => intera_copy( 'product_role_packages__service_management' ),
+					'body'  => intera_copy( 'product_role_packages__which_customer_or_service_problems_are' ),
+					'badge' => intera_copy( 'product_role_packages__beta' ),
+					'tone'  => 'info',
+					'tags'  => array(
+						intera_copy( 'product_role_packages__tickets_and_requests' ),
+						intera_copy( 'product_role_packages__sla_breaches' ),
+						intera_copy( 'product_role_packages__recurring_incidents' ),
+						intera_copy( 'product_role_packages__escalations' ),
+						intera_copy( 'product_role_packages__service_quality_signals' ),
+						intera_copy( 'product_role_packages__customer_impact' ),
+					),
 				),
 			);
 
@@ -578,20 +618,15 @@ $intera_chain_captions = array(
 				?>
 				<?php
 				/*
-				 * The package name and its "Beta" chip. The export writes this
-				 * line for a 560px card and never lets it wrap, which on a
-				 * phone is 279px of icon, name and chip inside as little as
-				 * 214px of card: at 375px the chip hangs over the card's own
-				 * padding, at 360px it clears the edge entirely. `flex-wrap`
-				 * drops the chip under the name instead, and `min-width: 0`
-				 * lets the name itself break — a single unbreakable word
-				 * ("Telecommunications" is 198px at --text-xl) is wider than a
-				 * 320px card on its own, and a flex item will not go below its
-				 * longest word until it is allowed to. It is on the name as
-				 * well as on the group: each is a flex item, and the floor has
-				 * to come off both before the `overflow-wrap: break-word` the
-				 * phone breakpoint puts on <body> has a line short enough to
-				 * act on.
+				 * The package name and its chip. The export writes this line
+				 * for a 560px card and never lets it wrap, which on a phone is
+				 * icon, name and chip inside as little as 214px of card:
+				 * `flex-wrap` drops the chip under the name instead, and
+				 * `min-width: 0` lets the name itself break. It is on the name
+				 * as well as on the group: each is a flex item, and the floor
+				 * has to come off both before the `overflow-wrap: break-word`
+				 * the phone breakpoint puts on <body> has a line short enough
+				 * to act on.
 				 */
 				?>
 				<div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px">
@@ -612,8 +647,8 @@ $intera_chain_captions = array(
 						'template-parts/components/badge',
 						null,
 						array(
-							'text' => intera_copy( 'product_market_packages__beta' ),
-							'tone' => 'info',
+							'text' => $intera_package['badge'],
+							'tone' => $intera_package['tone'],
 						)
 					);
 					?>
@@ -630,22 +665,6 @@ $intera_chain_captions = array(
 					}
 					?>
 				</div>
-				<?php if ( '' !== $intera_docs_url ) : ?>
-					<div style="margin-top: 20px">
-						<?php
-						get_template_part(
-							'template-parts/components/button',
-							null,
-							array(
-								'label'      => $intera_package['link'],
-								'href'       => $intera_docs_url,
-								'variant'    => 'link',
-								'icon_right' => 'arrow-right',
-							)
-						);
-						?>
-					</div>
-				<?php endif; ?>
 				<?php
 				$intera_package_body = ob_get_clean();
 
