@@ -479,7 +479,16 @@ get_header();
 				array(
 					'attachment' => intera_shot_id( 'shot_signals' ),
 					'caption'    => intera_copy( 'home_in_action__attention_queue_what_to_work_on' ),
-					'height'     => '420px',
+					/*
+					 * The crop height is the column's own width divided by the
+					 * shot's aspect: 534px of column against a 1390x1005 image
+					 * is 386px of picture, and a frame taller than that ends
+					 * in a white strip the card reads as a mistake. Below the
+					 * two-column breakpoint the frame is wider than this, so
+					 * `object-fit: cover` crops the bottom instead, which is
+					 * what the height is for.
+					 */
+					'height'     => '386px',
 				)
 			);
 			?>
@@ -589,7 +598,8 @@ get_header();
 				array(
 					'attachment' => intera_shot_id( 'shot_it' ),
 					'caption'    => intera_copy( 'home_working_with_it__dependencies_suppliers_parts_external_commitments' ),
-					'height'     => '440px',
+					// 528px of column against a 1371x977 image. See the note above.
+					'height'     => '376px',
 				)
 			);
 			?>
