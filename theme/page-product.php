@@ -544,11 +544,14 @@ $intera_chain_captions = array(
 		<?php
 		/*
 		 * Four packages, so the row is asked for two columns rather than the
-		 * three a 320px floor would give a 1160px band: 420px is wide enough
-		 * that only two fit, and `min()` keeps the floor off a phone.
+		 * three a 320px floor would give a 1160px band. 380px is the width
+		 * that does both: three of them plus the gaps are wider than the
+		 * band's 1112px of content, and two of them still fit a tablet at
+		 * 834px, which a 420px floor left as one tall column. `min()` keeps
+		 * the floor off a phone.
 		 */
 		?>
-		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); gap: 20px">
+		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr)); gap: 20px">
 			<?php
 			$intera_packages = array(
 				array(
