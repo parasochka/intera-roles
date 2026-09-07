@@ -470,7 +470,7 @@ get_header();
 				<div style="border-left: 3px solid var(--blue-600); padding-left: 24px; max-width: 520px">
 					<p style="font-size: var(--text-2xl); line-height: 1.4; letter-spacing: -0.01em; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'home_in_action__from_something_looks_wrong_to_we' ) ); ?></p>
 				</div>
-				<p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); margin-top: 24px; max-width: 520px"><?php echo esc_html( intera_copy( 'home_in_action__every_item_carries_the_reason_it' ) ); ?></p>
+				<p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); margin-top: 24px; max-width: 520px"><?php echo esc_html( intera_copy( 'home_in_action__intera_does_not_try_to_reproduce' ) ); ?></p>
 			</div>
 			<?php
 			get_template_part(
@@ -547,48 +547,95 @@ get_header();
 </section>
 
 <section id="it" data-screen-label="Working with IT" style="background: var(--surface-page)">
-	<div style="max-width: 1160px; margin: 0 auto; padding: clamp(53px, 7vw, 92px) clamp(20px, 5vw, 24px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 52px; align-items: start">
-		<div>
-			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'home_working_with_it__working_with_existing_it' ) ); ?></div>
-			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'home_working_with_it__your_systems_remain_in_control' ) ); ?></h2>
-			<div style="display: flex; flex-direction: column; gap: 0; margin-top: 28px; border-top: 1px solid var(--border-hairline)">
-				<?php
-				$intera_it_facts = array(
-					array( 'database', intera_copy( 'home_working_with_it__intera_does_not_replace_your_erp' ) ),
-					array( 'eye', intera_copy( 'home_working_with_it__connections_can_be_configured_read_only' ) ),
-					array( 'lock', intera_copy( 'home_working_with_it__intera_does_not_need_permission_to' ) ),
-					array( 'package', intera_copy( 'home_working_with_it__local_installation_is_available_from' ) ),
-					array( 'shield-check', intera_copy( 'home_working_with_it__access_follows_intera_roles_and_permissions' ) ),
-				);
-
-				foreach ( $intera_it_facts as $intera_it_fact ) :
-					?>
-					<div style="display: flex; gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--border-hairline)">
-						<?php
-						intera_icon(
-							$intera_it_fact[0],
-							array(
-								'size'  => 16,
-								'color' => 'var(--text-muted)',
-							)
-						);
-						?>
-						<span style="font-size: var(--text-base); line-height: 1.55; color: var(--ink-700)"><?php echo esc_html( $intera_it_fact[1] ); ?></span>
-					</div>
+	<div style="max-width: 1160px; margin: 0 auto; padding: clamp(53px, 7vw, 92px) clamp(20px, 5vw, 24px)">
+		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 52px; align-items: start">
+			<div>
+				<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'home_working_with_it__working_with_existing_it' ) ); ?></div>
+				<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'home_working_with_it__your_systems_remain_in_control' ) ); ?></h2>
+				<div style="display: flex; flex-direction: column; gap: 0; margin-top: 28px; border-top: 1px solid var(--border-hairline)">
 					<?php
-				endforeach;
-				?>
+					$intera_it_facts = array(
+						array( 'database', intera_copy( 'home_working_with_it__intera_does_not_replace_your_erp' ) ),
+						array( 'eye', intera_copy( 'home_working_with_it__connections_can_be_configured_read_only' ) ),
+						array( 'lock', intera_copy( 'home_working_with_it__intera_does_not_need_permission_to' ) ),
+						array( 'package', intera_copy( 'home_working_with_it__local_installation_is_available_from' ) ),
+						array( 'shield-check', intera_copy( 'home_working_with_it__access_follows_intera_roles_and_permissions' ) ),
+					);
+
+					foreach ( $intera_it_facts as $intera_it_fact ) :
+						?>
+						<div style="display: flex; gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--border-hairline)">
+							<?php
+							intera_icon(
+								$intera_it_fact[0],
+								array(
+									'size'  => 16,
+									'color' => 'var(--text-muted)',
+								)
+							);
+							?>
+							<span style="font-size: var(--text-base); line-height: 1.55; color: var(--ink-700)"><?php echo esc_html( $intera_it_fact[1] ); ?></span>
+						</div>
+						<?php
+					endforeach;
+					?>
+				</div>
+				<p style="font-size: var(--text-lg); line-height: 1.55; color: var(--ink-900); font-weight: 500; margin-top: 26px; max-width: 520px"><?php echo esc_html( intera_copy( 'home_working_with_it__business_teams_know_what_they_need' ) ); ?></p>
 			</div>
-			<p style="font-size: var(--text-lg); line-height: 1.55; color: var(--ink-900); font-weight: 500; margin-top: 26px; max-width: 520px"><?php echo esc_html( intera_copy( 'home_working_with_it__business_teams_know_what_they_need' ) ); ?></p>
+			<?php
+			get_template_part(
+				'template-parts/partials/screenshot-frame',
+				null,
+				array(
+					'attachment' => intera_shot_id( 'shot_it' ),
+					'caption'    => intera_copy( 'home_working_with_it__dependencies_suppliers_parts_external_commitments' ),
+					'height'     => '440px',
+				)
+			);
+			?>
 		</div>
 		<?php
+		/*
+		 * The Sysadmin Package band. It sits under the two columns rather than
+		 * inside them because it is an offer, not one more fact about how
+		 * connections are made: the accent rule and the chip are what carry
+		 * "free with every plan" at a glance, and the text below is the same
+		 * paragraph an editor can rewrite from the page's own copy box.
+		 */
+		ob_start();
+		?>
+		<div style="display: flex; flex-wrap: wrap; gap: 28px; align-items: start">
+			<div style="flex: 0 1 260px; min-width: 0">
+				<?php
+				get_template_part(
+					'template-parts/components/badge',
+					null,
+					array(
+						'text' => intera_copy( 'home_sysadmin_package__included_free_with_every_plan' ),
+						'tone' => 'ok',
+						'icon' => 'check',
+					)
+				);
+				?>
+				<h3 style="font-size: var(--text-2xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.25; color: var(--ink-900); margin-top: 14px"><?php echo esc_html( intera_copy( 'home_sysadmin_package__sysadmin_package' ) ); ?></h3>
+			</div>
+			<div style="flex: 1 1 min(100%, 420px); min-width: 0">
+				<p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-700)"><?php echo esc_html( intera_copy( 'home_sysadmin_package__the_free_sysadmin_package_gives_it' ) ); ?></p>
+			</div>
+		</div>
+		<?php
+		$intera_sysadmin_panel = ob_get_clean();
+
 		get_template_part(
-			'template-parts/partials/screenshot-frame',
+			'template-parts/components/card',
 			null,
 			array(
-				'attachment' => intera_shot_id( 'shot_it' ),
-				'caption'    => intera_copy( 'home_working_with_it__dependencies_vendors_parts_external_commitments' ),
-				'height'     => '440px',
+				'content'     => $intera_sysadmin_panel,
+				'padding'     => 'loose',
+				'elevated'    => true,
+				'accent'      => 'var(--blue-600)',
+				'accent_line' => 'var(--border-default)',
+				'style'       => 'margin-top: 44px',
 			)
 		);
 		?>
@@ -865,7 +912,7 @@ get_header();
 				array( 'sliders-horizontal', intera_copy( 'home_partners__business_logic' ) ),
 				array( 'git-branch', intera_copy( 'home_partners__patterns' ) ),
 				array( 'plug', intera_copy( 'home_partners__integrations' ) ),
-				array( 'package', intera_copy( 'home_partners__market_packages' ) ),
+				array( 'package', intera_copy( 'home_partners__role_packages' ) ),
 			);
 
 			foreach ( $intera_tiles as $intera_tile ) :

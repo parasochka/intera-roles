@@ -73,7 +73,7 @@ function intera_seo_defaults() {
 
 		'template:page-product.php' => array(
 			'title'       => __( 'Product: what it watches across your systems', 'intera' ),
-			'description' => __( 'Events, Reconciliations, Incidents and Patterns — the four things every Role tracks, how read-only DataSources connect, and what a market package contains.', 'intera' ),
+			'description' => __( 'Events, Reconciliations, Incidents and Patterns — the four things every Role tracks, how read-only DataSources connect, and what a role package contains.', 'intera' ),
 		),
 
 		'template:page-pricing.php' => array(
