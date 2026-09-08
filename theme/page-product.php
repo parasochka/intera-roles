@@ -677,7 +677,7 @@ $intera_chain_captions = array(
 					array(
 						'content' => $intera_package_body,
 						'padding' => 'loose',
-						'class'   => 'itr-hl',
+						'class'   => 'itr-lift',
 					)
 				);
 			endforeach;
