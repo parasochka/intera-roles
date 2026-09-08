@@ -63,9 +63,9 @@ get_template_part(
 	'template-parts/partials/role-landing-signals',
 	null,
 	array(
-		'eyebrow'       => intera_copy( 'role_account_signals__what_intera_can_help_you_see' ),
-		'heading'       => intera_copy( 'role_account_signals__the_commitments_that_still_need_attention' ),
-		'items'         => array(
+		'eyebrow'    => intera_copy( 'role_account_signals__what_intera_can_help_you_see' ),
+		'heading'    => intera_copy( 'role_account_signals__go_into_the_customer_conversation_prepared' ),
+		'items'      => array(
 			array(
 				'icon'  => 'package',
 				'label' => intera_copy( 'role_account_signals__equipment_promised_but_not_yet_delivered' ),
@@ -91,9 +91,8 @@ get_template_part(
 				'label' => intera_copy( 'role_account_signals__customer_commitments_that_still_need_follow' ),
 			),
 		),
-		'close_heading' => intera_copy( 'role_account_signals__go_into_the_customer_conversation_prepared' ),
-		'close_body'    => intera_copy( 'role_account_signals__instead_of_checking_several_systems_or' ),
-		'close_line'    => intera_copy( 'role_account_signals__know_what_happened_know_what_did' ),
+		'close_body' => intera_copy( 'role_account_signals__instead_of_checking_several_systems_or' ),
+		'close_line' => intera_copy( 'role_account_signals__know_what_happened_know_what_did' ),
 	)
 );
 

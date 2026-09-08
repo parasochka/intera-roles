@@ -687,22 +687,36 @@ $intera_signal_chain = (bool) intera_option( 'home_signal_chain' );
 				);
 			}
 			?>
-			<div style="display: flex; flex-direction: column; justify-content: center; gap: 18px; padding: 0 8px">
-				<p style="font-size: var(--text-xl); font-weight: 600; line-height: 1.35; letter-spacing: -0.01em; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'home_roles__different_responsibilities_one_operating_picture' ) ); ?></p>
-				<div>
-					<?php
-					get_template_part(
-						'template-parts/components/button',
-						null,
-						array(
-							'label'      => intera_copy( 'home_roles__see_all_roles' ),
-							'href'       => $intera_roles_url,
-							'variant'    => 'secondary',
-							'icon_right' => 'arrow-right',
-						)
-					);
-					?>
-				</div>
+		</div>
+		<?php
+		/*
+		 * The closing statement is a row under the grid, not a cell inside it.
+		 *
+		 * The export drew five roles and put this in the sixth cell, which read
+		 * as a designed composition only for as long as the count stayed at
+		 * five: a sixth role turns the grid into a full 3x2 and leaves this
+		 * stranded alone in a third row. Roles are content — an editor adds a
+		 * seventh tomorrow — so the section footer is the thing that has to
+		 * hold at any count, and a full-width row does. The statement takes the
+		 * measure it had; the button sits beside it and drops under it on a
+		 * phone.
+		 */
+		?>
+		<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px 32px; margin-top: 32px">
+			<p style="flex: 1 1 320px; min-width: 0; font-size: var(--text-xl); font-weight: 600; line-height: 1.35; letter-spacing: -0.01em; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'home_roles__different_responsibilities_one_operating_picture' ) ); ?></p>
+			<div style="flex: none">
+				<?php
+				get_template_part(
+					'template-parts/components/button',
+					null,
+					array(
+						'label'      => intera_copy( 'home_roles__see_all_roles' ),
+						'href'       => $intera_roles_url,
+						'variant'    => 'secondary',
+						'icon_right' => 'arrow-right',
+					)
+				);
+				?>
 			</div>
 		</div>
 		<?php

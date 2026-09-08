@@ -550,10 +550,20 @@ $intera_chain_captions = array(
 
 			wp_reset_postdata();
 			?>
-			<div style="display: flex; flex-direction: column; justify-content: center; gap: 16px; padding: 0 8px">
-				<p style="font-size: var(--text-xl); font-weight: 600; line-height: 1.35; letter-spacing: -0.01em; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'product_roles__different_responsibilities_one_operating_picture' ) ); ?></p>
-				<p style="font-size: var(--text-sm); color: var(--ink-600); line-height: 1.6"><?php echo esc_html( intera_copy( 'product_roles__roles_combine_several_sources_and_apply' ) ); ?></p>
-			</div>
+		</div>
+		<?php
+		/*
+		 * The closing statement is a row under the grid, not a cell inside it.
+		 * The export drew five roles and put this in the sixth cell, which
+		 * reads as a composition only while the count stays at five — a sixth
+		 * role fills the grid and strands this alone in a third row. Roles are
+		 * content, so the section footer has to hold at any count. Same change,
+		 * same reason, as the Roles band on the home page.
+		 */
+		?>
+		<div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 32px; margin-top: 32px">
+			<p style="flex: 0 1 auto; min-width: 0; font-size: var(--text-xl); font-weight: 600; line-height: 1.35; letter-spacing: -0.01em; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'product_roles__different_responsibilities_one_operating_picture' ) ); ?></p>
+			<p style="flex: 1 1 320px; min-width: 0; font-size: var(--text-sm); color: var(--ink-600); line-height: 1.6"><?php echo esc_html( intera_copy( 'product_roles__roles_combine_several_sources_and_apply' ) ); ?></p>
 		</div>
 	</div>
 </section>

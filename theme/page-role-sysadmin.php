@@ -92,6 +92,7 @@ get_template_part(
 		</div>
 
 		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 20px; margin-top: 40px; align-items: start">
+			<div style="display: flex; flex-direction: column; gap: 20px">
 			<?php
 			/*
 			 * What it is not, first. The reader already owns a monitoring
@@ -131,6 +132,66 @@ get_template_part(
 				)
 			);
 
+			/*
+			 * The signals, as chips, under the boundaries in the same column.
+			 * A chip is what the design system draws for "one of many of the
+			 * same kind", and a list would put ten rows of weight behind what
+			 * is meant to be read as a range. Two cards stacked here rather
+			 * than one band across the page because the column beside them is
+			 * a tall one, and a short card next to a tall one leaves a hole
+			 * the eye reads as a missing block.
+			 *
+			 * Every chip is `flex: none` with `max-width: 100%`: it may not be
+			 * squeezed below its own label, and a label longer than the column
+			 * takes a second line instead of running past it.
+			 */
+			$intera_sysadmin_signals = array(
+				intera_copy( 'role_sysadmin_shows__server_alive_dead' ),
+				intera_copy( 'role_sysadmin_shows__disk_space' ),
+				intera_copy( 'role_sysadmin_shows__backup_success_failure' ),
+				intera_copy( 'role_sysadmin_shows__certificate_expiry' ),
+				intera_copy( 'role_sysadmin_shows__api_service_availability' ),
+				intera_copy( 'role_sysadmin_shows__database_backup_status' ),
+				intera_copy( 'role_sysadmin_shows__external_service_dependency' ),
+				intera_copy( 'role_sysadmin_shows__unresolved_infrastructure_tickets' ),
+				intera_copy( 'role_sysadmin_shows__licence_subscription_expiry' ),
+				intera_copy( 'role_sysadmin_shows__integration_data_feed_failure' ),
+			);
+
+			ob_start();
+			?>
+			<div style="font-size: var(--text-md); font-weight: 600; line-height: 1.4; color: var(--ink-900); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'role_sysadmin_shows__example_signals' ) ); ?></div>
+			<div style="display: flex; flex-wrap: wrap; gap: 8px">
+				<?php
+				foreach ( $intera_sysadmin_signals as $intera_sysadmin_signal ) {
+					if ( '' === trim( (string) $intera_sysadmin_signal ) ) {
+						continue;
+					}
+
+					get_template_part(
+						'template-parts/components/tag',
+						null,
+						array(
+							'text'  => $intera_sysadmin_signal,
+							'style' => 'flex: none; max-width: 100%',
+						)
+					);
+				}
+				?>
+			</div>
+			<?php
+			get_template_part(
+				'template-parts/components/card',
+				null,
+				array(
+					'content' => ob_get_clean(),
+					'padding' => 'loose',
+					'class'   => 'itr-lift',
+				)
+			);
+			?>
+			</div>
+			<?php
 			/*
 			 * The health view and the queue under it, in one card. They are the
 			 * same screen in the product — a score, what it is made of, and
@@ -205,53 +266,7 @@ get_template_part(
 			?>
 		</div>
 
-		<?php
-		/*
-		 * The signals, as chips. Ten of them, and a chip is what the design
-		 * system draws for "one of many of the same kind" — a list would put
-		 * ten rows of weight behind what is meant to be read as a range.
-		 *
-		 * Every chip is `flex: none`: a chip is `white-space: nowrap` and the
-		 * automatic minimum size is all that stops the row squeezing it below
-		 * its own label. Blink honours that floor and WebKit gives it up, so
-		 * it is stated rather than trusted (CLAUDE.md).
-		 */
-		$intera_sysadmin_signals = array(
-			intera_copy( 'role_sysadmin_shows__server_alive_dead' ),
-			intera_copy( 'role_sysadmin_shows__disk_space' ),
-			intera_copy( 'role_sysadmin_shows__backup_success_failure' ),
-			intera_copy( 'role_sysadmin_shows__certificate_expiry' ),
-			intera_copy( 'role_sysadmin_shows__api_service_availability' ),
-			intera_copy( 'role_sysadmin_shows__database_backup_status' ),
-			intera_copy( 'role_sysadmin_shows__external_service_dependency' ),
-			intera_copy( 'role_sysadmin_shows__unresolved_infrastructure_tickets' ),
-			intera_copy( 'role_sysadmin_shows__licence_subscription_expiry' ),
-			intera_copy( 'role_sysadmin_shows__integration_data_feed_failure' ),
-		);
-		?>
-		<div style="margin-top: 44px">
-			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'role_sysadmin_shows__example_signals' ) ); ?></div>
-			<div style="display: flex; flex-wrap: wrap; gap: 8px">
-				<?php
-				foreach ( $intera_sysadmin_signals as $intera_sysadmin_signal ) {
-					if ( '' === trim( (string) $intera_sysadmin_signal ) ) {
-						continue;
-					}
-
-					get_template_part(
-						'template-parts/components/tag',
-						null,
-						array(
-							'text'  => $intera_sysadmin_signal,
-							'style' => 'flex: none; max-width: 100%',
-						)
-					);
-				}
-				?>
-			</div>
-		</div>
-
-		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 20px; margin-top: 44px; align-items: start">
+		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 20px; margin-top: 44px">
 			<?php
 			/*
 			 * The evidence behind a result, and the reconciliations that
@@ -407,7 +422,7 @@ get_template_part(
 
 				if ( $intera_sysadmin_stage > 1 ) :
 					?>
-					<span aria-hidden="true" style="flex: none; align-self: center; color: var(--ink-300)"><?php intera_icon( 'arrow-right', array( 'size' => 18 ) ); ?></span>
+					<span class="itr-flow-arrow" aria-hidden="true"><?php intera_icon( 'arrow-right', array( 'size' => 18 ) ); ?></span>
 					<?php
 				endif;
 				?>
@@ -440,7 +455,7 @@ get_template_part(
 			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900); margin-top: 14px"><?php echo esc_html( intera_copy( 'role_sysadmin_package__free_sysadmin_package' ) ); ?></h2>
 			<p style="font-size: var(--text-lg); line-height: 1.6; color: var(--ink-600); margin-top: 16px"><?php echo esc_html( intera_copy( 'role_sysadmin_package__the_package_is_a_starter_set' ) ); ?></p>
 		</div>
-		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 20px; margin-top: 40px; align-items: start">
+		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 20px; margin-top: 40px">
 			<?php
 			/*
 			 * What is in the package, and what it reads from. Two lists of the

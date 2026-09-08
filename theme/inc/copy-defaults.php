@@ -386,7 +386,7 @@ function intera_copy_schema() {
 						'product_role_packages__role_packages' => __( 'Role packages', 'intera' ),
 						'product_role_packages__ready_made_packages_shaped_around_real' => __( 'Ready-made packages, shaped around real responsibilities', 'intera' ),
 						'product_role_packages__a_role_package_is_a_reusable' => __( 'A role package is a reusable set of roles, checks and integrations for one part of the business. The Sysadmin package is included free with every plan.', 'intera' ),
-						'product_role_packages__system_administrator' => __( 'System Administrator', 'intera' ),
+						'product_role_packages__system_administrator' => __( 'Sysadmin', 'intera' ),
 						'product_role_packages__what_needs_attention_across_infrastructure_serv' => __( 'What needs attention across infrastructure, services and suppliers?', 'intera' ),
 						'product_role_packages__infrastructure_health' => __( 'Infrastructure health', 'intera' ),
 						'product_role_packages__backups_and_restores' => __( 'Backups and restores', 'intera' ),
@@ -823,7 +823,6 @@ function intera_copy_schema() {
 					'label'  => __( 'What INTERA shows', 'intera' ),
 					'fields' => array(
 						'role_finance_signals__what_intera_can_help_you_see' => __( 'What INTERA can help you see', 'intera' ),
-						'role_finance_signals__the_few_items_that_need_investigation' => __( 'The few items that need investigation', 'intera' ),
 						'role_finance_signals__invoices_issued_but_not_matched_to' => __( 'Invoices issued but not matched to expected billing', 'intera' ),
 						'role_finance_signals__payments_received_but_not_correctly_reflected' => __( 'Payments received but not correctly reflected', 'intera' ),
 						'role_finance_signals__supplier_costs_not_yet_rebilled' => __( 'Supplier costs not yet rebilled', 'intera' ),
@@ -867,7 +866,6 @@ function intera_copy_schema() {
 					'label'  => __( 'What INTERA shows', 'intera' ),
 					'fields' => array(
 						'role_account_signals__what_intera_can_help_you_see' => __( 'What INTERA can help you see', 'intera' ),
-						'role_account_signals__the_commitments_that_still_need_attention' => __( 'The commitments that still need attention', 'intera' ),
 						'role_account_signals__equipment_promised_but_not_yet_delivered' => __( 'Equipment promised but not yet delivered', 'intera' ),
 						'role_account_signals__services_agreed_but_not_yet_activated' => __( 'Services agreed but not yet activated', 'intera' ),
 						'role_account_signals__discounts_or_prices_that_do_not' => __( 'Discounts or prices that do not match billing', 'intera' ),

@@ -68,9 +68,9 @@ get_template_part(
 	'template-parts/partials/role-landing-signals',
 	null,
 	array(
-		'eyebrow'       => intera_copy( 'role_finance_signals__what_intera_can_help_you_see' ),
-		'heading'       => intera_copy( 'role_finance_signals__the_few_items_that_need_investigation' ),
-		'items'         => array(
+		'eyebrow'    => intera_copy( 'role_finance_signals__what_intera_can_help_you_see' ),
+		'heading'    => intera_copy( 'role_finance_signals__from_checking_everything_to_checking_exceptions' ),
+		'items'      => array(
 			array(
 				'icon'  => 'receipt',
 				'label' => intera_copy( 'role_finance_signals__invoices_issued_but_not_matched_to' ),
@@ -96,9 +96,8 @@ get_template_part(
 				'label' => intera_copy( 'role_finance_signals__unusual_changes_that_deserve_a_closer' ),
 			),
 		),
-		'close_heading' => intera_copy( 'role_finance_signals__from_checking_everything_to_checking_exceptions' ),
-		'close_body'    => intera_copy( 'role_finance_signals__instead_of_repeatedly_reconciling_large_lists' ),
-		'close_line'    => intera_copy( 'role_finance_signals__less_manual_checking_faster_investigation_better' ),
+		'close_body' => intera_copy( 'role_finance_signals__instead_of_repeatedly_reconciling_large_lists' ),
+		'close_line' => intera_copy( 'role_finance_signals__less_manual_checking_faster_investigation_better' ),
 	)
 );
 

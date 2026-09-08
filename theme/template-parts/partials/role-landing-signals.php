@@ -8,21 +8,24 @@
  * words differ, so the band is written once and each page passes its own.
  *
  *     get_template_part( 'template-parts/partials/role-landing-signals', null, array(
- *         'eyebrow'        => 'What INTERA can help you see',
- *         'heading'        => 'Where the numbers do not agree',
- *         'items'          => array( array( 'icon' => 'receipt', 'label' => '…' ) ),
- *         'close_heading'  => 'From checking everything to checking exceptions',
- *         'close_body'     => '…',
- *         'close_line'     => 'Less manual checking. Faster investigation.',
+ *         'eyebrow'    => 'What INTERA can help you see',
+ *         'heading'    => 'From checking everything to checking exceptions',
+ *         'items'      => array( array( 'icon' => 'receipt', 'label' => '…' ) ),
+ *         'close_body' => '…',
+ *         'close_line' => 'Less manual checking. Faster investigation.',
  *     ) );
  *
  * The items are rows rather than cards: they are one kind of thing, read in
  * sequence, and the design system draws that as `.itr-row` — the same shape the
  * home page's source list and its four sales questions use.
  *
- * An item with no label is dropped, and the closing panel is skipped entirely
- * when all three of its fields are empty, so clearing a field costs the line
- * and never leaves an empty surface behind.
+ * The heading is the statement, not a label over one: the band says what
+ * changes for that role and the items beside it say what it reads to say it.
+ * A second bold line under an h2 competes with it, so there is only the one.
+ *
+ * An item with no label is dropped, and the closing block is skipped entirely
+ * when both of its fields are empty, so clearing a field costs the line and
+ * never leaves an empty surface behind.
  *
  * @package Intera
  */
@@ -32,12 +35,11 @@ defined( 'ABSPATH' ) || exit;
 $args = wp_parse_args(
 	$args ?? array(),
 	array(
-		'eyebrow'       => '',
-		'heading'       => '',
-		'items'         => array(),
-		'close_heading' => '',
-		'close_body'    => '',
-		'close_line'    => '',
+		'eyebrow'    => '',
+		'heading'    => '',
+		'items'      => array(),
+		'close_body' => '',
+		'close_line' => '',
 	)
 );
 
@@ -57,9 +59,8 @@ foreach ( (array) $args['items'] as $intera_rls_item ) {
 $intera_rls_eyebrow = trim( (string) $args['eyebrow'] );
 $intera_rls_heading = trim( (string) $args['heading'] );
 $intera_rls_close   = array(
-	'heading' => trim( (string) $args['close_heading'] ),
-	'body'    => trim( (string) $args['close_body'] ),
-	'line'    => trim( (string) $args['close_line'] ),
+	'body' => trim( (string) $args['close_body'] ),
+	'line' => trim( (string) $args['close_line'] ),
 );
 
 if ( ! $intera_rls_items && '' === implode( '', $intera_rls_close ) ) {
@@ -77,9 +78,6 @@ if ( ! $intera_rls_items && '' === implode( '', $intera_rls_close ) ) {
 			<?php endif; ?>
 			<?php if ( '' !== implode( '', $intera_rls_close ) ) : ?>
 				<div style="display: flex; flex-direction: column; gap: 14px; max-width: 520px; margin-top: 24px">
-					<?php if ( '' !== $intera_rls_close['heading'] ) : ?>
-						<p style="font-size: var(--text-xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.35; color: var(--ink-900)"><?php echo esc_html( $intera_rls_close['heading'] ); ?></p>
-					<?php endif; ?>
 					<?php if ( '' !== $intera_rls_close['body'] ) : ?>
 						<p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-700)"><?php echo esc_html( $intera_rls_close['body'] ); ?></p>
 					<?php endif; ?>

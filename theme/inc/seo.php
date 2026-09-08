@@ -101,6 +101,11 @@ function intera_seo_defaults() {
 			'description' => __( 'INTERA was created from experience operating businesses where critical information was distributed across billing, finance, operational and technical systems.', 'intera' ),
 		),
 
+		'slug:roles' => array(
+			'title'       => __( 'INTERA by role: sysadmin, finance, account management', 'intera' ),
+			'description' => __( 'One page per job. What INTERA shows a system administrator, a finance team and an account manager, what it does not replace, and where each of them starts.', 'intera' ),
+		),
+
 		/*
 		 * The three role landings. Each one answers for one job, so its title
 		 * names that job and its description says what the page shows someone
