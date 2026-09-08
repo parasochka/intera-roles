@@ -196,6 +196,7 @@ function intera_copy_schema() {
 						'home_sysadmin_package__included_free_with_every_plan' => __( 'Included free with every plan', 'intera' ),
 						'home_sysadmin_package__sysadmin_package' => __( 'Sysadmin Package', 'intera' ),
 						'home_sysadmin_package__the_free_sysadmin_package_gives_it' => __( 'The free Sysadmin Package gives IT teams a ready-made starting point for operational visibility across existing systems. It brings together a small set of health signals, metrics and reconciliations so you can quickly see what needs attention without replacing your monitoring tools. Use it alongside your current infrastructure, backup, service and ticketing systems to spot problems faster and understand where to investigate. Start free, connect what you already use, and expand only if it proves useful.', 'intera' ),
+						'home_sysadmin_package__what_the_package_includes' => __( 'What the package includes', 'intera' ),
 					),
 				),
 				'start_small' => array(

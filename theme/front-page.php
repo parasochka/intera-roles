@@ -40,16 +40,19 @@
 defined( 'ABSPATH' ) || exit;
 
 /*
- * The four link targets on this page. `intera_page_url()` resolves each one by
+ * The five link targets on this page. `intera_page_url()` resolves each one by
  * the page template assigned in the editor, so no `*.dc.html` href survives.
  * An unresolved key returns '' and the Button component renders an inert
- * <button> rather than a link to nowhere.
+ * <button> rather than a link to nowhere — which is why the two calls to
+ * action whose destination may not exist yet are wrapped in a test for it
+ * rather than rendered unconditionally.
  */
 $intera_request_url  = intera_page_url( 'contact-request' );
 $intera_pricing_url  = intera_page_url( 'pricing' );
 $intera_contacts_url = intera_page_url( 'contacts' );
 $intera_product_url  = intera_page_url( 'product' );
 $intera_roles_url    = $intera_product_url ? $intera_product_url . '#roles' : '';
+$intera_sysadmin_url = intera_page_url( 'role-sysadmin' );
 
 get_header();
 ?>
@@ -748,6 +751,39 @@ $intera_signal_chain = (bool) intera_option( 'home_signal_chain' );
 			</div>
 			<div style="flex: 1 1 min(100%, 420px); min-width: 0">
 				<p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-700)"><?php echo esc_html( intera_copy( 'home_sysadmin_package__the_free_sysadmin_package_gives_it' ) ); ?></p>
+				<?php
+				/*
+				 * The way out of the band, to the page that answers what the
+				 * paragraph above leaves open: what is actually in the package.
+				 * Everything else in this section is a description; this is the
+				 * one thing here a reader can take an action on, and until this
+				 * link existed the band was a dead end.
+				 *
+				 * The destination resolves by page template, so the button is
+				 * simply absent until a published page carries
+				 * `page-role-sysadmin.php` — the Button component's own rule for
+				 * an empty href, and the reason nothing here has to be edited
+				 * when that page goes live.
+				 */
+				if ( '' !== $intera_sysadmin_url ) :
+					?>
+					<div style="margin-top: 20px">
+						<?php
+						get_template_part(
+							'template-parts/components/button',
+							null,
+							array(
+								'label'      => intera_copy( 'home_sysadmin_package__what_the_package_includes' ),
+								'href'       => $intera_sysadmin_url,
+								'variant'    => 'secondary',
+								'icon_right' => 'arrow-right',
+							)
+						);
+						?>
+					</div>
+					<?php
+				endif;
+				?>
 			</div>
 		</div>
 		<?php
