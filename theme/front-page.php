@@ -640,7 +640,7 @@ $intera_signal_chain = (bool) intera_option( 'home_signal_chain' );
 			 */
 			?>
 			<div class="itr-row" style="--itr-bg: var(--surface-sunken); --itr-edge: var(--border-card); display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: baseline; border-radius: var(--radius-md); padding: 18px 20px; margin-top: 40px">
-				<span style="flex: none; font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: 0.04em; text-transform: uppercase; color: var(--violet-600)"><?php echo esc_html( intera_copy( 'home_in_action__events_incidents_patterns' ) ); ?></span>
+				<span style="flex: none; max-width: 100%; font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: 0.04em; text-transform: uppercase; color: var(--violet-600)"><?php echo esc_html( intera_copy( 'home_in_action__events_incidents_patterns' ) ); ?></span>
 				<span style="flex: 1 1 260px; min-width: 0; font-size: var(--text-sm); line-height: 1.6; color: var(--ink-600)"><?php echo esc_html( intera_copy( 'home_in_action__intera_is_being_extended_beyond_today' ) ); ?></span>
 			</div>
 			<?php
