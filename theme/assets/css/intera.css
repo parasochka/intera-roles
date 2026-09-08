@@ -293,6 +293,53 @@ a.itr-btn--outlineInverse:hover {
 	cursor: pointer;
 }
 
+/* A card that is entirely one link — the three job tiles on the Roles hub.
+   The anchor stays a real anchor, because keyboard focus, the status bar and
+   "open in new tab" all want one; its ::after then covers the whole card, so a
+   click anywhere on the surface lands on it. The card is the containing block
+   the cover measures against, which is what `position: relative` is for.
+
+   The focus ring goes on the card rather than on the anchor: the anchor is a
+   line of text inside a surface the reader is being invited to click, and a
+   ring drawn around the text alone tells them the wrong thing about what they
+   are about to hit. */
+.itr-linkcard {
+	position: relative;
+}
+
+/* The anchor is the card's own title, so it wears the title's colour rather
+   than the link vocabulary's blue — the card is the link, and underlining or
+   colouring the heading would say the title alone is. The blue arrives on
+   hover, where it is feedback instead of decoration. */
+/* `a.` and not a bare class: the link vocabulary above sets every anchor's
+   colour with `a:not(.itr-btn)`, which is (0,2,0), and a lone class is (0,1,0)
+   — the heading came out link-blue. Qualifying by the element wins the tie the
+   way the rest of this sheet does, on specificity rather than on !important. */
+a.itr-linkcard-target {
+	color: inherit;
+}
+
+.itr-linkcard:hover a.itr-linkcard-target,
+a.itr-linkcard-target:hover {
+	color: var(--blue-700);
+}
+
+.itr-linkcard-target::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+}
+
+.itr-linkcard:has(.itr-linkcard-target:focus-visible) {
+	outline: 2px solid var(--blue-600);
+	outline-offset: 2px;
+}
+
+.itr-linkcard-target:focus-visible {
+	outline: none;
+}
+
 /* Cards: 5px rise, stronger border and shadow. */
 .itr-lift {
 	border: 1px solid var(--itr-edge, var(--border-card));

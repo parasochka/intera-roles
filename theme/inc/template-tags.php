@@ -1003,7 +1003,33 @@ if ( ! function_exists( 'intera_page_url' ) ) :
 			return $archive ? (string) $archive : '';
 		}
 
-		$cache = get_transient( 'intera_page_urls' );
+		$id = intera_page_id( $key );
+
+		return $id ? (string) get_permalink( $id ) : '';
+	}
+endif;
+
+if ( ! function_exists( 'intera_page_id' ) ) :
+	/**
+	 * The post ID behind one of the site's fixed destinations.
+	 *
+	 * `intera_page_url()` is the usual way to ask — a template wants somewhere
+	 * to link. This is the same lookup stopping one step earlier, for the case
+	 * where a template wants the page's *words* rather than its address: a band
+	 * shared between pages reads its copy from the page that owns it, so the
+	 * two cannot drift when an editor rewrites one of them.
+	 *
+	 * @param string $key Destination key — any page template, as `page-<key>.php`.
+	 * @return int Page ID, or 0 when nothing carries that template yet.
+	 */
+	function intera_page_id( $key ) {
+		$key = sanitize_key( str_replace( '_', '-', (string) $key ) );
+
+		if ( '' === $key ) {
+			return 0;
+		}
+
+		$cache = get_transient( 'intera_page_ids' );
 		$cache = is_array( $cache ) ? $cache : array();
 
 		/*
@@ -1015,7 +1041,7 @@ if ( ! function_exists( 'intera_page_url' ) ) :
 		 * re-resolved.
 		 */
 		if ( ! empty( $cache[ $key ] ) ) {
-			return (string) $cache[ $key ];
+			return (int) $cache[ $key ];
 		}
 
 		/*
@@ -1025,10 +1051,10 @@ if ( ! function_exists( 'intera_page_url' ) ) :
 		 * through `get_page_children()`: a page survives only if its parent is
 		 * in the result set too. The set here is filtered to one template, so a
 		 * destination that happens to be a child page — the request form lives
-		 * under Contacts — matched the query and was then dropped again for
-		 * having a parent that did not. Every call to action pointing at it
-		 * rendered as an inert <button>, because that is what the Button
-		 * component does with an empty href.
+		 * under Contacts, the role landings under Roles — matched the query and
+		 * was then dropped again for having a parent that did not. Every call
+		 * to action pointing at it rendered as an inert <button>, because that
+		 * is what the Button component does with an empty href.
 		 */
 		$pages = get_pages(
 			array(
@@ -1040,20 +1066,20 @@ if ( ! function_exists( 'intera_page_url' ) ) :
 			)
 		);
 
-		$url = $pages ? (string) get_permalink( $pages[0]->ID ) : '';
+		$id = $pages ? (int) $pages[0]->ID : 0;
 
 		/*
-		 * Only a resolved URL is cached. Caching the miss would mean that
+		 * Only a resolved ID is cached. Caching the miss would mean that
 		 * assigning the template to a page leaves the site broken until the
 		 * transient expires, and "I fixed it but nothing changed" is the worst
 		 * possible answer to give an editor.
 		 */
-		if ( '' !== $url ) {
-			$cache[ $key ] = $url;
-			set_transient( 'intera_page_urls', $cache, HOUR_IN_SECONDS );
+		if ( $id ) {
+			$cache[ $key ] = $id;
+			set_transient( 'intera_page_ids', $cache, HOUR_IN_SECONDS );
 		}
 
-		return $url;
+		return $id;
 	}
 endif;
 
@@ -1066,7 +1092,15 @@ if ( ! function_exists( 'intera_flush_page_urls' ) ) :
 	 */
 	function intera_flush_page_urls( $post_id = 0 ) {
 		unset( $post_id );
+		/*
+		 * `intera_page_urls` is the cache this function was written for and no
+		 * longer exists: destinations are resolved from `intera_page_ids` now,
+		 * one lookup for the address and the words alike. It is still dropped
+		 * here so a site upgrading into this version clears the row it wrote
+		 * under the old name instead of leaving it to expire.
+		 */
 		delete_transient( 'intera_page_urls' );
+		delete_transient( 'intera_page_ids' );
 	}
 	add_action( 'save_post_page', 'intera_flush_page_urls' );
 	add_action( 'deleted_post', 'intera_flush_page_urls' );
