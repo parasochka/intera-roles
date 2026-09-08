@@ -889,6 +889,30 @@ function intera_copy_schema() {
 				),
 			),
 		),
+		'roles' => array(
+			'label'    => __( 'Roles hub', 'intera' ),
+			'template' => 'page-roles.php',
+			'sections' => array(
+				'roles_landings' => array(
+					'label'  => __( 'By role', 'intera' ),
+					'fields' => array(
+						'roles_landings__start_here' => __( 'Start here', 'intera' ),
+						'roles_landings__written_for_the_job_you_actually' => __( 'Written for the job you actually do', 'intera' ),
+						'roles_landings__each_page_below_answers_for_one' => __( 'Each page below answers for one job: what INTERA shows you, what it does not try to replace, and where to start.', 'intera' ),
+						'roles_landings__see_the_role' => __( 'See the role', 'intera' ),
+					),
+				),
+				'roles_all' => array(
+					'label'  => __( 'INTERA Roles', 'intera' ),
+					'fields' => array(
+						'roles_all__intera_roles' => __( 'INTERA Roles', 'intera' ),
+						'roles_all__a_module_built_around_a_responsibility' => __( 'A module built around a responsibility', 'intera' ),
+						'roles_all__a_role_arrives_with_its_metrics' => __( 'A Role arrives with its metrics, its checks and its detection logic. These are the ones INTERA ships with — adjust them, or ask for one shaped around your own operation.', 'intera' ),
+						'roles_all__see_how_roles_work' => __( 'See how Roles work', 'intera' ),
+					),
+				),
+			),
+		),
 		'faq' => array(
 			'label'    => __( 'FAQ page', 'intera' ),
 			'template' => 'page-faq.php',

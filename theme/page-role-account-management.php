@@ -108,4 +108,23 @@ get_template_part(
 	)
 );
 
+/*
+ * The Method and the ask that closes every page of the site. A landing aimed at
+ * one job says what INTERA watches for that job; this says how the work is
+ * actually done, which is the question a reader has once they believe the
+ * first part. Its words are the product page's, read from that page so the two
+ * cannot drift.
+ *
+ * It is also what gives the page its last beat of rhythm: the band above is
+ * dark and so is the footer, and this is the light one between them.
+ */
+get_template_part(
+	'template-parts/partials/method-band',
+	null,
+	array(
+		'source_id' => intera_page_id( 'product' ),
+		'cta_url'   => $intera_request_url,
+	)
+);
+
 get_footer();
