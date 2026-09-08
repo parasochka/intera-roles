@@ -1857,8 +1857,11 @@ a.itr-foot-link:focus-visible,
 	margin: 0;
 }
 
+/* Between groups the export's 44px read as too tight once a group's last row
+   ends on a hairline: the rule under the last question and the next heading
+   sat in the same band of air. One step up the spacing scale separates them. */
 .intera-faq .betterdocs-faq-inner-wrapper + .betterdocs-faq-inner-wrapper .betterdocs-faq-title {
-	margin-top: 44px;
+	margin-top: var(--space-10);
 }
 
 .intera-faq .betterdocs-faq-title-tag {
