@@ -55,6 +55,21 @@ if ( '' === $intera_cta_label ) {
 $intera_has_cta  = ( '' !== $intera_cta_url );
 $intera_docs_url = (string) intera_page_url( 'docs' );
 
+/*
+ * The Pattern Studio band, and whether it is shown at all.
+ *
+ * Patterns are a capability INTERA is being extended towards rather than one
+ * a reader can ask for today, and a band that draws a screen of it promises
+ * otherwise. So the section is behind the Customizer's "Show the Pattern
+ * Studio band" (Product page) and off by default — hidden, never deleted, so
+ * one click brings it back exactly as the handoff drew it.
+ *
+ * Hiding it costs the page its light band between two sunken ones, which is
+ * why Integrations reads this too: with the studio gone it takes the surface
+ * the studio was carrying, and the two sunken bands do not run together.
+ */
+$intera_pattern_studio = (bool) intera_option( 'product_pattern_studio' );
+
 // The Pattern Studio screenshot — `ship-3.webp` in the export, the page's featured image here.
 $intera_product_shot = (int) get_post_thumbnail_id();
 
@@ -241,7 +256,15 @@ $intera_chain_captions = array(
 	</div>
 </section>
 
-<section data-screen-label="What INTERA watches" style="position: relative; overflow: hidden; background: var(--surface-sunken); border-bottom: 1px solid var(--border-subtle)">
+<?php
+/*
+ * The rule under this band is the one that separates it from the light
+ * Pattern Studio below. With the studio hidden the next band draws its own
+ * top rule in the same place, and two hairlines on one boundary read as a
+ * mistake — so this one steps aside rather than doubling up.
+ */
+?>
+<section data-screen-label="What INTERA watches" style="position: relative; overflow: hidden; background: var(--surface-sunken)<?php echo $intera_pattern_studio ? '; border-bottom: 1px solid var(--border-subtle)' : ''; ?>">
 	<div aria-hidden="true" style="position: absolute; left: 78%; top: 22%; width: 900px; height: 900px; transform: translate(-50%,-50%); pointer-events: none; background: radial-gradient(circle, var(--wash-blue) 0%, transparent 68%)"></div>
 	<div style="position: relative; max-width: 1160px; margin: 0 auto; padding: clamp(49px, 7vw, 84px) clamp(20px, 5vw, 24px)">
 		<div style="max-width: 720px; margin-bottom: 36px">
@@ -316,6 +339,7 @@ $intera_chain_captions = array(
 	</div>
 </section>
 
+<?php if ( $intera_pattern_studio ) : ?>
 <section data-screen-label="Pattern Studio" style="background: var(--surface-page)">
 	<div style="max-width: 1160px; margin: 0 auto; padding: clamp(51px, 7vw, 88px) clamp(20px, 5vw, 24px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 48px; align-items: center">
 		<div>
@@ -367,8 +391,9 @@ $intera_chain_captions = array(
 		?>
 	</div>
 </section>
+<?php endif; ?>
 
-<section id="integrations" data-screen-label="Integrations" style="position: relative; overflow: hidden; background: var(--surface-sunken); border-top: 1px solid var(--border-subtle)">
+<section id="integrations" data-screen-label="Integrations" style="position: relative; overflow: hidden; background: var(--<?php echo $intera_pattern_studio ? 'surface-sunken' : 'surface-page'; ?>); border-top: 1px solid var(--border-subtle)">
 	<div aria-hidden="true" style="position: absolute; left: 20%; top: 80%; width: 860px; height: 860px; transform: translate(-50%,-50%); pointer-events: none; background: radial-gradient(circle, var(--wash-teal) 0%, transparent 68%)"></div>
 	<div style="position: relative; max-width: 1160px; margin: 0 auto; padding: clamp(49px, 7vw, 84px) clamp(20px, 5vw, 24px)">
 		<div id="it" style="max-width: 720px; margin-bottom: 36px">
@@ -525,10 +550,20 @@ $intera_chain_captions = array(
 
 			wp_reset_postdata();
 			?>
-			<div style="display: flex; flex-direction: column; justify-content: center; gap: 16px; padding: 0 8px">
-				<p style="font-size: var(--text-xl); font-weight: 600; line-height: 1.35; letter-spacing: -0.01em; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'product_roles__different_responsibilities_one_operating_picture' ) ); ?></p>
-				<p style="font-size: var(--text-sm); color: var(--ink-600); line-height: 1.6"><?php echo esc_html( intera_copy( 'product_roles__roles_combine_several_sources_and_apply' ) ); ?></p>
-			</div>
+		</div>
+		<?php
+		/*
+		 * The closing statement is a row under the grid, not a cell inside it.
+		 * The export drew five roles and put this in the sixth cell, which
+		 * reads as a composition only while the count stays at five — a sixth
+		 * role fills the grid and strands this alone in a third row. Roles are
+		 * content, so the section footer has to hold at any count. Same change,
+		 * same reason, as the Roles band on the home page.
+		 */
+		?>
+		<div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 32px; margin-top: 32px">
+			<p style="flex: 0 1 auto; min-width: 0; font-size: var(--text-xl); font-weight: 600; line-height: 1.35; letter-spacing: -0.01em; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'product_roles__different_responsibilities_one_operating_picture' ) ); ?></p>
+			<p style="flex: 1 1 320px; min-width: 0; font-size: var(--text-sm); color: var(--ink-600); line-height: 1.6"><?php echo esc_html( intera_copy( 'product_roles__roles_combine_several_sources_and_apply' ) ); ?></p>
 		</div>
 	</div>
 </section>

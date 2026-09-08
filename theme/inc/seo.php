@@ -78,7 +78,7 @@ function intera_seo_defaults() {
 
 		'template:page-pricing.php' => array(
 			'title'       => __( 'Pricing and the Early Adopter programme', 'intera' ),
-			'description' => __( 'A free plan, twelve months free for beta Early Adopters, and commercial plans from €750 a year. What each plan includes, and what is quoted separately.', 'intera' ),
+			'description' => __( 'A free plan, twelve months free for private beta Early Adopters, and commercial plans from €750 a year. What each plan includes, and what is quoted separately.', 'intera' ),
 		),
 
 		'template:page-contacts.php' => array(
@@ -101,6 +101,32 @@ function intera_seo_defaults() {
 			'description' => __( 'INTERA was created from experience operating businesses where critical information was distributed across billing, finance, operational and technical systems.', 'intera' ),
 		),
 
+		'slug:roles' => array(
+			'title'       => __( 'INTERA by role: sysadmin, finance, account management', 'intera' ),
+			'description' => __( 'One page per job. What INTERA shows a system administrator, a finance team and an account manager, what it does not replace, and where each of them starts.', 'intera' ),
+		),
+
+		/*
+		 * The three role landings. Each one answers for one job, so its title
+		 * names that job and its description says what the page shows someone
+		 * doing it — a campaign landing is found by the words its reader would
+		 * type, not by the ones the product uses about itself.
+		 */
+		'template:page-role-sysadmin.php' => array(
+			'title'       => __( 'Sysadmin Role: see what needs attention first', 'intera' ),
+			'description' => __( 'Above your monitoring, backups, ticketing and service checks: what is failing, where to investigate and the evidence behind each result. Free Sysadmin Package included.', 'intera' ),
+		),
+
+		'template:page-role-finance.php' => array(
+			'title'       => __( 'Finance: know where the numbers do not agree', 'intera' ),
+			'description' => __( 'INTERA compares billing, accounting, payments and operational records across the systems you already run, and shows the few items that need investigation.', 'intera' ),
+		),
+
+		'template:page-role-account-management.php' => array(
+			'title'       => __( 'Account management: what was promised, what is outstanding', 'intera' ),
+			'description' => __( 'Delivery, activation, pricing and open issues in one view, with the evidence behind each one — so you know the state of a customer before the next conversation.', 'intera' ),
+		),
+
 		'slug:investors' => array(
 			'title'       => __( 'Investors: an operational clarity layer above existing systems', 'intera' ),
 			'description' => __( 'Where INTERA is today — Private Beta with invitation-only Early Adopters — what the opportunity is, and who we are open to talking to at this stage.', 'intera' ),
@@ -118,7 +144,7 @@ function intera_seo_defaults() {
 
 		'slug:license' => array(
 			'title'       => __( 'License Agreement', 'intera' ),
-			'description' => __( 'The licence terms for using the software, including beta and Early Adopter use, what the licence permits, and the limits of warranty and liability.', 'intera' ),
+			'description' => __( 'The licence terms for using the software, including private beta and Early Adopter use, what the licence permits, and the limits of warranty and liability.', 'intera' ),
 		),
 
 		'blog' => array(

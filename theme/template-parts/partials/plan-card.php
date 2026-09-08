@@ -36,7 +36,7 @@
  * | feature list | every other content list item                                |
  * | footnote     | the content's paragraphs                                     |
  * | accent       | `_intera_plan_featured` — elevated card, blue top rule,      |
- * |              | blue label, the Beta badge and a primary CTA                |
+ * |              | blue label, the Private Beta badge and a primary CTA         |
  *
  * PORT.md §1: the card's surface belongs to the Card component, which routes
  * the resting border and shadow through `--itr-edge` / `--itr-shadow`. The only

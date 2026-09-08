@@ -45,7 +45,7 @@ Claude Design  ─►  theme/ (_ds/intera + PHP)  ─►  GitHub  ─►  WP Pus
 | `index.php` · `page.php` · `single.php` · `404.php` | Templates. |
 | `template-parts/components/*.php` | One design-system component each, called via `get_template_part()` with an args array. |
 | `template-parts/partials/*.php` | Repeated page markup — one source per block. |
-| `page-templates/` | Named page templates (`Template Name:` header). |
+| `page-*.php` | Named page templates (`Template Name:` header), including the three `/roles/*` campaign landings — `page-role-sysadmin.php`, `page-role-finance.php`, `page-role-account-management.php`. They live at the theme **root**, not in `page-templates/`: `intera_page_url()` resolves a destination by looking for the template `page-<key>.php`, and a template in a subdirectory is stored as `page-templates/…` and never matches. `page-templates/` is empty and stays that way. |
 | `_ds/intera/styles.css` | The **only** list of design-system sheets. Add a token file? Add it here. |
 | `_ds/intera/tokens/*.css` | **Design-system source of truth**: every colour, type, spacing, radius and elevation value, as exported from the design project. Do not fork these values elsewhere. The one file that has intentionally moved on from the export is `fonts.css`, whose `@import` and pinned CDN URLs were replaced by the self-hosted faces in `assets/fonts/` — the *families and weights* are still the export's. |
 | `assets/css/intera.css` | Supplemental CSS only: page canvas, prose, real `:hover`/`:focus`, responsive stacking, reduced-motion. References DS tokens. |

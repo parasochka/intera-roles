@@ -48,7 +48,7 @@ function intera_option_defaults() {
 
 	return $form + array(
 		// site-nav.dc.html.
-		'header_badge'               => __( 'Beta', 'intera' ),
+		'header_badge'               => __( 'Private Beta', 'intera' ),
 		'header_cta_label'           => __( 'Get Early Access', 'intera' ),
 		'header_cta_url'             => '',
 
@@ -83,10 +83,10 @@ function intera_option_defaults() {
 		'contact_response'           => __( 'Same working day, in most cases', 'intera' ),
 		'contact_languages'          => __( 'English', 'intera' ),
 		'site_domain'                => 'intera-roles.com',
-		'copyright'                  => __( '© 2026 INTERA. In beta — Early Adopter programme open.', 'intera' ),
+		'copyright'                  => __( '© 2026 INTERA. In private beta — Early Adopter programme open.', 'intera' ),
 
 		// 01-main: the pill above the hero heading.
-		'hero_status'                => __( 'In beta — Early Adopter programme open', 'intera' ),
+		'hero_status'                => __( 'In private beta — Early Adopter programme open', 'intera' ),
 
 		/*
 		 * 01-main, the Partners band. Off while the beta is private: the band
@@ -96,6 +96,27 @@ function intera_option_defaults() {
 		 * wanted — they come back untouched when the programme opens.
 		 */
 		'partners_cta'               => false,
+
+		/*
+		 * 01-main, the "INTERA in action" band. Two versions of the same
+		 * section live in front-page.php and this picks which one renders.
+		 *
+		 * Off (the default) is the attention reading — Metrics, Health,
+		 * Reconciliations, Evidence, and what INTERA is being extended
+		 * towards. On is the export's own Event → Reconciliation → Incident
+		 * → Pattern chain, kept whole against the site rework it belongs to
+		 * rather than deleted and rewritten later from the handoff.
+		 */
+		'home_signal_chain'          => false,
+
+		/*
+		 * 02-product, the Pattern Studio band. Held back until the capability
+		 * it describes is one a reader can ask for: a screen the site shows
+		 * and the product does not yet offer is a promise, not a feature. The
+		 * markup stays, so turning this on brings the section back exactly as
+		 * it was drawn.
+		 */
+		'product_pattern_studio'     => false,
 
 		// 04-faq: the block under the rail's hairline.
 		'faq_rail_body'              => __( 'Still unclear? Send us the situation in two sentences — we answer with what INTERA would actually watch.', 'intera' ),
@@ -224,8 +245,13 @@ function intera_customize_register( $wp_customize ) {
 		),
 		'intera_home'     => array(
 			'title'       => __( 'Home page', 'intera' ),
-			'description' => __( 'The one line on the home page that is not part of its Page copy, because it is a standing announcement rather than one page’s wording.', 'intera' ),
+			'description' => __( 'The standing announcement above the hero, and the switches that decide which bands the home page shows. The wording of each band is the page’s own Page copy.', 'intera' ),
 			'priority'    => 45,
+		),
+		'intera_product'  => array(
+			'title'       => __( 'Product page', 'intera' ),
+			'description' => __( 'Which bands of the product page are shown. The wording of each one is the page’s own Page copy.', 'intera' ),
+			'priority'    => 47,
 		),
 		'intera_faq'      => array(
 			'title'       => __( 'FAQ', 'intera' ),
@@ -315,6 +341,20 @@ function intera_customize_register( $wp_customize ) {
 			'section'     => 'intera_home',
 			'label'       => __( 'Show the partner call to action', 'intera' ),
 			'description' => __( 'The “Become an INTERA partner” button in the Partners band on the home page. Off during the private beta, when partner participation is by invitation and the band says so. Turn it on when the programme opens — no deploy needed.', 'intera' ),
+			'type'        => 'checkbox',
+			'sanitize'    => 'rest_sanitize_boolean',
+		),
+		'home_signal_chain'   => array(
+			'section'     => 'intera_home',
+			'label'       => __( 'Show the Event → Pattern signal chain', 'intera' ),
+			'description' => __( 'Which version of the “INTERA in action” band the home page shows. Off is the attention reading — Metrics, Health, Reconciliations, Evidence. On is the four-step Event → Reconciliation → Incident → Pattern chain, kept for the site rework it belongs to. No deploy either way.', 'intera' ),
+			'type'        => 'checkbox',
+			'sanitize'    => 'rest_sanitize_boolean',
+		),
+		'product_pattern_studio' => array(
+			'section'     => 'intera_product',
+			'label'       => __( 'Show the Pattern Studio band', 'intera' ),
+			'description' => __( 'The “Understand what keeps happening” band on the product page. Off until the capability it describes is one a reader can ask for. The band is only hidden, never removed — turn it on and it comes back as drawn.', 'intera' ),
 			'type'        => 'checkbox',
 			'sanitize'    => 'rest_sanitize_boolean',
 		),

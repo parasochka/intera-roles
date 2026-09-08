@@ -641,6 +641,19 @@ details[open] summary svg {
 	grid-template-columns: var(--itr-cols, minmax(0, 1fr));
 }
 
+/* The arrow between two stages of a left-to-right flow (the sysadmin landing's
+   "Existing tools → INTERA → Attention"). It is decoration, not a control: the
+   stages either side already read in order, so it carries no accessible name
+   and only says which way to read them. Its phone rule is in §12 — once the
+   stages stack, an arrow pointing right beside one of them says the wrong
+   thing. */
+.itr-flow-arrow {
+	flex: none;
+	align-self: center;
+	display: inline-flex;
+	color: var(--ink-300);
+}
+
 /* The card that floats over the hero frame. Its containing block — the frame
    wrapper — must keep position: relative. */
 .itr-float {
@@ -1699,6 +1712,21 @@ a.itr-foot-link:focus-visible,
 	/* Stepped source rows sit flush. */
 	.itr-stagger {
 		margin-left: 0;
+	}
+
+	/* The flow stacks, so its arrows have to turn with it: a row of their own
+	   between the stages, pointing the way the stages now read. Left as they
+	   are they sit beside a stage, pointing off the edge of the card at
+	   nothing — which is how a reader learns to distrust a diagram. The
+	   rotation is on the glyph, not the row, so the row stays a full-width
+	   line the next stage starts under. */
+	.itr-flow-arrow {
+		flex: 1 0 100%;
+		justify-content: center;
+	}
+
+	.itr-flow-arrow > svg {
+		transform: rotate(90deg);
 	}
 
 	/* Product screenshots show a legible crop instead of an illegible
