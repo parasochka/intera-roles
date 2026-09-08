@@ -141,7 +141,7 @@ function intera_option_defaults() {
 
 		// 11-docs: the standfirst and the three panels that close the archive.
 		'docs_intro'                 => __( 'Setup, integrations, the object model, and the role packages we ship. Written for the person doing the work.', 'intera' ),
-		'docs_help_limits_heading'   => __( 'Alpha-stage limitations', 'intera' ),
+		'docs_help_limits_heading'   => __( 'Private beta limitations', 'intera' ),
 		'docs_help_limits_body'      => __( 'What INTERA cannot do yet is written down, not hidden. Read it before planning a rollout.', 'intera' ),
 		'docs_help_limits_label'     => __( 'Current system limitations', 'intera' ),
 		'docs_help_limits_url'       => '',
