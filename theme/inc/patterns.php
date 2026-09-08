@@ -447,7 +447,7 @@ function intera_pattern_dark_cta() {
 		. intera_pattern_head(
 			esc_html__( 'Talk to us', 'intera' ),
 			esc_html__( 'Start with one operational problem', 'intera' ),
-			esc_html__( 'During beta we work with a small number of teams, on the tasks they already have to get right.', 'intera' ),
+			esc_html__( 'During the private beta we work with a small number of teams, on the tasks they already have to get right.', 'intera' ),
 			true
 		)
 		. intera_pattern_columns( $intera_panels )

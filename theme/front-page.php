@@ -2,8 +2,17 @@
 /**
  * Front page — the home screen (`_design/01-main.dc.html`).
  *
- * Eleven sections, in the export's order: Hero, Problem, How it works, Champion,
- * In action, Roles, Working with IT, Start small, Pricing, Early Adopter, Partners.
+ * Thirteen sections. Eleven of them are the export's, in the export's order:
+ * Hero, Problem, How it works, Champion, In action, Roles, Working with IT,
+ * Start small, Pricing, Early Adopter, Partners. Two are not in the export and
+ * say so where they stand — "Sales and account management" under the hero, and
+ * "Your data" under Working with IT.
+ *
+ * Two bands have moved on from the handoff as well. The Sysadmin Package now
+ * closes the Roles band rather than the Working with IT one, and "In action"
+ * renders one of two versions: the attention reading by default, the export's
+ * own Event → Pattern chain behind a Customizer switch. Both are commented at
+ * the point they happen.
  *
  * The handoff is preserved 1:1 — every inline `style` below is the mockup's own,
  * with the `var(--token)` names verbatim. Only three kinds of change were made:
@@ -220,6 +229,71 @@ get_header();
 					'class'       => $intera_hero_float,
 				)
 			);
+			?>
+		</div>
+	</div>
+</section>
+
+<?php
+/*
+ * Sales and account management.
+ *
+ * Not in the export. It sits directly under the hero because the people it
+ * names are the first audience the site is aimed at, and the band before this
+ * one — "This will feel familiar" — states the problem in the abstract: several
+ * systems, pieces of one picture. This states it as the four questions one
+ * person actually has to answer before a customer call, which is the same
+ * problem with a name on it.
+ *
+ * The questions are the right column for the same reason the source rows are
+ * the right column in the band below: the left says what the section is, the
+ * right shows the thing itself.
+ */
+?>
+<section id="sales" data-screen-label="Sales and account management" style="background: var(--surface-page)">
+	<div style="max-width: 1160px; margin: 0 auto; padding: clamp(51px, 7vw, 88px) clamp(20px, 5vw, 24px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 52px; align-items: start">
+		<div>
+			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'home_sales__sales_and_account_management' ) ); ?></div>
+			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'home_sales__know_what_was_promised_and_whether' ) ); ?></h2>
+			<p style="font-size: var(--text-lg); line-height: 1.6; color: var(--ink-600); margin-top: 16px; max-width: 520px"><?php echo esc_html( intera_copy( 'home_sales__sales_and_account_managers_often_need' ) ); ?></p>
+			<div style="display: flex; flex-direction: column; gap: 14px; max-width: 520px; margin-top: 24px">
+				<p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-700)"><?php echo esc_html( intera_copy( 'home_sales__the_agreement_may_be_in_crm' ) ); ?></p>
+				<p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-900); font-weight: 500"><?php echo esc_html( intera_copy( 'home_sales__intera_brings_those_signals_together_and' ) ); ?></p>
+				<p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600)"><?php echo esc_html( intera_copy( 'home_sales__it_does_not_replace_your_crm' ) ); ?></p>
+			</div>
+		</div>
+		<div style="display: flex; flex-direction: column; gap: 10px">
+			<?php
+			/*
+			 * Four questions, each one from a different system. The icon names
+			 * where the answer lives rather than decorating the question, which
+			 * is why the fourth is a checklist and not a question mark.
+			 */
+			$intera_sales_questions = array(
+				array( 'package', intera_copy( 'home_sales__was_the_equipment_delivered' ) ),
+				array( 'plug', intera_copy( 'home_sales__was_the_service_activated' ) ),
+				array( 'receipt', intera_copy( 'home_sales__was_the_agreed_price_applied' ) ),
+				array( 'clipboard-check', intera_copy( 'home_sales__is_anything_still_outstanding_before_the' ) ),
+			);
+
+			foreach ( $intera_sales_questions as $intera_sales_question ) :
+				?>
+				<div class="itr-row" style="--itr-shadow: var(--shadow-xs); display: flex; gap: 14px; align-items: flex-start; border-radius: var(--radius-md); padding: 16px 18px">
+					<span style="flex: none; display: inline-flex; padding-top: 2px">
+						<?php
+						intera_icon(
+							$intera_sales_question[0],
+							array(
+								'size'  => 16,
+								'color' => 'var(--blue-600)',
+							)
+						);
+						?>
+					</span>
+					<span style="font-size: var(--text-base); line-height: 1.55; color: var(--ink-800); min-width: 0"><?php echo esc_html( $intera_sales_question[1] ); ?></span>
+				</div>
+				<?php
+			endforeach;
 			?>
 		</div>
 	</div>
@@ -445,32 +519,93 @@ get_header();
 	</div>
 </section>
 
+<?php
+/*
+ * "INTERA in action", in two versions.
+ *
+ * The export's version is the four-step chain — Event, Reconciliation,
+ * Incident, Pattern — and three of those four are capabilities INTERA is
+ * being extended towards rather than ones a reader can ask for today. So the
+ * band now leads with what the product does now: four kinds of signal, and
+ * the person they are brought together around.
+ *
+ * The chain is not deleted. It belongs to the site rework it was drawn for,
+ * and rebuilding it later from the handoff would cost more than keeping it,
+ * so it stays behind the Customizer's "Show the Event → Pattern signal
+ * chain" (Home page) and comes back untouched with one click.
+ *
+ * The screenshot is common to both: it is the only thing on this band that
+ * shows the product rather than describing it.
+ */
+$intera_signal_chain = (bool) intera_option( 'home_signal_chain' );
+?>
 <section id="action" data-screen-label="In action" style="background: var(--surface-page)">
 	<div style="max-width: 1160px; margin: 0 auto; padding: clamp(53px, 7vw, 92px) clamp(20px, 5vw, 24px)">
 		<div style="max-width: 720px; margin-bottom: 40px">
 			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'home_in_action__intera_in_action' ) ); ?></div>
-			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'home_in_action__don_t_just_watch_the_business' ) ); ?></h2>
+			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php echo esc_html( intera_copy( $intera_signal_chain ? 'home_in_action__don_t_just_watch_the_business' : 'home_in_action__intera_turns_data_into_attention' ) ); ?></h2>
 		</div>
 		<?php
-		get_template_part(
-			'template-parts/components/signal-chain',
-			null,
-			array(
-				'captions' => array(
-					'event'          => intera_copy( 'home_in_action__something_important_changed' ),
-					'reconciliation' => intera_copy( 'home_in_action__things_that_should_agree_don_t' ),
-					'incident'       => intera_copy( 'home_in_action__something_requires_attention_and_action' ),
-					'pattern'        => intera_copy( 'home_in_action__understand_what_keeps_happening_and_under' ),
-				),
-			)
-		);
+		if ( $intera_signal_chain ) {
+			get_template_part(
+				'template-parts/components/signal-chain',
+				null,
+				array(
+					'captions' => array(
+						'event'          => intera_copy( 'home_in_action__something_important_changed' ),
+						'reconciliation' => intera_copy( 'home_in_action__things_that_should_agree_don_t' ),
+						'incident'       => intera_copy( 'home_in_action__something_requires_attention_and_action' ),
+						'pattern'        => intera_copy( 'home_in_action__understand_what_keeps_happening_and_under' ),
+					),
+				)
+			);
+		}
 		?>
-		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 40px; align-items: center; margin-top: 52px">
+		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 40px; align-items: center; margin-top: <?php echo $intera_signal_chain ? '52px' : '0'; ?>">
 			<div>
-				<div style="border-left: 3px solid var(--blue-600); padding-left: 24px; max-width: 520px">
-					<p style="font-size: var(--text-2xl); line-height: 1.4; letter-spacing: -0.01em; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'home_in_action__from_something_looks_wrong_to_we' ) ); ?></p>
-				</div>
-				<p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); margin-top: 24px; max-width: 520px"><?php echo esc_html( intera_copy( 'home_in_action__intera_does_not_try_to_reproduce' ) ); ?></p>
+				<?php if ( $intera_signal_chain ) : ?>
+					<div style="border-left: 3px solid var(--blue-600); padding-left: 24px; max-width: 520px">
+						<p style="font-size: var(--text-2xl); line-height: 1.4; letter-spacing: -0.01em; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'home_in_action__from_something_looks_wrong_to_we' ) ); ?></p>
+					</div>
+					<p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-600); margin-top: 24px; max-width: 520px"><?php echo esc_html( intera_copy( 'home_in_action__intera_does_not_try_to_reproduce' ) ); ?></p>
+				<?php else : ?>
+					<?php
+					/*
+					 * Four signals, each one a sentence of the same shape: what
+					 * it is, and what it tells you. The label is the mono
+					 * figure the design system gives a name that has to be read
+					 * as a term rather than as prose.
+					 */
+					$intera_signals = array(
+						array( 'gauge', intera_copy( 'home_in_action__metrics' ), intera_copy( 'home_in_action__tell_you_what_changed' ) ),
+						array( 'heart-pulse', intera_copy( 'home_in_action__health' ), intera_copy( 'home_in_action__tells_you_what_is_weakening' ) ),
+						array( 'scale', intera_copy( 'home_in_action__reconciliations' ), intera_copy( 'home_in_action__tell_you_what_does_not_agree' ) ),
+						array( 'search', intera_copy( 'home_in_action__evidence' ), intera_copy( 'home_in_action__tells_you_where_to_investigate' ) ),
+					);
+					?>
+					<div style="display: flex; flex-direction: column; gap: 10px; max-width: 520px">
+						<?php foreach ( $intera_signals as $intera_signal ) : ?>
+							<div class="itr-row" style="--itr-shadow: var(--shadow-xs); display: flex; gap: 14px; align-items: flex-start; border-radius: var(--radius-md); padding: 14px 18px">
+								<span style="flex: none; display: inline-flex; padding-top: 2px">
+									<?php
+									intera_icon(
+										$intera_signal[0],
+										array(
+											'size'  => 16,
+											'color' => 'var(--blue-600)',
+										)
+									);
+									?>
+								</span>
+								<span style="min-width: 0; font-size: var(--text-base); line-height: 1.55; color: var(--ink-700)">
+									<strong style="font-weight: 600; color: var(--ink-900)"><?php echo esc_html( $intera_signal[1] ); ?></strong>
+									<?php echo esc_html( $intera_signal[2] ); ?>
+								</span>
+							</div>
+						<?php endforeach; ?>
+					</div>
+					<p style="font-size: var(--text-lg); line-height: 1.55; color: var(--ink-900); font-weight: 500; margin-top: 26px; max-width: 520px"><?php echo esc_html( intera_copy( 'home_in_action__intera_brings_these_signals_together_around' ) ); ?></p>
+				<?php endif; ?>
 			</div>
 			<?php
 			get_template_part(
@@ -493,6 +628,24 @@ get_header();
 			);
 			?>
 		</div>
+		<?php
+		if ( ! $intera_signal_chain ) {
+			/*
+			 * Where the band is going, stated as such. It names the three
+			 * capabilities the export's chain drew as though they were
+			 * already here, which is the reason that version is switched off
+			 * — a screen the site shows and the product does not offer is a
+			 * promise. Said in the future tense it is a roadmap, and the
+			 * muted panel is what marks the difference.
+			 */
+			?>
+			<div class="itr-row" style="--itr-bg: var(--surface-sunken); --itr-edge: var(--border-card); display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: baseline; border-radius: var(--radius-md); padding: 18px 20px; margin-top: 40px">
+				<span style="flex: none; font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: 0.04em; text-transform: uppercase; color: var(--violet-600)"><?php echo esc_html( intera_copy( 'home_in_action__events_incidents_patterns' ) ); ?></span>
+				<span style="flex: 1 1 260px; min-width: 0; font-size: var(--text-sm); line-height: 1.6; color: var(--ink-600)"><?php echo esc_html( intera_copy( 'home_in_action__intera_is_being_extended_beyond_today' ) ); ?></span>
+			</div>
+			<?php
+		}
+		?>
 	</div>
 </section>
 
@@ -552,6 +705,53 @@ get_header();
 				</div>
 			</div>
 		</div>
+		<?php
+		/*
+		 * The Sysadmin Package band. It closes the Roles band rather than
+		 * standing as one of its cards, because it is an offer and not one
+		 * more role: the accent rule and the chip are what carry "free with
+		 * every plan" at a glance, and the text below is the same paragraph
+		 * an editor can rewrite from the page's own copy box. It sits under
+		 * the five roles because it is the one of them a reader can have
+		 * today, at no cost, which is the wrong thing to bury further down.
+		 */
+		ob_start();
+		?>
+		<div style="display: flex; flex-wrap: wrap; gap: 28px; align-items: start">
+			<div style="flex: 0 1 260px; min-width: 0">
+				<?php
+				get_template_part(
+					'template-parts/components/badge',
+					null,
+					array(
+						'text' => intera_copy( 'home_sysadmin_package__included_free_with_every_plan' ),
+						'tone' => 'ok',
+						'icon' => 'check',
+					)
+				);
+				?>
+				<h3 style="font-size: var(--text-2xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.25; color: var(--ink-900); margin-top: 14px"><?php echo esc_html( intera_copy( 'home_sysadmin_package__sysadmin_package' ) ); ?></h3>
+			</div>
+			<div style="flex: 1 1 min(100%, 420px); min-width: 0">
+				<p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-700)"><?php echo esc_html( intera_copy( 'home_sysadmin_package__the_free_sysadmin_package_gives_it' ) ); ?></p>
+			</div>
+		</div>
+		<?php
+		$intera_sysadmin_panel = ob_get_clean();
+
+		get_template_part(
+			'template-parts/components/card',
+			null,
+			array(
+				'content'     => $intera_sysadmin_panel,
+				'padding'     => 'loose',
+				'elevated'    => true,
+				'accent'      => 'var(--blue-600)',
+				'accent_line' => 'var(--border-default)',
+				'style'       => 'margin-top: 44px',
+			)
+		);
+		?>
 	</div>
 </section>
 
@@ -604,51 +804,66 @@ get_header();
 			);
 			?>
 		</div>
-		<?php
-		/*
-		 * The Sysadmin Package band. It sits under the two columns rather than
-		 * inside them because it is an offer, not one more fact about how
-		 * connections are made: the accent rule and the chip are what carry
-		 * "free with every plan" at a glance, and the text below is the same
-		 * paragraph an editor can rewrite from the page's own copy box.
-		 */
-		ob_start();
-		?>
-		<div style="display: flex; flex-wrap: wrap; gap: 28px; align-items: start">
-			<div style="flex: 0 1 260px; min-width: 0">
-				<?php
-				get_template_part(
-					'template-parts/components/badge',
-					null,
-					array(
-						'text' => intera_copy( 'home_sysadmin_package__included_free_with_every_plan' ),
-						'tone' => 'ok',
-						'icon' => 'check',
-					)
-				);
-				?>
-				<h3 style="font-size: var(--text-2xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.25; color: var(--ink-900); margin-top: 14px"><?php echo esc_html( intera_copy( 'home_sysadmin_package__sysadmin_package' ) ); ?></h3>
-			</div>
-			<div style="flex: 1 1 min(100%, 420px); min-width: 0">
-				<p style="font-size: var(--text-base); line-height: 1.65; color: var(--ink-700)"><?php echo esc_html( intera_copy( 'home_sysadmin_package__the_free_sysadmin_package_gives_it' ) ); ?></p>
-			</div>
-		</div>
-		<?php
-		$intera_sysadmin_panel = ob_get_clean();
+	</div>
+</section>
 
-		get_template_part(
-			'template-parts/components/card',
-			null,
-			array(
-				'content'     => $intera_sysadmin_panel,
-				'padding'     => 'loose',
-				'elevated'    => true,
-				'accent'      => 'var(--blue-600)',
-				'accent_line' => 'var(--border-default)',
-				'style'       => 'margin-top: 44px',
-			)
-		);
-		?>
+<?php
+/*
+ * "Your data stays under your control."
+ *
+ * Not in the export, and dark where the band above it is light. That is the
+ * point: the band above says how INTERA connects to what a company already
+ * runs, and this one answers the question that follows it — who then holds
+ * the data. Three panels rather than a fact list, because each one is a
+ * position the company takes and not a bullet, and the line under them is
+ * what the whole band is for.
+ *
+ * The `--ink-900` ground is the same one the Early Adopter band uses, so the
+ * inverse tokens are already the design system's: `--text-inverse-muted` for
+ * the label, `--white` for the heading, and `.itr-panel` for the three
+ * surfaces, whose resting background and edge are the CSS defaults.
+ */
+?>
+<section id="data" data-screen-label="Your data" style="position: relative; overflow: hidden; background: var(--ink-900)">
+	<div aria-hidden="true" style="position: absolute; left: 84%; top: 20%; width: 860px; height: 860px; transform: translate(-50%,-50%); pointer-events: none; background: radial-gradient(circle, var(--wash-teal-dark) 0%, transparent 66%)"></div>
+	<div style="position: relative; max-width: 1160px; margin: 0 auto; padding: clamp(51px, 7vw, 88px) clamp(20px, 5vw, 24px)">
+		<div style="max-width: 720px">
+			<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-200); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'home_data_control__your_data' ) ); ?></div>
+			<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--white)"><?php echo esc_html( intera_copy( 'home_data_control__your_data_stays_under_your_control' ) ); ?></h2>
+			<p style="font-size: var(--text-lg); line-height: 1.6; color: rgba(255,255,255,.72); margin-top: 16px"><?php echo esc_html( intera_copy( 'home_data_control__intera_is_designed_to_work_with' ) ); ?></p>
+		</div>
+		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 20px; margin-top: 40px">
+			<?php
+			$intera_data_positions = array(
+				array(
+					'icon'  => 'eye',
+					'title' => intera_copy( 'home_data_control__read_only_by_design' ),
+					'body'  => intera_copy( 'home_data_control__intera_can_connect_to_existing_erp' ),
+				),
+				array(
+					'icon'  => 'database',
+					'title' => intera_copy( 'home_data_control__your_data_stays_where_intera_runs' ),
+					'body'  => intera_copy( 'home_data_control__for_customer_deployments_intera_can_run' ),
+				),
+				array(
+					'icon'  => 'lock',
+					'title' => intera_copy( 'home_data_control__no_routine_access_for_the_intera' ),
+					'body'  => intera_copy( 'home_data_control__intera_support_does_not_require_permanent' ),
+				),
+			);
+
+			foreach ( $intera_data_positions as $intera_data_position ) :
+				?>
+				<div class="itr-panel" style="border-radius: var(--radius-card); padding: 24px">
+					<div style="color: var(--blue-200); margin-bottom: 12px"><?php intera_icon( $intera_data_position['icon'], array( 'size' => 20 ) ); ?></div>
+					<div style="font-size: var(--text-md); font-weight: 600; line-height: 1.4; color: var(--white)"><?php echo esc_html( $intera_data_position['title'] ); ?></div>
+					<p style="font-size: var(--text-sm); line-height: 1.6; color: rgba(255,255,255,.72); margin-top: 8px"><?php echo esc_html( $intera_data_position['body'] ); ?></p>
+				</div>
+				<?php
+			endforeach;
+			?>
+		</div>
+		<p style="font-size: var(--text-lg); line-height: 1.55; font-weight: 500; color: var(--white); margin-top: 34px; max-width: 760px"><?php echo esc_html( intera_copy( 'home_data_control__your_systems_remain_yours_your_credentials' ) ); ?></p>
 	</div>
 </section>
 
@@ -884,64 +1099,65 @@ get_header();
 		<div>
 			<?php
 			/*
-			 * The line that introduces the tiles.
+			 * A figure, where the export drew a list.
 			 *
-			 * The export had no such line: its left column ended "…turn your
-			 * industry expertise into:" and the colon read across the gap into
-			 * the six tiles. That reading only ever worked at desktop width —
-			 * the columns stack on a phone, and three paragraphs then sit
-			 * between the colon and the thing it pointed at — and it stopped
-			 * working at every width once the band was rewritten to state the
-			 * Private Beta position instead. So the lead-in sits on the tiles
-			 * themselves, where it stays next to them at any width.
+			 * The export's right column was six tiles naming what a partner
+			 * packages and reuses — Roles, Reconciliations, Business logic,
+			 * Patterns, Integrations, Role packages. During the private beta
+			 * there is no partner programme to enumerate, and a specific list
+			 * of what a partner would get reads as an offer this band spends
+			 * its own left column withdrawing. So the six went, and their copy
+			 * keys with them.
+			 *
+			 * What replaces them says the same thing the band's closing line
+			 * says and nothing more: "Solve once. Adapt. Deploy again." One
+			 * solved thing at the top, three deployments under it, drawn in
+			 * the brand's own nested-square geometry — the hero's mark, at the
+			 * scale of a diagram. No words, so nothing here has to be edited,
+			 * translated or walked back when the programme does open.
+			 *
+			 * `aria-hidden` and no accessible name: the figure carries no
+			 * information the paragraphs beside it do not already carry, and
+			 * announcing it would only interrupt them.
 			 */
 			?>
-			<div style="font-size: var(--text-sm); font-weight: 600; color: var(--ink-700); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'home_partners__what_a_partner_packages_and_reuses' ) ); ?></div>
-			<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; align-content: start">
-			<?php
-			/*
-			 * One colour across the row, and not the export's.
-			 *
-			 * The handoff tints these six individually — two of them borrow the
-			 * signal palette, three stay `--ink-500`, one is `--blue-600` — and
-			 * on the page that reads as a rendering fault rather than a
-			 * distinction, because the six are one kind of thing: what a partner
-			 * gets to package. The design system is explicit that colour answers
-			 * "what kind of thing is this?", so a signal colour on a tile that is
-			 * not a signal is out of spec here, however it looks in isolation.
-			 *
-			 * Unified upwards rather than down: `--blue-600` was already on the
-			 * first tile, and dropping everything to `--ink-500` would take the
-			 * last colour out of the band entirely.
-			 */
-			$intera_tile_icon_color = 'var(--blue-600)';
-
-			$intera_tiles = array(
-				array( 'layers', intera_copy( 'home_partners__roles' ) ),
-				array( 'scale', intera_copy( 'home_partners__reconciliations' ) ),
-				array( 'sliders-horizontal', intera_copy( 'home_partners__business_logic' ) ),
-				array( 'git-branch', intera_copy( 'home_partners__patterns' ) ),
-				array( 'plug', intera_copy( 'home_partners__integrations' ) ),
-				array( 'package', intera_copy( 'home_partners__role_packages' ) ),
-			);
-
-			foreach ( $intera_tiles as $intera_tile ) :
-				?>
-				<div class="itr-tile" style="display: flex; align-items: center; gap: 10px; border-radius: var(--radius-md); padding: 16px; font-size: var(--text-md); color: var(--ink-800)">
+			<div class="itr-panel" style="--itr-bg: var(--surface-sunken); --itr-edge: var(--border-card); border-radius: var(--radius-card); padding: clamp(20px, 4vw, 34px); display: grid; place-items: center">
+				<svg viewBox="0 0 320 260" width="100%" style="max-width: 380px; height: auto; display: block" fill="none" aria-hidden="true" focusable="false">
 					<?php
-					intera_icon(
-						$intera_tile[0],
-						array(
-							'size'  => 16,
-							'color' => $intera_tile_icon_color,
-						)
-					);
-					echo esc_html( $intera_tile[1] );
+					/*
+					 * Every colour is an inline `style`, not a presentation
+					 * attribute. `fill="var(--blue-600)"` is the shorter way to write
+					 * it and not a reliable one: a presentation attribute is the
+					 * lowest-priority style there is, and engines disagree about
+					 * resolving a custom property inside one. A `style` attribute is
+					 * ordinary CSS everywhere, which is also how the rest of this
+					 * template carries the tokens.
+					 */
 					?>
-				</div>
-				<?php
-			endforeach;
-			?>
+					<defs>
+						<radialGradient id="itr-partners-wash" cx="50%" cy="30%" r="60%">
+							<stop offset="0%" style="stop-color: var(--blue-100); stop-opacity: .9"></stop>
+							<stop offset="100%" style="stop-color: var(--blue-100); stop-opacity: 0"></stop>
+						</radialGradient>
+					</defs>
+					<circle cx="160" cy="78" r="118" fill="url(#itr-partners-wash)"></circle>
+
+					<?php // Solved once: the brand mark's two offset squares, filled in. ?>
+					<rect x="116" y="26" width="66" height="66" rx="12" style="fill: none; stroke: var(--blue-600); stroke-width: 1.5"></rect>
+					<rect x="138" y="48" width="66" height="66" rx="12" style="fill: var(--blue-50); stroke: var(--blue-600); stroke-width: 1.5"></rect>
+					<rect x="150" y="60" width="42" height="42" rx="7" style="fill: var(--blue-600)"></rect>
+
+					<?php // Down, then out to each deployment. ?>
+					<path d="M160 114 V 150 M 58 150 H 262 M 58 150 V 176 M 160 150 V 176 M 262 150 V 176" style="fill: none; stroke: var(--ink-200); stroke-width: 1.5; stroke-linecap: round"></path>
+
+					<?php // Deployed again: the same shape, adapted — drawn open, three times. ?>
+					<rect x="24" y="176" width="68" height="60" rx="12" style="fill: var(--white); stroke: var(--border-default); stroke-width: 1.5"></rect>
+					<rect x="42" y="196" width="32" height="20" rx="5" style="fill: var(--blue-100)"></rect>
+					<rect x="126" y="176" width="68" height="60" rx="12" style="fill: var(--white); stroke: var(--border-default); stroke-width: 1.5"></rect>
+					<rect x="144" y="196" width="32" height="20" rx="5" style="fill: var(--blue-100)"></rect>
+					<rect x="228" y="176" width="68" height="60" rx="12" style="fill: var(--white); stroke: var(--border-default); stroke-width: 1.5"></rect>
+					<rect x="246" y="196" width="32" height="20" rx="5" style="fill: var(--blue-100)"></rect>
+				</svg>
 			</div>
 		</div>
 	</div>

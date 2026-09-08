@@ -74,7 +74,7 @@ function intera_meta_fields() {
 				'rest_type'   => 'string',
 				'sanitize'    => 'sanitize_text_field',
 				'default'     => '',
-				'description' => __( 'The small line between the plan name and the price — “For evaluation”, “For beta partners”, “For rollout across teams”.', 'intera' ),
+				'description' => __( 'The small line between the plan name and the price — “For evaluation”, “For private beta partners”, “For rollout across teams”.', 'intera' ),
 			),
 			'_intera_plan_featured'     => array(
 				'label'       => __( 'Featured plan', 'intera' ),
@@ -82,7 +82,7 @@ function intera_meta_fields() {
 				'rest_type'   => 'boolean',
 				'sanitize'    => 'rest_sanitize_boolean',
 				'default'     => false,
-				'description' => __( 'Raises the card, adds the accent rule and shows the Beta badge. Only one plan should be featured.', 'intera' ),
+				'description' => __( 'Raises the card, adds the accent rule and shows the Private Beta badge. Only one plan should be featured.', 'intera' ),
 			),
 			'_intera_plan_cta_label'    => array(
 				'label'       => __( 'CTA label', 'intera' ),
