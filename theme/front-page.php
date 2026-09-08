@@ -8,8 +8,8 @@
  * say so where they stand — "Sales and account management" under the hero, and
  * "Your data" under Working with IT.
  *
- * Two bands have moved on from the handoff as well. The Sysadmin Package now
- * closes the Roles band rather than the Working with IT one, and "In action"
+ * Two bands have moved on from the handoff as well. The Sysadmin Package
+ * closes the Working with IT band rather than the Roles one, and "In action"
  * renders one of two versions: the attention reading by default, the export's
  * own Event → Pattern chain behind a Customizer switch. Both are commented at
  * the point they happen.
@@ -722,15 +722,69 @@ $intera_signal_chain = (bool) intera_option( 'home_signal_chain' );
 				?>
 			</div>
 		</div>
+	</div>
+</section>
+
+<section id="it" data-screen-label="Working with IT" style="background: var(--surface-page)">
+	<div style="max-width: 1160px; margin: 0 auto; padding: clamp(53px, 7vw, 92px) clamp(20px, 5vw, 24px)">
+		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 52px; align-items: start">
+			<div>
+				<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'home_working_with_it__working_with_existing_it' ) ); ?></div>
+				<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'home_working_with_it__your_systems_remain_in_control' ) ); ?></h2>
+				<div style="display: flex; flex-direction: column; gap: 0; margin-top: 28px; border-top: 1px solid var(--border-hairline)">
+					<?php
+					$intera_it_facts = array(
+						array( 'database', intera_copy( 'home_working_with_it__intera_does_not_replace_your_erp' ) ),
+						array( 'eye', intera_copy( 'home_working_with_it__connections_can_be_configured_read_only' ) ),
+						array( 'lock', intera_copy( 'home_working_with_it__intera_does_not_need_permission_to' ) ),
+						array( 'package', intera_copy( 'home_working_with_it__local_installation_is_available_from' ) ),
+						array( 'shield-check', intera_copy( 'home_working_with_it__access_follows_intera_roles_and_permissions' ) ),
+					);
+
+					foreach ( $intera_it_facts as $intera_it_fact ) :
+						?>
+						<div style="display: flex; gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--border-hairline)">
+							<?php
+							intera_icon(
+								$intera_it_fact[0],
+								array(
+									'size'  => 16,
+									'color' => 'var(--text-muted)',
+								)
+							);
+							?>
+							<span style="font-size: var(--text-base); line-height: 1.55; color: var(--ink-700)"><?php echo esc_html( $intera_it_fact[1] ); ?></span>
+						</div>
+						<?php
+					endforeach;
+					?>
+				</div>
+				<p style="font-size: var(--text-lg); line-height: 1.55; color: var(--ink-900); font-weight: 500; margin-top: 26px; max-width: 520px"><?php echo esc_html( intera_copy( 'home_working_with_it__business_teams_know_what_they_need' ) ); ?></p>
+			</div>
+			<?php
+			get_template_part(
+				'template-parts/partials/screenshot-frame',
+				null,
+				array(
+					'attachment' => intera_shot_id( 'shot_it' ),
+					'caption'    => intera_copy( 'home_working_with_it__dependencies_suppliers_parts_external_commitments' ),
+					// 528px of column against a 1371x977 image. See the note above.
+					'height'     => '376px',
+				)
+			);
+			?>
+		</div>
 		<?php
 		/*
-		 * The Sysadmin Package band. It closes the Roles band rather than
-		 * standing as one of its cards, because it is an offer and not one
-		 * more role: the accent rule and the chip are what carry "free with
-		 * every plan" at a glance, and the text below is the same paragraph
-		 * an editor can rewrite from the page's own copy box. It sits under
-		 * the five roles because it is the one of them a reader can have
-		 * today, at no cost, which is the wrong thing to bury further down.
+		 * The Sysadmin Package band. It closes the Working with IT band
+		 * rather than standing as one of the Roles cards, because it is an
+		 * offer and not one more role: the accent rule and the chip are what
+		 * carry "free with every plan" at a glance, and the text below is the
+		 * same paragraph an editor can rewrite from the page's own copy box.
+		 * It sits under "Your systems remain in control" because that band is
+		 * where a reader has just been told INTERA works alongside what they
+		 * already run, and this is the thing they can have on those terms
+		 * today, at no cost.
 		 */
 		ob_start();
 		?>
@@ -802,58 +856,6 @@ $intera_signal_chain = (bool) intera_option( 'home_signal_chain' );
 			)
 		);
 		?>
-	</div>
-</section>
-
-<section id="it" data-screen-label="Working with IT" style="background: var(--surface-page)">
-	<div style="max-width: 1160px; margin: 0 auto; padding: clamp(53px, 7vw, 92px) clamp(20px, 5vw, 24px)">
-		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 52px; align-items: start">
-			<div>
-				<div style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 14px"><?php echo esc_html( intera_copy( 'home_working_with_it__working_with_existing_it' ) ); ?></div>
-				<h2 style="font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.01em; line-height: 1.22; color: var(--ink-900)"><?php echo esc_html( intera_copy( 'home_working_with_it__your_systems_remain_in_control' ) ); ?></h2>
-				<div style="display: flex; flex-direction: column; gap: 0; margin-top: 28px; border-top: 1px solid var(--border-hairline)">
-					<?php
-					$intera_it_facts = array(
-						array( 'database', intera_copy( 'home_working_with_it__intera_does_not_replace_your_erp' ) ),
-						array( 'eye', intera_copy( 'home_working_with_it__connections_can_be_configured_read_only' ) ),
-						array( 'lock', intera_copy( 'home_working_with_it__intera_does_not_need_permission_to' ) ),
-						array( 'package', intera_copy( 'home_working_with_it__local_installation_is_available_from' ) ),
-						array( 'shield-check', intera_copy( 'home_working_with_it__access_follows_intera_roles_and_permissions' ) ),
-					);
-
-					foreach ( $intera_it_facts as $intera_it_fact ) :
-						?>
-						<div style="display: flex; gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--border-hairline)">
-							<?php
-							intera_icon(
-								$intera_it_fact[0],
-								array(
-									'size'  => 16,
-									'color' => 'var(--text-muted)',
-								)
-							);
-							?>
-							<span style="font-size: var(--text-base); line-height: 1.55; color: var(--ink-700)"><?php echo esc_html( $intera_it_fact[1] ); ?></span>
-						</div>
-						<?php
-					endforeach;
-					?>
-				</div>
-				<p style="font-size: var(--text-lg); line-height: 1.55; color: var(--ink-900); font-weight: 500; margin-top: 26px; max-width: 520px"><?php echo esc_html( intera_copy( 'home_working_with_it__business_teams_know_what_they_need' ) ); ?></p>
-			</div>
-			<?php
-			get_template_part(
-				'template-parts/partials/screenshot-frame',
-				null,
-				array(
-					'attachment' => intera_shot_id( 'shot_it' ),
-					'caption'    => intera_copy( 'home_working_with_it__dependencies_suppliers_parts_external_commitments' ),
-					// 528px of column against a 1371x977 image. See the note above.
-					'height'     => '376px',
-				)
-			);
-			?>
-		</div>
 	</div>
 </section>
 
