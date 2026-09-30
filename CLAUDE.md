@@ -295,9 +295,10 @@ Three guards follow from that, and the first is the one that matters.
    No credentials, no plugin — it works while the site is down. Run it after
    every Update: a clean run is what "deployed" means.
 3. **`.github/workflows/verify-deploy.yml`** runs that script after every push
-   touching `theme/`, and every two hours in between, so a deploy that breaks
-   outside a push surfaces as a GitHub notification within hours instead of
-   whenever somebody opens the site.
+   touching `theme/`, and twice a day in between, so a deploy that breaks
+   outside a push surfaces as a GitHub notification within half a day instead
+   of whenever somebody opens the site. (It ran every two hours until
+   2026-09-30; that alone was most of the account's Actions minutes.)
 
 One risk the guards narrow but do not remove: `functions.php` skips an
 `inc/*.php` that is not there, and the templates then call functions nothing

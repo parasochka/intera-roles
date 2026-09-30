@@ -25,9 +25,12 @@ on:
       - 'bin/verify-deploy.sh'
       - '.github/workflows/verify-deploy.yml'
   schedule:
-    # Every two hours. The job is a minute of curl; the window in which a
-    # broken deploy can sit unnoticed is what this is buying down.
-    - cron: '17 */2 * * *'
+    # Twice a day. It was every two hours, which is twelve minute-long runs a
+    # day, about 360 Actions minutes a month, more than every other workflow
+    # on the account together, from a pool shared across all repositories.
+    # The push trigger above still checks every deploy the moment it lands;
+    # the schedule only catches server-side drift between pushes.
+    - cron: '17 6,18 * * *'
   workflow_dispatch:
 
 # A later push supersedes an in-flight check of an older one.
