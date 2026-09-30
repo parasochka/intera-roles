@@ -1,18 +1,28 @@
 name: Validate theme
 
-# Sanity-checks the theme on every push so WP Pusher never pulls a broken build.
+# Sanity-checks the theme on every push to main, which is what WP Pusher pulls.
 # Classic PHP theme in theme/: lint every PHP file, confirm the required theme
 # files exist, and confirm the design-system manifest and tokens are present.
 # No secrets, no server access — deploy happens in WordPress via WP Pusher.
+#
+# Push to main only, and only when the theme or the checker itself changed:
+# branches here are merged locally more often than through a PR, so main is
+# the one ref that always fires and the one WP Pusher deploys, and a second
+# run on the PR was the same answer billed twice from a shared minute pool.
 
 on:
   push:
     branches:
       - main
-    paths-ignore:
-      - '**.md'
-  pull_request:
+    paths:
+      - 'theme/**'
+      - 'bin/**'
+      - '.github/workflows/validate.yml'
   workflow_dispatch:
+
+concurrency:
+  group: validate-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   validate:

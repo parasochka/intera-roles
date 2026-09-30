@@ -59,7 +59,8 @@ WP Pusher pulls this repo (branch **main**, install from subdirectory
 
 ## Validation
 
-`.github/workflows/validate.yml` runs on every push: `php -l` on every PHP file,
+`.github/workflows/validate.yml` runs on every push to `main` that touches the
+theme: `php -l` on every PHP file,
 a check that the required theme files exist, and a check that every sheet the
 design-system manifest `@import`s is actually on disk. Keep it green — WP Pusher
 ships whatever is on `main`.
